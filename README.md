@@ -10,12 +10,12 @@ Bu README mimari sözleşmenin girişidir. Ayrıntılar bağlantılı `docs/` do
 
 ## Geliştirme süresi, token kullanımı ve modeller
 
-**Gözlem: 30 Eylül 2026, 09:55:03 (Europe/Istanbul; 06:55:03 UTC).** Kaynak: ana geliştirme konuşmasının aktif Codex goal kullanım sayacı (`get_goal`, thread `01a0bad9-51a3-75b1-b8b9-b00f2fdffc86`). Aşağıdaki kümülatif değerler bu gözlemde doğrulanmıştır; önceki sayaç kaydı güncel gözlemle değiştirilmiştir. Alt coding worker sayaçları toplanmaz. Sayılar tamamlanmış proje maliyeti değildir ve bu hedef dışındaki geliştirme toplamını kanıtlamaz.
+**Gözlem: 30 Eylül 2026, 10:21:20 (Europe/Istanbul; 07:21:20 UTC).** Kaynak: ana geliştirme konuşmasının aktif Codex goal kullanım sayacı (`get_goal`, thread `01a0bad9-51a3-75b1-b8b9-b00f2fdffc86`). Aşağıdaki kümülatif değerler bu gözlemde doğrulanmıştır; önceki sayaç kaydı güncel gözlemle değiştirilmiştir. Alt coding worker sayaçları toplanmaz. Sayılar tamamlanmış proje maliyeti değildir ve bu hedef dışındaki geliştirme toplamını kanıtlamaz.
 
 | Ölçüm | Kaydedilen değer | Kapsam |
 |---|---|---|
-| Sayaçtaki süre | **59 saat 42 dakika 33 saniye** — yaklaşık **59,71 saat** | `timeUsedSeconds = 214953`; insan çalışma saati, GPU saati veya paralel ajan-saat toplamı olarak yorumlanmaz |
-| Sayaçtaki token | **49.013.953 token** — yaklaşık **49,01 milyon** | `tokensUsed = 49013953`; sayaç girdi/çıktı/cache ve model başına dağılım vermiyor |
+| Sayaçtaki süre | **60 saat 8 dakika 15 saniye** — yaklaşık **60,14 saat** | `timeUsedSeconds = 216495`; insan çalışma saati, GPU saati veya paralel ajan-saat toplamı olarak yorumlanmaz |
+| Sayaçtaki token | **49.098.173 token** — yaklaşık **49,10 milyon** | `tokensUsed = 49098173`; sayaç girdi/çıktı/cache ve model başına dağılım vermiyor |
 | Ölçülen hedefin başlangıcı | **23 Eylül 2026, 16:46:45 (Europe/Istanbul)** | `createdAt = 1790171205`; bu hedef öncesindeki geliştirme ve başka konuşmalar kapsanmış kabul edilmez |
 | Projenin tüm geçmişi / parasal maliyet | **Tam toplam doğrulanamıyor** | Eksik oturum geçmişi ve faturalandırma dökümü nedeniyle sayı uydurulmaz |
 
@@ -40,6 +40,8 @@ Model başına ücret, toplam faturalandırılan token veya her alt ajanın exac
 ## Codex ile başla
 
 **Kalan işler ve çalışma sırası:** [kabul ölçütlü iş kuyruğu](docs/REMAINING_WORK.md). Çalışan yerel temel, dar sentetik kabuller ve henüz tamamlanmamış genel web/skill/S2-eğitim/entegrasyon/teslim kapıları ayrı listelenir; SWAPP intranet kabulü en son kalır.
+
+**Serbest web hedefinden katalog önerisi — deneysel:** ayrı `BonsaiWebGoalPlanner`, tek kapsamlı skill kataloğundan doğal dil hedefi için skill ve bounded parametre önerir. Gerçek Bonsai, iki sentetik katalogda dört farklı hedef ve bir negasyon vakasını geçti; bu iki gerçek web uygulamasının yürütülmesi değildir. Registry admission, console ve genel S1/executor bağlantısı açık; mevcut owned hedef grameri değiştirilmedi. [Sözleşme](docs/WEB_GOAL_PLANNING.md).
 
 **Birden çok kombinasyon:** AOS genel çekirdektir; şirket içi SWAPP web uygulaması + AI-Scientist, gelecekteki özel fork kombinasyonlarından biridir. Farklı uygulamalar ve ek uzman ajanlar typed, ayrı yetkili entegrasyonlar olarak hedeflenir; mevcut iki-rol yürütme çekirdeği ve tek runtime input sahipliği korunur. Genel plugin/multi-agent hizmeti henüz tamamlanmış değildir. [Entegrasyon sözleşmesi](docs/INTEGRATION_COMPOSITIONS.md).
 

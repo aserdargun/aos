@@ -1,0 +1,181 @@
+{
+  "synthetic": true,
+  "scope": "Proposal-only synthetic catalog; not profiles, reviewed sources or execution admission",
+  "catalogs": {
+    "contact_notes": {
+      "schema_version": "1.0",
+      "synthetic": true,
+      "application_key": "synthetic-crm",
+      "tenant_key": "synthetic-tenant",
+      "account_role": "editor",
+      "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "execution_authorized": false,
+      "activation_authorized": false,
+      "training_ready": false,
+      "scope_authorization_verified": false,
+      "skills": [
+        {
+          "skill_ref": "add_note",
+          "description": "Add a note to one existing contact; preserve the contact name and note exactly.",
+          "parameters": {
+            "contact_name": {
+              "description": "Exact existing contact name",
+              "min_chars": 1,
+              "max_chars": 128,
+              "allowed_values": null
+            },
+            "note": {
+              "description": "Exact note text to save",
+              "min_chars": 1,
+              "max_chars": 512,
+              "allowed_values": null
+            }
+          },
+          "skill_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "task_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+          "recipe_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "release_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "selection_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+        },
+        {
+          "skill_ref": "set_priority",
+          "description": "Set the priority of one existing contact to low or high. Do not add a note.",
+          "parameters": {
+            "contact_name": {
+              "description": "Exact existing contact name",
+              "min_chars": 1,
+              "max_chars": 128,
+              "allowed_values": null
+            },
+            "priority": {
+              "description": "Chosen priority",
+              "min_chars": 3,
+              "max_chars": 4,
+              "allowed_values": [
+                "low",
+                "high"
+              ]
+            }
+          },
+          "skill_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "task_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+          "recipe_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "release_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "selection_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+        }
+      ]
+    },
+    "inventory_notes": {
+      "schema_version": "1.0",
+      "synthetic": true,
+      "application_key": "synthetic-inventory",
+      "tenant_key": "synthetic-tenant",
+      "account_role": "editor",
+      "profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "execution_authorized": false,
+      "activation_authorized": false,
+      "training_ready": false,
+      "scope_authorization_verified": false,
+      "skills": [
+        {
+          "skill_ref": "annotate_item",
+          "description": "Add a note to one existing inventory item; preserve the item identifier and note exactly.",
+          "parameters": {
+            "item_code": {
+              "description": "Exact existing inventory item code",
+              "min_chars": 1,
+              "max_chars": 128,
+              "allowed_values": null
+            },
+            "note": {
+              "description": "Exact inventory note text",
+              "min_chars": 1,
+              "max_chars": 512,
+              "allowed_values": null
+            }
+          },
+          "skill_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "task_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+          "recipe_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "release_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "selection_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+        },
+        {
+          "skill_ref": "set_status",
+          "description": "Set the status of an existing inventory item to available or reserved. Do not add a note.",
+          "parameters": {
+            "item_code": {
+              "description": "Exact existing inventory item code",
+              "min_chars": 1,
+              "max_chars": 128,
+              "allowed_values": null
+            },
+            "status": {
+              "description": "Chosen item status",
+              "min_chars": 8,
+              "max_chars": 9,
+              "allowed_values": [
+                "available",
+                "reserved"
+              ]
+            }
+          },
+          "skill_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "task_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+          "recipe_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+          "release_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "selection_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+        }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "catalog": "contact_notes",
+      "goal": "For contact \"Ada\", add the note \"Call tomorrow\".",
+      "decision": "propose_skill",
+      "skill_ref": "add_note",
+      "parameters": {
+        "contact_name": "Ada",
+        "note": "Call tomorrow"
+      }
+    },
+    {
+      "catalog": "contact_notes",
+      "goal": "Set contact \"Bora\" to high priority.",
+      "decision": "propose_skill",
+      "skill_ref": "set_priority",
+      "parameters": {
+        "contact_name": "Bora",
+        "priority": "high"
+      }
+    },
+    {
+      "catalog": "inventory_notes",
+      "goal": "\"SKU-9\" ürününe \"Kutu hasarlı\" notunu ekle.",
+      "decision": "propose_skill",
+      "skill_ref": "annotate_item",
+      "parameters": {
+        "item_code": "SKU-9",
+        "note": "Kutu hasarlı"
+      }
+    },
+    {
+      "catalog": "inventory_notes",
+      "goal": "Mark item \"SKU-10\" as reserved.",
+      "decision": "propose_skill",
+      "skill_ref": "set_status",
+      "parameters": {
+        "item_code": "SKU-10",
+        "status": "reserved"
+      }
+    },
+    {
+      "catalog": "contact_notes",
+      "goal": "Do not add any note to contact \"Ada\".",
+      "decision": "needs_human",
+      "skill_ref": null,
+      "parameters": {}
+    }
+  ]
+}

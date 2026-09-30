@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_plan.schema.json",
+  "additionalProperties": false,
+  "properties": {
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "scope_authorization_verified": {
+      "const": false,
+      "title": "Scope Authorization Verified",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "catalog_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Catalog Sha256",
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "propose_skill",
+        "needs_human"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "skill_ref": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Skill Ref"
+    },
+    "parameters": {
+      "maxProperties": 8,
+      "patternProperties": {
+        "^[a-z][a-z0-9_-]{0,63}$": {
+          "type": "string"
+        }
+      },
+      "title": "Parameters",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "reason_code": {
+      "enum": [
+        "skill_match",
+        "ambiguous_goal",
+        "unsupported_goal",
+        "unsafe_goal"
+      ],
+      "title": "Reason Code",
+      "type": "string"
+    }
+  },
+  "required": [
+    "execution_authorized",
+    "activation_authorized",
+    "training_ready",
+    "scope_authorization_verified",
+    "schema_version",
+    "catalog_sha256",
+    "decision",
+    "skill_ref",
+    "parameters",
+    "reason_code"
+  ],
+  "title": "WebGoalPlan",
+  "type": "object",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "needs_human"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "skill_ref": {
+            "type": "null"
+          },
+          "parameters": {
+            "maxProperties": 0
+          },
+          "reason_code": {
+            "enum": [
+              "ambiguous_goal",
+              "unsupported_goal",
+              "unsafe_goal"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "skill_ref": {
+            "type": "string"
+          },
+          "parameters": {
+            "minProperties": 1
+          },
+          "reason_code": {
+            "const": "skill_match"
+          }
+        }
+      }
+    }
+  ]
+}

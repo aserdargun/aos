@@ -10,6 +10,8 @@ This guide is for a maintainer who later forks AOS and uses Claude Code on a com
 
 ## Work safely
 
+The separate [free-text web goal planner](WEB_GOAL_PLANNING.md) is proposal-only. Its two synthetic catalog model tests are not application execution or source admission. Preserve the prompt/schema/deployment pins, exact inference consent, immutable evidence, source freshness callback and false authority flags. Implement the real registry/catalog provider and separate console/execution admission before wiring it to S1; never treat user-supplied catalog hashes or model-selected parameter text as authority.
+
 - Start with pure contracts and synthetic fixtures; run the smallest relevant tests.
 - Keep authorization in host code and human approvals. Claude/model output may propose data but cannot broaden permissions or choose a new target.
 - Keep pin checks, TLS/SSRF guards, workspace confinement, and data minimization intact. Do not add an intranet exception by disabling a general safety gate.

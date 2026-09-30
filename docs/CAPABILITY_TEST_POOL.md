@@ -20,6 +20,8 @@ Knowledge belge/answer sözleşmeleri `core` içinde gerçek-model bayrağı olm
 
 ## Selected-skill S2 belge bağlamı
 
+`real_tasks` ayrıca `test_web_goal_planner_real.WebGoalPlannerRealTests` ve `AOS_WEB_GOAL_PLANNER_REAL_TESTS=1` ile serbest metin goal→skill/parametre önerisini iki sentetik katalog üzerinde sınar. Bu model-interface testidir; profile/review admission, Chromium veya S1 yürütmez. Katalog callback'i sentetik snapshot döndürür; gerçek site kaynağı/ACL doğrulaması iddia edilmez. Diğer havuzlarda bu bayrak temizlenir. [Kapsam](WEB_GOAL_PLANNING.md).
+
 `ui` ayrıca `test_owned_skill_knowledge_ui` seçer: gerçek Chromium/Docker konsolunda S2 endpoint payload'ları sentetik route fixture'dır. Ayrı consent, canonical start ve report hash bağları test edilir; gerçek Bonsai kabulü değildir. `real_tasks`, `test_owned_skill_knowledge_real.OwnedSkillKnowledgeRealTests` için yalnız gerçek profilin `AOS_OWNED_SKILL_KNOWLEDGE_REAL_TESTS=1` bayrağını açar. Bu test native pinli Bonsai ile EN/TR öneri ve revoke retlerini, sentetik controller/admitted skill üzerinde denetler; S1/effect yürütmez. Diğer havuzlarda bu model bayrağı temizlenir.
 
 İsteğe bağlı aynı native testte `AOS_UI_TESTS=1` ayrıca açılırsa, testin değişmemiş gerçek raporları Chromium'daki kaynak validator'larıyla denetlenir. Bu salt okunur browser-record kabulü managed plan→bind→S1→oracle değildir. UI kaynak server'ı yalnız testin kendi loopback portunu/process group'unu kullanır; kullanıcı backend'i yeniden başlatılmaz. Python `0.0`, negative-zero ve scientific gösterimleri wire 1.1 canonical metinleriyle korunur, model pinleri normalleştirilmez. Doğrudan opt-in çağrılar da ayrıca idle GPU rezervasyonu gerektirir.

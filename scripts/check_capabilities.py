@@ -48,10 +48,11 @@ CASES = {
                   'test_failure_guidance_real.FailureGuidanceRealTests',
                   'test_knowledge_answer_real.KnowledgeAnswerRealTests',
                   'test_task_knowledge_real.TaskKnowledgeRealTests',
-                  'test_owned_skill_knowledge_real.OwnedSkillKnowledgeRealTests'],
+                  'test_owned_skill_knowledge_real.OwnedSkillKnowledgeRealTests',
+                  'test_web_goal_planner_real.WebGoalPlannerRealTests'],
         'flags': ['AOS_DESKTOP_TESTS', 'AOS_REAL_BROWSER_TASK_TESTS', 'AOS_FAILURE_FOLLOWUP_REAL_TESTS',
                   'AOS_FAILURE_GUIDANCE_REAL_TESTS', 'AOS_KNOWLEDGE_ANSWER_REAL_TESTS', 'AOS_TASK_KNOWLEDGE_REAL_TESTS',
-                  'AOS_OWNED_SKILL_KNOWLEDGE_REAL_TESTS']},
+                  'AOS_OWNED_SKILL_KNOWLEDGE_REAL_TESTS', 'AOS_WEB_GOAL_PLANNER_REAL_TESTS']},
     'real_mcp': {
         'scope': 'Real Decider and visible Ubuntu Chromium/Playwright MCP; navigation, profile pins and page evidence',
         'tests': ['test_desktop_mcp.MCPSchedulerIntegrationTests.test_real_decider_local_navigation_with_independent_verification',

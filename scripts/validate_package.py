@@ -148,6 +148,36 @@ def validate_files():
         jsonschema.Draft202012Validator.check_schema(s)
         validators[p.name] = jsonschema.Draft202012Validator(s, format_checker=jsonschema.FormatChecker())
         CHECKS.append('Valid JSON Schema: ' + p.name)
+    web_goals = read_json('examples/web_goal_planning.json')
+    check(web_goals['synthetic'] is True, 'Generic web goal examples are explicitly synthetic proposals')
+    for name, catalog in web_goals['catalogs'].items():
+        validators['web_goal_catalog.schema.json'].validate(catalog)
+        check(catalog['synthetic'] is True and catalog['execution_authorized'] is False
+              and catalog['scope_authorization_verified'] is False,
+              'Synthetic goal catalog cannot authorize a site: ' + name)
+        for flag in ('execution_authorized', 'activation_authorized', 'training_ready', 'scope_authorization_verified'):
+            rejected(lambda: validators['web_goal_catalog.schema.json'].validate(catalog | {flag: True}),
+                     'Web goal catalog cannot grant ' + flag)
+    for case in web_goals['cases']:
+        catalog = web_goals['catalogs'][case['catalog']]
+        plan = {'schema_version': '1.0',
+                'catalog_sha256': hashlib.sha256(json.dumps(catalog, sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
+                'decision': case['decision'], 'skill_ref': case['skill_ref'], 'parameters': case['parameters'],
+                'reason_code': 'skill_match' if case['decision'] == 'propose_skill' else 'unsafe_goal',
+                'execution_authorized': False, 'activation_authorized': False,
+                'training_ready': False, 'scope_authorization_verified': False}
+        validators['web_goal_plan.schema.json'].validate(plan)
+        for flag in ('execution_authorized', 'activation_authorized', 'training_ready', 'scope_authorization_verified'):
+            rejected(lambda: validators['web_goal_plan.schema.json'].validate(plan | {flag: True}),
+                     'Web goal proposal cannot grant ' + flag)
+        if case['decision'] == 'propose_skill':
+            skill = next(item for item in catalog['skills'] if item['skill_ref'] == case['skill_ref'])
+            check(set(case['parameters']) == set(skill['parameters']), 'Goal fixture retains exact skill parameter keys')
+            for key, value in case['parameters'].items():
+                definition = skill['parameters'][key]
+                check(definition['min_chars'] <= len(value) <= definition['max_chars']
+                      and (definition['allowed_values'] is None or value in definition['allowed_values']),
+                      'Goal fixture retains bounded parameter values')
     knowledge = read_json('examples/knowledge.json')
     check(knowledge['synthetic'] is True, 'Uploaded document knowledge fixture is explicitly synthetic')
     for operation, request in knowledge['requests'].items():

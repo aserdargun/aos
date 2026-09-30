@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_catalog.schema.json",
+  "$defs": {
+    "WebGoalParameter": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "min_chars": {
+          "maximum": 512,
+          "minimum": 0,
+          "title": "Min Chars",
+          "type": "integer"
+        },
+        "max_chars": {
+          "maximum": 512,
+          "minimum": 1,
+          "title": "Max Chars",
+          "type": "integer"
+        },
+        "allowed_values": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 16,
+              "minItems": 1,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Allowed Values"
+        }
+      },
+      "required": [
+        "description",
+        "min_chars",
+        "max_chars"
+      ],
+      "title": "WebGoalParameter",
+      "type": "object"
+    },
+    "WebGoalSkill": {
+      "additionalProperties": false,
+      "properties": {
+        "skill_ref": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Skill Ref",
+          "type": "string"
+        },
+        "skill_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Sha256",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        },
+        "recipe_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Recipe Sha256",
+          "type": "string"
+        },
+        "release_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Release Sha256",
+          "type": "string"
+        },
+        "selection_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Selection Sha256",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "parameters": {
+          "maxProperties": 8,
+          "minProperties": 1,
+          "patternProperties": {
+            "^[a-z][a-z0-9_-]{0,63}$": {
+              "$ref": "#/$defs/WebGoalParameter"
+            }
+          },
+          "title": "Parameters",
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "skill_ref",
+        "skill_sha256",
+        "task_sha256",
+        "recipe_sha256",
+        "release_sha256",
+        "selection_sha256",
+        "description",
+        "parameters"
+      ],
+      "title": "WebGoalSkill",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "scope_authorization_verified": {
+      "const": false,
+      "title": "Scope Authorization Verified",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "synthetic": {
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "application_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Application Key",
+      "type": "string"
+    },
+    "tenant_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Tenant Key",
+      "type": "string"
+    },
+    "account_role": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Account Role",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "skills": {
+      "items": {
+        "$ref": "#/$defs/WebGoalSkill"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Skills",
+      "type": "array"
+    }
+  },
+  "required": [
+    "execution_authorized",
+    "activation_authorized",
+    "training_ready",
+    "scope_authorization_verified",
+    "schema_version",
+    "synthetic",
+    "application_key",
+    "tenant_key",
+    "account_role",
+    "profile_sha256",
+    "skills"
+  ],
+  "title": "WebGoalCatalog",
+  "type": "object"
+}

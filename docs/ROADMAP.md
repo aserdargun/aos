@@ -22,6 +22,8 @@ SWAPP, şirkete özgü private-intranet web uygulamasıdır; kullanıcı bu kayn
 
 ## Güncel çalışma sırası — SWAPP entegrasyonu en son
 
+**Genel web goal başlangıcı:** ayrı [scoped catalog proposal adapter](WEB_GOAL_PLANNING.md) serbest metinden skill/parametre önerir; native iki sentetik katalog/five-case model-interface kabulü vardır. Katalogun gerçek registry/profile/release admission'ı, console ve executor/S1/oracle bağlantısı henüz yoktur. Bu alt dilim item 3'ün iki farklı uygulama uçtan uca kabulünü kapatmaz.
+
 Uygulanabilir kalan işlerin kabul ölçütlü kısa kuyruğu [REMAINING_WORK](REMAINING_WORK.md) içindedir; tarihsel dilimler aşağıda korunur. Aynı-boot temiz başarısız başlangıç için explicit `recover-clean-exit` yalnız kaldırılmış kaynakları denetleyerek state'i retired eder; genel orphan cleanup veya otomatik restart değildir.
 
 Kullanıcı kararı (27 Eylül 2026): SWAPP şirket intranetinde; yetkili tünel/erişim hazır olmadığı için gerçek hedef bağlantısı ve W1–W6 uçtan uca kabulü **son entegrasyon aşamasına** ertelendi. URL/hesap istemek, hedefe bağımsız AOS geliştirmesini durdurmak için gerekçe değildir. Önceki hedef-bekleme kararı bağımsız işler için geçersizdir; aşağıdaki W numaraları kabul bağımlılıklarını korur, geliştirme kuyruğu değildir.

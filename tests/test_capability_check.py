@@ -246,6 +246,15 @@ class CapabilityCheckTests(unittest.TestCase):
                     self.assertEqual(selected[flag], '1')
                     self.assertEqual(selected['AOS_DESKTOP_TESTS'], '1')
 
+    def test_generic_goal_proposal_models_run_only_in_real_tasks(self):
+        selector = 'test_web_goal_planner_real.WebGoalPlannerRealTests'
+        flag = 'AOS_WEB_GOAL_PLANNER_REAL_TESTS'
+        for name, case in capabilities.CASES.items():
+            with self.subTest(case=name):
+                environment = capabilities.case_environment(name, {flag: '1'})
+                self.assertEqual(selector in case['tests'], name == 'real_tasks')
+                self.assertEqual(flag in environment, name == 'real_tasks')
+
     def test_managed_s2_context_runs_only_in_real_reuse(self):
         selector = 'test_owned_skill_knowledge_managed.OwnedSkillKnowledgeManagedTests'
         flag = 'AOS_OWNED_SKILL_KNOWLEDGE_MANAGED_TESTS'

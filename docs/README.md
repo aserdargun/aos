@@ -11,6 +11,7 @@
 - [DOCUMENT_KNOWLEDGE_ANSWERS — ayrı izinli gerçek Bonsai ve kaynak alıntıları](DOCUMENT_KNOWLEDGE_ANSWERS.md)
 - [TASK_KNOWLEDGE — tek izinli görevin S1 kararlarına incelenmiş belge bağlamı](TASK_KNOWLEDGE.md)
 - [OWNED_SKILL_KNOWLEDGE — ayrı izinli S2 skill önerisi ve canonical kaynak/model denetimi](OWNED_SKILL_KNOWLEDGE.md)
+- [WEB_GOAL_PLANNING — kapsamlı skill kataloğunda serbest metinden S2 önerisi; yürütme entegrasyonu açık](WEB_GOAL_PLANNING.md)
 - [REMAINING_WORK — çalışan ilk genel sürüm için kabul ölçütlü kalan iş sırası](REMAINING_WORK.md)
 - [SOURCE_HANDOFF — kaynak-only paket, temiz kurulum ve yayın sınırları](SOURCE_HANDOFF.md)
 - [CLAUDE_HANDOFF — özel fork içinde geliştirici devri](CLAUDE_HANDOFF.md)
