@@ -10,12 +10,12 @@ Bu README mimari sözleşmenin girişidir. Ayrıntılar bağlantılı `docs/` do
 
 ## Geliştirme süresi, token kullanımı ve modeller
 
-**Gözlem: 30 Eylül 2026, 09:40:03 (Europe/Istanbul; 06:40:03 UTC).** Kaynak: ana geliştirme konuşmasının aktif Codex goal kullanım sayacı (`get_goal`, thread `01a0bad9-51a3-75b1-b8b9-b00f2fdffc86`). Aşağıdaki kümülatif değerler bu gözlemde doğrulanmıştır; önceki sayaç kaydı güncel gözlemle değiştirilmiştir. Alt coding worker sayaçları toplanmaz. Sayılar tamamlanmış proje maliyeti değildir ve bu hedef dışındaki geliştirme toplamını kanıtlamaz.
+**Gözlem: 30 Eylül 2026, 09:42:03 (Europe/Istanbul; 06:42:03 UTC).** Kaynak: ana geliştirme konuşmasının aktif Codex goal kullanım sayacı (`get_goal`, thread `01a0bad9-51a3-75b1-b8b9-b00f2fdffc86`). Aşağıdaki kümülatif değerler bu gözlemde doğrulanmıştır; önceki sayaç kaydı güncel gözlemle değiştirilmiştir. Alt coding worker sayaçları toplanmaz. Sayılar tamamlanmış proje maliyeti değildir ve bu hedef dışındaki geliştirme toplamını kanıtlamaz.
 
 | Ölçüm | Kaydedilen değer | Kapsam |
 |---|---|---|
-| Sayaçtaki süre | **59 saat 27 dakika 33 saniye** — yaklaşık **59,46 saat** | `timeUsedSeconds = 214053`; insan çalışma saati, GPU saati veya paralel ajan-saat toplamı olarak yorumlanmaz |
-| Sayaçtaki token | **48.949.078 token** — yaklaşık **48,95 milyon** | `tokensUsed = 48949078`; sayaç girdi/çıktı/cache ve model başına dağılım vermiyor |
+| Sayaçtaki süre | **59 saat 29 dakika 33 saniye** — yaklaşık **59,49 saat** | `timeUsedSeconds = 214173`; insan çalışma saati, GPU saati veya paralel ajan-saat toplamı olarak yorumlanmaz |
+| Sayaçtaki token | **48.956.944 token** — yaklaşık **48,96 milyon** | `tokensUsed = 48956944`; sayaç girdi/çıktı/cache ve model başına dağılım vermiyor |
 | Ölçülen hedefin başlangıcı | **23 Eylül 2026, 16:46:45 (Europe/Istanbul)** | `createdAt = 1790171205`; bu hedef öncesindeki geliştirme ve başka konuşmalar kapsanmış kabul edilmez |
 | Projenin tüm geçmişi / parasal maliyet | **Tam toplam doğrulanamıyor** | Eksik oturum geçmişi ve faturalandırma dökümü nedeniyle sayı uydurulmaz |
 
