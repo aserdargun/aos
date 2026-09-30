@@ -1,0 +1,61 @@
+{
+  "synthetic": true,
+  "note": "Illustrative only; no real account or application outcome.",
+  "plan": {
+    "schema_version": "1.0",
+    "oracle_plan": {
+      "schema_version": "1.0",
+      "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "form_plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "source_snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "url": "https://example.com/oracle",
+      "field_key": "status",
+      "expected_value_sha256": "5e99d76e946ff987af1402a9ef575fb4fbf3d2bc668d8be30ad48aac48cc3878",
+      "method": "GET",
+      "status": "draft",
+      "execution_authorized": false,
+      "collection_authorized": false
+    },
+    "submitted_field_name": "message",
+    "form_body_sha256": "293bc662b1766b12804b47200978b34c4b6a9e5728258123bbe29b64e364678a",
+    "form_body_bytes": 13,
+    "status": "draft",
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "explicit_submitted_value_json_readback",
+    "plan_sha256": "d5c55e5e4badf37d56aa1b5413d73a2e0f205e4f6290da7ace7004f6cf573990",
+    "oracle_plan_sha256": "730f174d072e8575bb91862907f2e5283f9f15c01bd803536f4cc6f835231f67",
+    "form_body_sha256": "293bc662b1766b12804b47200978b34c4b6a9e5728258123bbe29b64e364678a",
+    "submitted_field_name_sha256": "9eb9df53cfb58ef5e30d0feb8fe483180144b28ab46969e3318ad1a5b22cba3e",
+    "submitted_value_sha256": "5e99d76e946ff987af1402a9ef575fb4fbf3d2bc668d8be30ad48aac48cc3878",
+    "oracle_report": {
+      "schema_version": "1.0",
+      "mode": "explicit_post_run_json_readback",
+      "plan_sha256": "730f174d072e8575bb91862907f2e5283f9f15c01bd803536f4cc6f835231f67",
+      "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "form_plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "source_snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "request_sha256": "03ef1bb4018eebee77da725d7db4b9dd8359f9f53f592a44e7d49130af6f7fe8",
+      "response_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "response_bytes": 18,
+      "observed_value_sha256": "5e99d76e946ff987af1402a9ef575fb4fbf3d2bc668d8be30ad48aac48cc3878",
+      "declared_value_matched": true,
+      "tls_hostname_verified": true,
+      "browser_connected": false,
+      "account_verified": false,
+      "site_outcome_verified": false,
+      "collection_authorized": false,
+      "training_ready": false
+    },
+    "submitted_value_readback_bound": true,
+    "account_verified": false,
+    "site_outcome_verified": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

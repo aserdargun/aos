@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Owned skill plan",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decision": {"type": "string", "const": "invoke_selected_skill"},
+        "schema_version": {"type": "string", "const": "1.0"},
+        "evidence_refs": {"type": "array", "items": {"type": "string", "const": "admitted-skill"}, "minItems": 1, "maxItems": 1},
+        "case_key": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}$"},
+        "parameter_value": {"type": "string", "pattern": "^[A-Za-z0-9 _.-]{1,128}$"},
+        "steps": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "oneOf": [
+            {"prefixItems": [{"$ref": "#/$defs/open-entry"}, {"$ref": "#/$defs/read-before"}, {"$ref": "#/$defs/fill-form"}, {"$ref": "#/$defs/submit-form"}, {"$ref": "#/$defs/read-receipt"}, {"$ref": "#/$defs/read-after"}], "items": false},
+            {"prefixItems": [{"$ref": "#/$defs/open-entry"}, {"$ref": "#/$defs/fill-form"}, {"$ref": "#/$defs/read-before"}, {"$ref": "#/$defs/submit-form"}, {"$ref": "#/$defs/read-receipt"}, {"$ref": "#/$defs/read-after"}], "items": false}
+          ]
+        },
+        "reason_code": {"type": "string", "const": "skill_match"},
+        "execution_authorized": {"type": "boolean", "const": false},
+        "activation_authorized": {"type": "boolean", "const": false},
+        "training_ready": {"type": "boolean", "const": false}
+      },
+      "required": ["decision", "schema_version", "evidence_refs", "case_key", "parameter_value", "steps", "reason_code", "execution_authorized", "activation_authorized", "training_ready"]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decision": {"type": "string", "const": "needs_human"},
+        "schema_version": {"type": "string", "const": "1.0"},
+        "evidence_refs": {"type": "array", "items": {"type": "string", "const": "admitted-skill"}, "minItems": 1, "maxItems": 1},
+        "case_key": {"type": "null"},
+        "parameter_value": {"type": "null"},
+        "steps": {"type": "array", "const": []},
+        "reason_code": {"type": "string", "enum": ["skill_not_applicable", "input_ambiguous", "evidence_insufficient", "safety_unclear"]},
+        "execution_authorized": {"type": "boolean", "const": false},
+        "activation_authorized": {"type": "boolean", "const": false},
+        "training_ready": {"type": "boolean", "const": false}
+      },
+      "required": ["decision", "schema_version", "evidence_refs", "case_key", "parameter_value", "steps", "reason_code", "execution_authorized", "activation_authorized", "training_ready"]
+    }
+  ],
+  "$defs": {
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "step_key": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"},
+        "operation": {"type": "string", "enum": ["open_entry", "read_state_before", "fill_form", "submit_form", "read_receipt", "read_state_after"]}
+      },
+      "required": ["step_key", "operation"]
+    },
+    "open-entry": {"allOf": [{"$ref": "#/$defs/step"}, {"properties": {"operation": {"const": "open_entry"}}}]},
+    "read-before": {"allOf": [{"$ref": "#/$defs/step"}, {"properties": {"operation": {"const": "read_state_before"}}}]},
+    "fill-form": {"allOf": [{"$ref": "#/$defs/step"}, {"properties": {"operation": {"const": "fill_form"}}}]},
+    "submit-form": {"allOf": [{"$ref": "#/$defs/step"}, {"properties": {"operation": {"const": "submit_form"}}}]},
+    "read-receipt": {"allOf": [{"$ref": "#/$defs/step"}, {"properties": {"operation": {"const": "read_receipt"}}}]},
+    "read-after": {"allOf": [{"$ref": "#/$defs/step"}, {"properties": {"operation": {"const": "read_state_after"}}}]}
+  }
+}

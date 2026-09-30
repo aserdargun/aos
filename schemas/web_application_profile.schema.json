@@ -1,0 +1,165 @@
+{
+  "$defs": {
+    "LearningPreferences": {
+      "additionalProperties": false,
+      "properties": {
+        "system1": {
+          "enum": [
+            "disabled",
+            "requested"
+          ],
+          "title": "System1",
+          "type": "string"
+        },
+        "system2": {
+          "enum": [
+            "disabled",
+            "requested"
+          ],
+          "title": "System2",
+          "type": "string"
+        },
+        "data_rights_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Data Rights Ref"
+        },
+        "retention_days": {
+          "maximum": 365,
+          "minimum": 1,
+          "title": "Retention Days",
+          "type": "integer"
+        },
+        "raw_screenshots": {
+          "const": false,
+          "title": "Raw Screenshots",
+          "type": "boolean"
+        },
+        "automatic_training": {
+          "const": false,
+          "title": "Automatic Training",
+          "type": "boolean"
+        },
+        "automatic_promotion": {
+          "const": false,
+          "title": "Automatic Promotion",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "system1",
+        "system2",
+        "data_rights_ref",
+        "retention_days",
+        "raw_screenshots",
+        "automatic_training",
+        "automatic_promotion"
+      ],
+      "title": "LearningPreferences",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "application_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Application Key",
+      "type": "string"
+    },
+    "revision": {
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "previous_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Previous Sha256"
+    },
+    "environment": {
+      "enum": [
+        "local_test",
+        "staging",
+        "production"
+      ],
+      "title": "Environment",
+      "type": "string"
+    },
+    "tenant_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Tenant Key",
+      "type": "string"
+    },
+    "account_role": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Account Role",
+      "type": "string"
+    },
+    "entry_url": {
+      "maxLength": 2048,
+      "minLength": 1,
+      "title": "Entry Url",
+      "type": "string"
+    },
+    "allowed_origins": {
+      "items": {
+        "maxLength": 300,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Allowed Origins",
+      "type": "array"
+    },
+    "task_keys": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+        "type": "string"
+      },
+      "maxItems": 32,
+      "minItems": 1,
+      "title": "Task Keys",
+      "type": "array"
+    },
+    "learning": {
+      "$ref": "#/$defs/LearningPreferences"
+    }
+  },
+  "required": [
+    "schema_version",
+    "application_key",
+    "revision",
+    "previous_sha256",
+    "environment",
+    "tenant_key",
+    "account_role",
+    "entry_url",
+    "allowed_origins",
+    "task_keys",
+    "learning"
+  ],
+  "title": "WebApplicationProfile",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="tr">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AOS · İzole bilgisayar</title><link rel="stylesheet" href="/console.css">
+<body>
+<header><div><strong>AOS</strong><span>İzole bilgisayar · yerel geliştirme konsolu</span></div><output id="status">Oturum kapalı</output></header>
+<main>
+<form id="login"><h1>Yerel konsola giriş</h1><p>Terminalde belirtilen yerel token dosyasının içeriğini girin.</p><label>Oturum anahtarı <input name="token" type="password" autocomplete="off" required></label><button>Giriş yap</button></form>
+<section id="computer" hidden>
+<nav aria-label="Bilgisayar kontrolleri">
+<button data-control="pause">Duraklat</button><button data-control="stop" class="danger">Durdur</button>
+<button data-control="take-control">Kontrolü al</button><button data-control="return-control">Ajana geri ver</button>
+<button data-control="resume">Devam et</button><button data-control="restart">Yeniden başlat</button>
+<button id="test-input">Sentetik giriş testi</button><button id="logout">Çıkış</button>
+</nav>
+<p id="mode">Başlatılıyor…</p><div id="screen" aria-label="İzole XFCE masaüstü"></div>
+<details><summary>Runtime ve sahiplik</summary><pre id="details"></pre></details>
+<p class="notice">Ağ kapalıdır. Yalnız açık workspace bağlıdır. Bu konsol genel görev/sohbet veya tamamlanmış Tauri arayüzü değildir. Kontrol AGENT/PAUSED iken VNC sunucusu salt görüntüleme uygular.</p>
+</section><p id="error" role="alert"></p>
+</main><script type="module" src="/console.js"></script>
+</body></html>

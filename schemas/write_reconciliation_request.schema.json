@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "record_hello_write_result",
+      "default": "record_hello_write_result",
+      "title": "Mode",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "action_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Action Ref",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Sha256",
+      "type": "string"
+    },
+    "receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Receipt Sha256",
+      "type": "string"
+    },
+    "workspace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workspace Sha256",
+      "type": "string"
+    },
+    "deployment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Sha256",
+      "type": "string"
+    },
+    "expires_at": {
+      "exclusiveMinimum": 0,
+      "title": "Expires At",
+      "type": "number"
+    },
+    "previous_status": {
+      "const": "uncertain",
+      "default": "uncertain",
+      "title": "Previous Status",
+      "type": "string"
+    },
+    "recorded_status": {
+      "const": "ok",
+      "default": "ok",
+      "title": "Recorded Status",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "resume_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Resume Authorized",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "run_ref",
+    "action_ref",
+    "snapshot_sha256",
+    "state_sha256",
+    "receipt_sha256",
+    "workspace_sha256",
+    "deployment_sha256",
+    "expires_at"
+  ],
+  "title": "WriteReconciliationRequest",
+  "type": "object"
+}

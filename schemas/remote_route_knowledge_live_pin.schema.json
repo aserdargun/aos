@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS historical remote route review pin without current readback",
+  "type": "object",
+  "additionalProperties": false,
+  "allOf": [{"if": {"properties": {"outgoing_page_keys": {"minItems": 1}}},
+             "then": {"required": ["link_sample_sha256"],
+                      "properties": {"link_sample_sha256": {"$ref": "#/$defs/checksum"},
+                                     "outgoing_route_indices": {"minItems": 1},
+                                     "outgoing_fingerprint_sha256": {"minItems": 1}}}}],
+  "required": ["schema_version", "mode", "review_sha256", "knowledge_sha256", "profile_sha256", "plan_sha256", "source_snapshot_sha256", "route_index", "page_key", "draft_revision", "landmark_keys", "outgoing_page_keys", "outgoing_route_indices", "outgoing_fingerprint_sha256", "page_fingerprint_sha256", "metadata_reviewed", "current_readback_bound", "task_retrieval_authorized", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "historical_remote_route_review_pin"},
+    "review_sha256": {"$ref": "#/$defs/checksum"},
+    "knowledge_sha256": {"$ref": "#/$defs/checksum"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "plan_sha256": {"$ref": "#/$defs/checksum"},
+    "source_snapshot_sha256": {"$ref": "#/$defs/checksum"},
+    "route_index": {"type": "integer", "minimum": 0, "maximum": 7},
+    "page_key": {"$ref": "#/$defs/key"},
+    "draft_revision": {"type": "integer", "minimum": 1, "maximum": 100},
+    "landmark_keys": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+    "outgoing_page_keys": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+    "outgoing_route_indices": {"type": "array", "maxItems": 16, "uniqueItems": true,
+                               "items": {"type": "integer", "minimum": 0, "maximum": 7}},
+    "outgoing_fingerprint_sha256": {"type": "array", "maxItems": 16, "uniqueItems": true,
+                                    "items": {"$ref": "#/$defs/checksum"}},
+    "page_fingerprint_sha256": {"$ref": "#/$defs/checksum"},
+    "link_sample_sha256": {"oneOf": [{"$ref": "#/$defs/checksum"}, {"type": "null"}]},
+    "metadata_reviewed": {"const": true},
+    "current_readback_bound": {"const": false},
+    "task_retrieval_authorized": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "key": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"}
+  }
+}

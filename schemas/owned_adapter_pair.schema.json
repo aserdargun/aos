@@ -1,0 +1,477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Synthetic base-first paired runtime precommit, not execution authority",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "mode": {
+      "const": "owned_adapter_pair"
+    },
+    "synthetic": {
+      "type": "boolean",
+      "const": true
+    },
+    "scope": {
+      "const": "development_only"
+    },
+    "independent_held_out": {
+      "type": "integer",
+      "const": 0
+    },
+    "promotion_authorized": {
+      "type": "boolean",
+      "const": false
+    },
+    "automatic_second_arm": {
+      "type": "boolean",
+      "const": false
+    },
+    "cold_worker_each_arm": {
+      "type": "boolean",
+      "const": true
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^episode-[a-f0-9]{32}$"
+    },
+    "authorization_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "authority": {
+      "$ref": "#/$defs/authority"
+    },
+    "arguments": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "candidate_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "source_run_ref": {
+          "$ref": "#/$defs/hash"
+        },
+        "review_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "release_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "selection_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "reuse_admission_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "invocation_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "case_key": {
+          "$ref": "#/$defs/case_key"
+        },
+        "development_value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9 _.-]{1,128}$"
+        }
+      },
+      "required": [
+        "candidate_sha256",
+        "source_run_ref",
+        "review_sha256",
+        "release_sha256",
+        "selection_sha256",
+        "reuse_admission_sha256",
+        "invocation_sha256",
+        "case_key",
+        "development_value"
+      ]
+    },
+    "base_preview": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/preview"
+        },
+        {
+          "properties": {
+            "schema_version": {
+              "const": "1.3"
+            }
+          }
+        }
+      ]
+    },
+    "adapter_preview": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/preview"
+        },
+        {
+          "properties": {
+            "schema_version": {
+              "const": "1.5"
+            }
+          }
+        }
+      ]
+    },
+    "adapter_admission": {
+      "$ref": "#/$defs/admission"
+    },
+    "base_deployment_id": {
+      "type": "string",
+      "pattern": "^decider-[a-f0-9]{64}$"
+    },
+    "adapter_deployment_id": {
+      "type": "string",
+      "pattern": "^owned-adapter-[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "mode",
+    "synthetic",
+    "scope",
+    "independent_held_out",
+    "promotion_authorized",
+    "automatic_second_arm",
+    "cold_worker_each_arm",
+    "episode_id",
+    "authorization_sha256",
+    "authority",
+    "arguments",
+    "base_preview",
+    "adapter_preview",
+    "adapter_admission",
+    "base_deployment_id",
+    "adapter_deployment_id"
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol": {
+          "const": "owned-adapter-runtime-v1"
+        },
+        "authorization_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "adaptation_report_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "input_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "deployment_manifest_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "base_deployment_id": {
+          "type": "string",
+          "pattern": "^decider-[a-f0-9]{64}$"
+        },
+        "runtime_worker_sha256": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "protocol",
+        "authorization_sha256",
+        "adaptation_report_sha256",
+        "artifact_sha256",
+        "input_sha256",
+        "deployment_manifest_sha256",
+        "base_deployment_id",
+        "runtime_worker_sha256"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "case_key": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "$ref": "#/$defs/id"
+        },
+        "runtime_id": {
+          "$ref": "#/$defs/id"
+        },
+        "lease_id": {
+          "$ref": "#/$defs/id"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "session_id",
+        "runtime_id",
+        "lease_id",
+        "generation"
+      ]
+    },
+    "preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "candidate_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "source_run_ref": {
+          "$ref": "#/$defs/hash"
+        },
+        "source_invocation_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "source_group_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "profile_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "skill_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "parameter_variant_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "invocation_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "recipe_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "form_plan_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "state_plan_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "review_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "release_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "selection_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "reuse_admission_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "preview_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "schema_version": {
+          "enum": [
+            "1.3",
+            "1.5"
+          ]
+        },
+        "available": {
+          "type": "boolean",
+          "const": true
+        },
+        "status": {
+          "const": "preview"
+        },
+        "case_key": {
+          "$ref": "#/$defs/case_key"
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "step_key": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+              },
+              "operation": {
+                "enum": [
+                  "open_entry",
+                  "read_state_before",
+                  "fill_form",
+                  "submit_form",
+                  "read_receipt",
+                  "read_state_after"
+                ]
+              }
+            },
+            "required": [
+              "step_key",
+              "operation"
+            ]
+          }
+        },
+        "purpose": {
+          "const": "development_variation"
+        },
+        "independent_held_out": {
+          "type": "boolean",
+          "const": false
+        },
+        "report": {
+          "type": "null"
+        },
+        "adapter_admission_sha256": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "candidate_sha256",
+        "source_run_ref",
+        "source_invocation_sha256",
+        "source_group_sha256",
+        "profile_sha256",
+        "skill_sha256",
+        "parameter_variant_sha256",
+        "invocation_sha256",
+        "recipe_sha256",
+        "form_plan_sha256",
+        "state_plan_sha256",
+        "review_sha256",
+        "release_sha256",
+        "selection_sha256",
+        "reuse_admission_sha256",
+        "preview_sha256",
+        "schema_version",
+        "available",
+        "status",
+        "case_key",
+        "steps",
+        "purpose",
+        "independent_held_out",
+        "report"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "schema_version": {
+                "const": "1.5"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "adapter_admission_sha256"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "adapter_admission_sha256"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "mode": {
+          "const": "owned_adapter_runtime_admission"
+        },
+        "episode_id": {
+          "type": "string",
+          "pattern": "^episode-[a-f0-9]{32}$"
+        },
+        "authorization_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "adaptation_report_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "adapter_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "runtime_binding": {
+          "$ref": "#/$defs/binding"
+        },
+        "adapter_deployment_id": {
+          "type": "string",
+          "pattern": "^owned-adapter-[a-f0-9]{64}$"
+        },
+        "base_preview_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "case_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "development_value_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "lease_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "experimental_runtime_authorized": {
+          "const": true
+        },
+        "automatic_fallback": {
+          "const": false
+        },
+        "promotion_authorized": {
+          "const": false
+        },
+        "training_ready": {
+          "const": false
+        },
+        "synthetic": {
+          "const": true
+        }
+      },
+      "required": [
+        "schema_version",
+        "mode",
+        "episode_id",
+        "authorization_sha256",
+        "adaptation_report_sha256",
+        "adapter_sha256",
+        "runtime_binding",
+        "adapter_deployment_id",
+        "base_preview_sha256",
+        "case_key",
+        "development_value_sha256",
+        "lease_id",
+        "generation",
+        "experimental_runtime_authorized",
+        "automatic_fallback",
+        "promotion_authorized",
+        "training_ready",
+        "synthetic"
+      ]
+    }
+  }
+}

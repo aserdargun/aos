@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"enum": ["1.0", "1.1"], "type": "string"},
+    "synthetic": {"const": true, "type": "boolean"},
+    "derivation_kind": {"const": "audited_form_trajectory", "type": "string"},
+    "deriver_version": {"const": "audited-form-recipe-candidate-v1", "type": "string"},
+    "status": {"const": "unreviewed_executable_recipe_candidate", "type": "string"},
+    "source_run_id": {"pattern": "^[A-Za-z0-9_-]{1,100}$", "type": "string"},
+    "source_run_ref": {"$ref": "#/$defs/checksum"},
+    "source_group_sha256": {"$ref": "#/$defs/checksum"},
+    "source_fingerprint_sha256": {"$ref": "#/$defs/checksum"},
+    "source_body_sha256": {"$ref": "#/$defs/checksum"},
+    "source_parameter_variant_sha256": {"$ref": "#/$defs/checksum"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "task_sha256": {"$ref": "#/$defs/checksum"},
+    "form_plan_sha256": {"$ref": "#/$defs/checksum"},
+    "state_plan_sha256": {"$ref": "#/$defs/checksum"},
+    "field_binding_sha256": {"$ref": "#/$defs/checksum"},
+    "deployment_sha256": {"$ref": "#/$defs/checksum"},
+    "source_context": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "kind": {"const": "owned_fixed_template_v1", "type": "string"},
+        "manifest_sha256": {"$ref": "#/$defs/checksum"},
+        "invocation_sha256": {"$ref": "#/$defs/checksum"}
+      },
+      "required": ["kind", "manifest_sha256", "invocation_sha256"]
+    },
+    "source_event_ids_by_role": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "system1": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"$ref": "#/$defs/event_id"}},
+        "system2": {"type": "array", "maxItems": 0}
+      },
+      "required": ["system1", "system2"]
+    },
+    "source_verification_ids": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+    "source_stage_refs": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/stage_ref"}},
+    "annotation": {"$ref": "#/$defs/annotation"},
+    "field_bindings": {"type": "array", "minItems": 1, "maxItems": 8, "items": {"$ref": "#/$defs/field_binding"}},
+    "skill": {"$ref": "#/$defs/skill"},
+    "recipe": {"$ref": "#/$defs/recipe"},
+    "reviewed": {"const": false, "type": "boolean"},
+    "activation_authorized": {"const": false, "type": "boolean"},
+    "training_ready": {"const": false, "type": "boolean"},
+    "site_outcome_verified": {"const": false, "type": "boolean"},
+    "skill_executed": {"const": false, "type": "boolean"}
+  },
+  "required": ["schema_version", "synthetic", "derivation_kind", "deriver_version", "status", "source_run_id", "source_run_ref", "source_group_sha256", "source_fingerprint_sha256", "source_body_sha256", "source_parameter_variant_sha256", "profile_sha256", "task_sha256", "form_plan_sha256", "state_plan_sha256", "field_binding_sha256", "deployment_sha256", "source_event_ids_by_role", "source_verification_ids", "source_stage_refs", "annotation", "field_bindings", "skill", "recipe", "reviewed", "activation_authorized", "training_ready", "site_outcome_verified", "skill_executed"],
+  "allOf": [
+    {"if": {"properties": {"schema_version": {"const": "1.0"}}, "required": ["schema_version"]},
+     "then": {"not": {"required": ["source_context"]}}},
+    {"if": {"properties": {"schema_version": {"const": "1.1"}}, "required": ["schema_version"]},
+     "then": {"required": ["source_context"]}}
+  ],
+  "$defs": {
+    "checksum": {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+    "key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "type": "string"},
+    "event_id": {"pattern": "^learning-[a-f0-9]{64}$", "type": "string"},
+    "skill": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": "1.0", "type": "string"},
+        "profile_sha256": {"$ref": "#/$defs/checksum"}, "application_key": {"$ref": "#/$defs/key"},
+        "tenant_key": {"$ref": "#/$defs/key"}, "account_role": {"$ref": "#/$defs/key"},
+        "task_key": {"$ref": "#/$defs/key"}, "page_key": {"$ref": "#/$defs/key"},
+        "page_draft_sha256": {"$ref": "#/$defs/checksum"}, "skill_key": {"$ref": "#/$defs/key"},
+        "model_role": {"const": "system1", "type": "string"},
+        "candidate_kind": {"const": "finite_action_choice", "type": "string"},
+        "revision": {"const": 1, "type": "integer"}, "previous_sha256": {"type": "null"},
+        "parameter_keys": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+        "precondition_keys": {"type": "array", "minItems": 2, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+        "step_keys": {"type": "array", "minItems": 6, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+        "expected_outcome_key": {"$ref": "#/$defs/key"},
+        "source_event_ids": {"type": "array", "minItems": 6, "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/event_id"}},
+        "source_verification_ids": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+        "source_kind": {"const": "manual_candidate", "type": "string"}, "status": {"const": "draft", "type": "string"},
+        "execution_authorized": {"const": false, "type": "boolean"}, "collection_authorized": {"const": false, "type": "boolean"},
+        "training_ready": {"const": false, "type": "boolean"}, "activation_authorized": {"const": false, "type": "boolean"}
+      },
+      "required": ["schema_version", "profile_sha256", "application_key", "tenant_key", "account_role", "task_key", "page_key", "page_draft_sha256", "skill_key", "model_role", "candidate_kind", "revision", "previous_sha256", "parameter_keys", "precondition_keys", "step_keys", "expected_outcome_key", "source_event_ids", "source_verification_ids", "source_kind", "status", "execution_authorized", "collection_authorized", "training_ready", "activation_authorized"]
+    },
+    "recipe": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": "1.0", "type": "string"}, "synthetic": {"const": true, "type": "boolean"},
+        "skill_sha256": {"$ref": "#/$defs/checksum"}, "profile_sha256": {"$ref": "#/$defs/checksum"},
+        "page_draft_sha256": {"$ref": "#/$defs/checksum"}, "task_key": {"$ref": "#/$defs/key"},
+        "task_sha256": {"$ref": "#/$defs/checksum"}, "model_role": {"const": "system1", "type": "string"},
+        "field_binding_sha256": {"$ref": "#/$defs/checksum"},
+        "preconditions": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/recipe_precondition"}},
+        "outcome": {"$ref": "#/$defs/recipe_outcome"},
+        "steps": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/recipe_step"}},
+        "execution_authorized": {"const": false, "type": "boolean"}, "collection_authorized": {"const": false, "type": "boolean"},
+        "reviewed": {"const": false, "type": "boolean"}, "activation_authorized": {"const": false, "type": "boolean"},
+        "training_ready": {"const": false, "type": "boolean"}
+      },
+      "required": ["schema_version", "synthetic", "skill_sha256", "profile_sha256", "page_draft_sha256", "task_key", "task_sha256", "model_role", "field_binding_sha256", "preconditions", "outcome", "steps", "execution_authorized", "collection_authorized", "reviewed", "activation_authorized", "training_ready"]
+    },
+    "recipe_precondition": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"precondition_key": {"$ref": "#/$defs/key"}, "kind": {"enum": ["entry_form_available", "declared_state_before"], "type": "string"}, "checked_at_operation": {"enum": ["fill_form", "read_state_before"], "type": "string"}},
+      "required": ["precondition_key", "kind", "checked_at_operation"]
+    },
+    "recipe_outcome": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"outcome_key": {"$ref": "#/$defs/key"}, "kind": {"const": "submitted_field_state_transition", "type": "string"}, "parameter_key": {"$ref": "#/$defs/key"}, "form_field_name": {"pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$", "type": "string"}, "verified_at_operation": {"const": "read_state_after", "type": "string"}},
+      "required": ["outcome_key", "kind", "parameter_key", "form_field_name", "verified_at_operation"]
+    },
+    "recipe_step": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"step_key": {"$ref": "#/$defs/key"}, "operation": {"$ref": "#/$defs/operation"}},
+      "required": ["step_key", "operation"]
+    },
+    "operation": {"enum": ["open_entry", "read_state_before", "fill_form", "submit_form", "read_receipt", "read_state_after"], "type": "string"},
+    "field_binding": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"parameter_key": {"$ref": "#/$defs/key"}, "form_field_name": {"pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$", "type": "string"}},
+      "required": ["parameter_key", "form_field_name"]
+    },
+    "precondition": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"precondition_key": {"$ref": "#/$defs/key"}, "kind": {"enum": ["entry_form_available", "declared_state_before"], "type": "string"}},
+      "required": ["precondition_key", "kind"]
+    },
+    "outcome": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"outcome_key": {"$ref": "#/$defs/key"}, "parameter_key": {"$ref": "#/$defs/key"}},
+      "required": ["outcome_key", "parameter_key"]
+    },
+    "step_name": {
+      "type": "object", "additionalProperties": false,
+      "properties": {"operation": {"$ref": "#/$defs/operation"}, "step_key": {"$ref": "#/$defs/key"}},
+      "required": ["operation", "step_key"]
+    },
+    "annotation": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": "1.0", "type": "string"},
+        "synthetic": {"const": true, "type": "boolean"},
+        "skill_key": {"$ref": "#/$defs/key"},
+        "page_key": {"$ref": "#/$defs/key"},
+        "page_draft_sha256": {"$ref": "#/$defs/checksum"},
+        "task_key": {"$ref": "#/$defs/key"},
+        "parameter_bindings": {"type": "array", "minItems": 1, "maxItems": 8, "items": {"$ref": "#/$defs/field_binding"}},
+        "preconditions": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/precondition"}},
+        "outcome": {"$ref": "#/$defs/outcome"},
+        "operation_step_keys": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/step_name"}}
+      },
+      "required": ["schema_version", "synthetic", "skill_key", "page_key", "page_draft_sha256", "task_key", "parameter_bindings", "preconditions", "outcome", "operation_step_keys"]
+    },
+    "stage_ref": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "operation": {"$ref": "#/$defs/operation"}, "step_key": {"$ref": "#/$defs/key"},
+        "action_ref": {"$ref": "#/$defs/checksum"}, "decision_ref": {"$ref": "#/$defs/checksum"},
+        "approval_ref": {"$ref": "#/$defs/checksum"}, "decision_state_ref": {"$ref": "#/$defs/checksum"},
+        "execute_state_ref": {"$ref": "#/$defs/checksum"}, "call_ref": {"$ref": "#/$defs/checksum"},
+        "input_sha256": {"$ref": "#/$defs/checksum"}, "prediction_sha256": {"$ref": "#/$defs/checksum"},
+        "source_event_id": {"$ref": "#/$defs/event_id"},
+        "source_verification_refs": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/checksum"}}
+      },
+      "required": ["operation", "step_key", "action_ref", "decision_ref", "approval_ref", "decision_state_ref", "execute_state_ref", "call_ref", "input_sha256", "prediction_sha256", "source_event_id", "source_verification_refs"]
+    }
+  }
+}

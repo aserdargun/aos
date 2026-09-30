@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS synthetic local-page evidence projection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "fingerprint_version", "page_key", "page_fingerprint_sha256", "source", "profile_bound", "reviewed", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "fingerprint_version": {"const": "synthetic-local-page-v1"},
+    "page_key": {"enum": ["start", "details"]},
+    "page_fingerprint_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "verification_id", "observation_id"],
+      "properties": {
+        "event_id": {"type": "string", "pattern": "^learning-[a-f0-9]{64}$"},
+        "verification_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+        "observation_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"}
+      }
+    },
+    "profile_bound": {"const": false},
+    "reviewed": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  }
+}

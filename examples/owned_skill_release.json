@@ -1,0 +1,56 @@
+{
+  "description": "Illustrative synthetic owned skill release and selection; hashes are placeholders and do not authorize deployment.",
+  "synthetic": true,
+  "release": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "purpose": "development_release",
+    "family": {
+      "profile_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "application_key": "demo-app",
+      "tenant_key": "demo-tenant",
+      "account_role": "demo-role",
+      "task_key": "save-record",
+      "task_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "page_draft_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "skill_key": "save_record",
+      "model_role": "system1",
+      "field_binding_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    "family_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "revision": 1,
+    "parent_release_sha256": null,
+    "candidate_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+    "skill_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+    "recipe_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+    "review_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+    "source_run_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_group_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "source_fingerprint_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "evidence_execution_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "activation_authorized": false,
+    "training_ready": false,
+    "independent_held_out": false
+  },
+  "selection": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "purpose": "development_selected",
+    "family_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "sequence": 1,
+    "previous_selection_sha256": null,
+    "previous_release_sha256": null,
+    "release_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "operation": "select",
+    "rollback_evidence_execution_sha256": null,
+    "actor": "local_authenticated_user",
+    "activation_authorized": false,
+    "training_ready": false
+  },
+  "head": {
+    "schema_version": "1.0",
+    "family_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "sequence": 1,
+    "selection_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  }
+}

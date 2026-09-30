@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Stopped owned selected skill reuse preview",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "synthetic": {
+      "type": "boolean",
+      "const": true
+    },
+    "purpose": {
+      "type": "string",
+      "const": "owned_selected_skill_reuse"
+    },
+    "previous_manager_session": {
+      "type": "string",
+      "pattern": "^app-[a-f0-9]{32}$"
+    },
+    "previous_stopped_state_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "previous_lifecycle_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "source_manifest_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "source_run_ref": {
+      "$ref": "#/$defs/checksum"
+    },
+    "source_invocation_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "source_fingerprint_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "family_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "release_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "selection_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "review_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "candidate_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "recipe_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "review_evidence_execution_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "source_audit_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "review_evidence_audit_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "replay_inventory_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "prior_sessions_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "certificate_sha256": {
+      "$ref": "#/$defs/checksum"
+    },
+    "source_database_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path_sha256": {
+          "$ref": "#/$defs/checksum"
+        },
+        "device": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inode": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "owner_uid": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ]
+    },
+    "source_workspace_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path_sha256": {
+          "$ref": "#/$defs/checksum"
+        },
+        "device": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "inode": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "owner_uid": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "version": {
+          "type": "string",
+          "const": "descriptor-workspace-v1"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid",
+        "version"
+      ]
+    },
+    "source_job_id": {
+      "type": "string",
+      "pattern": "^job-[a-f0-9]{32}$"
+    },
+    "source_desktop_session_id": {
+      "type": "string",
+      "pattern": "^desktop-session-[a-f0-9]{32}$"
+    },
+    "origin": {
+      "type": "string",
+      "maxLength": 300,
+      "pattern": "^https://[a-z0-9.-]+\\.invalid:[0-9]{1,5}$"
+    },
+    "execution_authorized": {
+      "type": "boolean",
+      "const": false
+    },
+    "old_actions_replayed": {
+      "type": "boolean",
+      "const": false
+    },
+    "activation_authorized": {
+      "type": "boolean",
+      "const": false
+    },
+    "training_ready": {
+      "type": "boolean",
+      "const": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "purpose",
+    "previous_manager_session",
+    "previous_stopped_state_sha256",
+    "previous_lifecycle_sha256",
+    "source_manifest_sha256",
+    "source_run_ref",
+    "source_invocation_sha256",
+    "source_fingerprint_sha256",
+    "family_sha256",
+    "release_sha256",
+    "selection_sha256",
+    "review_sha256",
+    "candidate_sha256",
+    "recipe_sha256",
+    "review_evidence_execution_sha256",
+    "source_audit_sha256",
+    "review_evidence_audit_sha256",
+    "replay_inventory_sha256",
+    "prior_sessions_sha256",
+    "certificate_sha256",
+    "source_database_identity",
+    "source_workspace_identity",
+    "source_job_id",
+    "source_desktop_session_id",
+    "origin",
+    "execution_authorized",
+    "old_actions_replayed",
+    "activation_authorized",
+    "training_ready"
+  ],
+  "$defs": {
+    "checksum": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

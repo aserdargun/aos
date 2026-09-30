@@ -1,0 +1,8 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; background: #111722; color: #e8edf5; }
+body { margin: 0; } header { display: flex; justify-content: space-between; align-items: center; padding: 22px 30px; background: #1a2332; border-bottom: 1px solid #364154; }
+header strong { color: #8bddbc; font-size: 24px; margin-right: 20px; } header span, .notice { color: #a9b5c8; }
+main { padding: 24px 30px; } nav { display: flex; flex-wrap: wrap; gap: 10px; position: sticky; top: 0; background: #111722; padding: 12px 0; z-index: 1; }
+button { border: 1px solid #54657d; background: #23324a; border-radius: 7px; color: inherit; padding: 10px 16px; cursor: pointer; font: inherit; }
+button:hover { background: #344b6d; } button:disabled { opacity: .4; cursor: not-allowed; } button.danger { border-color: #c57676; } input { padding: 12px; border: 1px solid #54657d; border-radius: 5px; background: #162032; color: inherit; width: 340px; max-width: 90%; }
+form { max-width: 600px; margin: 80px auto; } label { display: block; margin: 24px 0; } #screen { height: 68vh; min-height: 400px; border: 1px solid #364154; background: #080c12; } #error { color: #ffaaaa; } pre { white-space: pre-wrap; overflow-wrap: anywhere; } details, .notice { margin-top: 18px; }
+@media (max-width: 650px) { header span { display: none; } main { padding: 12px; } #screen { min-height: 280px; } }

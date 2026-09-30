@@ -1,0 +1,80 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "goal": "hello görevini hazırla",
+      "preview": {
+        "schema_version": "1.0",
+        "normalizer_version": "bounded-tr-v1",
+        "input_sha256": "24f4f10bb59657aef184fcc215a20825cf5e86a21fd07142536026e7f79b6a22",
+        "status": "recognized",
+        "task_kind": "hello",
+        "normalized_goal": "Create /workspace/hello.txt containing exactly Hello from the local agent. followed by a newline, then independently read and verify it.",
+        "scope": "/workspace/hello.txt",
+        "execution_authorized": false,
+        "requires_action_approval": true,
+        "reason": "exact_catalog_match"
+      }
+    },
+    {
+      "goal": "YEREL FORM GÖREVİNİ ÖNİZLE",
+      "preview": {
+        "schema_version": "1.0",
+        "normalizer_version": "bounded-tr-v1",
+        "input_sha256": "21b5a27d2c34c98109fad607c8d927109f2c2fa0205d0c726eb8012680abe211",
+        "status": "recognized",
+        "task_kind": "browser_form",
+        "normalized_goal": "Enter exactly \"Hello from the local agent.\" in the Message field, then click Save locally once. Verify the local receipt. No network or other pages are authorized.",
+        "scope": "aos://synthetic/form",
+        "execution_authorized": false,
+        "requires_action_approval": true,
+        "reason": "exact_catalog_match"
+      }
+    },
+    {
+      "goal": "görsel save görevini hazırla",
+      "preview": {
+        "schema_version": "1.0",
+        "normalizer_version": "bounded-tr-v1",
+        "input_sha256": "1fc247da4f2bab81918733a8bfe7cb4c6342febc960de8b2d627f18362571fae",
+        "status": "recognized",
+        "task_kind": "vision_canvas",
+        "normalized_goal": "Select the visible SAVE button once in this synthetic local canvas. Do not select CANCEL. Only the supplied symbolic visual targets are available. Verify the independent application outcome.",
+        "scope": "aos://synthetic/canvas",
+        "execution_authorized": false,
+        "requires_action_approval": true,
+        "reason": "exact_catalog_match"
+      }
+    },
+    {
+      "goal": "hello görevini başlatma",
+      "preview": {
+        "schema_version": "1.0",
+        "normalizer_version": "bounded-tr-v1",
+        "input_sha256": "253f80acbd836fbe395c9d400240649ee896c2a1338d2700930647df808d310f",
+        "status": "negated",
+        "task_kind": null,
+        "normalized_goal": null,
+        "scope": null,
+        "execution_authorized": false,
+        "requires_action_approval": true,
+        "reason": "negated_or_control_request"
+      }
+    },
+    {
+      "goal": "/etc/passwd dosyasını oluştur ve doğrula",
+      "preview": {
+        "schema_version": "1.0",
+        "normalizer_version": "bounded-tr-v1",
+        "input_sha256": "306fe68dbcaa5dc407193f561eff86cf1c3ff9ea7170f7871f1fabed75bd3d83",
+        "status": "unsupported",
+        "task_kind": null,
+        "normalized_goal": null,
+        "scope": null,
+        "execution_authorized": false,
+        "requires_action_approval": true,
+        "reason": "unsupported_goal"
+      }
+    }
+  ]
+}

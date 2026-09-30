@@ -1,0 +1,431 @@
+{
+  "$defs": {
+    "SiteSkillFormCohortRun": {
+      "additionalProperties": false,
+      "properties": {
+        "case_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "form_plan": {
+          "$ref": "#/$defs/WebHTTPSFormPlan"
+        },
+        "run_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "state_plan": {
+          "$ref": "#/$defs/WebHTTPSFormStatePlan"
+        },
+        "task": {
+          "$ref": "#/$defs/WebTaskContract"
+        }
+      },
+      "required": [
+        "case_key",
+        "run_id",
+        "task",
+        "form_plan",
+        "state_plan"
+      ],
+      "title": "SiteSkillFormCohortRun",
+      "type": "object"
+    },
+    "WebHTTPSFormPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "approval": {
+          "const": "fresh_per_action",
+          "default": "fresh_per_action",
+          "title": "Approval",
+          "type": "string"
+        },
+        "body_bytes": {
+          "maximum": 4096,
+          "minimum": 1,
+          "title": "Body Bytes",
+          "type": "integer"
+        },
+        "body_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Body Sha256",
+          "type": "string"
+        },
+        "collection_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        },
+        "content_type": {
+          "const": "application/x-www-form-urlencoded",
+          "default": "application/x-www-form-urlencoded",
+          "title": "Content Type",
+          "type": "string"
+        },
+        "entry_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Entry Url",
+          "type": "string"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "receipt_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Receipt Url",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "const": "draft",
+          "default": "draft",
+          "title": "Status",
+          "type": "string"
+        },
+        "submit_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Submit Url",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_sha256",
+        "task_sha256",
+        "entry_url",
+        "submit_url",
+        "receipt_url",
+        "body_sha256",
+        "body_bytes"
+      ],
+      "title": "WebHTTPSFormPlan",
+      "type": "object"
+    },
+    "WebHTTPSFormStatePlan": {
+      "additionalProperties": false,
+      "properties": {
+        "approval": {
+          "const": "fresh_per_action",
+          "default": "fresh_per_action",
+          "title": "Approval",
+          "type": "string"
+        },
+        "collection_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "expected_after_marker_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected After Marker Sha256"
+        },
+        "expected_after_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Expected After Sha256",
+          "type": "string"
+        },
+        "expected_before_marker_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Before Marker Sha256"
+        },
+        "expected_before_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Expected Before Sha256",
+          "type": "string"
+        },
+        "form_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Form Plan Sha256",
+          "type": "string"
+        },
+        "marker_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Marker Id"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "state_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "State Url",
+          "type": "string"
+        },
+        "status": {
+          "const": "draft",
+          "default": "draft",
+          "title": "Status",
+          "type": "string"
+        },
+        "submitted_field_name": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Submitted Field Name"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_sha256",
+        "task_sha256",
+        "form_plan_sha256",
+        "state_url",
+        "expected_before_sha256",
+        "expected_after_sha256"
+      ],
+      "title": "WebHTTPSFormStatePlan",
+      "type": "object"
+    },
+    "WebTaskContract": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_origins": {
+          "items": {
+            "maxLength": 300,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Allowed Origins",
+          "type": "array"
+        },
+        "approval": {
+          "const": "fresh_per_action",
+          "default": "fresh_per_action",
+          "title": "Approval",
+          "type": "string"
+        },
+        "collection_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        },
+        "entry_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Entry Url",
+          "type": "string"
+        },
+        "max_actions": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Max Actions",
+          "type": "integer"
+        },
+        "max_navigations": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Max Navigations",
+          "type": "integer"
+        },
+        "max_pages": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Max Pages",
+          "type": "integer"
+        },
+        "max_seconds": {
+          "maximum": 900,
+          "minimum": 1,
+          "title": "Max Seconds",
+          "type": "integer"
+        },
+        "network_access": {
+          "const": false,
+          "default": false,
+          "title": "Network Access",
+          "type": "boolean"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Task Key",
+          "type": "string"
+        },
+        "tools": {
+          "items": {
+            "enum": [
+              "browser.navigate",
+              "browser.snapshot",
+              "browser.fill",
+              "browser.click",
+              "browser.verify"
+            ],
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 2,
+          "title": "Tools",
+          "type": "array"
+        },
+        "uncertain_write": {
+          "const": "stop_without_retry",
+          "default": "stop_without_retry",
+          "title": "Uncertain Write",
+          "type": "string"
+        },
+        "verification_ref": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Verification Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile_sha256",
+        "task_key",
+        "entry_url",
+        "allowed_origins",
+        "tools",
+        "max_pages",
+        "max_navigations",
+        "max_actions",
+        "max_seconds",
+        "verification_ref"
+      ],
+      "title": "WebTaskContract",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "case_inputs_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Case Inputs Sha256",
+      "type": "string"
+    },
+    "field_binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Field Binding Sha256",
+      "type": "string"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "runs": {
+      "items": {
+        "$ref": "#/$defs/SiteSkillFormCohortRun"
+      },
+      "maxItems": 16,
+      "minItems": 3,
+      "title": "Runs",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "skill_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Sha256",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "skill_sha256",
+    "plan_sha256",
+    "case_inputs_sha256",
+    "field_binding_sha256",
+    "runs"
+  ],
+  "title": "SiteSkillFormCohortSelection",
+  "type": "object"
+}

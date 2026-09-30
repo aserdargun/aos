@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_episode_tokenizer.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "conversion_sha256",
+    "input_sha256",
+    "deployment_manifest_sha256",
+    "deployment_id",
+    "runner_sha256",
+    "probe",
+    "synthetic",
+    "training_ready"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "conversion_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "input_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "deployment_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "deployment_id": {
+      "type": "string",
+      "pattern": "^decider-[a-f0-9]{64}$"
+    },
+    "runner_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "probe": {
+      "title": "AOS real tokenizer and collate preflight (not training)",
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "probe": {
+          "const": "decider_real_tokenizer_v1"
+        },
+        "synthetic": {
+          "const": true
+        },
+        "training_ready": {
+          "const": false
+        },
+        "weights_loaded": {
+          "const": false
+        },
+        "loss_verified": {
+          "const": false
+        },
+        "cuda_initialized": {
+          "const": false
+        },
+        "checkpoint_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "tokenizer_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "code_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "dependencies": {
+          "type": "object",
+          "properties": {
+            "torch": {
+              "type": "string"
+            },
+            "transformers": {
+              "type": "string"
+            },
+            "tokenizers": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "torch",
+            "transformers",
+            "tokenizers"
+          ],
+          "additionalProperties": false
+        },
+        "tokenizer_files": {
+          "type": "object",
+          "properties": {
+            "tokenizer.json": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "tokenizer_config.json": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "config.json": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "chat_template.jinja": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "tokenizer.json",
+            "tokenizer_config.json",
+            "config.json",
+            "chat_template.jinja"
+          ],
+          "additionalProperties": false
+        },
+        "code_files": {
+          "type": "object",
+          "properties": {
+            "__init__.py": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "model.py": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "prompt.py": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "__init__.py",
+            "model.py",
+            "prompt.py"
+          ],
+          "additionalProperties": false
+        },
+        "core_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "examples": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "variants": {
+          "type": "integer",
+          "minimum": 40,
+          "maximum": 1280
+        },
+        "batches": {
+          "const": 40
+        },
+        "max_context_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1536
+        },
+        "max_input_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1536
+        },
+        "max_padded_tokens": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 1536,
+          "multipleOf": 64
+        },
+        "token_budget": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 1536
+        },
+        "variant_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "probe",
+        "synthetic",
+        "training_ready",
+        "weights_loaded",
+        "loss_verified",
+        "cuda_initialized",
+        "checkpoint_revision",
+        "tokenizer_revision",
+        "code_revision",
+        "dependencies",
+        "tokenizer_files",
+        "code_files",
+        "core_sha256",
+        "examples",
+        "variants",
+        "batches",
+        "max_context_tokens",
+        "max_input_tokens",
+        "max_padded_tokens",
+        "token_budget",
+        "variant_digest"
+      ],
+      "additionalProperties": false
+    },
+    "synthetic": {
+      "const": true
+    },
+    "training_ready": {
+      "const": false
+    }
+  }
+}

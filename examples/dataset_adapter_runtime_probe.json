@@ -1,0 +1,38 @@
+{
+  "synthetic": true,
+  "note": "Illustrative schema fixture; not a model measurement.",
+  "report": {
+    "schema_version": "1.1",
+    "mode": "synthetic_adapter_runtime_probe_v1",
+    "dataset_id": "fixture-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "dataset_manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "input_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "deployment_manifest_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "candidate_report_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "artifact_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "runner_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "train_sample_index": 0,
+    "option_count": 2,
+    "base": {
+      "selected_index": 0,
+      "gold_probability": 0.8
+    },
+    "candidate": {
+      "selected_index": 0,
+      "gold_probability": 0.81
+    },
+    "split_results": {
+      "train": {"count": 1, "base_correct": 1, "candidate_correct": 1},
+      "validation": {"count": 0, "base_correct": 0, "candidate_correct": 0},
+      "test": {"count": 0, "base_correct": 0, "candidate_correct": 0}
+    },
+    "adapter_loaded": true,
+    "adapter_hook_calls": 1,
+    "base_parameters_unchanged": true,
+    "active_deployment_changed": false,
+    "synthetic": true,
+    "runtime_compatible": true,
+    "quality_improved": false,
+    "promotion_authorized": false
+  }
+}

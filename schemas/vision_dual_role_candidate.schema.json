@@ -1,0 +1,343 @@
+{
+  "$defs": {
+    "VisionOperatorCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "model_role": {
+          "const": "system1",
+          "title": "Model Role",
+          "type": "string"
+        },
+        "model_kind": {
+          "const": "decider_native_worker",
+          "title": "Model Kind",
+          "type": "string"
+        },
+        "deployment_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Deployment Sha256",
+          "type": "string"
+        },
+        "decision_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Decision Ref",
+          "type": "string"
+        },
+        "approved_action_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Approved Action Ref",
+          "type": "string"
+        },
+        "verification_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Verification Ref",
+          "type": "string"
+        },
+        "outcome_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Outcome Sha256",
+          "type": "string"
+        },
+        "outcome_verified": {
+          "const": true,
+          "title": "Outcome Verified",
+          "type": "boolean"
+        },
+        "reviewed": {
+          "const": false,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "model_role",
+        "model_kind",
+        "deployment_sha256",
+        "decision_ref",
+        "approved_action_ref",
+        "verification_ref",
+        "outcome_sha256",
+        "outcome_verified",
+        "reviewed",
+        "training_ready"
+      ],
+      "title": "VisionOperatorCandidate",
+      "type": "object"
+    },
+    "VisionSkillCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "candidate_version": {
+          "const": "synthetic-canvas-s2-v1",
+          "title": "Candidate Version",
+          "type": "string"
+        },
+        "status": {
+          "const": "unreviewed_downstream_linked",
+          "title": "Status",
+          "type": "string"
+        },
+        "model_role": {
+          "const": "system2",
+          "title": "Model Role",
+          "type": "string"
+        },
+        "model_kind": {
+          "const": "bonsai_native_supervisor",
+          "title": "Model Kind",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "job_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Job Ref",
+          "type": "string"
+        },
+        "snapshot_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Snapshot Sha256",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "supervisor_deployment_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Supervisor Deployment Sha256",
+          "type": "string"
+        },
+        "operator_deployment_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Operator Deployment Sha256",
+          "type": "string"
+        },
+        "capture_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Capture Sha256",
+          "type": "string"
+        },
+        "scene_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Scene Sha256",
+          "type": "string"
+        },
+        "supervisor_call_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Supervisor Call Ref",
+          "type": "string"
+        },
+        "operator_decision_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Operator Decision Ref",
+          "type": "string"
+        },
+        "approved_action_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Approved Action Ref",
+          "type": "string"
+        },
+        "downstream_verification_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Downstream Verification Ref",
+          "type": "string"
+        },
+        "downstream_outcome_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Downstream Outcome Sha256",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "supervisor_outcome_verified": {
+          "const": false,
+          "title": "Supervisor Outcome Verified",
+          "type": "boolean"
+        },
+        "downstream_operator_outcome_verified": {
+          "const": true,
+          "title": "Downstream Operator Outcome Verified",
+          "type": "boolean"
+        },
+        "profile_bound": {
+          "const": false,
+          "title": "Profile Bound",
+          "type": "boolean"
+        },
+        "reviewed": {
+          "const": false,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "collection_authorized": {
+          "const": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "candidate_version",
+        "status",
+        "model_role",
+        "model_kind",
+        "run_ref",
+        "job_ref",
+        "snapshot_sha256",
+        "source_sha256",
+        "supervisor_deployment_sha256",
+        "operator_deployment_sha256",
+        "capture_sha256",
+        "scene_sha256",
+        "supervisor_call_ref",
+        "operator_decision_ref",
+        "approved_action_ref",
+        "downstream_verification_ref",
+        "downstream_outcome_sha256",
+        "synthetic",
+        "supervisor_outcome_verified",
+        "downstream_operator_outcome_verified",
+        "profile_bound",
+        "reviewed",
+        "execution_authorized",
+        "collection_authorized",
+        "activation_authorized",
+        "training_ready"
+      ],
+      "title": "VisionSkillCandidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "candidate_version": {
+      "const": "synthetic-canvas-dual-role-v1",
+      "title": "Candidate Version",
+      "type": "string"
+    },
+    "status": {
+      "const": "unreviewed_pair",
+      "title": "Status",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "job_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Job Ref",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "operator": {
+      "$ref": "#/$defs/VisionOperatorCandidate"
+    },
+    "supervisor": {
+      "$ref": "#/$defs/VisionSkillCandidate"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "profile_bound": {
+      "const": false,
+      "title": "Profile Bound",
+      "type": "boolean"
+    },
+    "reviewed": {
+      "const": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "candidate_version",
+    "status",
+    "run_ref",
+    "job_ref",
+    "snapshot_sha256",
+    "source_sha256",
+    "operator",
+    "supervisor",
+    "synthetic",
+    "profile_bound",
+    "reviewed",
+    "execution_authorized",
+    "collection_authorized",
+    "activation_authorized",
+    "training_ready"
+  ],
+  "title": "VisionDualRoleCandidate",
+  "type": "object"
+}

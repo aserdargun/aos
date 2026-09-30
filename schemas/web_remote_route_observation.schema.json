@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS bounded remote HTTPS route observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["url", "title_sha256", "heading_sha256", "planned_link_indices", "unregistered_link_count", "links_truncated"],
+  "properties": {
+    "url": {"type": "string", "minLength": 1, "maxLength": 2048},
+    "title_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "heading_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "planned_link_indices": {"type": "array", "maxItems": 8, "uniqueItems": true, "items": {"type": "integer", "minimum": 0, "maximum": 7}},
+    "unregistered_link_count": {"type": "integer", "minimum": 0, "maximum": 64},
+    "links_truncated": {"type": "boolean"}
+  }
+}

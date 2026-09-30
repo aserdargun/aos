@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "page": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "application_key": "synthetic-crm-editor",
+    "tenant_key": "synthetic-tenant",
+    "account_role": "editor",
+    "page_key": "record-list",
+    "revision": 1,
+    "previous_sha256": null,
+    "origin": "https://crm.example.invalid",
+    "route_template": "/app/records",
+    "page_fingerprint_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "recorded_at": "2026-09-23T00:00:00Z",
+    "landmark_keys": [
+      "record-search",
+      "result-table"
+    ],
+    "outgoing_page_keys": [
+      "record-detail"
+    ],
+    "source_kind": "manual_draft",
+    "status": "draft",
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "audited_remote_page_draft_seed",
+    "status": "unreviewed_private_draft",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "plan_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "before_run_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "after_run_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "route_index": 0,
+    "url_sha256": "dd16f6dca365756483bc97007c41578c37741033f8b4c5f574c44b7155d7b4a1",
+    "page_fingerprint_sha256": "4046ba48271b9835b5f2a574288b7ee4acbfacadf773e06301de0b8baa900a0e",
+    "page_key": "entry",
+    "draft_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "profile_bound": true,
+    "readback_verified": true,
+    "semantic_page_key_verified": false,
+    "origin_verified": false,
+    "account_verified": false,
+    "reviewed": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

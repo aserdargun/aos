@@ -1,0 +1,94 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "application_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Application Key",
+      "type": "string"
+    },
+    "revision": {
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "status": {
+      "const": "draft",
+      "default": "draft",
+      "title": "Status",
+      "type": "string"
+    },
+    "requested_learning_roles": {
+      "items": {
+        "enum": [
+          "system1",
+          "system2"
+        ],
+        "type": "string"
+      },
+      "maxItems": 2,
+      "title": "Requested Learning Roles",
+      "type": "array"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    },
+    "blockers": {
+      "items": {
+        "enum": [
+          "site_runtime_not_integrated",
+          "task_contracts_not_bound",
+          "rights_review_not_verified",
+          "learning_pipeline_not_integrated"
+        ],
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 2,
+      "title": "Blockers",
+      "type": "array"
+    }
+  },
+  "required": [
+    "application_key",
+    "revision",
+    "profile_sha256",
+    "requested_learning_roles",
+    "blockers"
+  ],
+  "title": "WebApplicationReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

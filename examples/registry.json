@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "models": [
+    {
+      "id": "bonsai-base-example",
+      "source": "prism-ml/Ternary-Bonsai-2-27B-gguf",
+      "revision": null,
+      "sha256": null,
+      "backend": "prism_llama_cpp_cuda",
+      "capabilities": [
+        "reasoning",
+        "vision",
+        "coding"
+      ],
+      "enabled": false,
+      "metadata": {
+        "status": "requires local verification",
+        "precision": "PQ2_0",
+        "context_target": 16384
+      }
+    },
+    {
+      "id": "decider-base-example",
+      "source": "Mapika/decider-2b",
+      "revision": null,
+      "sha256": null,
+      "backend": "pytorch_cuda",
+      "capabilities": [
+        "routing",
+        "action_selection"
+      ],
+      "enabled": false,
+      "metadata": {
+        "status": "requires matching code and checkpoint revision",
+        "precision": "bf16"
+      }
+    }
+  ],
+  "adapters": [],
+  "deployments": [
+    {
+      "id": "bonsai-base-example",
+      "model_id": "bonsai-base-example",
+      "adapter_id": null,
+      "status": "EXPERIMENTAL",
+      "config": {
+        "model_id": "bonsai-base-example",
+        "adapter_id": null,
+        "max_concurrency": 1,
+        "context_target": 16384,
+        "artifact_verified": false
+      },
+      "config_sha256": "3b2b9d0ffe6859cbc78d05f01de1f7101b0ad6c279f0b452ed0cc5fa47662603"
+    },
+    {
+      "id": "decider-base-example",
+      "model_id": "decider-base-example",
+      "adapter_id": null,
+      "status": "EXPERIMENTAL",
+      "config": {
+        "model_id": "decider-base-example",
+        "adapter_id": null,
+        "max_concurrency": 1,
+        "context_target": 1536,
+        "artifact_verified": false
+      },
+      "config_sha256": "1516e96ad46f64b3be7abf220fc885895fe044e67011788437dd61e92fb4c19f"
+    }
+  ],
+  "benchmarks": []
+}

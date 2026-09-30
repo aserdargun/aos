@@ -1,0 +1,357 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "LifecycleInspection": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "mode": {
+          "const": "read_only_desktop_lifecycle",
+          "default": "read_only_desktop_lifecycle",
+          "title": "Mode",
+          "type": "string"
+        },
+        "journal_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Journal Sha256",
+          "type": "string"
+        },
+        "birth_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Birth Ref",
+          "type": "string"
+        },
+        "runtime_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Runtime Ref",
+          "type": "string"
+        },
+        "workspace_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Workspace Sha256",
+          "type": "string"
+        },
+        "image_id": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Image Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "recorded_stage": {
+          "enum": [
+            "intent",
+            "created",
+            "started",
+            "removed"
+          ],
+          "title": "Recorded Stage",
+          "type": "string"
+        },
+        "owner_observation": {
+          "enum": [
+            "same_process",
+            "not_observed",
+            "different_process",
+            "different_boot",
+            "incomparable",
+            "unavailable"
+          ],
+          "title": "Owner Observation",
+          "type": "string"
+        },
+        "workspace_busy": {
+          "title": "Workspace Busy",
+          "type": "boolean"
+        },
+        "container_observation": {
+          "enum": [
+            "not_queried",
+            "missing",
+            "created",
+            "running",
+            "exited"
+          ],
+          "title": "Container Observation",
+          "type": "string"
+        },
+        "observation_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observation Sha256"
+        },
+        "inspected_at": {
+          "title": "Inspected At",
+          "type": "string"
+        },
+        "orphan_confirmed": {
+          "const": false,
+          "default": false,
+          "title": "Orphan Confirmed",
+          "type": "boolean"
+        },
+        "model_deployment_verified": {
+          "const": false,
+          "default": false,
+          "title": "Model Deployment Verified",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "resume_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Resume Authorized",
+          "type": "boolean"
+        },
+        "cleanup_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Cleanup Authorized",
+          "type": "boolean"
+        },
+        "automatic_replay_allowed": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Replay Allowed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "journal_sha256",
+        "birth_ref",
+        "runtime_ref",
+        "workspace_sha256",
+        "image_id",
+        "source_sha256",
+        "recorded_stage",
+        "owner_observation",
+        "workspace_busy",
+        "container_observation",
+        "observation_sha256",
+        "inspected_at"
+      ],
+      "title": "LifecycleInspection",
+      "type": "object"
+    },
+    "SessionJobInspection": {
+      "additionalProperties": false,
+      "properties": {
+        "job_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Job Ref",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "deployment_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Deployment Sha256",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "waiting_approval",
+            "paused",
+            "waiting_human",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "run_status": {
+          "enum": [
+            "created",
+            "running",
+            "paused",
+            "waiting_human",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "title": "Run Status",
+          "type": "string"
+        },
+        "unresolved_actions": {
+          "minimum": 0,
+          "title": "Unresolved Actions",
+          "type": "integer"
+        },
+        "pending_approvals": {
+          "minimum": 0,
+          "title": "Pending Approvals",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "job_ref",
+        "run_ref",
+        "deployment_sha256",
+        "status",
+        "run_status",
+        "unresolved_actions",
+        "pending_approvals"
+      ],
+      "title": "SessionJobInspection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_desktop_session",
+      "default": "read_only_desktop_session",
+      "title": "Mode",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "session_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Session Ref",
+      "type": "string"
+    },
+    "binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Sha256",
+      "type": "string"
+    },
+    "session_status": {
+      "enum": [
+        "running",
+        "paused",
+        "stopped"
+      ],
+      "title": "Session Status",
+      "type": "string"
+    },
+    "session_owner": {
+      "enum": [
+        "AGENT",
+        "HUMAN",
+        "PAUSED"
+      ],
+      "title": "Session Owner",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    },
+    "job_count": {
+      "maximum": 10000,
+      "minimum": 0,
+      "title": "Job Count",
+      "type": "integer"
+    },
+    "unresolved_inputs": {
+      "minimum": 0,
+      "title": "Unresolved Inputs",
+      "type": "integer"
+    },
+    "lifecycle": {
+      "$ref": "#/$defs/LifecycleInspection"
+    },
+    "job": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SessionJobInspection"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "inspected_at": {
+      "title": "Inspected At",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "resume_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Resume Authorized",
+      "type": "boolean"
+    },
+    "cleanup_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Cleanup Authorized",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    },
+    "lease_restored": {
+      "const": false,
+      "default": false,
+      "title": "Lease Restored",
+      "type": "boolean"
+    },
+    "approval_restored": {
+      "const": false,
+      "default": false,
+      "title": "Approval Restored",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "snapshot_sha256",
+    "session_ref",
+    "binding_sha256",
+    "session_status",
+    "session_owner",
+    "generation",
+    "job_count",
+    "unresolved_inputs",
+    "lifecycle",
+    "inspected_at"
+  ],
+  "title": "SessionInspection",
+  "type": "object"
+}

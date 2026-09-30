@@ -1,0 +1,76 @@
+{
+  "synthetic": true,
+  "candidate": {
+    "schema_version": "1.0",
+    "candidate_version": "synthetic-staging-s1-v1",
+    "status": "unreviewed_candidate",
+    "model_role": "system1",
+    "model_kind": "decider_native_worker",
+    "run_ref": "3333333333333333333333333333333333333333333333333333333333333333",
+    "job_ref": "4444444444444444444444444444444444444444444444444444444444444444",
+    "snapshot_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "source_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+    "deployment_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+    "workflow_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+    "steps": [
+      {
+        "ordinal": 0,
+        "stage": "open_app",
+        "state_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "input_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "call_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "action_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "approval_ref": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "verification_ref": "1111111111111111111111111111111111111111111111111111111111111111",
+        "outcome_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      {
+        "ordinal": 1,
+        "stage": "follow_draft",
+        "state_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "input_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "call_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "action_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "approval_ref": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "verification_ref": "1111111111111111111111111111111111111111111111111111111111111111",
+        "outcome_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      {
+        "ordinal": 2,
+        "stage": "fill_message",
+        "state_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "input_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "call_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "action_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "approval_ref": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "verification_ref": "1111111111111111111111111111111111111111111111111111111111111111",
+        "outcome_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      },
+      {
+        "ordinal": 3,
+        "stage": "submit_draft",
+        "state_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "input_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "call_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "action_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "approval_ref": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "verification_ref": "1111111111111111111111111111111111111111111111111111111111111111",
+        "outcome_sha256": "2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    ],
+    "approved_action_count": 4,
+    "independent_verification_count": 4,
+    "observed_submission_count": 1,
+    "synthetic": true,
+    "profile_bound": false,
+    "reviewed": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

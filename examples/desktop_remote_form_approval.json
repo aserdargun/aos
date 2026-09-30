@@ -1,0 +1,36 @@
+{
+  "synthetic": true,
+  "note": "Structure only; no live account, credential, approval, network authority or site outcome.",
+  "approval": {
+    "schema_version": "1.0",
+    "approval_id": "synthetic-form-approval",
+    "job_id": "synthetic-form-job",
+    "action": {
+      "schema_version": "1.0",
+      "task_id": "synthetic-form-task",
+      "run_id": "synthetic-form-run",
+      "step_id": "synthetic-form-step",
+      "action_id": "synthetic-form-action",
+      "runtime_id": "synthetic-form-runtime",
+      "state_version": 14,
+      "owner_lease_id": "synthetic-form-lease",
+      "tool": "browser.form.submit",
+      "arguments": {
+        "profile_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "binding_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "plan_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "stage": 2,
+        "url": "https://app.example.invalid/submit",
+        "field_name": "message",
+        "body_sha256": "293bc662b1766b12804b47200978b34c4b6a9e5728258123bbe29b64e364678a"
+      },
+      "expected_effect": "Only the next exact synthetic HTTPS form stage",
+      "verification": "independent_https_form_transport_readback",
+      "deadline": 2000000070.0,
+      "idempotency_key": "synthetic-form-intent",
+      "selected_option": "submit_form"
+    },
+    "action_sha256": "16a4754768dfee81eadec950c89d9fced064afcededd38c25977bab94d083935",
+    "expires_at": 2000000060.0
+  }
+}

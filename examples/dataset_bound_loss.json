@@ -1,0 +1,58 @@
+{
+  "synthetic": true,
+  "note": "Synthetic schema fixture; not real model evidence.",
+  "report": {
+    "schema_version": "1.0",
+    "mode": "dataset_bound_s1_loss_v1",
+    "dataset_id": "fixture-c9063783b6bf9a4908a01565df6b224346e0493ca67a0c18f32762e376bd1d64",
+    "dataset_manifest_sha256": "a7c54bdca524c23e1f5a0aad269e768a170c844c30597178b436b3c7690f018e",
+    "input_sha256": "3ded5c78409693207627a48537d442ec1d39653752011d8a1183b09f10937fd2",
+    "deployment_manifest_sha256": "5eca648efaa0304334f22ad7f1009861ee54ce5f0a42f83d591504c5b10131dc",
+    "runner_sha256": "e464d521a6ca1c7270e15e5fa1cd4e29feb6e17a6edf1d751239a88a1584964f",
+    "split_counts": {
+      "train": 1,
+      "validation": 0,
+      "test": 0
+    },
+    "forward_report": {
+      "mode": "dataset_s1_forward_only_v1",
+      "checkpoint_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "code_revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "manifest_sha256": "5eca648efaa0304334f22ad7f1009861ee54ce5f0a42f83d591504c5b10131dc",
+      "weights_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "input_sha256": "3ded5c78409693207627a48537d442ec1d39653752011d8a1183b09f10937fd2",
+      "token_budget": 1536,
+      "split_metrics": [
+        {
+          "split": "train",
+          "layout": "state_first",
+          "decisions": 1,
+          "max_padded_tokens": 64,
+          "mean_nll": 0.5,
+          "correct_choices": 1
+        },
+        {
+          "split": "train",
+          "layout": "schema_first",
+          "decisions": 1,
+          "max_padded_tokens": 64,
+          "mean_nll": 0.5,
+          "correct_choices": 1
+        }
+      ],
+      "peak_vram_allocated_bytes": 1,
+      "peak_vram_reserved_bytes": 1,
+      "elapsed_seconds": 1,
+      "weights_loaded": true,
+      "parameters_unchanged": true,
+      "gradient_run": false,
+      "optimizer_run": false,
+      "training_ready": false
+    },
+    "synthetic": true,
+    "training_ready": false,
+    "supervisor_tokenizer_verified": false,
+    "execution_authorized": false,
+    "promotion_authorized": false
+  }
+}

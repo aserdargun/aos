@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; form-action 'none'; base-uri 'none'">
+<title>AOS synthetic local form</title>
+<body>
+<h1>Synthetic local form — no real submission</h1>
+<form id="form">
+  <label for="message">Message</label>
+  <input id="message" name="message" maxlength="100" autocomplete="off">
+  <button id="submit" type="submit">Save locally</button>
+</form>
+<output id="receipt" data-submissions="0"></output>
+<script>
+document.querySelector('#form').addEventListener('submit', event => {
+  event.preventDefault();
+  const receipt = document.querySelector('#receipt');
+  receipt.textContent = document.querySelector('#message').value;
+  receipt.dataset.submissions = String(Number(receipt.dataset.submissions) + 1);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS ordered private HTTPS form fields",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "fields", "body_sha256", "body_bytes", "execution_authorized", "collection_authorized"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "fields": {
+      "type": "array", "minItems": 2, "maxItems": 8,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["name", "value"],
+        "properties": {
+          "name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$"},
+          "value": {"type": "string", "minLength": 1, "maxLength": 2048}
+        }
+      }
+    },
+    "body_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "body_bytes": {"type": "integer", "minimum": 1, "maximum": 4096},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false}
+  }
+}

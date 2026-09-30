@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS private remote metadata retention sweep report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "candidate_count", "retention_due_count", "purged_count", "outbox_absent_count", "failed_consent_sha256", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "remote_metadata_retention_sweep"},
+    "candidate_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+    "retention_due_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+    "purged_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+    "outbox_absent_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+    "failed_consent_sha256": {"type": "array", "maxItems": 1000, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  }
+}

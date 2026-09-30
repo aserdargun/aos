@@ -1,0 +1,31 @@
+{
+  "synthetic": true,
+  "plan": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "assets": [
+      {"url": "https://crm.example.invalid/assets/logo.png", "content_type": "image/png"}
+    ],
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "explicit_bound_static_asset_fetch",
+    "status": "https_asset_reached",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "plan_sha256": "c3af0c346d4c1cf9e3058a9e0130a3641c955c55fa8f49ff38fe83d1d9d64212",
+    "asset_index": 0,
+    "content_type": "image/png",
+    "request_sha256": "943f10b07b9e54f3e6e9547fb9f044cdd043f694a3981adfda703d733225991b",
+    "response_sha256": "b0e8a8eb92c36f8866407013c607f13127ae9f48b7f6750f236851d23426664d",
+    "response_bytes": 70,
+    "tls_hostname_verified": true,
+    "browser_connected": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

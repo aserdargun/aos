@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS managed remote metadata retention status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "enabled", "state", "last_attempt_at", "session_count", "purged_count", "failed_session_count", "failed_consent_count", "metadata_only", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "managed_remote_metadata_retention_status"},
+    "enabled": {"type": "boolean"},
+    "state": {"enum": ["disabled", "pending", "ok", "incomplete", "stale", "unavailable"]},
+    "last_attempt_at": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?\\+00:00$"},
+    "session_count": {"type": ["integer", "null"], "minimum": 0, "maximum": 1000},
+    "purged_count": {"type": ["integer", "null"], "minimum": 0},
+    "failed_session_count": {"type": ["integer", "null"], "minimum": 0, "maximum": 1000},
+    "failed_consent_count": {"type": ["integer", "null"], "minimum": 0, "maximum": 1000},
+    "metadata_only": {"const": true},
+    "training_ready": {"const": false}
+  },
+  "allOf": [
+    {"if": {"properties": {"enabled": {"const": false}}},
+     "then": {"properties": {"state": {"const": "disabled"}, "last_attempt_at": {"const": null},
+       "session_count": {"const": null}, "purged_count": {"const": null}}}},
+    {"if": {"properties": {"state": {"const": "disabled"}}},
+     "then": {"properties": {"enabled": {"const": false}}}},
+    {"if": {"properties": {"state": {"const": "pending"}}},
+     "then": {"properties": {"enabled": {"const": true}, "last_attempt_at": {"const": null},
+       "session_count": {"const": null}, "purged_count": {"const": null}}}},
+    {"if": {"properties": {"state": {"enum": ["ok", "incomplete"]}}},
+     "then": {"properties": {"enabled": {"const": true}, "last_attempt_at": {"type": "string"},
+       "session_count": {"type": "integer"}, "purged_count": {"type": "integer"},
+       "failed_session_count": {"type": "integer"}, "failed_consent_count": {"type": "integer"}}}},
+    {"if": {"properties": {"state": {"enum": ["stale", "unavailable"]}}},
+     "then": {"properties": {"enabled": {"const": true}, "last_attempt_at": {"type": "string"},
+       "session_count": {"const": null}, "purged_count": {"const": null},
+       "failed_session_count": {"const": null}, "failed_consent_count": {"const": null}}}}
+  ]
+}

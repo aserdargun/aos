@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS read-only historical HTTPS route metadata evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "status", "fingerprint_version", "snapshot_sha256", "run_ref", "profile_sha256", "plan_sha256", "route_count", "routes", "profile_bound", "readback_verified", "origin_verified", "account_verified", "site_outcome_verified", "reviewed", "task_retrieval_authorized", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "read_only_remote_route_evidence"},
+    "status": {"const": "historical_verified_metadata"},
+    "fingerprint_version": {"const": "remote-route-readback-v1"},
+    "snapshot_sha256": {"$ref": "#/$defs/checksum"},
+    "run_ref": {"$ref": "#/$defs/checksum"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "plan_sha256": {"$ref": "#/$defs/checksum"},
+    "route_count": {"type": "integer", "minimum": 2, "maximum": 8},
+    "routes": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "dependentRequired": {
+          "planned_link_indices": ["unregistered_link_count", "links_truncated", "link_inventory_readback_matched"],
+          "unregistered_link_count": ["planned_link_indices", "links_truncated", "link_inventory_readback_matched"],
+          "links_truncated": ["planned_link_indices", "unregistered_link_count", "link_inventory_readback_matched"],
+          "link_inventory_readback_matched": ["planned_link_indices", "unregistered_link_count", "links_truncated"]
+        },
+        "required": ["route_index", "url_sha256", "title_sha256", "heading_sha256", "page_fingerprint_sha256", "verification_ref"],
+        "properties": {
+          "route_index": {"type": "integer", "minimum": 0, "maximum": 7},
+          "url_sha256": {"$ref": "#/$defs/checksum"},
+          "title_sha256": {"$ref": "#/$defs/checksum"},
+          "heading_sha256": {"$ref": "#/$defs/checksum"},
+          "page_fingerprint_sha256": {"$ref": "#/$defs/checksum"},
+          "verification_ref": {"$ref": "#/$defs/checksum"},
+          "planned_link_indices": {"type": "array", "maxItems": 8, "uniqueItems": true, "items": {"type": "integer", "minimum": 0, "maximum": 7}},
+          "unregistered_link_count": {"type": "integer", "minimum": 0, "maximum": 64},
+          "links_truncated": {"type": "boolean"},
+          "link_inventory_readback_matched": {"const": true}
+        }
+      }
+    },
+    "profile_bound": {"const": true},
+    "readback_verified": {"const": true},
+    "origin_verified": {"const": false},
+    "account_verified": {"const": false},
+    "site_outcome_verified": {"const": false},
+    "reviewed": {"const": false},
+    "task_retrieval_authorized": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

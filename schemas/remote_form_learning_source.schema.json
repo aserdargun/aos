@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_remote_form_source",
+      "title": "Mode",
+      "type": "string"
+    },
+    "status": {
+      "const": "unreviewed_transport_candidate",
+      "title": "Status",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "requested_roles": {
+      "items": {
+        "enum": [
+          "system1",
+          "system2"
+        ],
+        "type": "string"
+      },
+      "maxItems": 2,
+      "title": "Requested Roles",
+      "type": "array"
+    },
+    "source_event_ids_by_role": {
+      "additionalProperties": {
+        "items": {
+          "pattern": "^learning-[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "propertyNames": {
+        "enum": [
+          "system1",
+          "system2"
+        ]
+      },
+      "title": "Source Event Ids By Role",
+      "type": "object"
+    },
+    "approved_stage_count": {
+      "const": 4,
+      "title": "Approved Stage Count",
+      "type": "integer"
+    },
+    "submit_count": {
+      "const": 1,
+      "title": "Submit Count",
+      "type": "integer"
+    },
+    "transport_readback_verified": {
+      "const": true,
+      "title": "Transport Readback Verified",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "account_verified": {
+      "const": false,
+      "title": "Account Verified",
+      "type": "boolean"
+    },
+    "rights_reviewed": {
+      "const": false,
+      "title": "Rights Reviewed",
+      "type": "boolean"
+    },
+    "redaction_reviewed": {
+      "const": false,
+      "title": "Redaction Reviewed",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "mode",
+    "status",
+    "profile_sha256",
+    "plan_sha256",
+    "run_ref",
+    "snapshot_sha256",
+    "requested_roles",
+    "source_event_ids_by_role",
+    "approved_stage_count",
+    "submit_count",
+    "transport_readback_verified",
+    "site_outcome_verified",
+    "account_verified",
+    "rights_reviewed",
+    "redaction_reviewed",
+    "collection_authorized",
+    "training_ready"
+  ],
+  "title": "RemoteFormLearningSourceReport",
+  "type": "object"
+}

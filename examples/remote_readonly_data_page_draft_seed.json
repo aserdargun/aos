@@ -1,0 +1,28 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "audited_remote_json_page_draft_seed",
+    "status": "unreviewed_private_draft",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "plan_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "before_run_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "after_run_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "page_fingerprint_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "page_key": "summary",
+    "draft_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "asset_count": 1,
+    "data_count": 1,
+    "profile_bound": true,
+    "transport_readback_bound": true,
+    "semantic_page_key_verified": false,
+    "origin_verified": false,
+    "account_verified": false,
+    "reviewed": false,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

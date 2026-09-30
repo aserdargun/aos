@@ -1,0 +1,19 @@
+{
+  "synthetic": true,
+  "page": {
+    "schema_version": "1.0",
+    "fingerprint_version": "synthetic-local-page-v1",
+    "page_key": "start",
+    "page_fingerprint_sha256": "f8d2ae93e37fb34a35d0a3eefc18297bafa15f15e81cb76e088560721b8d639b",
+    "source": {
+      "event_id": "learning-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "verification_id": "verification-synthetic",
+      "observation_id": "observation-synthetic"
+    },
+    "profile_bound": false,
+    "reviewed": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

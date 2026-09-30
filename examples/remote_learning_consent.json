@@ -1,0 +1,22 @@
+{
+  "synthetic": true,
+  "consent": {
+    "schema_version": "1.0",
+    "mode": "local_operator_remote_metadata_consent",
+    "run_id": "synthetic-route-run",
+    "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "binding_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "task_key": "synthetic-readonly-routes",
+    "data_rights_ref": "synthetic-test-rights",
+    "roles": ["system1", "system2"],
+    "retention_days": 30,
+    "expires_at": "2026-09-25T00:00:00+00:00",
+    "scope": "remote_route_model_metadata_only",
+    "local_operator_attested": true,
+    "external_rights_verified": false,
+    "raw_content_allowed": false,
+    "training_authorized": false,
+    "promotion_authorized": false
+  }
+}

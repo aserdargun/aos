@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "FileWitness": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        },
+        "size": {
+          "const": 28,
+          "default": 28,
+          "title": "Size",
+          "type": "integer"
+        },
+        "links": {
+          "const": 1,
+          "default": 1,
+          "title": "Links",
+          "type": "integer"
+        },
+        "modified_ns": {
+          "minimum": 0,
+          "title": "Modified Ns",
+          "type": "integer"
+        },
+        "changed_ns": {
+          "minimum": 0,
+          "title": "Changed Ns",
+          "type": "integer"
+        },
+        "content_sha256": {
+          "const": "09308e6af1379087dd0ae56e8bbf85b96f3861fb4c91ef2393edb70229164032",
+          "title": "Content Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner_uid",
+        "modified_ns",
+        "changed_ns",
+        "content_sha256"
+      ],
+      "title": "FileWitness",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "method": {
+      "const": "exclusive_create_fsync_fd_read_v1",
+      "default": "exclusive_create_fsync_fd_read_v1",
+      "title": "Method",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "action_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Action Ref",
+      "type": "string"
+    },
+    "envelope_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Envelope Sha256",
+      "type": "string"
+    },
+    "workspace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workspace Sha256",
+      "type": "string"
+    },
+    "file": {
+      "$ref": "#/$defs/FileWitness"
+    }
+  },
+  "required": [
+    "run_ref",
+    "action_ref",
+    "envelope_sha256",
+    "workspace_sha256",
+    "file"
+  ],
+  "title": "WriteReceipt",
+  "type": "object"
+}

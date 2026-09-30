@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Owned skill selection head",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "type": "string"},
+    "family_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "selection_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "required": ["schema_version", "family_sha256", "sequence", "selection_sha256"]
+}

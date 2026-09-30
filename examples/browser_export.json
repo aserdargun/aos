@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "exported_at": "2026-09-19T12:00:00Z",
+  "synthetic": true,
+  "redaction_version": "synthetic-browser-example-v1",
+  "task": {
+    "task_id": "synthetic-browser-task",
+    "goal_original": "Sentetik Message alanını doldur ve doğrula.",
+    "goal_normalized": "Fill the synthetic Message field with Hello from the local agent. and verify it.",
+    "success_criteria": ["Exact synthetic field value"]
+  },
+  "run": {
+    "run_id": "synthetic-browser-run",
+    "status": "succeeded",
+    "outcome": "passed",
+    "policy_version": "synthetic-browser-example-v1",
+    "deployment_ids": ["synthetic-browser-fixture-engine"],
+    "environment": {"real_model": false, "real_execution": false, "purpose": "handwritten schema fixture; not runtime evidence"}
+  },
+  "steps": [{
+    "step_id": "synthetic-browser-step",
+    "ordinal": 0,
+    "snapshots": [{"snapshot_id": "synthetic-browser-state", "state_version": 2, "state": "Synthetic Message field is empty"}],
+    "decisions": [{
+      "decision_id": "synthetic-browser-decision",
+      "snapshot_id": "synthetic-browser-state",
+      "question": "What is the next action?",
+      "options": [{"id": "fill_message", "label": "Fill the synthetic field"}, {"id": "ask_human", "label": "Ask the user"}],
+      "selected_option": "fill_message",
+      "probabilities": {"fill_message": 1.0, "ask_human": 0.0},
+      "policy_result": "allow"
+    }],
+    "actions": [{
+      "action_id": "synthetic-browser-fill",
+      "decision_id": "synthetic-browser-decision",
+      "tool": "browser.fill",
+      "arguments": {"snapshot_id": "00000000000000000000000000000001", "element_id": "00000000000000000000000000000002", "value": "Hello from the local agent."},
+      "idempotency_key": "synthetic-browser-fill-intent",
+      "status": "ok",
+      "actual_option": "fill_message"
+    }, {
+      "action_id": "synthetic-browser-verify",
+      "decision_id": "synthetic-browser-decision",
+      "tool": "browser.verify",
+      "arguments": {},
+      "idempotency_key": "synthetic-browser-verify-intent",
+      "status": "ok",
+      "actual_option": "fill_message"
+    }],
+    "observations": [{
+      "observation_id": "synthetic-browser-before",
+      "action_id": null,
+      "kind": "browser.dom",
+      "summary": "Synthetic pre-action DOM observation; no tool effect yet"
+    }, {
+      "observation_id": "synthetic-browser-after",
+      "action_id": "synthetic-browser-verify",
+      "kind": "browser.dom",
+      "summary": "Synthetic independent read finds exact field value and zero submissions"
+    }],
+    "verifications": [{
+      "verification_id": "synthetic-browser-verification",
+      "action_id": "synthetic-browser-fill",
+      "criterion": "Exact synthetic field value",
+      "method": "independent_dom_equals",
+      "result": "passed",
+      "expected": {"value": "Hello from the local agent.", "receipt": "", "submissions": 0},
+      "actual": {"value": "Hello from the local agent.", "receipt": "", "submissions": 0},
+      "evidence_refs": ["synthetic-browser-after"]
+    }],
+    "model_calls": [],
+    "escalations": [],
+    "human_interventions": [],
+    "artifacts": [],
+    "labels": []
+  }]
+}

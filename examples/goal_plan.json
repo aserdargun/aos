@@ -1,0 +1,545 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "goal": "hello görevini hazırla",
+      "preview": {
+        "schema_version": "1.0",
+        "mode": "read_only_compound_catalog",
+        "parser_version": "bounded-tr-compound-v1",
+        "input_sha256": "24f4f10bb59657aef184fcc215a20825cf5e86a21fd07142536026e7f79b6a22",
+        "status": "recognized",
+        "reason": "exact_catalog_composition",
+        "tasks": [
+          {
+            "schema_version": "1.0",
+            "mode": "read_only_fixed_plan",
+            "intent": {
+              "schema_version": "1.0",
+              "normalizer_version": "bounded-tr-v1",
+              "input_sha256": "24f4f10bb59657aef184fcc215a20825cf5e86a21fd07142536026e7f79b6a22",
+              "status": "recognized",
+              "task_kind": "hello",
+              "normalized_goal": "Create /workspace/hello.txt containing exactly Hello from the local agent. followed by a newline, then independently read and verify it.",
+              "scope": "/workspace/hello.txt",
+              "execution_authorized": false,
+              "requires_action_approval": true,
+              "reason": "exact_catalog_match"
+            },
+            "plan": {
+              "catalog_version": "fixed-plan-v1",
+              "task_kind": "hello",
+              "normalized_goal": "Create /workspace/hello.txt containing exactly Hello from the local agent. followed by a newline, then independently read and verify it.",
+              "scope": "/workspace/hello.txt",
+              "runtime": "isolated_workspace",
+              "preconditions": [
+                "Güncel runtime, AGENT sahipliği, lease ve policy her gerçek eylemde ayrıca denetlenir.",
+                "Ret, süre aşımı, eski durum veya kontrol devri yürütmeyi engeller; bu önizleme bunları denetlemez.",
+                "Yalnız hello.txt; mevcut farklı içerik üzerine yazılmaz. Eş içerik varsa yeniden yazmak yerine okunabilir."
+              ],
+              "steps": [
+                {
+                  "order": 1,
+                  "phase": "observe",
+                  "description": "İzinli dosyanın mevcut durumunu taze gözlemle.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 2,
+                  "phase": "decide",
+                  "description": "Decider yalnız sabit yaz/oku/yardım seçeneklerinden seçer; policy ayrı denetlenir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 3,
+                  "phase": "act",
+                  "description": "Dosya yoksa sabit içeriği yaz; zaten eşitse oku. Seçilen gerçek eylem ayrı onay ister.",
+                  "approval": "fresh_action"
+                },
+                {
+                  "order": 4,
+                  "phase": "verify",
+                  "description": "Dosyayı bağımsız yeniden oku; son satır sonu dahil tam içerik eşitliğini doğrula.",
+                  "approval": "covered_readback"
+                }
+              ],
+              "verification_method": "independent_read_equals",
+              "expected_json": "\"Hello from the local agent.\\n\"",
+              "execution_authorized": false,
+              "live_state_verified": false
+            },
+            "plan_sha256": "ca2b4176b141caf19334e77e1a6f4fd66b6836111dd93c80ce3a292ac9190a30",
+            "execution_authorized": false,
+            "requires_action_approval": true
+          }
+        ],
+        "sequence": null,
+        "composition_sha256": "ade4698f6244f0ad06ba29656807e36d987f5a6989a043e901c75570c67c6120",
+        "execution_authorized": false,
+        "live_state_verified": false,
+        "requires_action_approval": true,
+        "automatic_replay_allowed": false
+      }
+    },
+    {
+      "goal": "önce hello görevini hazırla; sonra yerel form görevini hazırla",
+      "preview": {
+        "schema_version": "1.0",
+        "mode": "read_only_compound_catalog",
+        "parser_version": "bounded-tr-compound-v1",
+        "input_sha256": "221780ad23d5358f84b0549de633a80af4cfa70c4afc7d0711139626521176f0",
+        "status": "recognized",
+        "reason": "exact_catalog_composition",
+        "tasks": [
+          {
+            "schema_version": "1.0",
+            "mode": "read_only_fixed_plan",
+            "intent": {
+              "schema_version": "1.0",
+              "normalizer_version": "bounded-tr-v1",
+              "input_sha256": "24f4f10bb59657aef184fcc215a20825cf5e86a21fd07142536026e7f79b6a22",
+              "status": "recognized",
+              "task_kind": "hello",
+              "normalized_goal": "Create /workspace/hello.txt containing exactly Hello from the local agent. followed by a newline, then independently read and verify it.",
+              "scope": "/workspace/hello.txt",
+              "execution_authorized": false,
+              "requires_action_approval": true,
+              "reason": "exact_catalog_match"
+            },
+            "plan": {
+              "catalog_version": "fixed-plan-v1",
+              "task_kind": "hello",
+              "normalized_goal": "Create /workspace/hello.txt containing exactly Hello from the local agent. followed by a newline, then independently read and verify it.",
+              "scope": "/workspace/hello.txt",
+              "runtime": "isolated_workspace",
+              "preconditions": [
+                "Güncel runtime, AGENT sahipliği, lease ve policy her gerçek eylemde ayrıca denetlenir.",
+                "Ret, süre aşımı, eski durum veya kontrol devri yürütmeyi engeller; bu önizleme bunları denetlemez.",
+                "Yalnız hello.txt; mevcut farklı içerik üzerine yazılmaz. Eş içerik varsa yeniden yazmak yerine okunabilir."
+              ],
+              "steps": [
+                {
+                  "order": 1,
+                  "phase": "observe",
+                  "description": "İzinli dosyanın mevcut durumunu taze gözlemle.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 2,
+                  "phase": "decide",
+                  "description": "Decider yalnız sabit yaz/oku/yardım seçeneklerinden seçer; policy ayrı denetlenir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 3,
+                  "phase": "act",
+                  "description": "Dosya yoksa sabit içeriği yaz; zaten eşitse oku. Seçilen gerçek eylem ayrı onay ister.",
+                  "approval": "fresh_action"
+                },
+                {
+                  "order": 4,
+                  "phase": "verify",
+                  "description": "Dosyayı bağımsız yeniden oku; son satır sonu dahil tam içerik eşitliğini doğrula.",
+                  "approval": "covered_readback"
+                }
+              ],
+              "verification_method": "independent_read_equals",
+              "expected_json": "\"Hello from the local agent.\\n\"",
+              "execution_authorized": false,
+              "live_state_verified": false
+            },
+            "plan_sha256": "ca2b4176b141caf19334e77e1a6f4fd66b6836111dd93c80ce3a292ac9190a30",
+            "execution_authorized": false,
+            "requires_action_approval": true
+          },
+          {
+            "schema_version": "1.0",
+            "mode": "read_only_fixed_plan",
+            "intent": {
+              "schema_version": "1.0",
+              "normalizer_version": "bounded-tr-v1",
+              "input_sha256": "f91515b90cd46e4327e8a1b945b45035e32e4e2baa3f6790f64e5bfb3d997548",
+              "status": "recognized",
+              "task_kind": "browser_form",
+              "normalized_goal": "Enter exactly \"Hello from the local agent.\" in the Message field, then click Save locally once. Verify the local receipt. No network or other pages are authorized.",
+              "scope": "aos://synthetic/form",
+              "execution_authorized": false,
+              "requires_action_approval": true,
+              "reason": "exact_catalog_match"
+            },
+            "plan": {
+              "catalog_version": "fixed-plan-v1",
+              "task_kind": "browser_form",
+              "normalized_goal": "Enter exactly \"Hello from the local agent.\" in the Message field, then click Save locally once. Verify the local receipt. No network or other pages are authorized.",
+              "scope": "aos://synthetic/form",
+              "runtime": "separate_networkless_browser",
+              "preconditions": [
+                "Güncel runtime, AGENT sahipliği, lease ve policy her gerçek eylemde ayrıca denetlenir.",
+                "Ret, süre aşımı, eski durum veya kontrol devri yürütmeyi engeller; bu önizleme bunları denetlemez.",
+                "Yalnız yeni sentetik form; ilk alan boş, receipt boş, submissions=0. Başka sayfa veya ağ yoktur."
+              ],
+              "steps": [
+                {
+                  "order": 1,
+                  "phase": "observe",
+                  "description": "Message ve Save locally öğelerini taze DOM snapshot'ında gözlemle.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 2,
+                  "phase": "decide",
+                  "description": "Decider sonlu doldurma/yardım seçimini yapar; policy ve DOM güncelliği ayrıca denetlenir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 3,
+                  "phase": "act",
+                  "description": "Message alanına tam olarak Hello from the local agent. yaz; ilk eylem onayını al.",
+                  "approval": "fresh_action"
+                },
+                {
+                  "order": 4,
+                  "phase": "verify",
+                  "description": "DOM'u bağımsız oku: tam alan içeriği, boş receipt ve submissions=0 beklenir.",
+                  "approval": "covered_readback"
+                },
+                {
+                  "order": 5,
+                  "phase": "observe",
+                  "description": "İlk doğrulama geçerse yeni DOM snapshot'ı al; önceki snapshot'ı tekrar kullanma.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 6,
+                  "phase": "decide",
+                  "description": "Decider sonlu kaydet/yardım seçimini yapar; policy tekrar denetlenir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 7,
+                  "phase": "act",
+                  "description": "Yeni, ayrı eylem onayıyla Save locally düğmesine bir kez bas; ilk onay buraya taşınmaz.",
+                  "approval": "fresh_action"
+                },
+                {
+                  "order": 8,
+                  "phase": "verify",
+                  "description": "Alan ve receipt tam eşit, submissions=1 olmalı; bağımsız DOM sonucunu doğrula.",
+                  "approval": "covered_readback"
+                }
+              ],
+              "verification_method": "independent_dom_equals",
+              "expected_json": "{\"receipt\":\"Hello from the local agent.\",\"submissions\":1,\"value\":\"Hello from the local agent.\"}",
+              "execution_authorized": false,
+              "live_state_verified": false
+            },
+            "plan_sha256": "ca60d48dbc3e3bf09091cf232ce527e7f2cd04fc9c6607c9fa8a5d00b8007200",
+            "execution_authorized": false,
+            "requires_action_approval": true
+          }
+        ],
+        "sequence": {
+          "schema_version": "1.0",
+          "kinds": [
+            "hello",
+            "browser_form"
+          ],
+          "requires_action_approval": true
+        },
+        "composition_sha256": "afc0addc138a4f89e9f523f33f60143152bab54a2fb0e63f2aa97ea5c7d6ad47",
+        "execution_authorized": false,
+        "live_state_verified": false,
+        "requires_action_approval": true,
+        "automatic_replay_allowed": false
+      }
+    },
+    {
+      "goal": "önce görsel save görevini hazırla; sonra hello görevini hazırla; sonra yerel form görevini hazırla",
+      "preview": {
+        "schema_version": "1.0",
+        "mode": "read_only_compound_catalog",
+        "parser_version": "bounded-tr-compound-v1",
+        "input_sha256": "27433bbc071806feadb18a74328d055cb4cc9f777e31b4ed17b95df2afbb7372",
+        "status": "recognized",
+        "reason": "exact_catalog_composition",
+        "tasks": [
+          {
+            "schema_version": "1.0",
+            "mode": "read_only_fixed_plan",
+            "intent": {
+              "schema_version": "1.0",
+              "normalizer_version": "bounded-tr-v1",
+              "input_sha256": "1fc247da4f2bab81918733a8bfe7cb4c6342febc960de8b2d627f18362571fae",
+              "status": "recognized",
+              "task_kind": "vision_canvas",
+              "normalized_goal": "Select the visible SAVE button once in this synthetic local canvas. Do not select CANCEL. Only the supplied symbolic visual targets are available. Verify the independent application outcome.",
+              "scope": "aos://synthetic/canvas",
+              "execution_authorized": false,
+              "requires_action_approval": true,
+              "reason": "exact_catalog_match"
+            },
+            "plan": {
+              "catalog_version": "fixed-plan-v1",
+              "task_kind": "vision_canvas",
+              "normalized_goal": "Select the visible SAVE button once in this synthetic local canvas. Do not select CANCEL. Only the supplied symbolic visual targets are available. Verify the independent application outcome.",
+              "scope": "aos://synthetic/canvas",
+              "runtime": "separate_networkless_browser",
+              "preconditions": [
+                "Güncel runtime, AGENT sahipliği, lease ve policy her gerçek eylemde ayrıca denetlenir.",
+                "Ret, süre aşımı, eski durum veya kontrol devri yürütmeyi engeller; bu önizleme bunları denetlemez.",
+                "Yalnız yeni sentetik canvas; taze capture ve doğrulanmış SAVE/CANCEL sahnesi gerekir."
+              ],
+              "steps": [
+                {
+                  "order": 1,
+                  "phase": "observe",
+                  "description": "Taze ekran görüntüsünden Bonsai ile capture-bound typed scene çıkar; belirsizlikte insan gerekir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 2,
+                  "phase": "decide",
+                  "description": "Decider yalnız sembolik hedef/yardım seçeneklerinden seçer; model koordinatı yetki değildir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 3,
+                  "phase": "act",
+                  "description": "Capture/scene/state/lease bağlı taze onayla SAVE hedefini bir kez seç; CANCEL izinli sonuç değildir.",
+                  "approval": "fresh_action"
+                },
+                {
+                  "order": 4,
+                  "phase": "verify",
+                  "description": "Görüntü modelinden bağımsız uygulama sonucu selected=SAVE ve clicks=1 olmalı.",
+                  "approval": "covered_readback"
+                }
+              ],
+              "verification_method": "independent_canvas_equals",
+              "expected_json": "{\"clicks\":1,\"selected\":\"SAVE\"}",
+              "execution_authorized": false,
+              "live_state_verified": false
+            },
+            "plan_sha256": "4e7a8ed8c622f5c04cc8c10f22e7422b24b6a8ec61299c3949cc2061a09c4734",
+            "execution_authorized": false,
+            "requires_action_approval": true
+          },
+          {
+            "schema_version": "1.0",
+            "mode": "read_only_fixed_plan",
+            "intent": {
+              "schema_version": "1.0",
+              "normalizer_version": "bounded-tr-v1",
+              "input_sha256": "24f4f10bb59657aef184fcc215a20825cf5e86a21fd07142536026e7f79b6a22",
+              "status": "recognized",
+              "task_kind": "hello",
+              "normalized_goal": "Create /workspace/hello.txt containing exactly Hello from the local agent. followed by a newline, then independently read and verify it.",
+              "scope": "/workspace/hello.txt",
+              "execution_authorized": false,
+              "requires_action_approval": true,
+              "reason": "exact_catalog_match"
+            },
+            "plan": {
+              "catalog_version": "fixed-plan-v1",
+              "task_kind": "hello",
+              "normalized_goal": "Create /workspace/hello.txt containing exactly Hello from the local agent. followed by a newline, then independently read and verify it.",
+              "scope": "/workspace/hello.txt",
+              "runtime": "isolated_workspace",
+              "preconditions": [
+                "Güncel runtime, AGENT sahipliği, lease ve policy her gerçek eylemde ayrıca denetlenir.",
+                "Ret, süre aşımı, eski durum veya kontrol devri yürütmeyi engeller; bu önizleme bunları denetlemez.",
+                "Yalnız hello.txt; mevcut farklı içerik üzerine yazılmaz. Eş içerik varsa yeniden yazmak yerine okunabilir."
+              ],
+              "steps": [
+                {
+                  "order": 1,
+                  "phase": "observe",
+                  "description": "İzinli dosyanın mevcut durumunu taze gözlemle.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 2,
+                  "phase": "decide",
+                  "description": "Decider yalnız sabit yaz/oku/yardım seçeneklerinden seçer; policy ayrı denetlenir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 3,
+                  "phase": "act",
+                  "description": "Dosya yoksa sabit içeriği yaz; zaten eşitse oku. Seçilen gerçek eylem ayrı onay ister.",
+                  "approval": "fresh_action"
+                },
+                {
+                  "order": 4,
+                  "phase": "verify",
+                  "description": "Dosyayı bağımsız yeniden oku; son satır sonu dahil tam içerik eşitliğini doğrula.",
+                  "approval": "covered_readback"
+                }
+              ],
+              "verification_method": "independent_read_equals",
+              "expected_json": "\"Hello from the local agent.\\n\"",
+              "execution_authorized": false,
+              "live_state_verified": false
+            },
+            "plan_sha256": "ca2b4176b141caf19334e77e1a6f4fd66b6836111dd93c80ce3a292ac9190a30",
+            "execution_authorized": false,
+            "requires_action_approval": true
+          },
+          {
+            "schema_version": "1.0",
+            "mode": "read_only_fixed_plan",
+            "intent": {
+              "schema_version": "1.0",
+              "normalizer_version": "bounded-tr-v1",
+              "input_sha256": "f91515b90cd46e4327e8a1b945b45035e32e4e2baa3f6790f64e5bfb3d997548",
+              "status": "recognized",
+              "task_kind": "browser_form",
+              "normalized_goal": "Enter exactly \"Hello from the local agent.\" in the Message field, then click Save locally once. Verify the local receipt. No network or other pages are authorized.",
+              "scope": "aos://synthetic/form",
+              "execution_authorized": false,
+              "requires_action_approval": true,
+              "reason": "exact_catalog_match"
+            },
+            "plan": {
+              "catalog_version": "fixed-plan-v1",
+              "task_kind": "browser_form",
+              "normalized_goal": "Enter exactly \"Hello from the local agent.\" in the Message field, then click Save locally once. Verify the local receipt. No network or other pages are authorized.",
+              "scope": "aos://synthetic/form",
+              "runtime": "separate_networkless_browser",
+              "preconditions": [
+                "Güncel runtime, AGENT sahipliği, lease ve policy her gerçek eylemde ayrıca denetlenir.",
+                "Ret, süre aşımı, eski durum veya kontrol devri yürütmeyi engeller; bu önizleme bunları denetlemez.",
+                "Yalnız yeni sentetik form; ilk alan boş, receipt boş, submissions=0. Başka sayfa veya ağ yoktur."
+              ],
+              "steps": [
+                {
+                  "order": 1,
+                  "phase": "observe",
+                  "description": "Message ve Save locally öğelerini taze DOM snapshot'ında gözlemle.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 2,
+                  "phase": "decide",
+                  "description": "Decider sonlu doldurma/yardım seçimini yapar; policy ve DOM güncelliği ayrıca denetlenir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 3,
+                  "phase": "act",
+                  "description": "Message alanına tam olarak Hello from the local agent. yaz; ilk eylem onayını al.",
+                  "approval": "fresh_action"
+                },
+                {
+                  "order": 4,
+                  "phase": "verify",
+                  "description": "DOM'u bağımsız oku: tam alan içeriği, boş receipt ve submissions=0 beklenir.",
+                  "approval": "covered_readback"
+                },
+                {
+                  "order": 5,
+                  "phase": "observe",
+                  "description": "İlk doğrulama geçerse yeni DOM snapshot'ı al; önceki snapshot'ı tekrar kullanma.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 6,
+                  "phase": "decide",
+                  "description": "Decider sonlu kaydet/yardım seçimini yapar; policy tekrar denetlenir.",
+                  "approval": "not_applicable"
+                },
+                {
+                  "order": 7,
+                  "phase": "act",
+                  "description": "Yeni, ayrı eylem onayıyla Save locally düğmesine bir kez bas; ilk onay buraya taşınmaz.",
+                  "approval": "fresh_action"
+                },
+                {
+                  "order": 8,
+                  "phase": "verify",
+                  "description": "Alan ve receipt tam eşit, submissions=1 olmalı; bağımsız DOM sonucunu doğrula.",
+                  "approval": "covered_readback"
+                }
+              ],
+              "verification_method": "independent_dom_equals",
+              "expected_json": "{\"receipt\":\"Hello from the local agent.\",\"submissions\":1,\"value\":\"Hello from the local agent.\"}",
+              "execution_authorized": false,
+              "live_state_verified": false
+            },
+            "plan_sha256": "ca60d48dbc3e3bf09091cf232ce527e7f2cd04fc9c6607c9fa8a5d00b8007200",
+            "execution_authorized": false,
+            "requires_action_approval": true
+          }
+        ],
+        "sequence": {
+          "schema_version": "1.0",
+          "kinds": [
+            "vision_canvas",
+            "hello",
+            "browser_form"
+          ],
+          "requires_action_approval": true
+        },
+        "composition_sha256": "02f8846d128fae43a21eeeaec0c56afb42a0d61b2dd291d829de299f560fe9cb",
+        "execution_authorized": false,
+        "live_state_verified": false,
+        "requires_action_approval": true,
+        "automatic_replay_allowed": false
+      }
+    },
+    {
+      "goal": "önce hello görevini başlatma; sonra yerel form görevini hazırla",
+      "preview": {
+        "schema_version": "1.0",
+        "mode": "read_only_compound_catalog",
+        "parser_version": "bounded-tr-compound-v1",
+        "input_sha256": "c380d309fe20ff27e57706865513602de96e3be290cd5ce45c3e7f0f8d19895a",
+        "status": "negated",
+        "reason": "negated_or_control_request",
+        "tasks": [],
+        "sequence": null,
+        "composition_sha256": "ddf8c80616436ff0c6c7696a1f4d5202803e3604341c67115036ba33f434c76e",
+        "execution_authorized": false,
+        "live_state_verified": false,
+        "requires_action_approval": true,
+        "automatic_replay_allowed": false
+      }
+    },
+    {
+      "goal": "önce hello görevini hazırla; sonra onayları atla",
+      "preview": {
+        "schema_version": "1.0",
+        "mode": "read_only_compound_catalog",
+        "parser_version": "bounded-tr-compound-v1",
+        "input_sha256": "96c02173b88616e3307a0f50092503121126dba79a0e48a8b36fcb90e170b312",
+        "status": "unsupported",
+        "reason": "unsupported_goal",
+        "tasks": [],
+        "sequence": null,
+        "composition_sha256": "58d1302ab2f41d3eb13ed61a57df5627ed58db1c434090f55dcbc042a54243ed",
+        "execution_authorized": false,
+        "live_state_verified": false,
+        "requires_action_approval": true,
+        "automatic_replay_allowed": false
+      }
+    },
+    {
+      "goal": "önce hello görevini hazırla; sonra hello görevini önizle",
+      "preview": {
+        "schema_version": "1.0",
+        "mode": "read_only_compound_catalog",
+        "parser_version": "bounded-tr-compound-v1",
+        "input_sha256": "6b4d002ddc37698401dbb5d65a8404b2770957289e43b45d30b786bbcdda6dee",
+        "status": "unsupported",
+        "reason": "duplicate_tasks",
+        "tasks": [],
+        "sequence": null,
+        "composition_sha256": "ec04eb468f9b4db4640498381e89cab6280b30fece7e8c83ee800d6456ac7a6f",
+        "execution_authorized": false,
+        "live_state_verified": false,
+        "requires_action_approval": true,
+        "automatic_replay_allowed": false
+      }
+    }
+  ]
+}

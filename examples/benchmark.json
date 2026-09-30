@@ -1,0 +1,62 @@
+{
+  "synthetic": true,
+  "note": "Schema illustration only; not execution evidence. Hashes and identifiers are placeholders.",
+  "report": {
+    "schema_version": "1.0",
+    "mode": "executed_fixture_workspace_baseline",
+    "synthetic": true,
+    "repeats": 1,
+    "samples": [
+      {
+        "case": "file-roundtrip",
+        "repeat": 1,
+        "run_id": "run-11111111111111111111111111111111",
+        "directory": "sample-01",
+        "duration_seconds": 0.5,
+        "actions": 2,
+        "failed_probe_actions": 0,
+        "fixture_supervisor_calls": 0,
+        "system2_model_calls": 0,
+        "human_requests": 0,
+        "independently_verified": true,
+        "database_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "artifact_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "case": "recovery-path",
+        "repeat": 1,
+        "run_id": "run-22222222222222222222222222222222",
+        "directory": "sample-02",
+        "duration_seconds": 0.5,
+        "actions": 3,
+        "failed_probe_actions": 1,
+        "fixture_supervisor_calls": 1,
+        "system2_model_calls": 0,
+        "human_requests": 0,
+        "independently_verified": true,
+        "database_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "artifact_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "catalog_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "promotion_policy_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "configuration_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "environment_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "coverage_gaps": [
+      "fixture_engines_only",
+      "recovery_path_partial_missing_authorized_file_only",
+      "ten_catalog_tasks_unexecuted",
+      "no_independent_held_out_tasks",
+      "no_model_comparison",
+      "no_gpu_or_network_isolation_measurement",
+      "no_rollback_rehearsal",
+      "policy_not_frozen"
+    ],
+    "independent_held_out_tasks": 0,
+    "real_model": false,
+    "statistical_superiority_established": false,
+    "promotion_authorized": false,
+    "training_authorized": false
+  }
+}

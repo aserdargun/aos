@@ -1,0 +1,13 @@
+{
+  "synthetic": true,
+  "observation": {
+    "snapshot_id": "00000000000000000000000000000001",
+    "elements": [
+      {"element_id": "00000000000000000000000000000002", "role": "textbox", "label": "Message"},
+      {"element_id": "00000000000000000000000000000003", "role": "button", "label": "Save locally"}
+    ],
+    "value": "",
+    "receipt": "",
+    "submissions": 0
+  }
+}

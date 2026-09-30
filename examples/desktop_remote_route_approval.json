@@ -1,0 +1,34 @@
+{
+  "synthetic": true,
+  "note": "Structure only; no registered profile, live approval, network authority or website evidence.",
+  "approval": {
+    "schema_version": "1.0",
+    "approval_id": "synthetic-route-approval",
+    "job_id": "synthetic-route-job",
+    "action": {
+      "schema_version": "1.0",
+      "task_id": "synthetic-route-task",
+      "run_id": "synthetic-route-run",
+      "step_id": "synthetic-route-step",
+      "action_id": "synthetic-route-action",
+      "runtime_id": "synthetic-route-runtime",
+      "state_version": 4,
+      "owner_lease_id": "synthetic-route-lease",
+      "tool": "browser.remote.route",
+      "arguments": {
+        "profile_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "binding_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "plan_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "route_index": 1,
+        "url": "https://app.example.invalid/details"
+      },
+      "expected_effect": "Only the next confirmed HTTPS GET",
+      "verification": "independent_remote_route_readback",
+      "deadline": 2000000070.0,
+      "idempotency_key": "synthetic-route-intent",
+      "selected_option": "open_entry"
+    },
+    "action_sha256": "a9db0a60e64f158ef20df8089e878a0fb5d2c1d5c9e87c6ad959d8b53b797c11",
+    "expires_at": 2000000060.0
+  }
+}

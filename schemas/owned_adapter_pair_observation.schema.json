@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Content-free pre-action paired comparison binding",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "synthetic": {
+      "type": "boolean",
+      "const": true
+    },
+    "pair_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "arm": {
+      "enum": [
+        "base",
+        "adapter"
+      ]
+    },
+    "preview_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "deployment_id": {
+      "type": "string",
+      "pattern": "^(?:decider|owned-adapter)-[a-f0-9]{64}$"
+    },
+    "job_id": {
+      "$ref": "#/$defs/id"
+    },
+    "run_id": {
+      "$ref": "#/$defs/id"
+    },
+    "step_id": {
+      "$ref": "#/$defs/id"
+    },
+    "candidate_execution_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "session_id": {
+      "$ref": "#/$defs/id"
+    },
+    "runtime_id": {
+      "$ref": "#/$defs/id"
+    },
+    "lease_id": {
+      "$ref": "#/$defs/id"
+    },
+    "generation": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cold_worker": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "pair_sha256",
+    "arm",
+    "preview_sha256",
+    "deployment_id",
+    "job_id",
+    "run_id",
+    "step_id",
+    "candidate_execution_sha256",
+    "session_id",
+    "runtime_id",
+    "lease_id",
+    "generation",
+    "cold_worker"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "arm": {
+            "const": "base"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "deployment_id": {
+            "pattern": "^decider-"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "deployment_id": {
+            "pattern": "^owned-adapter-"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+schema_version: "1.0"
+status: proposed_calibration_defaults
+confidence:
+  execute_min: 0.88
+  verify_min: 0.65
+  stuck_escalate_above: 0.75
+  vision_escalate_above: 0.70
+budgets:
+  max_attempts_per_step: 3
+  max_supervisor_recoveries_per_run: 2
+  repeated_state_limit: 3
+authority:
+  host_tools_enabled: false
+  ownership_required: AGENT
+  stale_state_action: reject_and_observe
+  dangerous_action: require_existing_authorization_or_human_approval
+data:
+  raw_retention_days: 30
+  curated_retention_days: 90
+  training_eligible_default: false
+  include_screenshots_in_first_dataset: false
+promotion:
+  automatic: false
+  rollback_required: true

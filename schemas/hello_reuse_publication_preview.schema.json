@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "HelloGuidanceEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "causality_verified": {
+          "const": false,
+          "title": "Causality Verified",
+          "type": "boolean"
+        },
+        "gold": {
+          "const": false,
+          "title": "Gold",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "finite_hello_guidance",
+          "title": "Kind",
+          "type": "string"
+        },
+        "entry_version": {
+          "const": 1,
+          "title": "Entry Version",
+          "type": "integer"
+        },
+        "guidance_code": {
+          "enum": [
+            "refresh_observation",
+            "inspect_before_retry"
+          ],
+          "title": "Guidance Code",
+          "type": "string"
+        },
+        "context_version": {
+          "const": "hello-guidance-v1",
+          "title": "Context Version",
+          "type": "string"
+        },
+        "context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Context Sha256",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/HelloReuseScope"
+        },
+        "source": {
+          "$ref": "#/$defs/HelloReuseSource"
+        }
+      },
+      "required": [
+        "execution_authorized",
+        "causality_verified",
+        "gold",
+        "training_ready",
+        "schema_version",
+        "kind",
+        "entry_version",
+        "guidance_code",
+        "context_version",
+        "context_sha256",
+        "scope",
+        "source"
+      ],
+      "title": "HelloGuidanceEntry",
+      "type": "object"
+    },
+    "HelloReuseScope": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "parent_runtime_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Parent Runtime Id",
+          "type": "string"
+        },
+        "image_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Image Id",
+          "type": "string"
+        },
+        "configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Sha256",
+          "type": "string"
+        },
+        "workspace_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Workspace Sha256",
+          "type": "string"
+        },
+        "system1_deployment_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "System1 Deployment Id",
+          "type": "string"
+        },
+        "role": {
+          "const": "system1",
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "parent_runtime_id",
+        "image_id",
+        "configuration_sha256",
+        "workspace_sha256",
+        "system1_deployment_id",
+        "role"
+      ],
+      "title": "HelloReuseScope",
+      "type": "object"
+    },
+    "HelloReuseSource": {
+      "additionalProperties": false,
+      "properties": {
+        "source_job_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Source Job Id",
+          "type": "string"
+        },
+        "candidate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "receipt_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Receipt Sha256",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "contract": {
+          "$ref": "#/$defs/TaskContract"
+        }
+      },
+      "required": [
+        "source_job_id",
+        "candidate_sha256",
+        "receipt_sha256",
+        "source_sha256",
+        "contract"
+      ],
+      "title": "HelloReuseSource",
+      "type": "object"
+    },
+    "TaskContract": {
+      "additionalProperties": false,
+      "properties": {
+        "semantic_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Semantic Sha256",
+          "type": "string"
+        },
+        "binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Binding Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "semantic_sha256",
+        "binding_sha256"
+      ],
+      "title": "TaskContract",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "causality_verified": {
+      "const": false,
+      "title": "Causality Verified",
+      "type": "boolean"
+    },
+    "gold": {
+      "const": false,
+      "title": "Gold",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "entry": {
+      "$ref": "#/$defs/HelloGuidanceEntry"
+    },
+    "entry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Entry Sha256",
+      "type": "string"
+    },
+    "confirm_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Sha256",
+      "type": "string"
+    },
+    "manual_approval_required": {
+      "const": true,
+      "title": "Manual Approval Required",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "execution_authorized",
+    "causality_verified",
+    "gold",
+    "training_ready",
+    "schema_version",
+    "entry",
+    "entry_sha256",
+    "confirm_sha256",
+    "manual_approval_required"
+  ],
+  "title": "HelloReusePublicationPreview",
+  "type": "object"
+}

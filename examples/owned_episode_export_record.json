@@ -1,0 +1,37 @@
+{
+  "description": "Illustrative synthetic development-only export row. Placeholder hashes and planning input are not real model evidence or training authorization.",
+  "synthetic": true,
+  "record": {
+    "schema_version": "1.0",
+    "record_kind": "owned_episode_system2",
+    "candidate_sha256": "13158e7f0098f96c443fe519e173c546ec4b92eafee10efd46e533a581d82ddd",
+    "source": {
+      "planning_id": "planning-00000000000000000000000000000000",
+      "planning_bundle_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "deployment_id": "synthetic-planner-placeholder",
+      "deployment_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    "input": {
+      "request": {"goal": "synthetic placeholder", "evidence": []},
+      "request_sha256": "bf6808f2efa205cc1a10b3a82f8848e5fc7c2e7fdb46f0b3bf7b385b0267a55f"
+    },
+    "target": {
+      "schema_version": "1.0",
+      "decision": "needs_human",
+      "evidence_refs": ["admitted-skill"],
+      "case_key": null,
+      "parameter_value": null,
+      "steps": [],
+      "reason_code": "evidence_insufficient",
+      "execution_authorized": false,
+      "activation_authorized": false,
+      "training_ready": false
+    },
+    "review_receipt_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "target_provenance": "human_reviewed_exact_prediction",
+    "split_group": "c1296f1755a96538ac0f9288ec8ff44da9232bfb0e2490314bede04d59817c8a",
+    "split": "development_only",
+    "synthetic": true,
+    "training_ready": false
+  }
+}

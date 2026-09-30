@@ -1,0 +1,37 @@
+{
+  "synthetic": true,
+  "description": "Placeholder schema fixture, not execution evidence.",
+  "report": {
+    "schema_version": "1.0",
+    "probe": "decider_real_tokenizer_v1",
+    "synthetic": true,
+    "training_ready": false,
+    "weights_loaded": false,
+    "loss_verified": false,
+    "cuda_initialized": false,
+    "checkpoint_revision": "0000000000000000000000000000000000000000",
+    "tokenizer_revision": "0000000000000000000000000000000000000000",
+    "code_revision": "1111111111111111111111111111111111111111",
+    "dependencies": {"torch": "synthetic", "transformers": "synthetic", "tokenizers": "synthetic"},
+    "tokenizer_files": {
+      "tokenizer.json": "0000000000000000000000000000000000000000000000000000000000000000",
+      "tokenizer_config.json": "0000000000000000000000000000000000000000000000000000000000000000",
+      "config.json": "0000000000000000000000000000000000000000000000000000000000000000",
+      "chat_template.jinja": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "code_files": {
+      "__init__.py": "0000000000000000000000000000000000000000000000000000000000000000",
+      "model.py": "0000000000000000000000000000000000000000000000000000000000000000",
+      "prompt.py": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "core_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "examples": 4,
+    "variants": 160,
+    "batches": 40,
+    "max_context_tokens": 32,
+    "max_input_tokens": 61,
+    "max_padded_tokens": 64,
+    "token_budget": 1536,
+    "variant_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "docker_chromium_mcp",
+      "default": "docker_chromium_mcp",
+      "title": "Kind",
+      "type": "string"
+    },
+    "transport": {
+      "const": "playwright_mcp",
+      "default": "playwright_mcp",
+      "title": "Transport",
+      "type": "string"
+    },
+    "runtime_id": {
+      "pattern": "^browser-[a-f0-9]{32}$",
+      "title": "Runtime Id",
+      "type": "string"
+    },
+    "parent_runtime_id": {
+      "pattern": "^desktop-[a-f0-9]{32}$",
+      "title": "Parent Runtime Id",
+      "type": "string"
+    },
+    "container_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Container Id",
+      "type": "string"
+    },
+    "image_id": {
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "title": "Image Id",
+      "type": "string"
+    },
+    "mcp_bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Mcp Bundle Sha256",
+      "type": "string"
+    },
+    "worker_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Worker Sha256",
+      "type": "string"
+    },
+    "runtime_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runtime Digest",
+      "type": "string"
+    },
+    "network_mode": {
+      "const": "none",
+      "default": "none",
+      "title": "Network Mode",
+      "type": "string"
+    },
+    "display": {
+      "const": ":99",
+      "default": ":99",
+      "title": "Display",
+      "type": "string"
+    }
+  },
+  "required": [
+    "runtime_id",
+    "parent_runtime_id",
+    "container_id",
+    "image_id",
+    "mcp_bundle_sha256",
+    "worker_sha256",
+    "runtime_digest"
+  ],
+  "title": "WebRuntimePin",
+  "type": "object"
+}

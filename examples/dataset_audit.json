@@ -1,0 +1,81 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "audit_version": "sqlite-eligibility-v1",
+    "mode": "read_only_inventory",
+    "training_ready": false,
+    "snapshot": {
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "bytes": 331776,
+      "captured_at": "2026-09-20T12:00:00Z",
+      "schema_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "migrations": {
+        "0001_trajectory_store.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+        "0002_registries.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+        "0003_execution_state.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+        "0004_desktop_control.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+        "0005_desktop_tasks.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+        "0006_scheduled_browser_vision.sql": "0000000000000000000000000000000000000000000000000000000000000000",
+        "0007_paused_tasks.sql": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "auditor_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "run_count": 1,
+    "opted_in_runs": 0,
+    "ready_runs": 0,
+    "blocker_counts": {
+      "no_accepted_labels": 1,
+      "redaction_review_unrecorded": 1,
+      "run_not_opted_in": 1,
+      "synthetic_content": 1,
+      "usage_rights_unrecorded": 1
+    },
+    "runs": [
+      {
+        "run_ref": "1111111111111111111111111111111111111111111111111111111111111111",
+        "status": "succeeded",
+        "outcome": "passed",
+        "training_eligible_flag": false,
+        "training_ready": false,
+        "counts": {
+          "trajectory_labels": {
+            "accepted": 0,
+            "pending": 0,
+            "rejected": 0
+          },
+          "verifications": {
+            "passed": 1,
+            "failed": 0,
+            "unknown": 0
+          },
+          "actions": {
+            "intent": 0,
+            "running": 0,
+            "ok": 2,
+            "error": 0,
+            "denied": 0,
+            "cancelled": 0,
+            "uncertain": 0
+          },
+          "artifacts": {
+            "raw": 0,
+            "redacted": 0,
+            "quarantined": 0
+          },
+          "choice_labels_linked": 0,
+          "choice_labels_invalid": 0,
+          "unsupported_labels": 0,
+          "image_artifacts": 0
+        },
+        "blockers": [
+          "no_accepted_labels",
+          "redaction_review_unrecorded",
+          "run_not_opted_in",
+          "synthetic_content",
+          "usage_rights_unrecorded"
+        ]
+      }
+    ]
+  }
+}

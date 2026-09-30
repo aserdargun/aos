@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "LifecycleBirth": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "runtime_id": {
+          "pattern": "^desktop-[a-f0-9]{32}$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "container_name": {
+          "pattern": "^aos-desktop-[a-f0-9]{20}$",
+          "title": "Container Name",
+          "type": "string"
+        },
+        "image_id": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Image Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "workspace": {
+          "$ref": "#/$defs/WorkspaceIdentity"
+        },
+        "process": {
+          "$ref": "#/$defs/ProcessIdentity"
+        }
+      },
+      "required": [
+        "runtime_id",
+        "container_name",
+        "image_id",
+        "source_sha256",
+        "workspace",
+        "process"
+      ],
+      "title": "LifecycleBirth",
+      "type": "object"
+    },
+    "ProcessIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "minimum": 1,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "pid_namespace": {
+          "minimum": 1,
+          "title": "Pid Namespace",
+          "type": "integer"
+        },
+        "uid": {
+          "minimum": 1,
+          "title": "Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "boot_id",
+        "pid",
+        "start_ticks",
+        "pid_namespace",
+        "uid"
+      ],
+      "title": "ProcessIdentity",
+      "type": "object"
+    },
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "session_id": {
+      "pattern": "^desktop-session-[a-f0-9]{32}$",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    },
+    "birth": {
+      "$ref": "#/$defs/LifecycleBirth"
+    },
+    "container_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Container Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "session_id",
+    "generation",
+    "birth",
+    "container_id"
+  ],
+  "title": "SessionRuntimeBinding",
+  "type": "object"
+}

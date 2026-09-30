@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "OwnedSkillKnowledgeReport": {
+      "additionalProperties": false,
+      "properties": {
+        "untrusted": {
+          "const": true,
+          "title": "Untrusted",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "gold": {
+          "const": false,
+          "title": "Gold",
+          "type": "boolean"
+        },
+        "manual_approval_required": {
+          "const": true,
+          "title": "Manual Approval Required",
+          "type": "boolean"
+        },
+        "causality_verified": {
+          "const": false,
+          "title": "Causality Verified",
+          "type": "boolean"
+        },
+        "scope_authorization_verified": {
+          "const": false,
+          "title": "Scope Authorization Verified",
+          "type": "boolean"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "owned_skill_knowledge_report",
+          "title": "Kind",
+          "type": "string"
+        },
+        "planning_bundle_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Planning Bundle Sha256",
+          "type": "string"
+        },
+        "bundle": {
+          "additionalProperties": true,
+          "title": "Bundle",
+          "type": "object"
+        },
+        "bundle_canonical": {
+          "maxLength": 131072,
+          "minLength": 1,
+          "title": "Bundle Canonical",
+          "type": "string"
+        },
+        "historical_binding_verified": {
+          "const": true,
+          "title": "Historical Binding Verified",
+          "type": "boolean"
+        },
+        "current_source_valid": {
+          "title": "Current Source Valid",
+          "type": "boolean"
+        },
+        "current_authority_valid": {
+          "title": "Current Authority Valid",
+          "type": "boolean"
+        },
+        "dispatch_recorded": {
+          "const": true,
+          "title": "Dispatch Recorded",
+          "type": "boolean"
+        },
+        "model_request_verified": {
+          "title": "Model Request Verified",
+          "type": "boolean"
+        },
+        "knowledge_applied": {
+          "title": "Knowledge Applied",
+          "type": "boolean"
+        },
+        "real_model": {
+          "title": "Real Model",
+          "type": "boolean"
+        },
+        "downstream_verified": {
+          "const": false,
+          "title": "Downstream Verified",
+          "type": "boolean"
+        },
+        "semantic_relevance_verified": {
+          "const": false,
+          "title": "Semantic Relevance Verified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "untrusted",
+        "execution_authorized",
+        "training_ready",
+        "gold",
+        "manual_approval_required",
+        "causality_verified",
+        "scope_authorization_verified",
+        "schema_version",
+        "kind",
+        "planning_bundle_sha256",
+        "bundle",
+        "bundle_canonical",
+        "historical_binding_verified",
+        "current_source_valid",
+        "current_authority_valid",
+        "dispatch_recorded",
+        "model_request_verified",
+        "knowledge_applied",
+        "real_model",
+        "downstream_verified",
+        "semantic_relevance_verified"
+      ],
+      "title": "OwnedSkillKnowledgeReport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "report": {
+      "$ref": "#/$defs/OwnedSkillKnowledgeReport"
+    },
+    "preview_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Preview Canonical",
+      "type": "string"
+    },
+    "preview_body_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Preview Body Canonical",
+      "type": "string"
+    },
+    "model_pins_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Model Pins Canonical",
+      "type": "string"
+    },
+    "intent_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Intent Canonical",
+      "type": "string"
+    },
+    "model_request_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Model Request Canonical",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "report",
+    "preview_canonical",
+    "preview_body_canonical",
+    "model_pins_canonical",
+    "intent_canonical",
+    "model_request_canonical"
+  ],
+  "title": "OwnedSkillKnowledgeReportTransport",
+  "type": "object"
+}

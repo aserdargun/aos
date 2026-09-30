@@ -1,0 +1,60 @@
+{
+  "synthetic": true,
+  "plan": {
+    "schema_version": "2.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "assets": [
+      {
+        "url": "https://crm.example.invalid/assets/app.js?v=1",
+        "content_type": "application/javascript"
+      }
+    ],
+    "data_resources": [
+      {
+        "url": "https://crm.example.invalid/api/summary?view=compact&page=1",
+        "content_type": "application/json"
+      }
+    ],
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "explicit_bound_readonly_json_fetch",
+    "status": "https_json_reached",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "plan_sha256": "05caae8cf6947e1b0d5da7bfdf455cd6fd663a758cee8783ccf34f7c4bbed4c3",
+    "data_index": 0,
+    "content_type": "application/json",
+    "request_sha256": "4b6696acce3c23722e8cdf7362a2ec7e610849d0dbbd35ed26671fd90b952896",
+    "response_sha256": "4ce735c3605dca4e1a7ee63c9566cda952f6eb8e39335e574e2ba0e8ca5bb648",
+    "response_bytes": 27,
+    "tls_hostname_verified": true,
+    "browser_connected": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "relay_report": {
+    "schema_version": "2.0",
+    "mode": "one_shot_host_https_readonly_data_bundle_relay",
+    "status": "bundle_served",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "plan_sha256": "05caae8cf6947e1b0d5da7bfdf455cd6fd663a758cee8783ccf34f7c4bbed4c3",
+    "entry_response_sha256": "c43810dee63626a433c5110852552057ba327947b66615ff874a13d1c11141cc",
+    "asset_response_sha256": [
+      "86dc22c4857bf1a4b7ee31f674e9fd11c9750e5d0a3be94307a20ee2e784ea91"
+    ],
+    "data_response_sha256": [
+      "4ce735c3605dca4e1a7ee63c9566cda952f6eb8e39335e574e2ba0e8ca5bb648"
+    ],
+    "request_attempts": 3,
+    "browser_identity_verified": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

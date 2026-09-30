@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "reviews": [
+    {
+      "sample_id": "s1-write",
+      "record_sha256": "fca1599c955204c4cfefbbb3110307a776492b4bada89e908ee014487424c420",
+      "task_family": "file-roundtrip",
+      "near_duplicate_cluster": "file-roundtrip",
+      "review_status": "accepted"
+    },
+    {
+      "sample_id": "s1-escalate",
+      "record_sha256": "30d58d8bec4c48bbf917c150ab4fb59076ca9f9d47808dcfb27671c1cdb6f2a1",
+      "task_family": "recovery-path",
+      "near_duplicate_cluster": "recovery-path",
+      "review_status": "accepted"
+    },
+    {
+      "sample_id": "s1-safety",
+      "record_sha256": "71e9c199ea2b9ad1c294a5c26bcfe8cad3c338d02cb7900b16dba89e4e93c2aa",
+      "task_family": "policy-deny",
+      "near_duplicate_cluster": "policy-deny",
+      "review_status": "accepted"
+    },
+    {
+      "sample_id": "s1-inventory",
+      "record_sha256": "d7050bb4bd03d8ad1b668c4b513d15cb6baeb4f95675263786f119f830a16fd2",
+      "task_family": "fixture-inventory-routing",
+      "near_duplicate_cluster": "fixture-inventory-routing",
+      "review_status": "accepted"
+    },
+    {
+      "sample_id": "s2-recovery",
+      "record_sha256": "5f5d16afe3ba7f9fc47e1f7785f4a4696c749332adea41171ba71a3617b5b9ce",
+      "task_family": "recovery-path",
+      "near_duplicate_cluster": "recovery-path",
+      "review_status": "accepted"
+    },
+    {
+      "sample_id": "s2-ambiguous",
+      "record_sha256": "e4ce7a6b148a102cad2722f9f7ed185871784349a31a4e06940f0229ee3a50a2",
+      "task_family": "fixture-source-clarification",
+      "near_duplicate_cluster": "fixture-source-clarification",
+      "review_status": "accepted"
+    }
+  ]
+}

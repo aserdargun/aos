@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "context_version": {
+      "const": "aos-owned-skill-knowledge-v1",
+      "title": "Context Version",
+      "type": "string"
+    },
+    "context_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Context Sha256",
+      "type": "string"
+    },
+    "context_text": {
+      "maxLength": 8192,
+      "minLength": 1,
+      "title": "Context Text",
+      "type": "string"
+    },
+    "untrusted": {
+      "const": true,
+      "title": "Untrusted",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "context_version",
+    "context_sha256",
+    "context_text",
+    "untrusted"
+  ],
+  "title": "OwnedSkillKnowledgePayload",
+  "type": "object"
+}

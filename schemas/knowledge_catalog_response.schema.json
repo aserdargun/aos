@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "KnowledgeCatalogItem": {
+      "additionalProperties": false,
+      "properties": {
+        "document_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Document Sha256",
+          "type": "string"
+        },
+        "source_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?(?:Z|\\+00:00)$",
+          "title": "Expires At",
+          "type": "string"
+        },
+        "synthetic": {
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "current": {
+          "title": "Current",
+          "type": "boolean"
+        },
+        "expired": {
+          "title": "Expired",
+          "type": "boolean"
+        },
+        "review_status": {
+          "enum": [
+            "pending",
+            "accepted",
+            "rejected",
+            "revoked"
+          ],
+          "title": "Review Status",
+          "type": "string"
+        },
+        "review_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Review Sha256"
+        }
+      },
+      "required": [
+        "document_sha256",
+        "source_id",
+        "title",
+        "revision",
+        "content_sha256",
+        "expires_at",
+        "synthetic",
+        "current",
+        "expired",
+        "review_status",
+        "review_sha256"
+      ],
+      "title": "KnowledgeCatalogItem",
+      "type": "object"
+    },
+    "KnowledgeLimits": {
+      "additionalProperties": false,
+      "properties": {
+        "max_documents": {
+          "const": 128,
+          "title": "Max Documents",
+          "type": "integer"
+        },
+        "max_revisions": {
+          "const": 32,
+          "title": "Max Revisions",
+          "type": "integer"
+        },
+        "max_text_chars": {
+          "const": 32768,
+          "title": "Max Text Chars",
+          "type": "integer"
+        },
+        "max_text_bytes": {
+          "const": 65536,
+          "title": "Max Text Bytes",
+          "type": "integer"
+        },
+        "chunk_chars": {
+          "const": 1024,
+          "title": "Chunk Chars",
+          "type": "integer"
+        },
+        "max_chunks_per_document": {
+          "const": 32,
+          "title": "Max Chunks Per Document",
+          "type": "integer"
+        },
+        "max_query_chars": {
+          "const": 512,
+          "title": "Max Query Chars",
+          "type": "integer"
+        },
+        "max_top_k": {
+          "const": 8,
+          "title": "Max Top K",
+          "type": "integer"
+        },
+        "max_context_chars": {
+          "const": 8192,
+          "title": "Max Context Chars",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "max_documents",
+        "max_revisions",
+        "max_text_chars",
+        "max_text_bytes",
+        "chunk_chars",
+        "max_chunks_per_document",
+        "max_query_chars",
+        "max_top_k",
+        "max_context_chars"
+      ],
+      "title": "KnowledgeLimits",
+      "type": "object"
+    },
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "untrusted": {
+      "const": true,
+      "title": "Untrusted",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gold": {
+      "const": false,
+      "title": "Gold",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "knowledge_catalog",
+      "title": "Kind",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/KnowledgeScope"
+    },
+    "documents": {
+      "items": {
+        "$ref": "#/$defs/KnowledgeCatalogItem"
+      },
+      "maxItems": 128,
+      "title": "Documents",
+      "type": "array"
+    },
+    "limits": {
+      "$ref": "#/$defs/KnowledgeLimits"
+    }
+  },
+  "required": [
+    "untrusted",
+    "execution_authorized",
+    "training_ready",
+    "gold",
+    "schema_version",
+    "kind",
+    "scope",
+    "documents",
+    "limits"
+  ],
+  "title": "KnowledgeCatalog",
+  "type": "object"
+}

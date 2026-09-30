@@ -1,0 +1,30 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_skill_source_inspection",
+    "skill_sha256": "297918ae6c2bf990ce76d6ffc011059f69a07395d5a9a73bfa04513741915d08",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "model_role": "system1",
+    "candidate_kind": "finite_action_choice",
+    "source_event_ids": ["learning-e4d0d4c157ea7e73ae074d74d3eafa0c68fa91fb7a71e0bb28e68c7602fb06d9"],
+    "source_event_count": 1,
+    "source_request_sha256": ["44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"],
+    "deployment_id": "decider-test",
+    "deployment_sha256": "df1bcd349716b20aec66471db7ce52ffb9091b584511f29a62da8849183bc512",
+    "model_kind": "decider_native_worker",
+    "claimed_verification_ids": ["verification-test"],
+    "direct_verification_status": "claimed_and_matched",
+    "has_direct_verified_outcome": true,
+    "has_downstream_verification": false,
+    "run_ref": "e690b1ade4535bddc8a3211a9d13e1b788275eaf398bdcb6c4f4061e36ea3341",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "status": "unreviewed_source_match",
+    "profile_bound": false,
+    "reviewed": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

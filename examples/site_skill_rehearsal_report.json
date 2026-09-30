@@ -1,0 +1,28 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "status": "source_request_bound_parameter_unbound",
+    "skill_sha256": "297918ae6c2bf990ce76d6ffc011059f69a07395d5a9a73bfa04513741915d08",
+    "plan_sha256": "278ddb358bf8a06317a95b5de13338f1d56770bc174edd237fa9516149e3d6d7",
+    "run_ref": "e690b1ade4535bddc8a3211a9d13e1b788275eaf398bdcb6c4f4061e36ea3341",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "model_role": "system1",
+    "source_event_count": 1,
+    "source_variant_count": 1,
+    "development_count": 1,
+    "held_out_count": 2,
+    "source_inspection_status": "unreviewed_source_match",
+    "structural_status": "structure_only",
+    "source_request_bound": true,
+    "source_variant_bound": false,
+    "held_out_separated_structurally": true,
+    "execution_performed": false,
+    "outcomes_verified": false,
+    "skill_validated": false,
+    "reviewed": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

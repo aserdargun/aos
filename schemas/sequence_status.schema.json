@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "SequencePlan": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kinds": {
+          "items": {
+            "enum": [
+              "hello",
+              "browser_form",
+              "vision_canvas"
+            ],
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Kinds",
+          "uniqueItems": true,
+          "type": "array"
+        },
+        "requires_action_approval": {
+          "const": true,
+          "default": true,
+          "title": "Requires Action Approval",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kinds"
+      ],
+      "title": "SequencePlan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sequence_id": {
+      "pattern": "^sequence-[a-f0-9]{32}$",
+      "title": "Sequence Id",
+      "type": "string"
+    },
+    "plan": {
+      "$ref": "#/$defs/SequencePlan"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "running",
+        "succeeded",
+        "failed",
+        "cancelled"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "job_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 3,
+      "title": "Job Ids",
+      "type": "array"
+    },
+    "completed": {
+      "maximum": 3,
+      "minimum": 0,
+      "title": "Completed",
+      "type": "integer"
+    },
+    "reason": {
+      "enum": [
+        "started",
+        "step_started",
+        "step_verified",
+        "all_verified",
+        "step_not_verified",
+        "control_change",
+        "sequence_error"
+      ],
+      "title": "Reason",
+      "type": "string"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "sequence_id",
+    "plan",
+    "plan_sha256",
+    "status",
+    "job_ids",
+    "completed",
+    "reason"
+  ],
+  "title": "SequenceStatus",
+  "type": "object"
+}

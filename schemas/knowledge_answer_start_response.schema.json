@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "untrusted": {
+      "const": true,
+      "title": "Untrusted",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gold": {
+      "const": false,
+      "title": "Gold",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "knowledge_answer_status",
+      "title": "Kind",
+      "type": "string"
+    },
+    "available": {
+      "const": true,
+      "title": "Available",
+      "type": "boolean"
+    },
+    "answer_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Answer Id"
+    },
+    "status": {
+      "enum": [
+        "idle",
+        "pending",
+        "ready",
+        "needs_human",
+        "cancelled",
+        "failed"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "bundle_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Bundle Sha256"
+    },
+    "real_model": {
+      "title": "Real Model",
+      "type": "boolean"
+    },
+    "model_called": {
+      "title": "Model Called",
+      "type": "boolean"
+    },
+    "citation_binding_verified": {
+      "title": "Citation Binding Verified",
+      "type": "boolean"
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Error Code"
+    }
+  },
+  "required": [
+    "untrusted",
+    "execution_authorized",
+    "training_ready",
+    "gold",
+    "schema_version",
+    "kind",
+    "available",
+    "answer_id",
+    "status",
+    "bundle_sha256",
+    "real_model",
+    "model_called",
+    "citation_binding_verified",
+    "error_code"
+  ],
+  "title": "KnowledgeAnswerStatus",
+  "type": "object"
+}

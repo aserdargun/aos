@@ -1,0 +1,20 @@
+{
+  "synthetic": true,
+  "admission": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "candidate_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_group_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "source_run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "source_parameter_variant_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "parameter_variant_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "invocation_sha256": "4c032684e23962c965bed699cf07e1da198acc13227d10030abd4c6459c07e41",
+    "recipe_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+    "skill_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "profile_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "purpose": "development_variation",
+    "independent_held_out": false,
+    "dataset_ingestion_authorized": false,
+    "execution_authorized": false
+  }
+}

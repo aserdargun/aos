@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pre-action selected owned skill reuse admission observation",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "type": "string"},
+    "synthetic": {"const": true, "type": "boolean"},
+    "candidate_execution_sha256": {"$ref": "#/$defs/hash"},
+    "candidate_sha256": {"$ref": "#/$defs/hash"},
+    "invocation_sha256": {"$ref": "#/$defs/hash"},
+    "review_sha256": {"$ref": "#/$defs/hash"},
+    "release_sha256": {"$ref": "#/$defs/hash"},
+    "selection_sha256": {"$ref": "#/$defs/hash"},
+    "reuse_admission_sha256": {"$ref": "#/$defs/hash"},
+    "manager_session": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+    "desktop_session_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+    "runtime_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+    "lease_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+    "generation": {"type": "integer", "minimum": 0},
+    "reuse_admission_verified": {"const": true, "type": "boolean"},
+    "old_actions_replayed": {"const": false, "type": "boolean"},
+    "execution_authorized": {"const": false, "type": "boolean"},
+    "activation_authorized": {"const": false, "type": "boolean"},
+    "training_ready": {"const": false, "type": "boolean"},
+    "independent_held_out": {"const": false, "type": "boolean"}
+  },
+  "required": [
+    "schema_version", "synthetic", "candidate_execution_sha256", "candidate_sha256",
+    "invocation_sha256", "review_sha256", "release_sha256", "selection_sha256",
+    "reuse_admission_sha256", "manager_session", "desktop_session_id", "runtime_id",
+    "lease_id", "generation", "reuse_admission_verified", "old_actions_replayed",
+    "execution_authorized", "activation_authorized", "training_ready", "independent_held_out"
+  ],
+  "$defs": {"hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

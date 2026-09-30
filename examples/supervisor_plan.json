@@ -1,0 +1,18 @@
+{
+  "synthetic": true,
+  "evidence": [
+    {"id": "synthetic-missing-file", "kind": "filesystem.read", "summary": "Synthetic fixture: the authorized hello file is absent; read failed without side effects."}
+  ],
+  "plan": {
+    "diagnosis": "The initial plan attempted verification before file creation.",
+    "evidence_refs": ["synthetic-missing-file"],
+    "assumptions": [],
+    "revised_plan": [
+      {"order": 1, "action": "observe_workspace", "expected_result": "Confirm the authorized file is still absent."},
+      {"order": 2, "action": "create_authorized_file", "expected_result": "Create only the authorized file with exact content."},
+      {"order": 3, "action": "verify_exact_content", "expected_result": "Independent read equals the required content."}
+    ],
+    "verification_criteria": ["exact_file_content"],
+    "needs_human": false
+  }
+}

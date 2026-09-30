@@ -1,0 +1,19 @@
+{
+  "synthetic": true,
+  "note": "Schema-only placeholder; not a verified database backup.",
+  "manifest": {
+    "schema_version": "1.0",
+    "format": "aos_sqlite_snapshot_v1",
+    "database_file": "store.sqlite",
+    "database_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_snapshot_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "journal_mode": "rollback",
+    "database_bytes": 4096,
+    "schema_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "schema_version_number": 8,
+    "migrations": {},
+    "captured_at": "2026-09-20T00:00:00Z",
+    "execution_authorized": false,
+    "resume_authorized": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS bounded HTTPS form transport receipt report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "status", "profile_sha256", "task_sha256", "plan_sha256", "entry_response_sha256", "submit_request_sha256", "submit_response_status", "receipt_url_sha256", "receipt_response_sha256", "receipt_bytes", "tls_hostname_verified", "browser_connected", "account_verified", "site_outcome_verified", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.1"},
+    "mode": {"const": "bounded_host_https_form_transport"},
+    "status": {"const": "receipt_response_read"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "task_sha256": {"$ref": "#/$defs/checksum"},
+    "plan_sha256": {"$ref": "#/$defs/checksum"},
+    "entry_response_sha256": {"$ref": "#/$defs/checksum"},
+    "submit_request_sha256": {"$ref": "#/$defs/checksum"},
+    "submit_response_status": {"enum": [302, 303], "type": "integer"},
+    "receipt_url_sha256": {"$ref": "#/$defs/checksum"},
+    "receipt_response_sha256": {"$ref": "#/$defs/checksum"},
+    "receipt_bytes": {"type": "integer", "minimum": 0, "maximum": 65536},
+    "tls_hostname_verified": {"const": true},
+    "browser_connected": {"const": false},
+    "account_verified": {"const": false},
+    "site_outcome_verified": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {"checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

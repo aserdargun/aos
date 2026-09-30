@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_remote_json_bundle_knowledge",
+    "status": "candidate_remote_profile_bound",
+    "knowledge_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "draft_revision": 1,
+    "page_key": "summary",
+    "page_fingerprint_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "profile_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "plan_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "snapshot_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "before_run_ref": "6666666666666666666666666666666666666666666666666666666666666666",
+    "after_run_ref": "7777777777777777777777777777777777777777777777777777777777777777",
+    "asset_count": 1,
+    "data_count": 1,
+    "profile_bound": true,
+    "transport_readback_bound": true,
+    "origin_verified": false,
+    "account_verified": false,
+    "site_outcome_verified": false,
+    "reviewed": false,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

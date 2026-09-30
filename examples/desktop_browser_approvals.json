@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "purpose": "Two distinct synthetic per-action approval examples, not model or user evidence",
+  "approvals": [
+    {
+      "schema_version": "1.0",
+      "approval_id": "synthetic-approval-0",
+      "job_id": "synthetic-browser-job",
+      "action": {
+        "schema_version": "1.0",
+        "task_id": "synthetic-task",
+        "run_id": "synthetic-run",
+        "step_id": "synthetic-step",
+        "action_id": "synthetic-action-0",
+        "runtime_id": "synthetic-browser",
+        "state_version": 4,
+        "owner_lease_id": "synthetic-desktop-lease",
+        "tool": "browser.fill",
+        "arguments": {
+          "snapshot_id": "11111111111111111111111111111111",
+          "element_id": "33333333333333333333333333333333",
+          "value": "Hello from the local agent."
+        },
+        "expected_effect": "Synthetic form exact local receipt",
+        "verification": "independent_dom_equals",
+        "deadline": 2000000070.0,
+        "idempotency_key": "synthetic-intent-0",
+        "selected_option": "fill_message"
+      },
+      "action_sha256": "8f0cfb24443abccc0d048e5e3c46e9aa4b6a756e2e95e2b9f8ca57557e761c81",
+      "expires_at": 2000000060.0
+    },
+    {
+      "schema_version": "1.0",
+      "approval_id": "synthetic-approval-1",
+      "job_id": "synthetic-browser-job",
+      "action": {
+        "schema_version": "1.0",
+        "task_id": "synthetic-task",
+        "run_id": "synthetic-run",
+        "step_id": "synthetic-step",
+        "action_id": "synthetic-action-1",
+        "runtime_id": "synthetic-browser",
+        "state_version": 9,
+        "owner_lease_id": "synthetic-desktop-lease",
+        "tool": "browser.submit",
+        "arguments": {
+          "snapshot_id": "22222222222222222222222222222222",
+          "element_id": "44444444444444444444444444444444"
+        },
+        "expected_effect": "Synthetic form exact local receipt",
+        "verification": "independent_dom_equals",
+        "deadline": 2000000080.0,
+        "idempotency_key": "synthetic-intent-1",
+        "selected_option": "submit_form"
+      },
+      "action_sha256": "0deb642a5a85d723af9981e7886096c49f15dfaea11725105d864622e96b4d7e",
+      "expires_at": 2000000070.0
+    }
+  ]
+}

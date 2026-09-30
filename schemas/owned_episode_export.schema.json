@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_episode_export.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "format",
+    "episode_id",
+    "consent_sha256",
+    "execution",
+    "review_receipts",
+    "files",
+    "counts",
+    "source_group_sha256",
+    "synthetic",
+    "training_ready",
+    "split"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "format": {
+      "const": "owned-episode-development-v1"
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^episode-[a-f0-9]{32}$"
+    },
+    "consent_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_execution_sha256",
+        "planning_bundle_sha256",
+        "execution_source_sha256"
+      ],
+      "properties": {
+        "candidate_execution_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "planning_bundle_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "execution_source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "review_receipts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system1",
+        "system2"
+      ],
+      "properties": {
+        "system1": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "system2": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system1.jsonl",
+        "system2.jsonl"
+      ],
+      "properties": {
+        "system1.jsonl": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "system2.jsonl": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system1",
+        "system2"
+      ],
+      "properties": {
+        "system1": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 63
+        },
+        "system2": {
+          "const": 1
+        }
+      }
+    },
+    "source_group_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "training_ready": {
+      "const": false
+    },
+    "split": {
+      "const": "development_only"
+    }
+  }
+}

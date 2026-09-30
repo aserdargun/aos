@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "KnowledgeChunk": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "maximum": 31,
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "start": {
+          "maximum": 32767,
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "End",
+          "type": "integer"
+        },
+        "text": {
+          "maxLength": 1024,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "chunk_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Chunk Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "index",
+        "start",
+        "end",
+        "text",
+        "chunk_sha256"
+      ],
+      "title": "KnowledgeChunk",
+      "type": "object"
+    },
+    "KnowledgeDocument": {
+      "additionalProperties": false,
+      "properties": {
+        "untrusted": {
+          "const": true,
+          "title": "Untrusted",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "gold": {
+          "const": false,
+          "title": "Gold",
+          "type": "boolean"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "source_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 32768,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "previous_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous Sha256"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "maxLength": 40,
+          "minLength": 20,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?(?:Z|\\+00:00)$",
+          "title": "Expires At",
+          "type": "string"
+        },
+        "rights_attested": {
+          "const": true,
+          "title": "Rights Attested",
+          "type": "boolean"
+        },
+        "storage_consent": {
+          "const": true,
+          "title": "Storage Consent",
+          "type": "boolean"
+        },
+        "synthetic": {
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "uploaded_text_knowledge",
+          "title": "Kind",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "chunks": {
+          "items": {
+            "$ref": "#/$defs/KnowledgeChunk"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "title": "Chunks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "untrusted",
+        "execution_authorized",
+        "training_ready",
+        "gold",
+        "scope",
+        "source_id",
+        "title",
+        "text",
+        "previous_sha256",
+        "expires_at",
+        "rights_attested",
+        "storage_consent",
+        "synthetic",
+        "schema_version",
+        "kind",
+        "revision",
+        "content_sha256",
+        "chunks"
+      ],
+      "title": "KnowledgeDocument",
+      "type": "object"
+    },
+    "KnowledgePublicationPreview": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "knowledge_publication_preview",
+          "title": "Kind",
+          "type": "string"
+        },
+        "document": {
+          "$ref": "#/$defs/KnowledgeDocument"
+        },
+        "document_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Document Sha256",
+          "type": "string"
+        },
+        "preview_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Preview Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "document",
+        "document_sha256",
+        "preview_sha256"
+      ],
+      "title": "KnowledgePublicationPreview",
+      "type": "object"
+    },
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "preview": {
+      "$ref": "#/$defs/KnowledgePublicationPreview"
+    },
+    "confirm_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Sha256",
+      "type": "string"
+    },
+    "lease_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "preview",
+    "confirm_sha256",
+    "lease_id",
+    "generation"
+  ],
+  "title": "PublishRequest",
+  "type": "object"
+}

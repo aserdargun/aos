@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS explicit remote metadata revocation and purge report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "consent_sha256", "revoked", "revoked_at", "outbox_present_before", "outbox_purged", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "explicit_remote_metadata_revocation"},
+    "consent_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "revoked": {"const": true},
+    "revoked_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?\\+00:00$"},
+    "outbox_present_before": {"type": "boolean"},
+    "outbox_purged": {"type": "boolean"},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Private owned candidate execution bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": ["1.0", "1.1", "1.2", "1.3", "1.4", "1.5"],
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "type": "boolean"
+    },
+    "mode": {
+      "const": "owned_candidate_development",
+      "type": "string"
+    },
+    "candidate_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "candidate_execution_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "preview_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "review_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "release_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "selection_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "reuse_admission_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "planning_bundle_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "adapter_admission_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_run_ref": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_invocation_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_group_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "parameter_variant_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "invocation_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "recipe_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "admission_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "candidate.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "validation-plan.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "case-inputs.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "form-plan.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "state-plan.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "field-bindings.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "recipe.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "invocation.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "admission.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "form-body.bin": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "state-after.bin": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "reuse-admission.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "planning-bundle.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "adapter-admission.json": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "candidate.json",
+        "validation-plan.json",
+        "case-inputs.json",
+        "form-plan.json",
+        "state-plan.json",
+        "field-bindings.json",
+        "recipe.json",
+        "invocation.json",
+        "admission.json",
+        "form-body.bin",
+        "state-after.bin"
+      ]
+    },
+    "independent_held_out": {
+      "const": false,
+      "type": "boolean"
+    },
+    "dataset_ingestion_authorized": {
+      "const": false,
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "mode",
+    "candidate_sha256",
+    "candidate_execution_sha256",
+    "preview_sha256",
+    "source_run_ref",
+    "source_invocation_sha256",
+    "source_group_sha256",
+    "parameter_variant_sha256",
+    "invocation_sha256",
+    "recipe_sha256",
+    "admission_sha256",
+    "source_run_id",
+    "files",
+    "independent_held_out",
+    "dataset_ingestion_authorized",
+    "training_ready",
+    "activation_authorized"
+  ],
+  "allOf": [
+    {"if": {"properties": {"schema_version": {"const": "1.0"}}, "required": ["schema_version"]},
+     "then": {"not": {"anyOf": [{"required": ["review_sha256"]}, {"required": ["release_sha256"]},
+                                  {"required": ["selection_sha256"]}, {"required": ["reuse_admission_sha256"]},
+                                  {"required": ["adapter_admission_sha256"]},
+                                  {"required": ["planning_bundle_sha256"]},
+                                  {"properties": {"files": {"required": ["adapter-admission.json"]}}},
+                                  {"properties": {"files": {"required": ["planning-bundle.json"]}}}]}}},
+    {"if": {"properties": {"schema_version": {"const": "1.1"}}, "required": ["schema_version"]},
+     "then": {"required": ["review_sha256"], "not": {"anyOf": [{"required": ["release_sha256"]},
+                                                                      {"required": ["selection_sha256"]},
+                                                                      {"required": ["reuse_admission_sha256"]},
+                                                                      {"required": ["adapter_admission_sha256"]},
+                                                                      {"properties": {"files": {"required": ["adapter-admission.json"]}}},
+                                                                      {"required": ["planning_bundle_sha256"]},
+                                                                      {"properties": {"files": {"required": ["planning-bundle.json"]}}}]}}},
+    {"if": {"properties": {"schema_version": {"const": "1.2"}}, "required": ["schema_version"]},
+     "then": {"required": ["review_sha256", "release_sha256", "selection_sha256"],
+              "not": {"anyOf": [{"required": ["reuse_admission_sha256"]},
+                                 {"required": ["adapter_admission_sha256"]},
+                                 {"properties": {"files": {"required": ["adapter-admission.json"]}}},
+                                 {"required": ["planning_bundle_sha256"]},
+                                 {"properties": {"files": {"required": ["planning-bundle.json"]}}}]}}},
+    {"if": {"properties": {"schema_version": {"const": "1.3"}}, "required": ["schema_version"]},
+     "then": {"required": ["review_sha256", "release_sha256", "selection_sha256",
+                            "reuse_admission_sha256"],
+              "properties": {"files": {"required": ["reuse-admission.json"]}},
+              "not": {"anyOf": [{"required": ["planning_bundle_sha256"]},
+                                 {"required": ["adapter_admission_sha256"]},
+                                 {"properties": {"files": {"required": ["adapter-admission.json"]}}},
+                                 {"properties": {"files": {"required": ["planning-bundle.json"]}}}]}}},
+    {"if": {"properties": {"schema_version": {"const": "1.4"}}, "required": ["schema_version"]},
+     "then": {"required": ["review_sha256", "release_sha256", "selection_sha256",
+                            "reuse_admission_sha256", "planning_bundle_sha256"],
+              "properties": {"files": {"required": ["reuse-admission.json", "planning-bundle.json"]}},
+              "not": {"anyOf": [{"required": ["adapter_admission_sha256"]},
+                                 {"properties": {"files": {"required": ["adapter-admission.json"]}}}]}}},
+    {"if": {"properties": {"schema_version": {"const": "1.5"}}, "required": ["schema_version"]},
+     "then": {"required": ["review_sha256", "release_sha256", "selection_sha256",
+                            "reuse_admission_sha256", "adapter_admission_sha256"],
+              "properties": {"files": {"required": ["reuse-admission.json", "adapter-admission.json"]}},
+              "not": {"anyOf": [{"required": ["planning_bundle_sha256"]},
+                                 {"properties": {"files": {"required": ["planning-bundle.json"]}}}]}}}
+  ]
+}

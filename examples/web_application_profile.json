@@ -1,0 +1,50 @@
+{
+  "synthetic": true,
+  "profile": {
+    "schema_version": "1.0",
+    "application_key": "synthetic-crm-editor",
+    "revision": 1,
+    "previous_sha256": null,
+    "environment": "staging",
+    "tenant_key": "synthetic-tenant",
+    "account_role": "editor",
+    "entry_url": "https://crm.example.invalid/app/",
+    "allowed_origins": [
+      "https://crm.example.invalid"
+    ],
+    "task_keys": [
+      "find-record",
+      "update-draft"
+    ],
+    "learning": {
+      "system1": "requested",
+      "system2": "requested",
+      "data_rights_ref": "synthetic-rights-review",
+      "retention_days": 30,
+      "raw_screenshots": false,
+      "automatic_training": false,
+      "automatic_promotion": false
+    }
+  },
+  "report": {
+    "schema_version": "1.0",
+    "application_key": "synthetic-crm-editor",
+    "revision": 1,
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "status": "draft",
+    "requested_learning_roles": [
+      "system1",
+      "system2"
+    ],
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false,
+    "promotion_authorized": false,
+    "blockers": [
+      "site_runtime_not_integrated",
+      "task_contracts_not_bound",
+      "rights_review_not_verified",
+      "learning_pipeline_not_integrated"
+    ]
+  }
+}

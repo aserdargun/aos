@@ -1,0 +1,11 @@
+.owned-skill-candidate {min-width:0}
+.owned-skill-candidate fieldset {min-width:0;border:1px solid #35455a;border-radius:6px;padding:12px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.owned-skill-candidate legend {font-size:13px;color:#a9c3d5;padding:0 6px}
+.owned-skill-candidate label {display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px;min-width:0;margin:10px 0}
+.owned-skill-candidate fieldset label {margin:0}
+.owned-skill-candidate input:not([type=checkbox]) {width:100%;min-width:0;padding:9px;background:#182333;color:inherit;border:1px solid #52637b;border-radius:6px}
+.owned-skill-candidate fieldset label:has(input[type=checkbox]),.owned-skill-candidate fieldset>button {grid-column:1/-1}
+.owned-skill-candidate button {max-width:100%;white-space:normal;text-align:left}
+.owned-skill-candidate ol {padding-left:22px}
+.owned-skill-candidate li[aria-current=step] {color:#9bd4ff;font-weight:600}
+@media(max-width:600px) {.owned-skill-candidate fieldset {grid-template-columns:minmax(0,1fr)}}

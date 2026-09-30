@@ -1,0 +1,45 @@
+{
+  "synthetic": true,
+  "evidence": [
+    {
+      "id": "verify-inventory",
+      "run_id": "run-inventory",
+      "step_id": "step-list",
+      "result": "policy_reviewed",
+      "method": "human_review",
+      "summary": "Synthetic review: filename inventory does not require reading file contents."
+    },
+    {
+      "id": "verify-ambiguous",
+      "run_id": "run-ambiguous",
+      "step_id": "step-review",
+      "result": "human_required",
+      "method": "human_review",
+      "summary": "Synthetic review: ambiguous source requires human clarification."
+    },
+    {
+      "id": "verify-0",
+      "run_id": "run-hello",
+      "step_id": "step-0",
+      "result": "passed",
+      "method": "independent_read_equals",
+      "summary": "Fixture read-back equals expected content."
+    },
+    {
+      "id": "verify-recovery",
+      "run_id": "run-recovery",
+      "step_id": "step-fail",
+      "result": "passed",
+      "method": "pdf_text_and_page_count",
+      "summary": "Synthetic corrected trajectory produced a one-page PDF with the expected title."
+    },
+    {
+      "id": "verify-policy",
+      "run_id": "run-safety",
+      "step_id": "step-policy",
+      "result": "policy_reviewed",
+      "method": "human_review",
+      "summary": "Synthetic review confirms credential read is outside scope."
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "preview_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Preview Canonical",
+      "type": "string"
+    },
+    "confirm_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Sha256",
+      "type": "string"
+    },
+    "inference_consent": {
+      "const": true,
+      "title": "Inference Consent",
+      "type": "boolean"
+    },
+    "storage_consent": {
+      "const": true,
+      "title": "Storage Consent",
+      "type": "boolean"
+    },
+    "lease_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "preview_canonical",
+    "confirm_sha256",
+    "inference_consent",
+    "storage_consent",
+    "lease_id",
+    "generation"
+  ],
+  "title": "OwnedSkillKnowledgeCanonicalStartRequest",
+  "type": "object"
+}

@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "if": {
+    "properties": {
+      "status": {
+        "const": "audited_form_state_readback_candidate"
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "state_plan_sha256": {"type": "string"},
+      "state_verification_ref": {"type": "string"},
+      "submitted_value_readback_bound": {"const": true}
+    },
+    "required": ["state_plan_sha256", "state_verification_ref", "submitted_value_readback_bound"]
+  },
+  "else": {
+    "not": {
+      "anyOf": [
+        {"required": ["state_plan_sha256"]},
+        {"required": ["state_verification_ref"]},
+        {"required": ["submitted_value_readback_bound"]}
+      ]
+    }
+  },
+  "properties": {
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "case_inputs_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Case Inputs Sha256",
+      "type": "string"
+    },
+    "case_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Case Key",
+      "type": "string"
+    },
+    "field_binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Field Binding Sha256",
+      "type": "string"
+    },
+    "form_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Form Plan Sha256",
+      "type": "string"
+    },
+    "held_out_independence_verified": {
+      "const": false,
+      "title": "Held Out Independence Verified",
+      "type": "boolean"
+    },
+    "page_readback_bound": {
+      "const": false,
+      "title": "Page Readback Bound",
+      "type": "boolean"
+    },
+    "parameter_values_bound_to_plan": {
+      "const": true,
+      "title": "Parameter Values Bound To Plan",
+      "type": "boolean"
+    },
+    "reviewed": {
+      "const": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "skill_executed": {
+      "const": false,
+      "title": "Skill Executed",
+      "type": "boolean"
+    },
+    "skill_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Plan Sha256",
+      "type": "string"
+    },
+    "skill_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Sha256",
+      "type": "string"
+    },
+    "skill_validated": {
+      "const": false,
+      "title": "Skill Validated",
+      "type": "boolean"
+    },
+    "source_parameters_bound": {
+      "const": false,
+      "title": "Source Parameters Bound",
+      "type": "boolean"
+    },
+    "source_snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Snapshot Sha256",
+      "type": "string"
+    },
+    "state_plan_sha256": {
+      "anyOf": [
+        {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+        {"type": "null"}
+      ],
+      "default": null,
+      "title": "State Plan Sha256"
+    },
+    "state_verification_ref": {
+      "anyOf": [
+        {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+        {"type": "null"}
+      ],
+      "default": null,
+      "title": "State Verification Ref"
+    },
+    "status": {
+      "enum": ["audited_form_transport_candidate", "audited_form_state_readback_candidate"],
+      "title": "Status",
+      "type": "string"
+    },
+    "submit_decision_source_bound": {
+      "const": true,
+      "title": "Submit Decision Source Bound",
+      "type": "boolean"
+    },
+    "submit_event_id": {
+      "pattern": "^learning-[a-f0-9]{64}$",
+      "title": "Submit Event Id",
+      "type": "string"
+    },
+    "submitted_value_readback_bound": {
+      "anyOf": [
+        {"const": true, "type": "boolean"},
+        {"type": "null"}
+      ],
+      "default": null,
+      "title": "Submitted Value Readback Bound"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "task_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Task Sha256",
+      "type": "string"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "transport_execution_verified": {
+      "const": true,
+      "title": "Transport Execution Verified",
+      "type": "boolean"
+    },
+    "transport_readback_verified": {
+      "const": true,
+      "title": "Transport Readback Verified",
+      "type": "boolean"
+    },
+    "verification_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Verification Ref",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "status",
+    "skill_sha256",
+    "skill_plan_sha256",
+    "case_inputs_sha256",
+    "case_key",
+    "form_plan_sha256",
+    "task_sha256",
+    "field_binding_sha256",
+    "run_ref",
+    "source_snapshot_sha256",
+    "submit_event_id",
+    "verification_ref",
+    "parameter_values_bound_to_plan",
+    "submit_decision_source_bound",
+    "transport_execution_verified",
+    "transport_readback_verified",
+    "source_parameters_bound",
+    "page_readback_bound",
+    "skill_executed",
+    "site_outcome_verified",
+    "held_out_independence_verified",
+    "skill_validated",
+    "reviewed",
+    "activation_authorized",
+    "training_ready"
+  ],
+  "title": "SiteSkillFormExecutionReport",
+  "type": "object"
+}

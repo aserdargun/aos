@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "admission_id": {
+      "pattern": "^resume-[a-f0-9]{32}$",
+      "title": "Admission Id",
+      "type": "string"
+    },
+    "action_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Action Sha256",
+      "type": "string"
+    },
+    "fresh_lease_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Fresh Lease Ref",
+      "type": "string"
+    },
+    "state_version": {
+      "minimum": 0,
+      "title": "State Version",
+      "type": "integer"
+    },
+    "expires_at": {
+      "title": "Expires At",
+      "type": "number"
+    },
+    "decision": {
+      "enum": [
+        "approved",
+        "rejected",
+        "expired"
+      ],
+      "title": "Decision",
+      "type": "string"
+    }
+  },
+  "required": [
+    "admission_id",
+    "action_sha256",
+    "fresh_lease_ref",
+    "state_version",
+    "expires_at",
+    "decision"
+  ],
+  "title": "ResumeApproval",
+  "type": "object"
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS private manual JSON-bundle metadata review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "before_run_id", "after_run_id", "candidate_sha256", "candidate_source_sha256", "profile_sha256", "plan_sha256", "knowledge_sha256", "page_fingerprint_sha256", "recorded_at", "metadata_reviewed", "origin_verified", "account_verified", "site_outcome_verified", "task_retrieval_authorized", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "manual_remote_json_metadata_review"},
+    "before_run_id": {"$ref": "#/$defs/run_id"},
+    "after_run_id": {"$ref": "#/$defs/run_id"},
+    "candidate_sha256": {"$ref": "#/$defs/hash"},
+    "candidate_source_sha256": {"$ref": "#/$defs/hash"},
+    "profile_sha256": {"$ref": "#/$defs/hash"},
+    "plan_sha256": {"$ref": "#/$defs/hash"},
+    "knowledge_sha256": {"$ref": "#/$defs/hash"},
+    "page_fingerprint_sha256": {"$ref": "#/$defs/hash"},
+    "recorded_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{6})?Z$"},
+    "metadata_reviewed": {"const": true},
+    "origin_verified": {"const": false},
+    "account_verified": {"const": false},
+    "site_outcome_verified": {"const": false},
+    "task_retrieval_authorized": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "run_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,100}$"}
+  }
+}

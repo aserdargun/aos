@@ -1,0 +1,506 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "KnowledgeHit": {
+      "additionalProperties": false,
+      "properties": {
+        "document_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Document Sha256",
+          "type": "string"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "source_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "chunk_index": {
+          "maximum": 31,
+          "minimum": 0,
+          "title": "Chunk Index",
+          "type": "integer"
+        },
+        "chunk_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Chunk Sha256",
+          "type": "string"
+        },
+        "start": {
+          "maximum": 32767,
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "End",
+          "type": "integer"
+        },
+        "text": {
+          "maxLength": 1024,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 512,
+          "minimum": 1,
+          "title": "Score",
+          "type": "integer"
+        },
+        "synthetic": {
+          "title": "Synthetic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document_sha256",
+        "content_sha256",
+        "review_sha256",
+        "source_id",
+        "title",
+        "revision",
+        "chunk_index",
+        "chunk_sha256",
+        "start",
+        "end",
+        "text",
+        "score",
+        "synthetic"
+      ],
+      "title": "KnowledgeHit",
+      "type": "object"
+    },
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    },
+    "KnowledgeSearch": {
+      "additionalProperties": false,
+      "properties": {
+        "untrusted": {
+          "const": true,
+          "title": "Untrusted",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "gold": {
+          "const": false,
+          "title": "Gold",
+          "type": "boolean"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "knowledge_search",
+          "title": "Kind",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "query_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Query Sha256",
+          "type": "string"
+        },
+        "method": {
+          "const": "deterministic_lexical",
+          "title": "Method",
+          "type": "string"
+        },
+        "top_k": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Top K",
+          "type": "integer"
+        },
+        "context_chars": {
+          "maximum": 8192,
+          "minimum": 256,
+          "title": "Context Chars",
+          "type": "integer"
+        },
+        "used_context_chars": {
+          "maximum": 8192,
+          "minimum": 0,
+          "title": "Used Context Chars",
+          "type": "integer"
+        },
+        "hits": {
+          "items": {
+            "$ref": "#/$defs/KnowledgeHit"
+          },
+          "maxItems": 8,
+          "title": "Hits",
+          "type": "array"
+        }
+      },
+      "required": [
+        "untrusted",
+        "execution_authorized",
+        "training_ready",
+        "gold",
+        "schema_version",
+        "kind",
+        "scope",
+        "query_sha256",
+        "method",
+        "top_k",
+        "context_chars",
+        "used_context_chars",
+        "hits"
+      ],
+      "title": "KnowledgeSearch",
+      "type": "object"
+    },
+    "OwnedSkillKnowledgePreview": {
+      "additionalProperties": false,
+      "properties": {
+        "untrusted": {
+          "const": true,
+          "title": "Untrusted",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "gold": {
+          "const": false,
+          "title": "Gold",
+          "type": "boolean"
+        },
+        "manual_approval_required": {
+          "const": true,
+          "title": "Manual Approval Required",
+          "type": "boolean"
+        },
+        "causality_verified": {
+          "const": false,
+          "title": "Causality Verified",
+          "type": "boolean"
+        },
+        "scope_authorization_verified": {
+          "const": false,
+          "title": "Scope Authorization Verified",
+          "type": "boolean"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "owned_skill_knowledge_preview",
+          "title": "Kind",
+          "type": "string"
+        },
+        "preview_id": {
+          "pattern": "^owned-skill-knowledge-preview-[a-f0-9]{32}$",
+          "title": "Preview Id",
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?(?:Z|\\+00:00)$",
+          "title": "Expires At",
+          "type": "string"
+        },
+        "goal": {
+          "maxLength": 256,
+          "minLength": 1,
+          "title": "Goal",
+          "type": "string"
+        },
+        "case_key": {
+          "pattern": "^plan-[a-f0-9]{32}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "query": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Query",
+          "type": "string"
+        },
+        "top_k": {
+          "maximum": 4,
+          "minimum": 1,
+          "title": "Top K",
+          "type": "integer"
+        },
+        "context_chars": {
+          "maximum": 2048,
+          "minimum": 256,
+          "title": "Context Chars",
+          "type": "integer"
+        },
+        "retrieval": {
+          "$ref": "#/$defs/KnowledgeSearch"
+        },
+        "authority": {
+          "additionalProperties": true,
+          "title": "Authority",
+          "type": "object"
+        },
+        "evidence": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "deployment": {
+          "additionalProperties": true,
+          "title": "Deployment",
+          "type": "object"
+        },
+        "model_pins": {
+          "additionalProperties": true,
+          "title": "Model Pins",
+          "type": "object"
+        },
+        "workspace_identity": {
+          "$ref": "#/$defs/WorkspaceIdentity"
+        },
+        "store_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "context_version": {
+          "const": "aos-owned-skill-knowledge-v1",
+          "title": "Context Version",
+          "type": "string"
+        },
+        "context_text": {
+          "maxLength": 8192,
+          "minLength": 1,
+          "title": "Context Text",
+          "type": "string"
+        },
+        "context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Context Sha256",
+          "type": "string"
+        },
+        "confirm_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Confirm Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "untrusted",
+        "execution_authorized",
+        "training_ready",
+        "gold",
+        "manual_approval_required",
+        "causality_verified",
+        "scope_authorization_verified",
+        "schema_version",
+        "kind",
+        "preview_id",
+        "expires_at",
+        "goal",
+        "case_key",
+        "scope",
+        "query",
+        "top_k",
+        "context_chars",
+        "retrieval",
+        "authority",
+        "evidence",
+        "deployment",
+        "model_pins",
+        "workspace_identity",
+        "store_identity",
+        "context_version",
+        "context_text",
+        "context_sha256",
+        "confirm_sha256"
+      ],
+      "title": "OwnedSkillKnowledgePreview",
+      "type": "object"
+    },
+    "StoreIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 0,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner": {
+          "minimum": 0,
+          "title": "Owner",
+          "type": "integer"
+        },
+        "mode": {
+          "minimum": 0,
+          "title": "Mode",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner",
+        "mode"
+      ],
+      "title": "StoreIdentity",
+      "type": "object"
+    },
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "preview": {
+      "$ref": "#/$defs/OwnedSkillKnowledgePreview"
+    },
+    "preview_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Preview Canonical",
+      "type": "string"
+    },
+    "preview_body_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Preview Body Canonical",
+      "type": "string"
+    },
+    "model_pins_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Model Pins Canonical",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "preview",
+    "preview_canonical",
+    "preview_body_canonical",
+    "model_pins_canonical"
+  ],
+  "title": "OwnedSkillKnowledgePreviewTransport",
+  "type": "object"
+}

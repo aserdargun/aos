@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "job_id": "job-fixture",
+  "available": true,
+  "candidate_sha256": "2e0d4a4a2287a8658a87fa1f3237c4ee04ab027519ac928f315f857a648a64de",
+  "candidate": {
+    "schema_version": "1.0",
+    "kind": "failed_task_improvement",
+    "job_id": "job-fixture",
+    "session_id": "session-fixture",
+    "task_kind": "hello",
+    "run_ref": "e9c8a569f991bb431c8bd5f3e9b3742d5c5e31bdd51db9996a12d35d61f72c23",
+    "source_sha256": "ef65e1d494a56c7835c6048f754a2520bcdb6272029560d580110e06db00f6f3",
+    "scope_sha256": "9cd8af417442ddca2a5bef2fb158ac610ab5f0f5f723c4d777bb1797c2b3e276",
+    "outcome": "failed",
+    "failure_code": "MODEL_FAILURE",
+    "synthetic": true,
+    "model_roles": {
+      "system1": {
+        "deployment_id": "fixture-decision-v1",
+        "real_model": false,
+        "calls": {
+          "ok": 0,
+          "error": 0,
+          "timeout": 0,
+          "cancelled": 0
+        }
+      },
+      "system2": {
+        "deployment_id": null,
+        "real_model": false,
+        "calls": {
+          "ok": 0,
+          "error": 0,
+          "timeout": 0,
+          "cancelled": 0
+        }
+      }
+    },
+    "approval_counts": {
+      "consumed": 0,
+      "rejected": 0,
+      "expired": 0,
+      "revoked": 0
+    },
+    "action_counts": {
+      "ok": 0,
+      "error": 0,
+      "denied": 0,
+      "cancelled": 0
+    },
+    "metadata_only": true,
+    "retrospective": true,
+    "training_ready": false,
+    "gold": false,
+    "execution_authorized": false,
+    "failure_attribution_verified": false
+  },
+  "saved": false,
+  "review": null,
+  "review_options": [
+    {
+      "decision": "accept",
+      "correction_code": "refresh_observation",
+      "confirm_sha256": "05b07c8885dd93eaf14e4561dafbf946f5ba95e24aedb948c1754e4324ce1aff"
+    },
+    {
+      "decision": "accept",
+      "correction_code": "inspect_before_retry",
+      "confirm_sha256": "426a2e2d4c505d09947bb42b3d952c3e8ef01c591610cd964ec6f3f59b0639a5"
+    },
+    {
+      "decision": "accept",
+      "correction_code": "request_clarification",
+      "confirm_sha256": "bb47a6a109cbacdc2c4394fda6e3d7696ae774e78148c25262d5742195e71027"
+    },
+    {
+      "decision": "accept",
+      "correction_code": "repair_environment",
+      "confirm_sha256": "15b788f6ebe3fc2a88a7cc533cc1c553fde33da4c6ae3351f505ba41873fe57d"
+    },
+    {
+      "decision": "reject",
+      "correction_code": null,
+      "confirm_sha256": "8940b6bd3f0aa03af2f1ea63b4eda39edef3f71e5b8e9eed279dba2769ee74b4"
+    }
+  ],
+  "source_current": true
+}

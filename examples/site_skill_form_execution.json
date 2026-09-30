@@ -1,0 +1,38 @@
+{
+  "synthetic": true,
+  "state_report_overrides": {
+    "status": "audited_form_state_readback_candidate",
+    "state_plan_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "state_verification_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "submitted_value_readback_bound": true
+  },
+  "report": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "status": "audited_form_transport_candidate",
+    "skill_sha256": "297918ae6c2bf990ce76d6ffc011059f69a07395d5a9a73bfa04513741915d08",
+    "skill_plan_sha256": "8887697a292866199bc928031739b9844dee909ce428e3d854f37582521a3cc1",
+    "case_inputs_sha256": "50476767a674a9cd7958c958d9149449775b1042d75c75818bf6c4778b3562c9",
+    "case_key": "dev-query",
+    "form_plan_sha256": "b3a68cd37d0335a519c37d01d4bfcb874d77f168daeb9471c657d5b140122c29",
+    "task_sha256": "bb59f1f42b509941536ddc059573c417b58d7443dd256659dfb6596cfbd43291",
+    "field_binding_sha256": "e088eac120413ac8638b4726664a286a0a5ae3a47a7e124422381b5229bd6227",
+    "run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "source_snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "submit_event_id": "learning-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "verification_ref": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "parameter_values_bound_to_plan": true,
+    "submit_decision_source_bound": true,
+    "transport_execution_verified": true,
+    "transport_readback_verified": true,
+    "source_parameters_bound": false,
+    "page_readback_bound": false,
+    "skill_executed": false,
+    "site_outcome_verified": false,
+    "held_out_independence_verified": false,
+    "skill_validated": false,
+    "reviewed": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS read-only remote S1 skill route source inspection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "status", "skill_sha256", "profile_sha256", "page_draft_sha256", "plan_sha256", "route_index", "run_ref", "snapshot_sha256", "model_role", "deployment_sha256", "source_event_ids", "source_request_sha256", "profile_bound", "page_readback_bound", "transport_readback_verified", "site_outcome_verified", "account_verified", "parameter_values_bound", "reviewed", "execution_authorized", "collection_authorized", "activation_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "read_only_remote_skill_source_inspection"},
+    "status": {"const": "unreviewed_route_source_match"},
+    "skill_sha256": {"$ref": "#/$defs/hash"},
+    "profile_sha256": {"$ref": "#/$defs/hash"},
+    "page_draft_sha256": {"$ref": "#/$defs/hash"},
+    "plan_sha256": {"$ref": "#/$defs/hash"},
+    "route_index": {"type": "integer", "minimum": 0, "maximum": 7},
+    "run_ref": {"$ref": "#/$defs/hash"},
+    "snapshot_sha256": {"$ref": "#/$defs/hash"},
+    "model_role": {"const": "system1"},
+    "deployment_sha256": {"$ref": "#/$defs/hash"},
+    "source_event_ids": {"type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": {"type": "string", "pattern": "^learning-[a-f0-9]{64}$"}},
+    "source_request_sha256": {"type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/hash"}},
+    "profile_bound": {"const": true},
+    "page_readback_bound": {"const": true},
+    "transport_readback_verified": {"const": true},
+    "site_outcome_verified": {"const": false},
+    "account_verified": {"const": false},
+    "parameter_values_bound": {"const": false},
+    "reviewed": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "activation_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

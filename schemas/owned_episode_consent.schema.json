@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_episode_consent.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "episode_id",
+    "planning_id",
+    "goal_sha256",
+    "authority",
+    "roles",
+    "synthetic",
+    "scope",
+    "collection_authorized",
+    "source_group_sha256",
+    "training_ready",
+    "training_authorized",
+    "network_export_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^episode-[a-f0-9]{32}$"
+    },
+    "planning_id": {
+      "type": "string",
+      "pattern": "^planning-[a-f0-9]{32}$"
+    },
+    "goal_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generation",
+        "manager_session",
+        "desktop_session_id",
+        "runtime_id",
+        "lease_id",
+        "reuse_admission_sha256",
+        "source_manifest_sha256",
+        "source_run_ref",
+        "source_invocation_sha256",
+        "source_fingerprint_sha256",
+        "family_sha256",
+        "release_sha256",
+        "selection_sha256",
+        "review_sha256",
+        "candidate_sha256",
+        "recipe_sha256"
+      ],
+      "properties": {
+        "generation": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "manager_session": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$"
+        },
+        "desktop_session_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$"
+        },
+        "runtime_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$"
+        },
+        "lease_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,128}$"
+        },
+        "reuse_admission_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_run_ref": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_invocation_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_fingerprint_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "family_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "release_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "selection_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "review_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "candidate_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "recipe_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "system1"
+        },
+        {
+          "const": "system2"
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "synthetic": {
+      "const": true
+    },
+    "scope": {
+      "const": "owned_synthetic_episode_content"
+    },
+    "collection_authorized": {
+      "const": true
+    },
+    "source_group_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "training_ready": {
+      "const": false
+    },
+    "training_authorized": {
+      "const": false
+    },
+    "network_export_authorized": {
+      "const": false
+    }
+  }
+}

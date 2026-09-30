@@ -1,0 +1,26 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_remote_json_bundle_source",
+    "status": "unreviewed_metadata_candidate",
+    "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "asset_count": 1,
+    "data_count": 1,
+    "requested_roles": ["system1", "system2"],
+    "source_event_ids_by_role": {
+      "system1": ["learning-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"],
+      "system2": []
+    },
+    "transport_readback_verified": true,
+    "site_outcome_verified": false,
+    "account_verified": false,
+    "rights_reviewed": false,
+    "redaction_reviewed": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

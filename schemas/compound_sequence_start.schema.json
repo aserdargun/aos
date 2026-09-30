@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "goal": {
+      "maxLength": 3000,
+      "minLength": 1,
+      "title": "Goal",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "composition_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Composition Sha256",
+      "type": "string"
+    },
+    "lease_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "goal",
+    "input_sha256",
+    "composition_sha256",
+    "lease_id",
+    "generation"
+  ],
+  "title": "CompoundSequenceStart",
+  "type": "object"
+}

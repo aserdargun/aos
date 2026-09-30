@@ -1,0 +1,30 @@
+{
+  "synthetic": true,
+  "skill": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "application_key": "synthetic-crm-editor",
+    "tenant_key": "synthetic-tenant",
+    "account_role": "editor",
+    "task_key": "find-record",
+    "page_key": "record-list",
+    "page_draft_sha256": "a9f9d7ba00c3f4765872c16f3dbb29996bcf676a25935961451daf49a25a518c",
+    "skill_key": "find-record-choice",
+    "model_role": "system1",
+    "candidate_kind": "finite_action_choice",
+    "revision": 1,
+    "previous_sha256": null,
+    "parameter_keys": ["record-query"],
+    "precondition_keys": ["record-list-visible"],
+    "step_keys": ["choose-search-action"],
+    "expected_outcome_key": "record-result-visible",
+    "source_event_ids": ["learning-e4d0d4c157ea7e73ae074d74d3eafa0c68fa91fb7a71e0bb28e68c7602fb06d9"],
+    "source_verification_ids": ["verification-test"],
+    "source_kind": "manual_candidate",
+    "status": "draft",
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false,
+    "activation_authorized": false
+  }
+}

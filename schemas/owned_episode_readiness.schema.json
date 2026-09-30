@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_episode_readiness.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "available",
+    "episode_id",
+    "export_sha256",
+    "conversion_sha256",
+    "persisted",
+    "counts",
+    "source_group_sha256",
+    "split",
+    "system1",
+    "system2",
+    "tokenizer_report_sha256",
+    "blockers",
+    "training_ready",
+    "promotion_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "available": {
+      "const": true
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^episode-[a-f0-9]{32}$"
+    },
+    "export_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "conversion_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "persisted": {
+      "type": "boolean"
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system1",
+        "system2"
+      ],
+      "properties": {
+        "system1": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 63
+        },
+        "system2": {
+          "const": 1
+        }
+      }
+    },
+    "source_group_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "split": {
+      "const": "development_only"
+    },
+    "system1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "converter_verified",
+        "tokenizer",
+        "tokenizer_start_available"
+      ],
+      "properties": {
+        "format": {
+          "const": "decider-example-q-v1"
+        },
+        "converter_verified": {
+          "const": true
+        },
+        "tokenizer": {
+          "enum": [
+            "missing",
+            "verified"
+          ]
+        },
+        "tokenizer_start_available": {
+          "type": "boolean"
+        }
+      }
+    },
+    "system2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "converter_verified",
+        "tokenizer",
+        "trainer"
+      ],
+      "properties": {
+        "format": {
+          "const": "aos-owned-plan-messages-v1"
+        },
+        "converter_verified": {
+          "const": true
+        },
+        "tokenizer": {
+          "const": "unverified"
+        },
+        "trainer": {
+          "const": "unverified"
+        }
+      }
+    },
+    "tokenizer_report_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "minItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "synthetic_development_only",
+          "independent_validation_test_missing",
+          "rights_redaction_review_missing",
+          "training_authorization_missing",
+          "system1_forward_loss_missing",
+          "system2_tokenizer_trainer_unverified",
+          "promotion_unavailable",
+          "system1_tokenizer_missing",
+          "system1_tokenizer_prerequisites_missing"
+        ]
+      }
+    },
+    "training_ready": {
+      "const": false
+    },
+    "promotion_authorized": {
+      "const": false
+    }
+  }
+}

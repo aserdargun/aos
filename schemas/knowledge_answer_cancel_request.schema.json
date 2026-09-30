@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "answer_id": {
+      "pattern": "^answer-[a-f0-9]{32}$",
+      "title": "Answer Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "answer_id"
+  ],
+  "title": "AnswerCancelRequest",
+  "type": "object"
+}

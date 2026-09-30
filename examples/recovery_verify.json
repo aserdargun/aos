@@ -1,0 +1,25 @@
+{
+  "synthetic": true,
+  "description": "Synthetic contract fixture; hashes are placeholders, not execution or approval evidence.",
+  "admission": {
+    "schema_version": "1.0",
+    "mode": "reconciled_hello_verification",
+    "admission_id": "resume-11111111111111111111111111111111",
+    "run_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "write_action_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "reconciliation_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "reconciliation_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "write_receipt_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "source_snapshot_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "source_state_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_state_version": 4,
+    "workspace_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "deployment_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "fresh_lease_ref": "3333333333333333333333333333333333333333333333333333333333333333",
+    "allowed_tool": "filesystem.read",
+    "maximum_read_actions": 2,
+    "requires_action_approval": true,
+    "write_authorized": false,
+    "automatic_replay_allowed": false
+  }
+}

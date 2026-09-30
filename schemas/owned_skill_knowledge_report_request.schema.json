@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "planning_bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Planning Bundle Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "planning_bundle_sha256"
+  ],
+  "title": "OwnedSkillKnowledgeReportRequest",
+  "type": "object"
+}

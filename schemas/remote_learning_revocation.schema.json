@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS local remote metadata consent revocation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "consent_sha256", "revoked_at", "local_operator_attested", "collection_authorized", "training_authorized"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"enum": ["local_operator_remote_metadata_revocation", "automatic_remote_metadata_retention_expiry"]},
+    "consent_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "revoked_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?\\+00:00$"},
+    "local_operator_attested": {"type": "boolean"},
+    "collection_authorized": {"const": false},
+    "training_authorized": {"const": false}
+  },
+  "allOf": [
+    {"if": {"properties": {"mode": {"const": "local_operator_remote_metadata_revocation"}}},
+     "then": {"properties": {"local_operator_attested": {"const": true}}}},
+    {"if": {"properties": {"mode": {"const": "automatic_remote_metadata_retention_expiry"}}},
+     "then": {"properties": {"local_operator_attested": {"const": false}}}}
+  ]
+}

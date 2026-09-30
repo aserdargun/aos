@@ -1,0 +1,73 @@
+{
+  "description": "Synthetic illustrative converted development records only; hashes and model text are placeholders. This is not trainer-compatible or training-ready.",
+  "synthetic": true,
+  "records": [
+    {
+      "schema_version": "1.0",
+      "converter_identity": {
+        "protocol": "aos-owned-episode-conversion-v1",
+        "schema_version": "1.0",
+        "upstream_format": "decider-example-q-v1"
+      },
+      "source_record_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "candidate_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "split_group": "c1296f1755a96538ac0f9288ec8ff44da9232bfb0e2490314bede04d59817c8a",
+      "split": "development_only",
+      "role": "system1",
+      "payload": {
+        "context": "Synthetic form task requires a bounded action choice.",
+        "qs": [{"text": "What should happen next?", "options": ["Ask a human", "Write authorized file"], "gold": 1}],
+        "task": "aos-owned-synthetic-form"
+      },
+      "synthetic": true,
+      "training_ready": false,
+      "supervisor_tokenizer_verified": false,
+      "loss_mask_verified": false,
+      "trainer_compatible": false
+    },
+    {
+      "schema_version": "1.0",
+      "converter_identity": {
+        "protocol": "aos-owned-episode-conversion-v1",
+        "schema_version": "1.0",
+        "upstream_format": "aos-owned-plan-messages-v1"
+      },
+      "source_record_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "candidate_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "split_group": "c1296f1755a96538ac0f9288ec8ff44da9232bfb0e2490314bede04d59817c8a",
+      "split": "development_only",
+      "role": "system2",
+      "payload": {
+        "format": "aos-owned-plan-messages-v1",
+        "messages": [
+          {"role": "system", "content": "Synthetic bounded plan request placeholder; no hidden reasoning."},
+          {"role": "user", "content": "{\"admitted_skill\":{\"form_field_name\":\"message\",\"id\":\"admitted-skill\",\"ordered_steps\":[{\"operation\":\"open_entry\",\"step_key\":\"open-record\"},{\"operation\":\"read_state_before\",\"step_key\":\"read-before\"},{\"operation\":\"fill_form\",\"step_key\":\"fill-message\"},{\"operation\":\"submit_form\",\"step_key\":\"submit-record\"},{\"operation\":\"read_receipt\",\"step_key\":\"check-receipt\"},{\"operation\":\"read_state_after\",\"step_key\":\"check-after\"}],\"parameter_key\":\"record-query\",\"requested_case_key\":\"demo-alpha\",\"requested_value\":\"alpha\",\"skill_key\":\"save_record\"},\"goal\":\"Save message \\\"alpha\\\"\"}"}
+        ],
+        "target": {
+          "schema_version": "1.0",
+          "decision": "invoke_selected_skill",
+          "evidence_refs": ["admitted-skill"],
+          "case_key": "demo-alpha",
+          "parameter_value": "alpha",
+          "steps": [
+            {"step_key": "open-record", "operation": "open_entry"},
+            {"step_key": "read-before", "operation": "read_state_before"},
+            {"step_key": "fill-message", "operation": "fill_form"},
+            {"step_key": "submit-record", "operation": "submit_form"},
+            {"step_key": "check-receipt", "operation": "read_receipt"},
+            {"step_key": "check-after", "operation": "read_state_after"}
+          ],
+          "reason_code": "skill_match",
+          "execution_authorized": false,
+          "activation_authorized": false,
+          "training_ready": false
+        }
+      },
+      "synthetic": true,
+      "training_ready": false,
+      "supervisor_tokenizer_verified": false,
+      "loss_mask_verified": false,
+      "trainer_compatible": false
+    }
+  ]
+}

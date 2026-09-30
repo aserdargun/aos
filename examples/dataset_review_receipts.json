@@ -1,0 +1,39 @@
+{
+  "synthetic": true,
+  "receipts": [
+    {
+      "schema_version": "1.0",
+      "receipt_id": "synthetic-accept",
+      "run_id": "run-hello",
+      "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "candidate_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "kind": "system1_choice",
+      "purpose": "offline_training_text",
+      "provenance": "synthetic",
+      "usage_rights": "synthetic_authored",
+      "redaction_version": "fixture-v1",
+      "reviewer_id": "synthetic-reviewer",
+      "authorization_ref": "synthetic-local-authorization",
+      "decision": "accept",
+      "revokes": null,
+      "created_at": "2026-09-20T12:00:00Z"
+    },
+    {
+      "schema_version": "1.0",
+      "receipt_id": "synthetic-revoke",
+      "run_id": "run-hello",
+      "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "candidate_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "kind": "system1_choice",
+      "purpose": "offline_training_text",
+      "provenance": "synthetic",
+      "usage_rights": "synthetic_authored",
+      "redaction_version": "fixture-v1",
+      "reviewer_id": "synthetic-reviewer",
+      "authorization_ref": "synthetic-local-authorization",
+      "decision": "revoke",
+      "revokes": "synthetic-accept",
+      "created_at": "2026-09-20T12:01:00Z"
+    }
+  ]
+}

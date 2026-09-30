@@ -1,0 +1,15 @@
+{
+  "synthetic": true,
+  "configuration": {
+    "schema_version": "1.0",
+    "fields": [
+      {"name": "subject", "value": "demo"},
+      {"name": "message", "value": "hello"},
+      {"name": "csrf_token", "value": "synthetic-token"}
+    ],
+    "body_sha256": "3ad4b44e77604192f4314d2c8e6438340b299e8dec54fd53be3d4b06554d8f67",
+    "body_bytes": 53,
+    "execution_authorized": false,
+    "collection_authorized": false
+  }
+}

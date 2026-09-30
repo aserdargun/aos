@@ -1,0 +1,53 @@
+{
+  "synthetic": true,
+  "pin": {
+    "schema_version": "1.0",
+    "mode": "historical_remote_json_review_pin",
+    "review_sha256": "d09c78adbe16ee6c31b0b7df1b095534cc3aae62cd37f983a42855b9a44d5f31",
+    "knowledge_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "profile_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "plan_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "source_snapshot_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "page_key": "summary",
+    "draft_revision": 1,
+    "landmark_keys": ["heading"],
+    "page_fingerprint_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "metadata_reviewed": true,
+    "current_readback_bound": false,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "matched_event": {
+    "schema_version": "1.0",
+    "mode": "remote_json_knowledge_live_readback",
+    "review_sha256": "d09c78adbe16ee6c31b0b7df1b095534cc3aae62cd37f983a42855b9a44d5f31",
+    "status": "matched",
+    "expected_fingerprint_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "current_fingerprint_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "page_key": "summary",
+    "draft_revision": 1,
+    "landmark_keys": ["heading"],
+    "metadata_reviewed": true,
+    "current_readback_bound": true,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "stale_event": {
+    "schema_version": "1.0",
+    "mode": "remote_json_knowledge_live_readback",
+    "review_sha256": "d09c78adbe16ee6c31b0b7df1b095534cc3aae62cd37f983a42855b9a44d5f31",
+    "status": "stale",
+    "expected_fingerprint_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "current_fingerprint_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "metadata_reviewed": true,
+    "current_readback_bound": true,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

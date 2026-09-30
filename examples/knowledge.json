@@ -1,0 +1,384 @@
+{
+  "synthetic": true,
+  "requests": {
+    "publish-preview": {
+      "schema_version": "1.0",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "source_id": "synthetic-manual",
+      "title": "Synthetic password manual",
+      "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+      "previous_sha256": null,
+      "expires_at": "2026-10-01T00:00:00+00:00",
+      "rights_attested": true,
+      "storage_consent": true,
+      "synthetic": true
+    },
+    "publish": {
+      "schema_version": "1.0",
+      "preview": {
+        "schema_version": "1.0",
+        "kind": "knowledge_publication_preview",
+        "document": {
+          "untrusted": true,
+          "execution_authorized": false,
+          "training_ready": false,
+          "gold": false,
+          "scope": {
+            "application_id": "synthetic-app",
+            "tenant_id": "synthetic-tenant",
+            "account_role": "reader"
+          },
+          "source_id": "synthetic-manual",
+          "title": "Synthetic password manual",
+          "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+          "previous_sha256": null,
+          "expires_at": "2026-10-01T00:00:00+00:00",
+          "rights_attested": true,
+          "storage_consent": true,
+          "synthetic": true,
+          "schema_version": "1.0",
+          "kind": "uploaded_text_knowledge",
+          "revision": 1,
+          "content_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655",
+          "chunks": [
+            {
+              "index": 0,
+              "start": 0,
+              "end": 83,
+              "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+              "chunk_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655"
+            }
+          ]
+        },
+        "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+        "preview_sha256": "5170638e7605ba84bb9bd489a8c467e48478a17e849da220713b37e005400973"
+      },
+      "confirm_sha256": "5170638e7605ba84bb9bd489a8c467e48478a17e849da220713b37e005400973",
+      "lease_id": "synthetic-lease",
+      "generation": 1
+    },
+    "review-preview": {
+      "schema_version": "1.0",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+      "decision": "accept"
+    },
+    "review": {
+      "schema_version": "1.0",
+      "preview": {
+        "schema_version": "1.0",
+        "kind": "knowledge_review_preview",
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+        "decision": "accept",
+        "previous_review_sha256": null,
+        "preview_sha256": "a4a19307694f96ef392ff4397d119b6ec78a8c215c9333426a5fa3ea52597cd1"
+      },
+      "confirm_sha256": "a4a19307694f96ef392ff4397d119b6ec78a8c215c9333426a5fa3ea52597cd1",
+      "lease_id": "synthetic-lease",
+      "generation": 1
+    },
+    "inspect": {
+      "schema_version": "1.0",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c"
+    },
+    "catalog": {
+      "schema_version": "1.0",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      }
+    },
+    "search": {
+      "schema_version": "1.0",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "query": "password reset",
+      "top_k": 3,
+      "context_chars": 2048
+    }
+  },
+  "responses": {
+    "publish-preview": {
+      "schema_version": "1.0",
+      "kind": "knowledge_publication_preview",
+      "document": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "source_id": "synthetic-manual",
+        "title": "Synthetic password manual",
+        "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+        "previous_sha256": null,
+        "expires_at": "2026-10-01T00:00:00+00:00",
+        "rights_attested": true,
+        "storage_consent": true,
+        "synthetic": true,
+        "schema_version": "1.0",
+        "kind": "uploaded_text_knowledge",
+        "revision": 1,
+        "content_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655",
+        "chunks": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 83,
+            "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+            "chunk_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655"
+          }
+        ]
+      },
+      "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+      "preview_sha256": "5170638e7605ba84bb9bd489a8c467e48478a17e849da220713b37e005400973"
+    },
+    "publish": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_document_inspection",
+      "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+      "document": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "source_id": "synthetic-manual",
+        "title": "Synthetic password manual",
+        "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+        "previous_sha256": null,
+        "expires_at": "2026-10-01T00:00:00+00:00",
+        "rights_attested": true,
+        "storage_consent": true,
+        "synthetic": true,
+        "schema_version": "1.0",
+        "kind": "uploaded_text_knowledge",
+        "revision": 1,
+        "content_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655",
+        "chunks": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 83,
+            "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+            "chunk_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655"
+          }
+        ]
+      },
+      "current": true,
+      "expired": false,
+      "review_status": "pending",
+      "review_sha256": null
+    },
+    "review-preview": {
+      "schema_version": "1.0",
+      "kind": "knowledge_review_preview",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+      "decision": "accept",
+      "previous_review_sha256": null,
+      "preview_sha256": "a4a19307694f96ef392ff4397d119b6ec78a8c215c9333426a5fa3ea52597cd1"
+    },
+    "review": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_document_inspection",
+      "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+      "document": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "source_id": "synthetic-manual",
+        "title": "Synthetic password manual",
+        "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+        "previous_sha256": null,
+        "expires_at": "2026-10-01T00:00:00+00:00",
+        "rights_attested": true,
+        "storage_consent": true,
+        "synthetic": true,
+        "schema_version": "1.0",
+        "kind": "uploaded_text_knowledge",
+        "revision": 1,
+        "content_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655",
+        "chunks": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 83,
+            "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+            "chunk_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655"
+          }
+        ]
+      },
+      "current": true,
+      "expired": false,
+      "review_status": "accepted",
+      "review_sha256": "f0751290914ab8f3592861a72fcdeae37b2c3771cf842c09e5e031c64587b6ea"
+    },
+    "inspect": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_document_inspection",
+      "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+      "document": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "source_id": "synthetic-manual",
+        "title": "Synthetic password manual",
+        "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+        "previous_sha256": null,
+        "expires_at": "2026-10-01T00:00:00+00:00",
+        "rights_attested": true,
+        "storage_consent": true,
+        "synthetic": true,
+        "schema_version": "1.0",
+        "kind": "uploaded_text_knowledge",
+        "revision": 1,
+        "content_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655",
+        "chunks": [
+          {
+            "index": 0,
+            "start": 0,
+            "end": 83,
+            "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+            "chunk_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655"
+          }
+        ]
+      },
+      "current": true,
+      "expired": false,
+      "review_status": "accepted",
+      "review_sha256": "f0751290914ab8f3592861a72fcdeae37b2c3771cf842c09e5e031c64587b6ea"
+    },
+    "catalog": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_catalog",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "documents": [
+        {
+          "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+          "source_id": "synthetic-manual",
+          "title": "Synthetic password manual",
+          "revision": 1,
+          "content_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655",
+          "expires_at": "2026-10-01T00:00:00+00:00",
+          "synthetic": true,
+          "current": true,
+          "expired": false,
+          "review_status": "accepted",
+          "review_sha256": "f0751290914ab8f3592861a72fcdeae37b2c3771cf842c09e5e031c64587b6ea"
+        }
+      ],
+      "limits": {
+        "max_documents": 128,
+        "max_revisions": 32,
+        "max_text_chars": 32768,
+        "max_text_bytes": 65536,
+        "chunk_chars": 1024,
+        "max_chunks_per_document": 32,
+        "max_query_chars": 512,
+        "max_top_k": 8,
+        "max_context_chars": 8192
+      }
+    },
+    "search": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_search",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "query_sha256": "658adf8d733cfbe570dbe401baa0c7a0d4cb538db749e60f2d3cc946d7a23c90",
+      "method": "deterministic_lexical",
+      "top_k": 3,
+      "context_chars": 2048,
+      "used_context_chars": 83,
+      "hits": [
+        {
+          "document_sha256": "16b2af9ce31ea86e0cc94eb2126cea1721accf5ad2dde2f6b52e6d9f3ec7848c",
+          "content_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655",
+          "review_sha256": "f0751290914ab8f3592861a72fcdeae37b2c3771cf842c09e5e031c64587b6ea",
+          "source_id": "synthetic-manual",
+          "title": "Synthetic password manual",
+          "revision": 1,
+          "chunk_index": 0,
+          "chunk_sha256": "1f6a56de7bdbc7b6b4f7c93ebba5debfa51effbf57eeb4c46ecd89dfec152655",
+          "start": 0,
+          "end": 83,
+          "text": "Synthetic password reset: request a recovery link from the authorized account page.",
+          "score": 2,
+          "synthetic": true
+        }
+      ]
+    }
+  }
+}

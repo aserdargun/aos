@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "application_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Application Key",
+      "type": "string"
+    },
+    "tenant_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Tenant Key",
+      "type": "string"
+    },
+    "account_role": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Account Role",
+      "type": "string"
+    },
+    "page_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Page Key",
+      "type": "string"
+    },
+    "revision": {
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "previous_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Previous Sha256"
+    },
+    "origin": {
+      "maxLength": 300,
+      "minLength": 1,
+      "title": "Origin",
+      "type": "string"
+    },
+    "route_template": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Route Template",
+      "type": "string"
+    },
+    "page_fingerprint_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Page Fingerprint Sha256",
+      "type": "string"
+    },
+    "recorded_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "landmark_keys": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+        "type": "string"
+      },
+      "maxItems": 32,
+      "title": "Landmark Keys",
+      "type": "array"
+    },
+    "outgoing_page_keys": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+        "type": "string"
+      },
+      "maxItems": 16,
+      "title": "Outgoing Page Keys",
+      "type": "array"
+    },
+    "source_kind": {
+      "const": "manual_draft",
+      "title": "Source Kind",
+      "type": "string"
+    },
+    "status": {
+      "const": "draft",
+      "title": "Status",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "profile_sha256",
+    "application_key",
+    "tenant_key",
+    "account_role",
+    "page_key",
+    "revision",
+    "previous_sha256",
+    "origin",
+    "route_template",
+    "page_fingerprint_sha256",
+    "recorded_at",
+    "landmark_keys",
+    "outgoing_page_keys",
+    "source_kind",
+    "status",
+    "execution_authorized",
+    "collection_authorized",
+    "training_ready"
+  ],
+  "title": "SitePageDraft",
+  "type": "object"
+}

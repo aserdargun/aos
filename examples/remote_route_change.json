@@ -1,0 +1,47 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_remote_route_change",
+    "status": "changed_profile_bound",
+    "fingerprint_version": "remote-route-readback-v1",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "plan_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "before_run_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "after_run_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "route_count": 2,
+    "routes": [
+      {
+        "route_index": 0,
+        "url_sha256": "dd16f6dca365756483bc97007c41578c37741033f8b4c5f574c44b7155d7b4a1",
+        "before_fingerprint_sha256": "4046ba48271b9835b5f2a574288b7ee4acbfacadf773e06301de0b8baa900a0e",
+        "after_fingerprint_sha256": "4046ba48271b9835b5f2a574288b7ee4acbfacadf773e06301de0b8baa900a0e",
+        "changed": false,
+        "sampled_link_inventory_changed": false,
+        "link_sample_sha256": "3ff4a86d527ea8f5f93139346744071bc0107bce9e8c79ae81eaea43ae195f16",
+        "planned_link_indices": [1]
+      },
+      {
+        "route_index": 1,
+        "url_sha256": "4752c65a17a86ed813843f68b11eae9258078ac0607aecba890cd9896764cd56",
+        "before_fingerprint_sha256": "017406780750d8bbe5e6a006f428007427ef45f523a63911416493bd3ce6bc12",
+        "after_fingerprint_sha256": "7e029b8db679cf921ddac63b4b56b2729a3907dbc29a07cea7b6a540a8a48f92",
+        "changed": true,
+        "sampled_link_inventory_changed": false,
+        "link_sample_sha256": "6c2462003ba9c24eb96997b78ad78db8dea58367737c29c2a53784683b8e8147",
+        "planned_link_indices": []
+      }
+    ],
+    "profile_bound": true,
+    "readback_verified": true,
+    "origin_verified": false,
+    "account_verified": false,
+    "site_outcome_verified": false,
+    "reviewed": false,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

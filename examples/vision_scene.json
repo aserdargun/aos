@@ -1,0 +1,15 @@
+{
+  "synthetic": true,
+  "purpose": "Handwritten schema fixture, not Bonsai inference evidence",
+  "scene": {
+    "capture_id": "00000000000000000000000000000001",
+    "state_version": 1,
+    "width": 640,
+    "height": 360,
+    "elements": [
+      {"role": "button", "label": "CANCEL", "bbox": {"x": 60, "y": 180, "width": 220, "height": 100}},
+      {"role": "button", "label": "SAVE", "bbox": {"x": 360, "y": 180, "width": 220, "height": 100}}
+    ],
+    "needs_human": false
+  }
+}

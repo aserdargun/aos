@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_desktop_lifecycle",
+      "default": "read_only_desktop_lifecycle",
+      "title": "Mode",
+      "type": "string"
+    },
+    "journal_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Journal Sha256",
+      "type": "string"
+    },
+    "birth_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Birth Ref",
+      "type": "string"
+    },
+    "runtime_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runtime Ref",
+      "type": "string"
+    },
+    "workspace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workspace Sha256",
+      "type": "string"
+    },
+    "image_id": {
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "title": "Image Id",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "recorded_stage": {
+      "enum": [
+        "intent",
+        "created",
+        "started",
+        "removed"
+      ],
+      "title": "Recorded Stage",
+      "type": "string"
+    },
+    "owner_observation": {
+      "enum": [
+        "same_process",
+        "not_observed",
+        "different_process",
+        "different_boot",
+        "incomparable",
+        "unavailable"
+      ],
+      "title": "Owner Observation",
+      "type": "string"
+    },
+    "workspace_busy": {
+      "title": "Workspace Busy",
+      "type": "boolean"
+    },
+    "container_observation": {
+      "enum": [
+        "not_queried",
+        "missing",
+        "created",
+        "running",
+        "exited"
+      ],
+      "title": "Container Observation",
+      "type": "string"
+    },
+    "observation_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Observation Sha256"
+    },
+    "inspected_at": {
+      "title": "Inspected At",
+      "type": "string"
+    },
+    "orphan_confirmed": {
+      "const": false,
+      "default": false,
+      "title": "Orphan Confirmed",
+      "type": "boolean"
+    },
+    "model_deployment_verified": {
+      "const": false,
+      "default": false,
+      "title": "Model Deployment Verified",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "resume_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Resume Authorized",
+      "type": "boolean"
+    },
+    "cleanup_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Cleanup Authorized",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "journal_sha256",
+    "birth_ref",
+    "runtime_ref",
+    "workspace_sha256",
+    "image_id",
+    "source_sha256",
+    "recorded_stage",
+    "owner_observation",
+    "workspace_busy",
+    "container_observation",
+    "observation_sha256",
+    "inspected_at"
+  ],
+  "title": "LifecycleInspection",
+  "type": "object"
+}

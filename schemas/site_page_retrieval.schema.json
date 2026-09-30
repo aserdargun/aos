@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS unbound synthetic page retrieval preview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "status", "knowledge_sha256", "selected_profile_sha256", "draft_revision", "page_key", "fingerprint_version", "page_fingerprint_sha256", "snapshot_sha256", "before_run_ref", "after_run_ref", "profile_bound", "origin_verified", "route_verified", "reviewed", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "read_only_synthetic_page_retrieval"},
+    "status": {"const": "candidate_unbound"},
+    "knowledge_sha256": {"$ref": "#/$defs/checksum"},
+    "selected_profile_sha256": {"$ref": "#/$defs/checksum"},
+    "draft_revision": {"type": "integer", "minimum": 1, "maximum": 100},
+    "page_key": {"enum": ["start", "details"]},
+    "fingerprint_version": {"const": "synthetic-local-page-v1"},
+    "page_fingerprint_sha256": {"$ref": "#/$defs/checksum"},
+    "snapshot_sha256": {"$ref": "#/$defs/checksum"},
+    "before_run_ref": {"$ref": "#/$defs/checksum"},
+    "after_run_ref": {"$ref": "#/$defs/checksum"},
+    "profile_bound": {"const": false},
+    "origin_verified": {"const": false},
+    "route_verified": {"const": false},
+    "reviewed": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

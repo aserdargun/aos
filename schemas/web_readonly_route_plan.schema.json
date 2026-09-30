@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "default": "1.0", "title": "Schema Version", "type": "string"},
+    "profile_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Profile Sha256", "type": "string"},
+    "task_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Task Sha256", "type": "string"},
+    "routes": {
+      "items": {"type": "string"},
+      "maxItems": 8,
+      "minItems": 2,
+      "title": "Routes",
+      "type": "array"
+    },
+    "approval": {"const": "fresh_per_action", "default": "fresh_per_action", "title": "Approval", "type": "string"},
+    "execution_authorized": {"const": false, "default": false, "title": "Execution Authorized", "type": "boolean"},
+    "collection_authorized": {"const": false, "default": false, "title": "Collection Authorized", "type": "boolean"}
+  },
+  "required": ["profile_sha256", "task_sha256", "routes"],
+  "title": "WebReadOnlyRoutePlan",
+  "type": "object"
+}

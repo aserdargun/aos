@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "descriptor-workspace-v1",
+      "default": "descriptor-workspace-v1",
+      "title": "Version",
+      "type": "string"
+    },
+    "path_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Path Sha256",
+      "type": "string"
+    },
+    "device": {
+      "minimum": 0,
+      "title": "Device",
+      "type": "integer"
+    },
+    "inode": {
+      "minimum": 1,
+      "title": "Inode",
+      "type": "integer"
+    },
+    "owner_uid": {
+      "minimum": 0,
+      "title": "Owner Uid",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "path_sha256",
+    "device",
+    "inode",
+    "owner_uid"
+  ],
+  "title": "WorkspaceIdentity",
+  "type": "object"
+}

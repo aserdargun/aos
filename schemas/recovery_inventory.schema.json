@@ -1,0 +1,330 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "PendingCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "action_intent": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Action Intent",
+          "type": "integer"
+        },
+        "action_running": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Action Running",
+          "type": "integer"
+        },
+        "action_uncertain": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Action Uncertain",
+          "type": "integer"
+        },
+        "approval_pending": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Approval Pending",
+          "type": "integer"
+        },
+        "approval_approved": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Approval Approved",
+          "type": "integer"
+        }
+      },
+      "title": "PendingCounts",
+      "type": "object"
+    },
+    "RecoveryJob": {
+      "additionalProperties": false,
+      "properties": {
+        "job_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Job Ref",
+          "type": "string"
+        },
+        "session_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Session Ref",
+          "type": "string"
+        },
+        "run_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Run Ref"
+        },
+        "kind": {
+          "enum": [
+            "hello",
+            "browser_form",
+            "vision_canvas",
+            "browser_local_navigation",
+            "browser_staging_workflow",
+            "browser_remote_entry",
+            "browser_remote_routes",
+            "browser_remote_form"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "waiting_approval",
+            "paused",
+            "waiting_human",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "run_status": {
+          "anyOf": [
+            {
+              "enum": [
+                "created",
+                "running",
+                "paused",
+                "waiting_human",
+                "succeeded",
+                "failed",
+                "cancelled"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Run Status"
+        },
+        "pending": {
+          "$ref": "#/$defs/PendingCounts"
+        },
+        "reasons": {
+          "items": {
+            "enum": [
+              "job_unsettled",
+              "run_unsettled",
+              "action_effect_unresolved",
+              "approval_not_terminal",
+              "job_run_status_mismatch",
+              "job_run_missing"
+            ],
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "job_ref",
+        "session_ref",
+        "kind",
+        "status",
+        "run_status",
+        "pending",
+        "reasons"
+      ],
+      "title": "RecoveryJob",
+      "type": "object"
+    },
+    "RecoveryTotals": {
+      "additionalProperties": false,
+      "properties": {
+        "action_intent": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Action Intent",
+          "type": "integer"
+        },
+        "action_running": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Action Running",
+          "type": "integer"
+        },
+        "action_uncertain": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Action Uncertain",
+          "type": "integer"
+        },
+        "approval_pending": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Approval Pending",
+          "type": "integer"
+        },
+        "approval_approved": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Approval Approved",
+          "type": "integer"
+        },
+        "sessions": {
+          "minimum": 0,
+          "title": "Sessions",
+          "type": "integer"
+        },
+        "sessions_not_stopped": {
+          "minimum": 0,
+          "title": "Sessions Not Stopped",
+          "type": "integer"
+        },
+        "jobs": {
+          "minimum": 0,
+          "title": "Jobs",
+          "type": "integer"
+        },
+        "jobs_requiring_inspection": {
+          "minimum": 0,
+          "title": "Jobs Requiring Inspection",
+          "type": "integer"
+        },
+        "runs": {
+          "minimum": 0,
+          "title": "Runs",
+          "type": "integer"
+        },
+        "unsettled_runs": {
+          "minimum": 0,
+          "title": "Unsettled Runs",
+          "type": "integer"
+        },
+        "unsettled_runs_without_jobs": {
+          "minimum": 0,
+          "title": "Unsettled Runs Without Jobs",
+          "type": "integer"
+        },
+        "input_queued": {
+          "minimum": 0,
+          "title": "Input Queued",
+          "type": "integer"
+        },
+        "input_running": {
+          "minimum": 0,
+          "title": "Input Running",
+          "type": "integer"
+        },
+        "input_uncertain": {
+          "minimum": 0,
+          "title": "Input Uncertain",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sessions",
+        "sessions_not_stopped",
+        "jobs",
+        "jobs_requiring_inspection",
+        "runs",
+        "unsettled_runs",
+        "unsettled_runs_without_jobs",
+        "input_queued",
+        "input_running",
+        "input_uncertain"
+      ],
+      "title": "RecoveryTotals",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_recovery_inventory",
+      "default": "read_only_recovery_inventory",
+      "title": "Mode",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "captured_at": {
+      "title": "Captured At",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "resume_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Resume Authorized",
+      "type": "boolean"
+    },
+    "live_state_verified": {
+      "const": false,
+      "default": false,
+      "title": "Live State Verified",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    },
+    "requires_inspection": {
+      "title": "Requires Inspection",
+      "type": "boolean"
+    },
+    "totals": {
+      "$ref": "#/$defs/RecoveryTotals"
+    },
+    "job_limit": {
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Job Limit",
+      "type": "integer"
+    },
+    "jobs_truncated": {
+      "title": "Jobs Truncated",
+      "type": "boolean"
+    },
+    "jobs": {
+      "items": {
+        "$ref": "#/$defs/RecoveryJob"
+      },
+      "maxItems": 100,
+      "title": "Jobs",
+      "type": "array"
+    }
+  },
+  "required": [
+    "snapshot_sha256",
+    "captured_at",
+    "requires_inspection",
+    "totals",
+    "job_limit",
+    "jobs_truncated",
+    "jobs"
+  ],
+  "title": "RecoveryReport",
+  "type": "object"
+}

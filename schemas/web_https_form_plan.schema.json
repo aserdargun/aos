@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS exact bounded HTTPS form transport plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "profile_sha256", "task_sha256", "entry_url", "submit_url", "receipt_url", "body_sha256", "body_bytes", "content_type", "approval", "status", "execution_authorized", "collection_authorized"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "task_sha256": {"$ref": "#/$defs/checksum"},
+    "entry_url": {"type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^https://"},
+    "submit_url": {"type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^https://"},
+    "receipt_url": {"type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^https://"},
+    "body_sha256": {"$ref": "#/$defs/checksum"},
+    "body_bytes": {"type": "integer", "minimum": 1, "maximum": 4096},
+    "content_type": {"const": "application/x-www-form-urlencoded"},
+    "approval": {"const": "fresh_per_action"},
+    "status": {"const": "draft"},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false}
+  },
+  "$defs": {"checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

@@ -1,0 +1,17 @@
+{
+  "description": "Synthetic pre-action review admission observation; hashes are illustrative and do not represent a real candidate or run.",
+  "synthetic": true,
+  "admission": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "review_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "candidate_execution_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "candidate_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "source_run_ref": "4444444444444444444444444444444444444444444444444444444444444444",
+    "review_status": "accepted",
+    "review_admission_verified": true,
+    "activation_authorized": false,
+    "training_ready": false,
+    "independent_held_out": false
+  }
+}

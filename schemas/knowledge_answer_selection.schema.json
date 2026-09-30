@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aos-aserdargun.com/schemas/knowledge_answer_selection.schema.json",
+  "title": "Untrusted extractive knowledge answer selection",
+  "description": "The host verifies unique citation IDs and quote text, exact source membership and verbatim UTF-8 substrings. Citation verification does not guarantee relevance or truth or authorize execution or training.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "needs_human": {"type": "boolean"},
+    "quotes": {
+      "type": "array",
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/quote"}
+    }
+  },
+  "required": ["schema_version", "needs_human", "quotes"],
+  "oneOf": [
+    {"properties": {"needs_human": {"const": false}, "quotes": {"minItems": 1}}},
+    {"properties": {"needs_human": {"const": true}, "quotes": {"maxItems": 0}}}
+  ],
+  "$defs": {
+    "quote": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "citation_id": {"type": "string", "enum": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"]},
+        "text": {"type": "string", "minLength": 1, "maxLength": 512}
+      },
+      "required": ["citation_id", "text"]
+    }
+  }
+}

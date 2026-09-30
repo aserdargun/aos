@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aos-local"
+version = "0.1.0"
+description = "Local AOS acceptance-driven development harness"
+requires-python = ">=3.11"
+dependencies = ["pydantic==2.13.5"]
+
+[project.optional-dependencies]
+dataset = ["jsonschema==4.26.0", "rfc3339-validator==0.1.4"]
+browser = ["playwright==1.63.0"]
+desktop = ["fastapi==0.141.1", "uvicorn==0.53.0", "websockets==17.1", "httpx==0.28.1"]
+
+[project.scripts]
+agentctl = "aos.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

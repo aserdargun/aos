@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "reconciled_hello_verification",
+      "default": "reconciled_hello_verification",
+      "title": "Mode",
+      "type": "string"
+    },
+    "admission_id": {
+      "pattern": "^resume-[a-f0-9]{32}$",
+      "title": "Admission Id",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "write_action_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Write Action Ref",
+      "type": "string"
+    },
+    "reconciliation_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reconciliation Ref",
+      "type": "string"
+    },
+    "reconciliation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reconciliation Sha256",
+      "type": "string"
+    },
+    "write_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Write Receipt Sha256",
+      "type": "string"
+    },
+    "source_snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Snapshot Sha256",
+      "type": "string"
+    },
+    "source_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source State Sha256",
+      "type": "string"
+    },
+    "source_state_version": {
+      "minimum": 0,
+      "title": "Source State Version",
+      "type": "integer"
+    },
+    "workspace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workspace Sha256",
+      "type": "string"
+    },
+    "deployment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Sha256",
+      "type": "string"
+    },
+    "fresh_lease_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Fresh Lease Ref",
+      "type": "string"
+    },
+    "allowed_tool": {
+      "const": "filesystem.read",
+      "default": "filesystem.read",
+      "title": "Allowed Tool",
+      "type": "string"
+    },
+    "maximum_read_actions": {
+      "const": 2,
+      "default": 2,
+      "title": "Maximum Read Actions",
+      "type": "integer"
+    },
+    "requires_action_approval": {
+      "const": true,
+      "default": true,
+      "title": "Requires Action Approval",
+      "type": "boolean"
+    },
+    "write_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Write Authorized",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "admission_id",
+    "run_ref",
+    "write_action_ref",
+    "reconciliation_ref",
+    "reconciliation_sha256",
+    "write_receipt_sha256",
+    "source_snapshot_sha256",
+    "source_state_sha256",
+    "source_state_version",
+    "workspace_sha256",
+    "deployment_sha256",
+    "fresh_lease_ref"
+  ],
+  "title": "VerificationAdmission",
+  "type": "object"
+}

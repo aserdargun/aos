@@ -1,0 +1,25 @@
+# W4 — Açık seçilmiş uzak rota metadata akışı
+
+`aos.remote_learning_stream`, **yalnız açık yerel izin kaydıyla** bir `browser_remote_routes` run'ı sürerken veya tamamlandıktan sonra S1/S2 gerçek model çağrılarının içeriksiz metadata adaylarını özel SQLite outbox'a artımlı ekler. Kaynak DB, profil, sıralı plan, task/runtime bağı, consent hash'i ve pinli model deployment kimliği her poll'da yeniden denetlenir. S1 ancak exact kararına ait başarılı rota eylemi ve tüketilmiş ayrı insan onayından sonra rota indeksine bağlanır. S2 ancak gerçekten kaydedilmiş Bonsai escalation/call varsa **run düzeyinde**, `route_index=null` olarak kaydedilir; Decider sonucu Bonsai sonucu veya rota başarısı sayılmaz.
+
+Bu CLI yalnız `remote_route_model_metadata_only` iznini kabul eder. Statik-bundle görevinin ayrı scope ve outbox yolu [burada](REMOTE_STATIC_LEARNING_STREAM.md) tanımlıdır; rota poller'ı statik izinle çalışmaz.
+
+Önce [iki aşamalı yerel izin kaydını](REMOTE_LEARNING_CONSENT.md) oluşturun. Run başladıktan sonra aynı özel kaynaklar ve izin hash'iyle CLI'yi ayrı terminalde çalıştırın:
+
+```sh
+.venv/bin/python -m aos.remote_learning_stream \
+  --database data/<private-trajectory.sqlite> \
+  --profiles data/web-applications \
+  --consents data/remote-learning-consents \
+  --consent-sha256 <exact-consent-sha256> \
+  --outbox-dir data/remote-learning-outbox \
+  --watch-seconds 300 --interval-seconds 1
+```
+
+`--watch-seconds` varsayılanı sıfırdır, yani tek poll. İzleme üst sınırı 300 saniye / 1200 poll'dur; güvenli aralıkta tekrar başlatılıp aynı özel outbox kullanılabilir. Her exact izin hash'i, verilen outbox taban dizini altındaki kendi `0700` hash dizini ve `0600` SQLite dosyasına bağlanır; sonraki görevlerin farklı run/izin kayıtları öncekinin singleton bağına çarpmaz. Önceki sürümün doğrudan taban dizininde bulunan v1 SQLite dosyası yalnız kendi kayıtlı exact izin hash'i için yeniden kullanılır; diğer izinler ayrı hash dizinlerine gider. Kaynak dosya/inode, şema, run/deployment, profil/plan, izin veya önceki event içeriği değişirse ekleme durur. Girişler değişmeyen append-only migration, private SQLite, idempotent event ID ve önceki kaynak fingerprint'iyle korunur. Outbox URL, DOM, prompt/response, sır, ekran görüntüsü veya model ağırlığı içermez; yine de özel metadata'dır ve `data/` dışında yayınlanmaz.
+
+Yeni remote-routes backend oturumunda ayrıca **authenticated görev-başı scheduler hook'u** vardır. Görev başladıktan ve ilk rota onayı beklemeye geçtikten sonra, [iki aşamalı CLI veya Tasks paneli](REMOTE_LEARNING_CONSENT.md) ile run'a exact izin kaydı oluşturun. Tasks ekranında yalnız o aktif run için hash'i girip **Attach metadata recording to this run** düğmesini kullanın; aynı çağrı `POST /api/tasks/remote-learning` gövdesinde yalnız `{"job_id":"...","consent_sha256":"..."}` kabul eder. Kayıt ile bağlama iki ayrı açık eylemdir. Sunucu `data/remote-learning-consents` ve görev DB'sinin yanında özel `remote-learning-outbox` yollarını pinler; istemci yol, profil veya plan seçemez. İlk snapshot poll'u başarılı olmadan opt-in kaydı yazılmaz. Sonraki kararın onayı öncesinde ve görev sonucu kesinleşince eşzamanlı, committed güvenli noktada yeniden poll yapılır. Başarısız metadata hattı `remote_learning_metadata.state=failed` olarak görünür; görev onayı veya doğrulanmış görev sonucu bundan başarısız sayılmaz. Backend restart sonrası eksik son poll `recovery_required` olur ve açık CLI ile incelenir; otomatik replay yapılmaz. Mevcut çalışan backend sessizce yükseltilmez.
+
+Yerel izin beyanı harici hak/hesap doğrulaması değildir. [Açık host iptali ve saklama süresi süpürücüsü](REMOTE_LEARNING_CONSENT.md), izin kaydını kalıcı olarak durdurup exact outbox kökündeki bağlı SQLite'ı mantıksal olarak silebilir; aktif scheduler'da sonraki metadata poll `failed` olabilir fakat görev sonucu bundan başarısız sayılmaz. Yeni managed backend özel oturum köklerini açılışta ve saatte bir tarar; eski canlı backend hot-upgrade olmaz. Diğer kök/yedek temizliği, kapalı makinede takvimsel çalışma ve fiziksel secure erase yoktur. Akışta uygulama sonucu, readback, redaction review, gold label, dataset veya training readiness yoktur. Entry şeması bunları açıkça `false` tutar. Tamamlanmış run'ın ayrı [salt okunur kaynak raporu](REMOTE_LEARNING_SOURCE.md) transport readback'i denetleyebilir; bu, akış kayıtlarını otomatik gold'a yükseltmez. Gerçek kullanıcı hedef URL/hesap/hak olmadan W4 ürün kabulü açık kalır.
+
+Owned sentetik TLS/Ubuntu/Chromium/MCP iki-rotalı görevde ilk poll sıfır, birinci rotadan sonra fixture sıfır veya gerçek pinned Decider bir S1, ikinci sonrası gerçek pinned Decider iki S1, çağrılmayan S2 sıfır kayıt verdi. Aynı managed oturumda iki ayrı izinli run'ın ayrı özel outbox'ları gerçek pinned Decider ile toplam dört S1 kaydını birbirine karıştırmadan tuttu; eski kök-v1 dosyası yanında yeni hash dizini de fixture'da yeniden poll edildi. Restart/dedup ve değiştirilmiş insan onayı negatifleri sınandı. Bu fixture hedef kullanıcının sitesi değildir; retention, iptal ve incelenmiş dataset kapıları açık kalır.

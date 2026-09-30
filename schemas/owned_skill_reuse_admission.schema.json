@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Private admission for a fresh-session owned skill reuse",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "type": "string"},
+    "synthetic": {"const": true, "type": "boolean"},
+    "purpose": {"const": "owned_selected_skill_reuse_admission", "type": "string"},
+    "preview": {"$ref": "#/$defs/preview"},
+    "preview_sha256": {"$ref": "#/$defs/hash"},
+    "manager_session": {"$ref": "#/$defs/id"},
+    "desktop_session_id": {"$ref": "#/$defs/id"},
+    "runtime_id": {"$ref": "#/$defs/id"},
+    "lease_id": {"$ref": "#/$defs/id"},
+    "generation": {"type": "integer", "minimum": 0},
+    "execution_authorized": {"const": false, "type": "boolean"},
+    "old_actions_replayed": {"const": false, "type": "boolean"},
+    "activation_authorized": {"const": false, "type": "boolean"},
+    "training_ready": {"const": false, "type": "boolean"}
+  },
+  "required": [
+    "schema_version", "synthetic", "purpose", "preview", "preview_sha256",
+    "manager_session", "desktop_session_id", "runtime_id", "lease_id", "generation",
+    "execution_authorized", "old_actions_replayed", "activation_authorized", "training_ready"
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+    "workspace_identity": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "version": {"const": "descriptor-workspace-v1", "type": "string"},
+        "path_sha256": {"$ref": "#/$defs/hash"},
+        "device": {"type": "integer", "minimum": 0},
+        "inode": {"type": "integer", "minimum": 1},
+        "owner_uid": {"type": "integer", "minimum": 0}
+      },
+      "required": ["version", "path_sha256", "device", "inode", "owner_uid"]
+    },
+    "database_identity": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "path_sha256": {"$ref": "#/$defs/hash"},
+        "device": {"type": "integer", "minimum": 0},
+        "inode": {"type": "integer", "minimum": 1},
+        "owner_uid": {"type": "integer", "minimum": 0}
+      },
+      "required": ["path_sha256", "device", "inode", "owner_uid"]
+    },
+    "preview": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": "1.0", "type": "string"},
+        "synthetic": {"const": true, "type": "boolean"},
+        "purpose": {"const": "owned_selected_skill_reuse", "type": "string"},
+        "previous_manager_session": {"$ref": "#/$defs/id"},
+        "previous_stopped_state_sha256": {"$ref": "#/$defs/hash"},
+        "previous_lifecycle_sha256": {"$ref": "#/$defs/hash"},
+        "source_workspace_identity": {"$ref": "#/$defs/workspace_identity"},
+        "source_database_identity": {"$ref": "#/$defs/database_identity"},
+        "source_manifest_sha256": {"$ref": "#/$defs/hash"},
+        "source_job_id": {"$ref": "#/$defs/id"},
+        "source_run_ref": {"$ref": "#/$defs/hash"},
+        "source_invocation_sha256": {"$ref": "#/$defs/hash"},
+        "source_desktop_session_id": {"$ref": "#/$defs/id"},
+        "source_fingerprint_sha256": {"$ref": "#/$defs/hash"},
+        "family_sha256": {"$ref": "#/$defs/hash"},
+        "release_sha256": {"$ref": "#/$defs/hash"},
+        "selection_sha256": {"$ref": "#/$defs/hash"},
+        "review_sha256": {"$ref": "#/$defs/hash"},
+        "candidate_sha256": {"$ref": "#/$defs/hash"},
+        "recipe_sha256": {"$ref": "#/$defs/hash"},
+        "review_evidence_execution_sha256": {"$ref": "#/$defs/hash"},
+        "source_audit_sha256": {"$ref": "#/$defs/hash"},
+        "review_evidence_audit_sha256": {"$ref": "#/$defs/hash"},
+        "replay_inventory_sha256": {"$ref": "#/$defs/hash"},
+        "prior_sessions_sha256": {"$ref": "#/$defs/hash"},
+        "origin": {"type": "string", "pattern": "^https://[a-z0-9.-]+\\.invalid(?::[1-9][0-9]{0,4})?$"},
+        "certificate_sha256": {"$ref": "#/$defs/hash"},
+        "execution_authorized": {"const": false, "type": "boolean"},
+        "old_actions_replayed": {"const": false, "type": "boolean"},
+        "activation_authorized": {"const": false, "type": "boolean"},
+        "training_ready": {"const": false, "type": "boolean"}
+      },
+      "required": [
+        "schema_version", "synthetic", "purpose", "previous_manager_session",
+        "previous_stopped_state_sha256", "previous_lifecycle_sha256",
+        "source_workspace_identity", "source_database_identity", "source_manifest_sha256",
+        "source_job_id", "source_run_ref", "source_invocation_sha256",
+        "source_desktop_session_id", "source_fingerprint_sha256", "family_sha256",
+        "release_sha256", "selection_sha256", "review_sha256", "candidate_sha256",
+        "recipe_sha256", "review_evidence_execution_sha256", "source_audit_sha256",
+        "review_evidence_audit_sha256", "replay_inventory_sha256", "prior_sessions_sha256",
+        "origin", "certificate_sha256", "execution_authorized", "old_actions_replayed",
+        "activation_authorized", "training_ready"
+      ]
+    }
+  }
+}

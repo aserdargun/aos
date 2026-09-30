@@ -1,0 +1,71 @@
+{
+  "synthetic": true,
+  "task": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_key": "find-record",
+    "entry_url": "https://crm.example.invalid/app/",
+    "allowed_origins": [
+      "https://crm.example.invalid"
+    ],
+    "tools": [
+      "browser.click",
+      "browser.fill",
+      "browser.navigate",
+      "browser.snapshot",
+      "browser.verify"
+    ],
+    "max_pages": 4,
+    "max_navigations": 6,
+    "max_actions": 8,
+    "max_seconds": 300,
+    "verification_ref": "synthetic-receipt",
+    "approval": "fresh_per_action",
+    "uncertain_write": "stop_without_retry",
+    "network_access": false,
+    "collection_authorized": false
+  },
+  "form_plan": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "bb59f1f42b509941536ddc059573c417b58d7443dd256659dfb6596cfbd43291",
+    "entry_url": "https://crm.example.invalid/app/",
+    "submit_url": "https://crm.example.invalid/app/submit",
+    "receipt_url": "https://crm.example.invalid/app/receipt",
+    "body_sha256": "a4d4a6a1108e7af9fd1cc3145982d14b3d4d4de98a54295aa13dcf4b591a56ef",
+    "body_bytes": 13,
+    "content_type": "application/x-www-form-urlencoded",
+    "approval": "fresh_per_action",
+    "status": "draft",
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "field_bindings": [
+    {
+      "parameter_key": "record-query",
+      "form_field_name": "message"
+    }
+  ],
+  "report": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "status": "exact_form_plan_bound_execution_unverified",
+    "skill_sha256": "297918ae6c2bf990ce76d6ffc011059f69a07395d5a9a73bfa04513741915d08",
+    "skill_plan_sha256": "8887697a292866199bc928031739b9844dee909ce428e3d854f37582521a3cc1",
+    "case_inputs_sha256": "50476767a674a9cd7958c958d9149449775b1042d75c75818bf6c4778b3562c9",
+    "case_key": "dev-query",
+    "form_plan_sha256": "b3a68cd37d0335a519c37d01d4bfcb874d77f168daeb9471c657d5b140122c29",
+    "task_sha256": "bb59f1f42b509941536ddc059573c417b58d7443dd256659dfb6596cfbd43291",
+    "field_binding_sha256": "e088eac120413ac8638b4726664a286a0a5ae3a47a7e124422381b5229bd6227",
+    "field_count": 1,
+    "parameter_values_bound_to_plan": true,
+    "source_parameters_bound": false,
+    "page_readback_bound": false,
+    "execution_performed": false,
+    "outcomes_verified": false,
+    "skill_validated": false,
+    "reviewed": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

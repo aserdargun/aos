@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0",
+  "job_id": "job-followup",
+  "intent_sha256": "b28aa52a0288468e82f90071d0690b29d8d3a3d7c3378331dd8f7a6a3285e8b7",
+  "manual_approval_required": true
+}

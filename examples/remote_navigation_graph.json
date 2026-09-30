@@ -1,0 +1,33 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_observed_navigation_graph",
+    "status": "candidate_observed_route_graph",
+    "fingerprint_version": "remote-route-readback-v1",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "plan_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "before_run_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "after_run_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "route_count": 2,
+    "stable_pages": [
+      {"route_index": 0, "url_sha256": "1111111111111111111111111111111111111111111111111111111111111111", "page_fingerprint_sha256": "2222222222222222222222222222222222222222222222222222222222222222", "link_sample_sha256": "3333333333333333333333333333333333333333333333333333333333333333"},
+      {"route_index": 1, "url_sha256": "4444444444444444444444444444444444444444444444444444444444444444", "page_fingerprint_sha256": "5555555555555555555555555555555555555555555555555555555555555555"}
+    ],
+    "observed_edges": [{"source_route_index": 0, "target_route_index": 1}],
+    "changed_route_indices": [],
+    "incomplete_link_sample_indices": [1],
+    "profile_bound": true,
+    "readback_verified": true,
+    "semantic_page_keys_verified": false,
+    "origin_verified": false,
+    "account_verified": false,
+    "site_outcome_verified": false,
+    "reviewed": false,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

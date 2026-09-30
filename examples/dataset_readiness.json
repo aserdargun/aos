@@ -1,0 +1,15 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0", "mode": "fixture_readiness_v1",
+    "dataset_id": "fixture-0000000000000000000000000000000000000000000000000000000000000000",
+    "dataset_integrity_verified": true, "training_ready": false, "real_records": 0, "records": 2,
+    "split_counts": {
+      "system1_choice": {"train": 1, "validation": 0, "test": 0},
+      "system2_supervisor": {"train": 1, "validation": 0, "test": 0}
+    },
+    "deployment_manifest_sha256": null,
+    "reported_tokenizer_binding": "missing", "reported_forward_loss_binding": "missing",
+    "blockers": ["dataset_bound_preflight_missing", "empty_test_split", "empty_validation_split", "forward_loss_report_missing", "general_redaction_unverified", "gradient_optimizer_unverified", "licensed_replay_missing", "promotion_unavailable", "real_source_review_pipeline_missing", "synthetic_dataset_only", "tokenizer_report_missing", "training_authorization_missing"]
+  }
+}

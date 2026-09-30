@@ -1,0 +1,27 @@
+{
+  "synthetic": true,
+  "note": "Illustrative schema fixture only. No candidate was loaded or evaluated for these values.",
+  "report": {
+    "schema_version": "1.0",
+    "mode": "synthetic_decider_option_rows_replay_v1",
+    "source_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "input_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "deployment_manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "artifact_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "runner_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "checkpoint_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "code_revision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "weights_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "heldout_sample_ref": "1111111111111111111111111111111111111111111111111111111111111111",
+    "token_ids": [101, 102],
+    "heldout_base_nll": 0.6,
+    "heldout_candidate_nll": 0.62,
+    "heldout_base_choice": 0,
+    "heldout_candidate_choice": 0,
+    "candidate_loaded": true,
+    "base_parameters_unchanged": true,
+    "synthetic": true,
+    "training_ready": false,
+    "promotion_authorized": false
+  }
+}

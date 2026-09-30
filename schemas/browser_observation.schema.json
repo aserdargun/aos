@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "DomElement": {
+      "additionalProperties": false,
+      "properties": {
+        "element_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Element Id",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "textbox",
+            "button"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "label": {
+          "enum": [
+            "Message",
+            "Save locally"
+          ],
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "element_id",
+        "role",
+        "label"
+      ],
+      "title": "DomElement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "value": {
+      "maxLength": 100,
+      "title": "Value",
+      "type": "string"
+    },
+    "receipt": {
+      "maxLength": 100,
+      "title": "Receipt",
+      "type": "string"
+    },
+    "submissions": {
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Submissions",
+      "type": "integer"
+    },
+    "snapshot_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Snapshot Id",
+      "type": "string"
+    },
+    "elements": {
+      "items": {
+        "$ref": "#/$defs/DomElement"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Elements",
+      "type": "array"
+    }
+  },
+  "required": [
+    "value",
+    "receipt",
+    "submissions",
+    "snapshot_id",
+    "elements"
+  ],
+  "title": "DomObservation",
+  "type": "object"
+}

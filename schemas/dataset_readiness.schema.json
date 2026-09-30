@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS fixture dataset readiness inventory",
+  "type": "object",
+  "$defs": {
+    "counts": {
+      "type": "object", "properties": {"train": {"type": "integer", "minimum": 0}, "validation": {"type": "integer", "minimum": 0}, "test": {"type": "integer", "minimum": 0}},
+      "required": ["train", "validation", "test"], "additionalProperties": false
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1.0"}, "mode": {"const": "fixture_readiness_v1"},
+    "dataset_id": {"type": "string", "pattern": "^fixture-[a-f0-9]{64}$"},
+    "dataset_integrity_verified": {"const": true}, "training_ready": {"const": false}, "real_records": {"const": 0},
+    "records": {"type": "integer", "minimum": 0},
+    "split_counts": {"type": "object", "properties": {"system1_choice": {"$ref": "#/$defs/counts"}, "system2_supervisor": {"$ref": "#/$defs/counts"}},
+      "required": ["system1_choice", "system2_supervisor"], "additionalProperties": false},
+    "deployment_manifest_sha256": {"anyOf": [{"type": "string", "pattern": "^[a-f0-9]{64}$"}, {"type": "null"}]},
+    "reported_tokenizer_binding": {"enum": ["missing", "matches"]}, "reported_forward_loss_binding": {"enum": ["missing", "matches"]},
+    "reported_dataset_tokenizer_binding": {"enum": ["missing", "matches"]},
+    "reported_dataset_loss_binding": {"enum": ["missing", "matches"]},
+    "blockers": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"enum": ["synthetic_dataset_only", "dataset_bound_preflight_missing", "dataset_bound_forward_loss_missing", "supervisor_tokenizer_missing", "general_redaction_unverified", "real_source_review_pipeline_missing", "licensed_replay_missing", "gradient_optimizer_unverified", "training_authorization_missing", "promotion_unavailable", "empty_validation_split", "empty_test_split", "tokenizer_report_missing", "forward_loss_report_missing"]}
+    }
+  },
+  "required": ["schema_version", "mode", "dataset_id", "dataset_integrity_verified", "training_ready", "real_records", "records", "split_counts", "deployment_manifest_sha256", "reported_tokenizer_binding", "reported_forward_loss_binding", "blockers"],
+  "additionalProperties": false
+}

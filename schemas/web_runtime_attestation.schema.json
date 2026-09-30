@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Sha256",
+      "type": "string"
+    },
+    "runtime_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runtime Sha256",
+      "type": "string"
+    },
+    "runtime_id": {
+      "pattern": "^browser-[a-f0-9]{32}$",
+      "title": "Runtime Id",
+      "type": "string"
+    },
+    "parent_runtime_id": {
+      "pattern": "^desktop-[a-f0-9]{32}$",
+      "title": "Parent Runtime Id",
+      "type": "string"
+    },
+    "container_id": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Container Id",
+      "type": "string"
+    },
+    "observed_at": {
+      "title": "Observed At",
+      "type": "string"
+    },
+    "status": {
+      "const": "observed_match",
+      "default": "observed_match",
+      "title": "Status",
+      "type": "string"
+    },
+    "runtime_identity_observed": {
+      "const": true,
+      "default": true,
+      "title": "Runtime Identity Observed",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "network_access_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Network Access Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "binding_sha256",
+    "runtime_sha256",
+    "runtime_id",
+    "parent_runtime_id",
+    "container_id",
+    "observed_at"
+  ],
+  "title": "WebRuntimeAttestation",
+  "type": "object"
+}

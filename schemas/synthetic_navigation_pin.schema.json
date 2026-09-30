@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "default": "1.0", "title": "Schema Version", "type": "string"},
+    "profile_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Profile Sha256", "type": "string"},
+    "task_key": {"const": "synthetic-local-navigation", "title": "Task Key", "type": "string"},
+    "fixture_port": {"maximum": 65535, "minimum": 1024, "title": "Fixture Port", "type": "integer"},
+    "parent_runtime_id": {"pattern": "^desktop-[a-f0-9]{32}$", "title": "Parent Runtime Id", "type": "string"},
+    "container_id": {"pattern": "^[a-f0-9]{64}$", "title": "Container Id", "type": "string"},
+    "image_id": {"pattern": "^sha256:[a-f0-9]{64}$", "title": "Image Id", "type": "string"},
+    "mcp_bundle_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Mcp Bundle Sha256", "type": "string"},
+    "worker_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Worker Sha256", "type": "string"},
+    "fixture_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Fixture Sha256", "type": "string"},
+    "runtime_digest": {"pattern": "^[a-f0-9]{64}$", "title": "Runtime Digest", "type": "string"},
+    "network_mode": {"const": "none", "default": "none", "title": "Network Mode", "type": "string"},
+    "collection_authorized": {"const": false, "default": false, "title": "Collection Authorized", "type": "boolean"}
+  },
+  "required": ["profile_sha256", "task_key", "fixture_port", "parent_runtime_id", "container_id", "image_id", "mcp_bundle_sha256", "worker_sha256", "fixture_sha256", "runtime_digest"],
+  "title": "SyntheticNavigationPin",
+  "type": "object"
+}

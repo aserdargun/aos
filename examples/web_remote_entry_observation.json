@@ -1,0 +1,8 @@
+{
+  "synthetic": true,
+  "observation": {
+    "url": "https://example.invalid/entry",
+    "title_sha256": "469ffde46152daa4bba922f3fe790ae18fa0b7a29c0a4acfb9583f46cd9a0ea4",
+    "heading_sha256": "469ffde46152daa4bba922f3fe790ae18fa0b7a29c0a4acfb9583f46cd9a0ea4"
+  }
+}

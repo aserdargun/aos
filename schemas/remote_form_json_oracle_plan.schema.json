@@ -1,0 +1,95 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "form_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Form Plan Sha256",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "source_snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Snapshot Sha256",
+      "type": "string"
+    },
+    "url": {
+      "maxLength": 2048,
+      "minLength": 1,
+      "title": "Url",
+      "type": "string"
+    },
+    "field_key": {
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$",
+      "title": "Field Key",
+      "type": "string"
+    },
+    "expected_value_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Value Sha256",
+      "type": "string"
+    },
+    "cookie_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Cookie Sha256"
+    },
+    "method": {
+      "const": "GET",
+      "default": "GET",
+      "title": "Method",
+      "type": "string"
+    },
+    "status": {
+      "const": "draft",
+      "default": "draft",
+      "title": "Status",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profile_sha256",
+    "form_plan_sha256",
+    "run_ref",
+    "source_snapshot_sha256",
+    "url",
+    "field_key",
+    "expected_value_sha256"
+  ],
+  "title": "RemoteFormJSONOraclePlan",
+  "type": "object"
+}

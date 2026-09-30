@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "pair_sha256": "2b731ac431d65b1fd61560d9da62db908bdd4c920d30f82543d658366f60773e",
+  "arm": "base",
+  "preview_sha256": "1fe6d7511410542f0e5cda0dbbd14633c9ff88de128ecf80270d3079990de7b6",
+  "deployment_id": "decider-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "job_id": "job-synthetic",
+  "run_id": "run-synthetic",
+  "step_id": "step-synthetic",
+  "candidate_execution_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "generation": 2,
+  "lease_id": "lease-synthetic",
+  "runtime_id": "runtime-synthetic",
+  "session_id": "session-synthetic",
+  "cold_worker": true
+}

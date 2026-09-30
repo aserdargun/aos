@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "pristine_hello_resume_request",
+      "default": "pristine_hello_resume_request",
+      "title": "Mode",
+      "type": "string"
+    },
+    "admission_id": {
+      "pattern": "^resume-[a-f0-9]{32}$",
+      "title": "Admission Id",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "source_snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Snapshot Sha256",
+      "type": "string"
+    },
+    "source_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source State Sha256",
+      "type": "string"
+    },
+    "source_state_version": {
+      "minimum": 0,
+      "title": "Source State Version",
+      "type": "integer"
+    },
+    "workspace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workspace Sha256",
+      "type": "string"
+    },
+    "deployment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Sha256",
+      "type": "string"
+    },
+    "fresh_lease_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Fresh Lease Ref",
+      "type": "string"
+    },
+    "effect": {
+      "enum": [
+        "absent",
+        "exact_content"
+      ],
+      "title": "Effect",
+      "type": "string"
+    },
+    "previously_recorded_actions": {
+      "const": 0,
+      "default": 0,
+      "title": "Previously Recorded Actions",
+      "type": "integer"
+    },
+    "requires_action_approval": {
+      "const": true,
+      "default": true,
+      "title": "Requires Action Approval",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "admission_id",
+    "run_ref",
+    "source_snapshot_sha256",
+    "source_state_sha256",
+    "source_state_version",
+    "workspace_sha256",
+    "deployment_sha256",
+    "fresh_lease_ref",
+    "effect"
+  ],
+  "title": "ResumeAdmission",
+  "type": "object"
+}

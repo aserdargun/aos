@@ -1,0 +1,38 @@
+{
+  "synthetic": true,
+  "plan": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "form_plan_sha256": "8119dbba58accd7b3f6feeed4959bddc342aa3284c143953fdb023a37ffb4809",
+    "state_url": "https://crm.example.invalid/app/state",
+    "expected_before_sha256": "37d953ba10f4695c7c846ff3f9117e2bf90002011cfff9e7626f18e2b751ef04",
+    "expected_after_sha256": "116d5e6712d139b2e740d161d1913a96f20cc073454fa34f5f81b9b6216ee13b",
+    "approval": "fresh_per_action",
+    "status": "draft",
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "bounded_form_declared_state_readback",
+    "status": "declared_response_transition_observed",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "form_plan_sha256": "8119dbba58accd7b3f6feeed4959bddc342aa3284c143953fdb023a37ffb4809",
+    "state_plan_sha256": "ec3b1d536d501d979b9985a738948156eed15a756043741ea599e643b823d447",
+    "state_url_sha256": "7d9b8ba57fdc788de4b272922b0304170fd40834df5e47a0e3b1ff777d5fe76a",
+    "receipt_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "before_response_sha256": "37d953ba10f4695c7c846ff3f9117e2bf90002011cfff9e7626f18e2b751ef04",
+    "after_response_sha256": "116d5e6712d139b2e740d161d1913a96f20cc073454fa34f5f81b9b6216ee13b",
+    "before_response_bytes": 43,
+    "after_response_bytes": 43,
+    "tls_hostname_verified": true,
+    "declared_response_transition_observed": true,
+    "browser_connected": false,
+    "account_verified": false,
+    "site_outcome_verified": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

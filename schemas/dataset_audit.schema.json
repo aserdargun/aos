@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS read-only dataset eligibility audit",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "audit_version": {
+      "enum": [
+        "sqlite-eligibility-v1",
+        "sqlite-eligibility-v2"
+      ]
+    },
+    "mode": {
+      "const": "read_only_inventory"
+    },
+    "training_ready": {
+      "const": false
+    },
+    "snapshot": {
+      "type": "object",
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 134217728
+        },
+        "captured_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "schema_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "migrations": {
+          "type": "object",
+          "minProperties": 7,
+          "maxProperties": 17,
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      },
+      "required": [
+        "sha256",
+        "bytes",
+        "captured_at",
+        "schema_sha256",
+        "migrations"
+      ],
+      "additionalProperties": false
+    },
+    "auditor_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "run_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "opted_in_runs": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "ready_runs": {
+      "const": 0
+    },
+    "blocker_counts": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "run_not_opted_in",
+          "synthetic_content",
+          "content_provenance_unclassified",
+          "usage_rights_unrecorded",
+          "redaction_review_unrecorded",
+          "run_not_verified",
+          "no_passed_verification",
+          "incomplete_actions",
+          "no_accepted_labels",
+          "unreviewed_labels",
+          "invalid_choice_labels",
+          "unsupported_label_types",
+          "unredacted_artifacts",
+          "image_artifacts_excluded",
+          "dataset_reviews_require_validation"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "runs": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "properties": {
+          "run_ref": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "status": {
+            "enum": [
+              "created",
+              "running",
+              "paused",
+              "waiting_human",
+              "succeeded",
+              "failed",
+              "cancelled"
+            ]
+          },
+          "outcome": {
+            "enum": [
+              "unknown",
+              "passed",
+              "failed"
+            ]
+          },
+          "training_eligible_flag": {
+            "type": "boolean"
+          },
+          "training_ready": {
+            "const": false
+          },
+          "counts": {
+            "type": "object",
+            "properties": {
+              "trajectory_labels": {
+                "type": "object",
+                "properties": {
+                  "accepted": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "pending": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "rejected": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "accepted",
+                  "pending",
+                  "rejected"
+                ],
+                "additionalProperties": false
+              },
+              "verifications": {
+                "type": "object",
+                "properties": {
+                  "passed": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "failed": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "unknown": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "passed",
+                  "failed",
+                  "unknown"
+                ],
+                "additionalProperties": false
+              },
+              "actions": {
+                "type": "object",
+                "properties": {
+                  "intent": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "running": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ok": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "error": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "denied": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "cancelled": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "uncertain": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "intent",
+                  "running",
+                  "ok",
+                  "error",
+                  "denied",
+                  "cancelled",
+                  "uncertain"
+                ],
+                "additionalProperties": false
+              },
+              "artifacts": {
+                "type": "object",
+                "properties": {
+                  "raw": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "redacted": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "quarantined": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "raw",
+                  "redacted",
+                  "quarantined"
+                ],
+                "additionalProperties": false
+              },
+              "choice_labels_linked": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "choice_labels_invalid": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unsupported_labels": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "image_artifacts": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "trajectory_labels",
+              "verifications",
+              "actions",
+              "artifacts",
+              "choice_labels_linked",
+              "choice_labels_invalid",
+              "unsupported_labels",
+              "image_artifacts"
+            ],
+            "additionalProperties": false
+          },
+          "blockers": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "run_not_opted_in",
+                "synthetic_content",
+                "content_provenance_unclassified",
+                "usage_rights_unrecorded",
+                "redaction_review_unrecorded",
+                "run_not_verified",
+                "no_passed_verification",
+                "incomplete_actions",
+                "no_accepted_labels",
+                "unreviewed_labels",
+                "invalid_choice_labels",
+                "unsupported_label_types",
+                "unredacted_artifacts",
+                "image_artifacts_excluded",
+                "dataset_reviews_require_validation"
+              ]
+            }
+          }
+        },
+        "required": [
+          "run_ref",
+          "status",
+          "outcome",
+          "training_eligible_flag",
+          "training_ready",
+          "counts",
+          "blockers"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "audit_version",
+    "mode",
+    "training_ready",
+    "snapshot",
+    "auditor_sha256",
+    "run_count",
+    "opted_in_runs",
+    "ready_runs",
+    "blocker_counts",
+    "runs"
+  ],
+  "additionalProperties": false
+}

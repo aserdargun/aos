@@ -1,0 +1,105 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "2.0",
+    "synthetic": true,
+    "status": "executable_recipe_execution_verified",
+    "invocation_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "skill_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "skill_plan_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "case_inputs_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "case_key": "development-one",
+    "profile_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "task_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "form_plan_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "state_plan_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "field_binding_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "run_ref": "4444444444444444444444444444444444444444444444444444444444444444",
+    "source_snapshot_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "initial_state_ref": "6666666666666666666666666666666666666666666666666666666666666666",
+    "terminal_state_ref": "7777777777777777777777777777777777777777777777777777777777777777",
+    "stages": [
+      {
+        "stage": "open_entry",
+        "action_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "approval_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_state_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "execute_state_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      {
+        "stage": "read_state_before",
+        "action_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "approval_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_state_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "execute_state_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      {
+        "stage": "fill_form",
+        "action_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "approval_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_state_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "execute_state_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      {
+        "stage": "submit_form",
+        "action_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "approval_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_state_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "execute_state_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      {
+        "stage": "read_receipt",
+        "action_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "approval_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_state_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "execute_state_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      {
+        "stage": "read_state_after",
+        "action_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "approval_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "decision_state_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "execute_state_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      }
+    ],
+    "consumed_approval_count": 6,
+    "submit_count": 1,
+    "transport_readback_verified": true,
+    "declared_state_readback_verified": true,
+    "invocation_persisted_before_actions": true,
+    "invocation_consistent_across_states": true,
+    "invocation_execution_verified": true,
+    "symbolic_skill_steps_executed": true,
+    "skill_executed": true,
+    "site_outcome_verified": false,
+    "held_out_independence_verified": false,
+    "reviewed": false,
+    "activation_authorized": false,
+    "training_ready": false,
+    "recipe_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "symbolic_step_keys": [
+      "open-entry",
+      "read-state-before",
+      "fill-form",
+      "submit-form",
+      "read-receipt",
+      "read-state-after"
+    ],
+    "step_observation_refs": [
+      "f60ce3daa577009a79272704ae0dfd4e114e68509054370b7fbe3a6bb86115fa",
+      "8c392104aaa5da0019d828beb069fdacce9510fbfb39d251b3ad39705972d22e",
+      "dbf78611819da3854269483a79be772c1517071ee59356590bfe9758a3f8387f",
+      "1c7244b4204bd68310e5474255dcb7e3bb1a115c1aa8c62363d486496904930b",
+      "66b0133dc283e41d49b83011d49a67796cc5b55cfec5230824b49032544b2b61",
+      "a3f1e03cf25438fddfd4d92da8e180ab2ba2e4af58b9a0ce811f76578fa413d4"
+    ],
+    "executable_recipe_executed": true,
+    "skill_validated": false
+  }
+}

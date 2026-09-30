@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS bounded remote HTTPS entry observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["url", "title_sha256", "heading_sha256"],
+  "properties": {
+    "url": {"type": "string", "minLength": 1, "maxLength": 2048},
+    "title_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "heading_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_desktop_runtime",
+      "default": "read_only_desktop_runtime",
+      "title": "Mode",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "runtime_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runtime Ref",
+      "type": "string"
+    },
+    "container_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Container Ref",
+      "type": "string"
+    },
+    "workspace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workspace Sha256",
+      "type": "string"
+    },
+    "deployment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Sha256",
+      "type": "string"
+    },
+    "image_id": {
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "title": "Image Id",
+      "type": "string"
+    },
+    "disposition": {
+      "enum": [
+        "workspace_busy",
+        "container_missing",
+        "running_candidate",
+        "stopped_container"
+      ],
+      "title": "Disposition",
+      "type": "string"
+    },
+    "observation_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Observation Sha256"
+    },
+    "unresolved_actions": {
+      "minimum": 0,
+      "title": "Unresolved Actions",
+      "type": "integer"
+    },
+    "inspected_at": {
+      "title": "Inspected At",
+      "type": "string"
+    },
+    "orphan_confirmed": {
+      "const": false,
+      "default": false,
+      "title": "Orphan Confirmed",
+      "type": "boolean"
+    },
+    "process_liveness_verified": {
+      "const": false,
+      "default": false,
+      "title": "Process Liveness Verified",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "resume_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Resume Authorized",
+      "type": "boolean"
+    },
+    "cleanup_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Cleanup Authorized",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "snapshot_sha256",
+    "run_ref",
+    "runtime_ref",
+    "container_ref",
+    "workspace_sha256",
+    "deployment_sha256",
+    "image_id",
+    "disposition",
+    "observation_sha256",
+    "unresolved_actions",
+    "inspected_at"
+  ],
+  "title": "RuntimeInspection",
+  "type": "object"
+}

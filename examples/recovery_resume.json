@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "note": "Schema fixture only; not an execution capability or evidence of human approval.",
+  "admission": {
+    "schema_version": "1.0",
+    "mode": "pristine_hello_resume_request",
+    "admission_id": "resume-11111111111111111111111111111111",
+    "run_ref": "2222222222222222222222222222222222222222222222222222222222222222",
+    "source_snapshot_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "source_state_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "source_state_version": 3,
+    "workspace_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "deployment_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+    "fresh_lease_ref": "7777777777777777777777777777777777777777777777777777777777777777",
+    "effect": "absent",
+    "previously_recorded_actions": 0,
+    "requires_action_approval": true,
+    "automatic_replay_allowed": false
+  },
+  "approval": {
+    "schema_version": "1.0",
+    "admission_id": "resume-11111111111111111111111111111111",
+    "action_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+    "fresh_lease_ref": "7777777777777777777777777777777777777777777777777777777777777777",
+    "state_version": 7,
+    "expires_at": 1,
+    "decision": "approved"
+  }
+}

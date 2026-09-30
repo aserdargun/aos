@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "mode": "owned_adapter_runtime_admission",
+  "episode_id": "episode-11111111111111111111111111111111",
+  "authorization_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "adaptation_report_sha256": "34886045f04c0ed14ecf1ac7667983cf5ccdf86c50a7342c3ed0bac768050b41",
+  "adapter_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "runtime_binding": {
+    "protocol": "owned-adapter-runtime-v1",
+    "authorization_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "adaptation_report_sha256": "34886045f04c0ed14ecf1ac7667983cf5ccdf86c50a7342c3ed0bac768050b41",
+    "artifact_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "input_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "deployment_manifest_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "base_deployment_id": "decider-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "runtime_worker_sha256": "7fda7b80d1905dda51a594e2157cb1f77c77fa0297f80c481288cbe039090ed3"
+  },
+  "adapter_deployment_id": "owned-adapter-801209a9b7b6d6c56519916829b3b53406a5251bb6cd16c7bd0cb9a400c388bd",
+  "base_preview_sha256": "09e91663ef8a83911c1d8c32f8bacf0a137899802349d251c3cbb868f0da0d91",
+  "case_key": "synthetic-case",
+  "development_value_sha256": "3873f220779cea54776ace1dc8ece6f192a096c23a25dde93418cb2a18b57f57",
+  "lease_id": "lease-synthetic",
+  "generation": 2,
+  "experimental_runtime_authorized": true,
+  "automatic_fallback": false,
+  "promotion_authorized": false,
+  "training_ready": false,
+  "synthetic": true
+}

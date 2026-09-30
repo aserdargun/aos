@@ -1,0 +1,79 @@
+{
+  "synthetic": true,
+  "revocation": {
+    "schema_version": "1.0",
+    "mode": "local_operator_remote_metadata_revocation",
+    "consent_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "revoked_at": "2026-09-24T12:00:00+00:00",
+    "local_operator_attested": true,
+    "collection_authorized": false,
+    "training_authorized": false
+  },
+  "retention_revocation": {
+    "schema_version": "1.0",
+    "mode": "automatic_remote_metadata_retention_expiry",
+    "consent_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "revoked_at": "2026-09-25T12:00:00+00:00",
+    "local_operator_attested": false,
+    "collection_authorized": false,
+    "training_authorized": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "explicit_remote_metadata_revocation",
+    "consent_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "revoked": true,
+    "revoked_at": "2026-09-24T12:00:00+00:00",
+    "outbox_present_before": true,
+    "outbox_purged": true,
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "retention_report": {
+    "schema_version": "1.0",
+    "mode": "remote_metadata_retention_sweep",
+    "candidate_count": 2,
+    "retention_due_count": 1,
+    "purged_count": 1,
+    "outbox_absent_count": 1,
+    "failed_consent_sha256": [],
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "managed_retention_report": {
+    "schema_version": "1.0",
+    "mode": "managed_remote_metadata_retention_sweep",
+    "session_count": 2,
+    "purged_count": 1,
+    "failed_sessions": [],
+    "failed_consent_sha256": [],
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "retention_status": {
+    "schema_version": "1.0",
+    "mode": "managed_remote_metadata_retention_status",
+    "enabled": true,
+    "state": "ok",
+    "last_attempt_at": "2026-09-24T12:00:00+00:00",
+    "session_count": 2,
+    "purged_count": 1,
+    "failed_session_count": 0,
+    "failed_consent_count": 0,
+    "metadata_only": true,
+    "training_ready": false
+  },
+  "stale_retention_status": {
+    "schema_version": "1.0",
+    "mode": "managed_remote_metadata_retention_status",
+    "enabled": true,
+    "state": "stale",
+    "last_attempt_at": "2026-09-24T12:00:00+00:00",
+    "session_count": null,
+    "purged_count": null,
+    "failed_session_count": null,
+    "failed_consent_count": null,
+    "metadata_only": true,
+    "training_ready": false
+  }
+}

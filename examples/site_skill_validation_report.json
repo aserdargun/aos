@@ -1,0 +1,24 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "status": "structure_only",
+    "plan_sha256": "278ddb358bf8a06317a95b5de13338f1d56770bc174edd237fa9516149e3d6d7",
+    "skill_sha256": "297918ae6c2bf990ce76d6ffc011059f69a07395d5a9a73bfa04513741915d08",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "page_draft_sha256": "a9f9d7ba00c3f4765872c16f3dbb29996bcf676a25935961451daf49a25a518c",
+    "task_key": "find-record",
+    "model_role": "system1",
+    "case_count": 3,
+    "development_count": 1,
+    "held_out_count": 2,
+    "source_variant_count": 1,
+    "execution_performed": false,
+    "outcomes_verified": false,
+    "skill_validated": false,
+    "reviewed": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

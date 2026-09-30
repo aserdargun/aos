@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_episode_conversion_manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "episode_id",
+    "format",
+    "export_sha256",
+    "execution",
+    "review_receipts",
+    "converter_sha256",
+    "source_group_sha256",
+    "counts",
+    "split",
+    "synthetic",
+    "training_ready",
+    "memberships",
+    "files"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^episode-[a-f0-9]{32}$"
+    },
+    "format": {
+      "const": "owned-episode-conversion-v1"
+    },
+    "export_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_execution_sha256",
+        "planning_bundle_sha256",
+        "execution_source_sha256"
+      ],
+      "properties": {
+        "candidate_execution_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "planning_bundle_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "execution_source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "review_receipts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system1",
+        "system2"
+      ],
+      "properties": {
+        "system1": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "system2": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "converter_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_group_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system1",
+        "system2"
+      ],
+      "properties": {
+        "system1": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 63
+        },
+        "system2": {
+          "const": 1
+        }
+      }
+    },
+    "split": {
+      "const": "development_only"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "training_ready": {
+      "const": false
+    },
+    "memberships": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system1",
+        "system2"
+      ],
+      "properties": {
+        "system1": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 63,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_record_sha256",
+              "converted_record_sha256"
+            ],
+            "properties": {
+              "source_record_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "converted_record_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        },
+        "system2": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "source_record_sha256",
+              "converted_record_sha256"
+            ],
+            "properties": {
+              "source_record_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "converted_record_sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system1.converted.jsonl",
+        "system2.converted.jsonl"
+      ],
+      "properties": {
+        "system1.converted.jsonl": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "system2.converted.jsonl": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

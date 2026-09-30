@@ -1,0 +1,69 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_synthetic_adapter_registry_inspection",
+      "default": "read_only_synthetic_adapter_registry_inspection",
+      "title": "Mode",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "adapter_id": {
+      "pattern": "^decider-adapter-[a-f0-9]{64}$",
+      "title": "Adapter Id",
+      "type": "string"
+    },
+    "deployment_id": {
+      "pattern": "^decider-adapter-experiment-[a-f0-9]{64}$",
+      "title": "Deployment Id",
+      "type": "string"
+    },
+    "artifact_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Artifact Sha256",
+      "type": "string"
+    },
+    "candidate_report_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Report Sha256",
+      "type": "string"
+    },
+    "status": {
+      "const": "available_experimental",
+      "title": "Status",
+      "type": "string"
+    },
+    "runtime_enabled": {
+      "const": false,
+      "title": "Runtime Enabled",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "snapshot_sha256",
+    "adapter_id",
+    "deployment_id",
+    "artifact_sha256",
+    "candidate_report_sha256",
+    "status",
+    "runtime_enabled",
+    "promotion_authorized"
+  ],
+  "title": "AdapterRegistryInspectionReport",
+  "type": "object"
+}

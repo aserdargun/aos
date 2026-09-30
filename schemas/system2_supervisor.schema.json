@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS System-2 Supervisor",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "sample_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "split_group": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "step_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "source": {
+          "enum": [
+            "verified_outcome",
+            "human_review",
+            "supervisor_verified"
+          ]
+        },
+        "verification_ref": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+        },
+        "synthetic": {
+          "type": "boolean"
+        },
+        "redaction_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "usage_rights": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "run_id",
+        "step_id",
+        "source",
+        "verification_ref",
+        "synthetic",
+        "redaction_version",
+        "usage_rights"
+      ],
+      "additionalProperties": false
+    },
+    "problem": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "summary"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "failed_trajectory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observation": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "step_id",
+          "action",
+          "observation"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "diagnosis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "corrected_plan": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "order": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "action": {
+                "type": "string",
+                "minLength": 1
+              },
+              "expected_result": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "order",
+              "action",
+              "expected_result"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "verification_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "outcome": {
+          "enum": [
+            "passed",
+            "human_required"
+          ]
+        },
+        "needs_human": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "diagnosis",
+        "corrected_plan",
+        "verification_criteria",
+        "outcome",
+        "needs_human"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "sample_id",
+    "created_at",
+    "split_group",
+    "provenance",
+    "problem",
+    "evidence",
+    "failed_trajectory",
+    "target"
+  ],
+  "additionalProperties": false
+}

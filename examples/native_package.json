@@ -1,0 +1,33 @@
+{
+  "synthetic": true,
+  "description": "Synthetic package manifest only; no runnable binary or real build provenance.",
+  "manifest": {
+    "schema_version": "1.0",
+    "format": "aos_native_shell_tar_v1",
+    "synthetic": true,
+    "profile": "debug",
+    "platform": "linux-x86_64",
+    "artifact": "aos-console",
+    "artifact_bytes": 128,
+    "artifact_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "source_sha256": {
+      "ui/src-tauri/Cargo.toml": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "ui/src-tauri/build.rs": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "ui/src-tauri/src/main.rs": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "ui/src-tauri/tauri.conf.json": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "dependency_lock_sha256": {
+      "ui/src-tauri/Cargo.lock": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "ui/pnpm-lock.yaml": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "uv.lock": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "source_scope": "tauri_shell_configuration_only",
+    "backend_origin": "http://127.0.0.1:8765/ui/",
+    "runtime_profile": "external_backend_and_system_webkitgtk_x11",
+    "build_provenance_verified": false,
+    "runtime_dependencies_bundled": false,
+    "standalone_inference": false,
+    "installation_authorized": false,
+    "promotion_authorized": false
+  }
+}

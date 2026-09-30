@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "answer_id": {
+      "anyOf": [
+        {
+          "pattern": "^answer-[a-f0-9]{32}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Answer Id"
+    }
+  },
+  "required": [
+    "schema_version"
+  ],
+  "title": "AnswerStatusRequest",
+  "type": "object"
+}

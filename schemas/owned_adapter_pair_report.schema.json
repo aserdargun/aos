@@ -1,0 +1,654 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Synthetic owned paired browser evaluation report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "synthetic",
+    "pair_sha256",
+    "verified",
+    "arms",
+    "comparison",
+    "scope",
+    "independent_held_out",
+    "promotion_authorized",
+    "runtime_reuse_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "pair_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "verified": {
+      "type": "boolean"
+    },
+    "arms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base",
+        "adapter"
+      ],
+      "properties": {
+        "base": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "not_started",
+                    "attempted_without_receipt"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "job_id",
+                "run_id"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "queued",
+                    "running",
+                    "waiting_approval",
+                    "waiting_human",
+                    "failed",
+                    "cancelled"
+                  ]
+                },
+                "job_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "run_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "pair_sha256",
+                "arm",
+                "job_id",
+                "candidate_execution_sha256",
+                "run_id",
+                "report_sha256"
+              ],
+              "properties": {
+                "status": {
+                  "const": "verified"
+                },
+                "pair_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "arm": {
+                  "enum": [
+                    "base",
+                    "adapter"
+                  ]
+                },
+                "job_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "candidate_execution_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "run_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "report_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
+              }
+            }
+          ]
+        },
+        "adapter": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "not_started",
+                    "attempted_without_receipt"
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "job_id",
+                "run_id"
+              ],
+              "properties": {
+                "status": {
+                  "enum": [
+                    "queued",
+                    "running",
+                    "waiting_approval",
+                    "waiting_human",
+                    "failed",
+                    "cancelled"
+                  ]
+                },
+                "job_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "run_id": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 160
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "pair_sha256",
+                "arm",
+                "job_id",
+                "candidate_execution_sha256",
+                "run_id",
+                "report_sha256"
+              ],
+              "properties": {
+                "status": {
+                  "const": "verified"
+                },
+                "pair_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "arm": {
+                  "enum": [
+                    "base",
+                    "adapter"
+                  ]
+                },
+                "job_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "candidate_execution_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "run_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "report_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "comparison": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_version",
+            "synthetic",
+            "status",
+            "scope",
+            "base",
+            "adapter",
+            "adapter_minus_base",
+            "timing_interpretation",
+            "quality_superiority_verified",
+            "training_ready",
+            "promotion_authorized"
+          ],
+          "properties": {
+            "schema_version": {
+              "const": "1.0"
+            },
+            "synthetic": {
+              "const": true
+            },
+            "status": {
+              "const": "owned_adapter_pair_comparison_verified"
+            },
+            "scope": {
+              "const": "two_run_timing_only"
+            },
+            "base": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "run_id",
+                "deployment_id",
+                "call_count",
+                "action_count",
+                "consumed_approval_count",
+                "adapter_proof_count",
+                "call_latency_sum_ms",
+                "approval_window_sum_ms"
+              ],
+              "properties": {
+                "run_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "deployment_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "call_count": {
+                  "const": 6
+                },
+                "action_count": {
+                  "const": 7
+                },
+                "consumed_approval_count": {
+                  "const": 6
+                },
+                "adapter_proof_count": {
+                  "enum": [
+                    0,
+                    6
+                  ]
+                },
+                "call_latency_sum_ms": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "approval_window_sum_ms": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            },
+            "adapter": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "run_id",
+                "deployment_id",
+                "call_count",
+                "action_count",
+                "consumed_approval_count",
+                "adapter_proof_count",
+                "call_latency_sum_ms",
+                "approval_window_sum_ms"
+              ],
+              "properties": {
+                "run_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "deployment_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "call_count": {
+                  "const": 6
+                },
+                "action_count": {
+                  "const": 7
+                },
+                "consumed_approval_count": {
+                  "const": 6
+                },
+                "adapter_proof_count": {
+                  "enum": [
+                    0,
+                    6
+                  ]
+                },
+                "call_latency_sum_ms": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "approval_window_sum_ms": {
+                  "type": "number",
+                  "minimum": 0
+                }
+              }
+            },
+            "adapter_minus_base": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "call_latency_sum_ms",
+                "approval_window_sum_ms"
+              ],
+              "properties": {
+                "call_latency_sum_ms": {
+                  "type": "number"
+                },
+                "approval_window_sum_ms": {
+                  "type": "number"
+                }
+              }
+            },
+            "timing_interpretation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "call_latency_sum_ms",
+                "approval_window_sum_ms"
+              ],
+              "properties": {
+                "call_latency_sum_ms": {
+                  "const": "decision_call_wall_clock_not_inference_only"
+                },
+                "approval_window_sum_ms": {
+                  "const": "approval_window_not_human_wait_only"
+                }
+              }
+            },
+            "quality_superiority_verified": {
+              "const": false
+            },
+            "training_ready": {
+              "const": false
+            },
+            "promotion_authorized": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "scope": {
+      "const": "development_only"
+    },
+    "independent_held_out": {
+      "const": 0
+    },
+    "promotion_authorized": {
+      "const": false
+    },
+    "runtime_reuse_authorized": {
+      "const": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "verified": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "comparison": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "schema_version",
+              "synthetic",
+              "status",
+              "scope",
+              "base",
+              "adapter",
+              "adapter_minus_base",
+              "timing_interpretation",
+              "quality_superiority_verified",
+              "training_ready",
+              "promotion_authorized"
+            ],
+            "properties": {
+              "schema_version": {
+                "const": "1.0"
+              },
+              "synthetic": {
+                "const": true
+              },
+              "status": {
+                "const": "owned_adapter_pair_comparison_verified"
+              },
+              "scope": {
+                "const": "two_run_timing_only"
+              },
+              "base": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "run_id",
+                  "deployment_id",
+                  "call_count",
+                  "action_count",
+                  "consumed_approval_count",
+                  "adapter_proof_count",
+                  "call_latency_sum_ms",
+                  "approval_window_sum_ms"
+                ],
+                "properties": {
+                  "run_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "deployment_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "call_count": {
+                    "const": 6
+                  },
+                  "action_count": {
+                    "const": 7
+                  },
+                  "consumed_approval_count": {
+                    "const": 6
+                  },
+                  "adapter_proof_count": {
+                    "enum": [
+                      0,
+                      6
+                    ]
+                  },
+                  "call_latency_sum_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "approval_window_sum_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              },
+              "adapter": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "run_id",
+                  "deployment_id",
+                  "call_count",
+                  "action_count",
+                  "consumed_approval_count",
+                  "adapter_proof_count",
+                  "call_latency_sum_ms",
+                  "approval_window_sum_ms"
+                ],
+                "properties": {
+                  "run_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "deployment_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
+                  },
+                  "call_count": {
+                    "const": 6
+                  },
+                  "action_count": {
+                    "const": 7
+                  },
+                  "consumed_approval_count": {
+                    "const": 6
+                  },
+                  "adapter_proof_count": {
+                    "enum": [
+                      0,
+                      6
+                    ]
+                  },
+                  "call_latency_sum_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "approval_window_sum_ms": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                }
+              },
+              "adapter_minus_base": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "call_latency_sum_ms",
+                  "approval_window_sum_ms"
+                ],
+                "properties": {
+                  "call_latency_sum_ms": {
+                    "type": "number"
+                  },
+                  "approval_window_sum_ms": {
+                    "type": "number"
+                  }
+                }
+              },
+              "timing_interpretation": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "call_latency_sum_ms",
+                  "approval_window_sum_ms"
+                ],
+                "properties": {
+                  "call_latency_sum_ms": {
+                    "const": "decision_call_wall_clock_not_inference_only"
+                  },
+                  "approval_window_sum_ms": {
+                    "const": "approval_window_not_human_wait_only"
+                  }
+                }
+              },
+              "quality_superiority_verified": {
+                "const": false
+              },
+              "training_ready": {
+                "const": false
+              },
+              "promotion_authorized": {
+                "const": false
+              }
+            }
+          },
+          "arms": {
+            "properties": {
+              "base": {
+                "properties": {
+                  "status": {
+                    "const": "verified"
+                  },
+                  "arm": {
+                    "const": "base"
+                  }
+                }
+              },
+              "adapter": {
+                "properties": {
+                  "status": {
+                    "const": "verified"
+                  },
+                  "arm": {
+                    "const": "adapter"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "comparison": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

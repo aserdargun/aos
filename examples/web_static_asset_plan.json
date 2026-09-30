@@ -1,0 +1,46 @@
+{
+  "synthetic": true,
+  "plan": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "assets": [
+      {"url": "https://crm.example.invalid/assets/app.js?v=1", "content_type": "application/javascript"}
+    ],
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "explicit_bound_static_asset_fetch",
+    "status": "https_asset_reached",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "plan_sha256": "1087b472619099e1a8aac60783281c4d71bca4af9a411dc77be7c293037ce842",
+    "asset_index": 0,
+    "content_type": "application/javascript",
+    "request_sha256": "72a72f064debd02df215668375f154f55a10142c29ef066c577a7a86199f3a4f",
+    "response_sha256": "86dc22c4857bf1a4b7ee31f674e9fd11c9750e5d0a3be94307a20ee2e784ea91",
+    "response_bytes": 31,
+    "tls_hostname_verified": true,
+    "browser_connected": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "relay_report": {
+    "schema_version": "1.0",
+    "mode": "one_shot_host_https_static_bundle_relay",
+    "status": "bundle_served",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "plan_sha256": "1087b472619099e1a8aac60783281c4d71bca4af9a411dc77be7c293037ce842",
+    "entry_response_sha256": "c43810dee63626a433c5110852552057ba327947b66615ff874a13d1c11141cc",
+    "asset_response_sha256": ["86dc22c4857bf1a4b7ee31f674e9fd11c9750e5d0a3be94307a20ee2e784ea91"],
+    "request_attempts": 2,
+    "browser_identity_verified": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

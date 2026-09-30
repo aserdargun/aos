@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS read-only S1/S2 learning candidate gap report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "run_ref", "snapshot_sha256", "event_count", "system1_count", "system2_count", "rows", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "read_only_candidate_gap_review"},
+    "run_ref": {"$ref": "#/$defs/hash"},
+    "snapshot_sha256": {"$ref": "#/$defs/hash"},
+    "event_count": {"type": "integer", "minimum": 0, "maximum": 500},
+    "system1_count": {"type": "integer", "minimum": 0, "maximum": 500},
+    "system2_count": {"type": "integer", "minimum": 0, "maximum": 500},
+    "rows": {
+      "type": "array", "maxItems": 500,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["schema_version", "source_event_id", "role", "has_independent_outcome", "has_scene_evidence", "has_downstream_verification", "status", "label_ready", "training_ready", "blockers"],
+        "properties": {
+          "schema_version": {"const": "1.0"},
+          "source_event_id": {"type": "string", "pattern": "^learning-[a-f0-9]{64}$"},
+          "role": {"enum": ["system1", "system2"]},
+          "has_independent_outcome": {"type": "boolean"},
+          "has_scene_evidence": {"type": "boolean"},
+          "has_downstream_verification": {"type": "boolean"},
+          "status": {"const": "blocked"},
+          "label_ready": {"const": false},
+          "training_ready": {"const": false},
+          "blockers": {
+            "type": "array", "minItems": 2, "uniqueItems": true,
+            "items": {"enum": ["collection_rights_unverified", "redaction_unverified", "site_scope_unbound", "review_required", "training_not_authorized", "synthetic_task_excluded", "outcome_not_attributed", "supervisor_plan_not_linked", "gold_label_missing", "dataset_review_missing"]}
+          }
+        },
+        "allOf": [
+          {"if": {"properties": {"role": {"const": "system2"}}}, "then": {"properties": {"has_independent_outcome": {"const": false}}}},
+          {"if": {"properties": {"role": {"const": "system1"}}}, "then": {"properties": {"has_scene_evidence": {"const": false}, "has_downstream_verification": {"const": false}}}}
+        ]
+      }
+    },
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

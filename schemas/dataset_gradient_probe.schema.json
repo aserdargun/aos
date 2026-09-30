@@ -1,0 +1,251 @@
+{
+  "$defs": {
+    "GradientWorkerReport": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "dataset_s1_gradient_smoke_v1",
+          "default": "dataset_s1_gradient_smoke_v1",
+          "title": "Mode",
+          "type": "string"
+        },
+        "checkpoint_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "title": "Checkpoint Revision",
+          "type": "string"
+        },
+        "code_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "title": "Code Revision",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "weights_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Weights Sha256",
+          "type": "string"
+        },
+        "input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Sha256",
+          "type": "string"
+        },
+        "train_decisions": {
+          "maximum": 4,
+          "minimum": 1,
+          "title": "Train Decisions",
+          "type": "integer"
+        },
+        "token_budget": {
+          "maximum": 1536,
+          "minimum": 64,
+          "title": "Token Budget",
+          "type": "integer"
+        },
+        "adapter_target": {
+          "const": "last_mlp_down_proj",
+          "default": "last_mlp_down_proj",
+          "title": "Adapter Target",
+          "type": "string"
+        },
+        "adapter_rank": {
+          "const": 4,
+          "default": 4,
+          "title": "Adapter Rank",
+          "type": "integer"
+        },
+        "adapter_parameter_count": {
+          "const": 32768,
+          "title": "Adapter Parameter Count",
+          "type": "integer"
+        },
+        "seed": {
+          "const": 42,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "optimizer_step_count": {
+          "const": 1,
+          "default": 1,
+          "title": "Optimizer Step Count",
+          "type": "integer"
+        },
+        "train_nll_before": {
+          "minimum": 0,
+          "title": "Train Nll Before",
+          "type": "number"
+        },
+        "train_nll_after": {
+          "minimum": 0,
+          "title": "Train Nll After",
+          "type": "number"
+        },
+        "gradient_norm": {
+          "exclusiveMinimum": 0,
+          "title": "Gradient Norm",
+          "type": "number"
+        },
+        "peak_vram_allocated_bytes": {
+          "minimum": 1,
+          "title": "Peak Vram Allocated Bytes",
+          "type": "integer"
+        },
+        "peak_vram_reserved_bytes": {
+          "minimum": 1,
+          "title": "Peak Vram Reserved Bytes",
+          "type": "integer"
+        },
+        "elapsed_seconds": {
+          "exclusiveMinimum": 0,
+          "title": "Elapsed Seconds",
+          "type": "number"
+        },
+        "base_parameters_unchanged": {
+          "const": true,
+          "default": true,
+          "title": "Base Parameters Unchanged",
+          "type": "boolean"
+        },
+        "base_gradient_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Base Gradient Count",
+          "type": "integer"
+        },
+        "adapter_parameters_changed": {
+          "const": true,
+          "default": true,
+          "title": "Adapter Parameters Changed",
+          "type": "boolean"
+        },
+        "candidate_checkpoint_written": {
+          "const": false,
+          "default": false,
+          "title": "Candidate Checkpoint Written",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "default": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "checkpoint_revision",
+        "code_revision",
+        "manifest_sha256",
+        "weights_sha256",
+        "input_sha256",
+        "train_decisions",
+        "token_budget",
+        "adapter_parameter_count",
+        "seed",
+        "train_nll_before",
+        "train_nll_after",
+        "gradient_norm",
+        "peak_vram_allocated_bytes",
+        "peak_vram_reserved_bytes",
+        "elapsed_seconds"
+      ],
+      "title": "GradientWorkerReport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "dataset_bound_s1_gradient_smoke_v1",
+      "default": "dataset_bound_s1_gradient_smoke_v1",
+      "title": "Mode",
+      "type": "string"
+    },
+    "dataset_id": {
+      "pattern": "^fixture-[a-f0-9]{64}$",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Dataset Manifest Sha256",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "deployment_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Manifest Sha256",
+      "type": "string"
+    },
+    "runner_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runner Sha256",
+      "type": "string"
+    },
+    "split_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "propertyNames": {
+        "enum": [
+          "train",
+          "validation",
+          "test"
+        ]
+      },
+      "title": "Split Counts",
+      "type": "object"
+    },
+    "gradient_report": {
+      "$ref": "#/$defs/GradientWorkerReport"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "dataset_manifest_sha256",
+    "input_sha256",
+    "deployment_manifest_sha256",
+    "runner_sha256",
+    "split_counts",
+    "gradient_report"
+  ],
+  "title": "DatasetGradientReport",
+  "type": "object"
+}

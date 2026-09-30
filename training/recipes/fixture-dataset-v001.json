@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "recipe_id": "fixture-dataset-v001",
+  "mode": "synthetic_smoke_only",
+  "seed": 42,
+  "split": {"train": 0.8, "validation": 0.1, "test": 0.1},
+  "training_ready": false
+}

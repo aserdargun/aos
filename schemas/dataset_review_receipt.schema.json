@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS source-bound dataset review receipt",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "receipt_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "candidate_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "kind": {
+      "enum": [
+        "system1_choice",
+        "system2_supervisor"
+      ]
+    },
+    "purpose": {
+      "const": "offline_training_text"
+    },
+    "provenance": {
+      "enum": [
+        "synthetic",
+        "real"
+      ]
+    },
+    "usage_rights": {
+      "enum": [
+        "synthetic_authored",
+        "user_authorized"
+      ]
+    },
+    "redaction_version": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "reviewer_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "authorization_ref": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "decision": {
+      "enum": [
+        "accept",
+        "revoke"
+      ]
+    },
+    "revokes": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "run_id",
+    "source_sha256",
+    "candidate_sha256",
+    "kind",
+    "purpose",
+    "provenance",
+    "usage_rights",
+    "redaction_version",
+    "reviewer_id",
+    "authorization_ref",
+    "decision",
+    "revokes",
+    "created_at"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "accept"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "revokes": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "revokes": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+          }
+        }
+      }
+    }
+  ]
+}

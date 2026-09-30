@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "status": {
+      "const": "exact_form_plan_bound_execution_unverified",
+      "title": "Status",
+      "type": "string"
+    },
+    "skill_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Sha256",
+      "type": "string"
+    },
+    "skill_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Plan Sha256",
+      "type": "string"
+    },
+    "case_inputs_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Case Inputs Sha256",
+      "type": "string"
+    },
+    "case_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Case Key",
+      "type": "string"
+    },
+    "form_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Form Plan Sha256",
+      "type": "string"
+    },
+    "task_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Task Sha256",
+      "type": "string"
+    },
+    "field_binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Field Binding Sha256",
+      "type": "string"
+    },
+    "field_count": {
+      "maximum": 8,
+      "minimum": 1,
+      "title": "Field Count",
+      "type": "integer"
+    },
+    "parameter_values_bound_to_plan": {
+      "const": true,
+      "title": "Parameter Values Bound To Plan",
+      "type": "boolean"
+    },
+    "source_parameters_bound": {
+      "const": false,
+      "title": "Source Parameters Bound",
+      "type": "boolean"
+    },
+    "page_readback_bound": {
+      "const": false,
+      "title": "Page Readback Bound",
+      "type": "boolean"
+    },
+    "execution_performed": {
+      "const": false,
+      "title": "Execution Performed",
+      "type": "boolean"
+    },
+    "outcomes_verified": {
+      "const": false,
+      "title": "Outcomes Verified",
+      "type": "boolean"
+    },
+    "skill_validated": {
+      "const": false,
+      "title": "Skill Validated",
+      "type": "boolean"
+    },
+    "reviewed": {
+      "const": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "status",
+    "skill_sha256",
+    "skill_plan_sha256",
+    "case_inputs_sha256",
+    "case_key",
+    "form_plan_sha256",
+    "task_sha256",
+    "field_binding_sha256",
+    "field_count",
+    "parameter_values_bound_to_plan",
+    "source_parameters_bound",
+    "page_readback_bound",
+    "execution_performed",
+    "outcomes_verified",
+    "skill_validated",
+    "reviewed",
+    "activation_authorized",
+    "training_ready"
+  ],
+  "title": "SiteSkillFormCaseReport",
+  "type": "object"
+}

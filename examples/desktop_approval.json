@@ -1,0 +1,31 @@
+{
+  "synthetic": true,
+  "schema_version": "1.0",
+  "approval": {
+    "schema_version": "1.0",
+    "approval_id": "synthetic-approval",
+    "job_id": "synthetic-job",
+    "action": {
+      "schema_version": "1.0",
+      "task_id": "synthetic-task",
+      "run_id": "synthetic-run",
+      "step_id": "synthetic-step",
+      "action_id": "synthetic-action",
+      "runtime_id": "synthetic-runtime",
+      "state_version": 4,
+      "owner_lease_id": "synthetic-lease",
+      "tool": "filesystem.write",
+      "arguments": {
+        "path": "/workspace/hello.txt",
+        "content": "Hello from the local agent.\n"
+      },
+      "expected_effect": "Exact authorized hello content",
+      "verification": "independent_read_equals",
+      "deadline": 2000000070.0,
+      "idempotency_key": "synthetic-intent",
+      "selected_option": "write_file"
+    },
+    "action_sha256": "6134ff7b436ad1b3b1e972899a9fc9628b608647d4728f42ab5b60406b6aca43",
+    "expires_at": 2000000060.0
+  }
+}

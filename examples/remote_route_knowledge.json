@@ -1,0 +1,28 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_remote_route_knowledge",
+    "status": "candidate_remote_profile_bound",
+    "knowledge_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "draft_revision": 1,
+    "page_key": "details",
+    "route_index": 1,
+    "page_fingerprint_sha256": "7e029b8db679cf921ddac63b4b56b2729a3907dbc29a07cea7b6a540a8a48f92",
+    "profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "plan_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "before_run_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "after_run_ref": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "profile_bound": true,
+    "route_readback_bound": true,
+    "origin_verified": false,
+    "account_verified": false,
+    "site_outcome_verified": false,
+    "reviewed": false,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

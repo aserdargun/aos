@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "default": "1.0", "title": "Schema Version", "type": "string"},
+    "mode": {"const": "explicit_bound_static_asset_fetch", "default": "explicit_bound_static_asset_fetch", "title": "Mode", "type": "string"},
+    "status": {"const": "https_asset_reached", "default": "https_asset_reached", "title": "Status", "type": "string"},
+    "profile_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Profile Sha256", "type": "string"},
+    "task_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Task Sha256", "type": "string"},
+    "plan_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Plan Sha256", "type": "string"},
+    "asset_index": {"maximum": 7, "minimum": 0, "title": "Asset Index", "type": "integer"},
+    "content_type": {"enum": ["text/css", "text/javascript", "application/javascript", "image/png", "image/jpeg", "image/webp", "image/gif"], "title": "Content Type", "type": "string"},
+    "request_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Request Sha256", "type": "string"},
+    "response_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Response Sha256", "type": "string"},
+    "response_bytes": {"maximum": 1048576, "minimum": 0, "title": "Response Bytes", "type": "integer"},
+    "tls_hostname_verified": {"const": true, "default": true, "title": "Tls Hostname Verified", "type": "boolean"},
+    "browser_connected": {"const": false, "default": false, "title": "Browser Connected", "type": "boolean"},
+    "execution_authorized": {"const": false, "default": false, "title": "Execution Authorized", "type": "boolean"},
+    "collection_authorized": {"const": false, "default": false, "title": "Collection Authorized", "type": "boolean"},
+    "training_ready": {"const": false, "default": false, "title": "Training Ready", "type": "boolean"}
+  },
+  "required": ["profile_sha256", "task_sha256", "plan_sha256", "asset_index", "content_type", "request_sha256", "response_sha256", "response_bytes"],
+  "title": "WebStaticAssetFetchReport",
+  "type": "object"
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Owned skill development selection event",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "type": "string"},
+    "synthetic": {"const": true, "type": "boolean"},
+    "purpose": {"const": "development_selected", "type": "string"},
+    "family_sha256": {"$ref": "#/$defs/checksum"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "previous_selection_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/checksum"}]},
+    "previous_release_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/checksum"}]},
+    "release_sha256": {"$ref": "#/$defs/checksum"},
+    "operation": {"enum": ["select", "rollback"], "type": "string"},
+    "rollback_evidence_execution_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/checksum"}]},
+    "actor": {"const": "local_authenticated_user", "type": "string"},
+    "activation_authorized": {"const": false, "type": "boolean"},
+    "training_ready": {"const": false, "type": "boolean"}
+  },
+  "required": ["schema_version", "synthetic", "purpose", "family_sha256", "sequence",
+    "previous_selection_sha256", "previous_release_sha256", "release_sha256", "operation",
+    "rollback_evidence_execution_sha256", "actor", "activation_authorized", "training_ready"],
+  "allOf": [
+    {"if": {"properties": {"operation": {"const": "select"}}, "required": ["operation"]},
+     "then": {"properties": {"rollback_evidence_execution_sha256": {"type": "null"}}}},
+    {"if": {"properties": {"operation": {"const": "rollback"}}, "required": ["operation"]},
+     "then": {"properties": {"rollback_evidence_execution_sha256": {"$ref": "#/$defs/checksum"}}}}
+  ],
+  "$defs": {"checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

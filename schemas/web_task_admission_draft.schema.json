@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "WebRuntimePin": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "docker_chromium_mcp",
+          "default": "docker_chromium_mcp",
+          "title": "Kind",
+          "type": "string"
+        },
+        "transport": {
+          "const": "playwright_mcp",
+          "default": "playwright_mcp",
+          "title": "Transport",
+          "type": "string"
+        },
+        "runtime_id": {
+          "pattern": "^browser-[a-f0-9]{32}$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "parent_runtime_id": {
+          "pattern": "^desktop-[a-f0-9]{32}$",
+          "title": "Parent Runtime Id",
+          "type": "string"
+        },
+        "container_id": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Container Id",
+          "type": "string"
+        },
+        "image_id": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Image Id",
+          "type": "string"
+        },
+        "mcp_bundle_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Mcp Bundle Sha256",
+          "type": "string"
+        },
+        "worker_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Worker Sha256",
+          "type": "string"
+        },
+        "runtime_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Runtime Digest",
+          "type": "string"
+        },
+        "network_mode": {
+          "const": "none",
+          "default": "none",
+          "title": "Network Mode",
+          "type": "string"
+        },
+        "display": {
+          "const": ":99",
+          "default": ":99",
+          "title": "Display",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runtime_id",
+        "parent_runtime_id",
+        "container_id",
+        "image_id",
+        "mcp_bundle_sha256",
+        "worker_sha256",
+        "runtime_digest"
+      ],
+      "title": "WebRuntimePin",
+      "type": "object"
+    },
+    "WebTaskContract": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "task_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Task Key",
+          "type": "string"
+        },
+        "entry_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Entry Url",
+          "type": "string"
+        },
+        "allowed_origins": {
+          "items": {
+            "maxLength": 300,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Allowed Origins",
+          "type": "array"
+        },
+        "tools": {
+          "items": {
+            "enum": [
+              "browser.navigate",
+              "browser.snapshot",
+              "browser.fill",
+              "browser.click",
+              "browser.verify"
+            ],
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 2,
+          "title": "Tools",
+          "type": "array"
+        },
+        "max_pages": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Max Pages",
+          "type": "integer"
+        },
+        "max_navigations": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Max Navigations",
+          "type": "integer"
+        },
+        "max_actions": {
+          "maximum": 16,
+          "minimum": 1,
+          "title": "Max Actions",
+          "type": "integer"
+        },
+        "max_seconds": {
+          "maximum": 900,
+          "minimum": 1,
+          "title": "Max Seconds",
+          "type": "integer"
+        },
+        "verification_ref": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Verification Ref",
+          "type": "string"
+        },
+        "approval": {
+          "const": "fresh_per_action",
+          "default": "fresh_per_action",
+          "title": "Approval",
+          "type": "string"
+        },
+        "uncertain_write": {
+          "const": "stop_without_retry",
+          "default": "stop_without_retry",
+          "title": "Uncertain Write",
+          "type": "string"
+        },
+        "network_access": {
+          "const": false,
+          "default": false,
+          "title": "Network Access",
+          "type": "boolean"
+        },
+        "collection_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "profile_sha256",
+        "task_key",
+        "entry_url",
+        "allowed_origins",
+        "tools",
+        "max_pages",
+        "max_navigations",
+        "max_actions",
+        "max_seconds",
+        "verification_ref"
+      ],
+      "title": "WebTaskContract",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "task_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Task Sha256",
+      "type": "string"
+    },
+    "runtime_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runtime Sha256",
+      "type": "string"
+    },
+    "binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Sha256",
+      "type": "string"
+    },
+    "task": {
+      "$ref": "#/$defs/WebTaskContract"
+    },
+    "runtime": {
+      "$ref": "#/$defs/WebRuntimePin"
+    },
+    "status": {
+      "const": "draft",
+      "default": "draft",
+      "title": "Status",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "runtime_identity_verified": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Identity Verified",
+      "type": "boolean"
+    },
+    "blockers": {
+      "items": {
+        "enum": [
+          "runtime_not_connected",
+          "network_policy_not_enforced",
+          "account_role_not_verified",
+          "task_verifier_not_registered"
+        ],
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Blockers",
+      "type": "array"
+    }
+  },
+  "required": [
+    "profile_sha256",
+    "task_sha256",
+    "runtime_sha256",
+    "binding_sha256",
+    "task",
+    "runtime",
+    "blockers"
+  ],
+  "title": "WebTaskAdmissionDraft",
+  "type": "object"
+}

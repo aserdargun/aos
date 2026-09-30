@@ -1,0 +1,9 @@
+{
+  "synthetic": true,
+  "policy": {
+    "schema_version": "1.0",
+    "grants": [
+      {"uid": 12345, "run_ids": ["synthetic-review-run"], "decisions": ["accept", "revoke"], "expires_at": 1790011260}
+    ]
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "format": {
+      "const": "aos_sqlite_snapshot_v1",
+      "default": "aos_sqlite_snapshot_v1",
+      "title": "Format",
+      "type": "string"
+    },
+    "database_file": {
+      "const": "store.sqlite",
+      "default": "store.sqlite",
+      "title": "Database File",
+      "type": "string"
+    },
+    "database_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Database Sha256",
+      "type": "string"
+    },
+    "source_snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Snapshot Sha256",
+      "type": "string"
+    },
+    "journal_mode": {
+      "const": "rollback",
+      "default": "rollback",
+      "title": "Journal Mode",
+      "type": "string"
+    },
+    "database_bytes": {
+      "exclusiveMinimum": 0,
+      "maximum": 134217728,
+      "title": "Database Bytes",
+      "type": "integer"
+    },
+    "schema_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Schema Sha256",
+      "type": "string"
+    },
+    "schema_version_number": {
+      "enum": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "title": "Schema Version Number",
+      "type": "integer"
+    },
+    "migrations": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Migrations",
+      "type": "object"
+    },
+    "captured_at": {
+      "title": "Captured At",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "resume_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Resume Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "database_sha256",
+    "source_snapshot_sha256",
+    "database_bytes",
+    "schema_sha256",
+    "schema_version_number",
+    "migrations",
+    "captured_at"
+  ],
+  "title": "BackupManifest",
+  "type": "object"
+}

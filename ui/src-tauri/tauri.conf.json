@@ -1,0 +1,9 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "AOS Kontrol Merkezi",
+  "version": "0.1.0",
+  "identifier": "com.aserdargun.aos.console",
+  "build": {"beforeBuildCommand": "pnpm build", "frontendDist": "../dist"},
+  "app": {"windows": [], "security": {"capabilities": []}},
+  "bundle": {"active": false, "icon": ["icons/128x128.png"]}
+}

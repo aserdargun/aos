@@ -1,0 +1,112 @@
+{
+  "synthetic": true,
+  "task": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_key": "update-draft",
+    "entry_url": "https://crm.example.invalid/app/",
+    "allowed_origins": [
+      "https://crm.example.invalid"
+    ],
+    "tools": [
+      "browser.click",
+      "browser.fill",
+      "browser.navigate",
+      "browser.snapshot",
+      "browser.verify"
+    ],
+    "max_pages": 4,
+    "max_navigations": 6,
+    "max_actions": 8,
+    "max_seconds": 300,
+    "verification_ref": "synthetic-receipt",
+    "approval": "fresh_per_action",
+    "uncertain_write": "stop_without_retry",
+    "network_access": false,
+    "collection_authorized": false
+  },
+  "runtime": {
+    "schema_version": "1.0",
+    "kind": "docker_chromium_mcp",
+    "transport": "playwright_mcp",
+    "runtime_id": "browser-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "parent_runtime_id": "desktop-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "container_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "image_id": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "mcp_bundle_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "worker_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "runtime_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+    "network_mode": "none",
+    "display": ":99"
+  },
+  "draft": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "runtime_sha256": "7714b84e72cd32b4ab13e7da0a7cd675266b900ad22837bf71b34577a9fa14b2",
+    "binding_sha256": "c147ea3ee5ce47b5b5ed78430a9302e2d492b9e70ab01f07176f53151b7b4821",
+    "task": {
+      "schema_version": "1.0",
+      "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+      "task_key": "update-draft",
+      "entry_url": "https://crm.example.invalid/app/",
+      "allowed_origins": [
+        "https://crm.example.invalid"
+      ],
+      "tools": [
+        "browser.click",
+        "browser.fill",
+        "browser.navigate",
+        "browser.snapshot",
+        "browser.verify"
+      ],
+      "max_pages": 4,
+      "max_navigations": 6,
+      "max_actions": 8,
+      "max_seconds": 300,
+      "verification_ref": "synthetic-receipt",
+      "approval": "fresh_per_action",
+      "uncertain_write": "stop_without_retry",
+      "network_access": false,
+      "collection_authorized": false
+    },
+    "runtime": {
+      "schema_version": "1.0",
+      "kind": "docker_chromium_mcp",
+      "transport": "playwright_mcp",
+      "runtime_id": "browser-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "parent_runtime_id": "desktop-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "container_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "image_id": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "mcp_bundle_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "worker_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "runtime_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+      "network_mode": "none",
+      "display": ":99"
+    },
+    "status": "draft",
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "runtime_identity_verified": false,
+    "blockers": [
+      "runtime_not_connected",
+      "network_policy_not_enforced",
+      "account_role_not_verified",
+      "task_verifier_not_registered"
+    ]
+  },
+  "attestation": {
+    "schema_version": "1.0",
+    "binding_sha256": "c147ea3ee5ce47b5b5ed78430a9302e2d492b9e70ab01f07176f53151b7b4821",
+    "runtime_sha256": "7714b84e72cd32b4ab13e7da0a7cd675266b900ad22837bf71b34577a9fa14b2",
+    "runtime_id": "browser-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "parent_runtime_id": "desktop-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "container_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "observed_at": "2026-09-23T00:00:00+00:00",
+    "status": "observed_match",
+    "runtime_identity_observed": true,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "network_access_authorized": false
+  }
+}

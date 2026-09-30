@@ -1,0 +1,24 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_synthetic_page_retrieval",
+    "status": "candidate_unbound",
+    "knowledge_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "selected_profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "draft_revision": 1,
+    "page_key": "start",
+    "fingerprint_version": "synthetic-local-page-v1",
+    "page_fingerprint_sha256": "f8d2ae93e37fb34a35d0a3eefc18297bafa15f15e81cb76e088560721b8d639b",
+    "snapshot_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "before_run_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "after_run_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "profile_bound": false,
+    "origin_verified": false,
+    "route_verified": false,
+    "reviewed": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

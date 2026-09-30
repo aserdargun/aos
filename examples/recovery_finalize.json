@@ -1,0 +1,42 @@
+{
+  "synthetic": true,
+  "receipt": {
+    "schema_version": "1.0",
+    "mode": "finalized_verified_hello",
+    "finalization_id": "finalization-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "request": {
+      "schema_version": "1.0",
+      "mode": "finalize_verified_hello",
+      "source": {
+        "schema_version": "1.0",
+        "mode": "read_only_hello_finalization",
+        "snapshot_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "run_ref": "2222222222222222222222222222222222222222222222222222222222222222",
+        "action_ref": "3333333333333333333333333333333333333333333333333333333333333333",
+        "admission_ref": "4444444444444444444444444444444444444444444444444444444444444444",
+        "state_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+        "workspace_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+        "deployment_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+        "read_actions": 2,
+        "verification_ref": "8888888888888888888888888888888888888888888888888888888888888888",
+        "evidence_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+        "disposition": "ready_to_finalize",
+        "execution_authorized": false,
+        "resume_authorized": false,
+        "automatic_replay_allowed": false
+      },
+      "expires_at": 1789999999.0,
+      "execution_authorized": false,
+      "resume_authorized": false,
+      "automatic_replay_allowed": false
+    },
+    "request_sha256": "e49c13834183b1ae335b71b171d03ad9c452a717b33807bf042871d5530b68f3",
+    "finalized_state_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "actor": "acceptance_test",
+    "recorded_at": "2026-09-21T12:00:00+00:00",
+    "run_success_declared": true,
+    "execution_authorized": false,
+    "resume_authorized": false,
+    "automatic_replay_allowed": false
+  }
+}

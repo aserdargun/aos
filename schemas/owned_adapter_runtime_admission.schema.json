@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Explicit per-run owned development adapter runtime admission",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "mode": {
+      "const": "owned_adapter_runtime_admission"
+    },
+    "episode_id": {
+      "type": "string",
+      "pattern": "^episode-[a-f0-9]{32}$"
+    },
+    "authorization_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "adaptation_report_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "adapter_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "runtime_binding": {
+      "$ref": "#/$defs/binding"
+    },
+    "adapter_deployment_id": {
+      "type": "string",
+      "pattern": "^owned-adapter-[a-f0-9]{64}$"
+    },
+    "base_preview_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "case_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "development_value_sha256": {
+      "$ref": "#/$defs/hash"
+    },
+    "lease_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "generation": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "experimental_runtime_authorized": {
+      "const": true
+    },
+    "automatic_fallback": {
+      "const": false
+    },
+    "promotion_authorized": {
+      "const": false
+    },
+    "training_ready": {
+      "const": false
+    },
+    "synthetic": {
+      "const": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "mode",
+    "episode_id",
+    "authorization_sha256",
+    "adaptation_report_sha256",
+    "adapter_sha256",
+    "runtime_binding",
+    "adapter_deployment_id",
+    "base_preview_sha256",
+    "case_key",
+    "development_value_sha256",
+    "lease_id",
+    "generation",
+    "experimental_runtime_authorized",
+    "automatic_fallback",
+    "promotion_authorized",
+    "training_ready",
+    "synthetic"
+  ],
+  "$defs": {
+    "hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol": {
+          "const": "owned-adapter-runtime-v1"
+        },
+        "authorization_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "adaptation_report_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "artifact_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "input_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "deployment_manifest_sha256": {
+          "$ref": "#/$defs/hash"
+        },
+        "base_deployment_id": {
+          "type": "string",
+          "pattern": "^decider-[a-f0-9]{64}$"
+        },
+        "runtime_worker_sha256": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "required": [
+        "protocol",
+        "authorization_sha256",
+        "adaptation_report_sha256",
+        "artifact_sha256",
+        "input_sha256",
+        "deployment_manifest_sha256",
+        "base_deployment_id",
+        "runtime_worker_sha256"
+      ]
+    }
+  }
+}

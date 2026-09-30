@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "comparison": {
+    "schema_version": "1.0",
+    "status": "page_key_mismatch_unbound",
+    "knowledge_sha256": "a9f9d7ba00c3f4765872c16f3dbb29996bcf676a25935961451daf49a25a518c",
+    "selected_profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "draft_page_key": "record-list",
+    "draft_revision": 1,
+    "evidence_page_key": "start",
+    "evidence_fingerprint_version": "synthetic-local-page-v1",
+    "evidence_fingerprint_sha256": "f8d2ae93e37fb34a35d0a3eefc18297bafa15f15e81cb76e088560721b8d639b",
+    "evidence_source": {
+      "event_id": "learning-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "verification_id": "verification-synthetic",
+      "observation_id": "observation-synthetic"
+    },
+    "run_ref": "e690b1ade4535bddc8a3211a9d13e1b788275eaf398bdcb6c4f4061e36ea3341",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_bound": false,
+    "origin_verified": false,
+    "route_verified": false,
+    "fingerprint_semantics_verified": false,
+    "reviewed": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

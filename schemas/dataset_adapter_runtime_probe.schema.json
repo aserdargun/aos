@@ -1,0 +1,203 @@
+{
+  "$defs": {
+    "RuntimeChoiceMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "selected_index": {
+          "maximum": 9,
+          "minimum": 0,
+          "title": "Selected Index",
+          "type": "integer"
+        },
+        "gold_probability": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Gold Probability",
+          "type": "number"
+        }
+      },
+      "required": [
+        "selected_index",
+        "gold_probability"
+      ],
+      "title": "RuntimeChoiceMetrics",
+      "type": "object"
+    },
+    "RuntimeSplitMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "base_correct": {
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Base Correct",
+          "type": "integer"
+        },
+        "candidate_correct": {
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Candidate Correct",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "count",
+        "base_correct",
+        "candidate_correct"
+      ],
+      "title": "RuntimeSplitMetrics",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.1",
+      "default": "1.1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "synthetic_adapter_runtime_probe_v1",
+      "default": "synthetic_adapter_runtime_probe_v1",
+      "title": "Mode",
+      "type": "string"
+    },
+    "dataset_id": {
+      "pattern": "^fixture-[a-f0-9]{64}$",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Dataset Manifest Sha256",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "deployment_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Manifest Sha256",
+      "type": "string"
+    },
+    "candidate_report_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Report Sha256",
+      "type": "string"
+    },
+    "artifact_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Artifact Sha256",
+      "type": "string"
+    },
+    "runner_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runner Sha256",
+      "type": "string"
+    },
+    "train_sample_index": {
+      "const": 0,
+      "default": 0,
+      "title": "Train Sample Index",
+      "type": "integer"
+    },
+    "option_count": {
+      "maximum": 10,
+      "minimum": 2,
+      "title": "Option Count",
+      "type": "integer"
+    },
+    "base": {
+      "$ref": "#/$defs/RuntimeChoiceMetrics"
+    },
+    "candidate": {
+      "$ref": "#/$defs/RuntimeChoiceMetrics"
+    },
+    "split_results": {
+      "additionalProperties": {
+        "$ref": "#/$defs/RuntimeSplitMetrics"
+      },
+      "propertyNames": {
+        "enum": [
+          "train",
+          "validation",
+          "test"
+        ]
+      },
+      "title": "Split Results",
+      "type": "object"
+    },
+    "adapter_loaded": {
+      "const": true,
+      "default": true,
+      "title": "Adapter Loaded",
+      "type": "boolean"
+    },
+    "adapter_hook_calls": {
+      "maximum": 65536,
+      "minimum": 1,
+      "title": "Adapter Hook Calls",
+      "type": "integer"
+    },
+    "base_parameters_unchanged": {
+      "const": true,
+      "default": true,
+      "title": "Base Parameters Unchanged",
+      "type": "boolean"
+    },
+    "active_deployment_changed": {
+      "const": false,
+      "default": false,
+      "title": "Active Deployment Changed",
+      "type": "boolean"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "runtime_compatible": {
+      "const": true,
+      "default": true,
+      "title": "Runtime Compatible",
+      "type": "boolean"
+    },
+    "quality_improved": {
+      "const": false,
+      "default": false,
+      "title": "Quality Improved",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "dataset_manifest_sha256",
+    "input_sha256",
+    "deployment_manifest_sha256",
+    "candidate_report_sha256",
+    "artifact_sha256",
+    "runner_sha256",
+    "option_count",
+    "base",
+    "candidate",
+    "split_results",
+    "adapter_hook_calls"
+  ],
+  "title": "AdapterRuntimeProbeReport",
+  "type": "object"
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "job_id": "job-followup-fixture",
+  "intent_sha256": "b28aa52a0288468e82f90071d0690b29d8d3a3d7c3378331dd8f7a6a3285e8b7",
+  "guidance_intent_sha256": "e4f93d5deba1e5c4275a31fd576b63d6af228d80d3249cd0f1b96351b9478a72",
+  "manual_approval_required": true,
+  "entry_sha256": "71dbfaf66471466046634952fecb9e7e9952db06b482f96b0408d0257eebb181",
+  "reuse_intent_sha256": "3bcf139cf21e49a342823a7d64cbaf37e4989b679947b86d0b0e64cd75708b45"
+}

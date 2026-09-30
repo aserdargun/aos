@@ -1,0 +1,166 @@
+{
+  "$defs": {
+    "Action": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        },
+        "step_id": {
+          "title": "Step Id",
+          "type": "string"
+        },
+        "action_id": {
+          "title": "Action Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "state_version": {
+          "title": "State Version",
+          "type": "integer"
+        },
+        "owner_lease_id": {
+          "title": "Owner Lease Id",
+          "type": "string"
+        },
+        "tool": {
+          "enum": [
+            "filesystem.write",
+            "filesystem.read",
+            "process.sha256",
+            "browser.fill",
+            "browser.submit",
+            "browser.verify",
+            "browser.fixture.open",
+            "browser.fixture.follow",
+            "browser.fixture.snapshot",
+            "browser.staging.open",
+            "browser.staging.follow",
+            "browser.staging.fill",
+            "browser.staging.submit",
+            "browser.staging.snapshot",
+            "browser.remote.open",
+            "browser.remote.route",
+            "browser.remote.observe",
+            "browser.form.open",
+            "browser.form.fill",
+            "browser.form.submit",
+            "browser.form.receipt",
+            "browser.form.observe",
+            "browser.form.state_before",
+            "browser.form.state_after",
+            "vision.click",
+            "vision.verify"
+          ],
+          "title": "Tool",
+          "type": "string"
+        },
+        "arguments": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              }
+            ]
+          },
+          "title": "Arguments",
+          "type": "object"
+        },
+        "expected_effect": {
+          "title": "Expected Effect",
+          "type": "string"
+        },
+        "verification": {
+          "default": "independent_read_equals",
+          "title": "Verification",
+          "type": "string"
+        },
+        "deadline": {
+          "title": "Deadline",
+          "type": "number"
+        },
+        "idempotency_key": {
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "selected_option": {
+          "title": "Selected Option",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "run_id",
+        "step_id",
+        "action_id",
+        "runtime_id",
+        "state_version",
+        "owner_lease_id",
+        "tool",
+        "arguments",
+        "expected_effect",
+        "deadline",
+        "idempotency_key",
+        "selected_option"
+      ],
+      "title": "Action",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "approval_id": {
+      "title": "Approval Id",
+      "type": "string"
+    },
+    "job_id": {
+      "title": "Job Id",
+      "type": "string"
+    },
+    "action": {
+      "$ref": "#/$defs/Action"
+    },
+    "action_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Action Sha256",
+      "type": "string"
+    },
+    "expires_at": {
+      "title": "Expires At",
+      "type": "number"
+    }
+  },
+  "required": [
+    "approval_id",
+    "job_id",
+    "action",
+    "action_sha256",
+    "expires_at"
+  ],
+  "title": "Approval",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

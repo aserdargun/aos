@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_hello_finalization",
+      "default": "read_only_hello_finalization",
+      "title": "Mode",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "action_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Action Ref",
+      "type": "string"
+    },
+    "admission_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Admission Ref",
+      "type": "string"
+    },
+    "state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Sha256",
+      "type": "string"
+    },
+    "workspace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workspace Sha256",
+      "type": "string"
+    },
+    "deployment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Sha256",
+      "type": "string"
+    },
+    "read_actions": {
+      "maximum": 2,
+      "minimum": 0,
+      "title": "Read Actions",
+      "type": "integer"
+    },
+    "verification_ref": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Verification Ref"
+    },
+    "evidence_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Evidence Sha256"
+    },
+    "disposition": {
+      "enum": [
+        "incomplete",
+        "file_not_matching",
+        "requires_startup",
+        "ready_to_finalize",
+        "already_finalized",
+        "blocked"
+      ],
+      "title": "Disposition",
+      "type": "string"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "resume_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Resume Authorized",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "snapshot_sha256",
+    "run_ref",
+    "action_ref",
+    "admission_ref",
+    "state_sha256",
+    "workspace_sha256",
+    "deployment_sha256",
+    "read_actions",
+    "verification_ref",
+    "evidence_sha256",
+    "disposition"
+  ],
+  "title": "FinalizationReport",
+  "type": "object"
+}

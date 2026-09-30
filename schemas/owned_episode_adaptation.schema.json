@@ -1,0 +1,459 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_episode_adaptation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authorization_sha256",
+    "authorization",
+    "artifact_sha256",
+    "artifact_bytes",
+    "train",
+    "replay",
+    "evaluation",
+    "synthetic",
+    "training_ready",
+    "promotion_authorized"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "authorization_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "episode_id",
+        "conversion_sha256",
+        "tokenizer_report_sha256",
+        "execution_source_sha256",
+        "candidate_execution_sha256",
+        "source_group_sha256",
+        "memberships_sha256",
+        "development_decisions",
+        "input_sha256",
+        "deployment_id",
+        "deployment_manifest_sha256",
+        "runner_sha256",
+        "authority",
+        "attempt",
+        "budget",
+        "scope",
+        "split",
+        "rights_redaction_reviewed",
+        "experimental_training_authorized",
+        "network_export_authorized",
+        "promotion_authorized",
+        "training_ready"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "episode_id": {
+          "type": "string",
+          "pattern": "^episode-[a-f0-9]{32}$"
+        },
+        "conversion_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "tokenizer_report_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "execution_source_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "candidate_execution_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "source_group_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "memberships_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "development_decisions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "input_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "deployment_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "deployment_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "runner_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "lease_id",
+            "generation"
+          ],
+          "properties": {
+            "lease_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "generation": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "budget": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "adapter_rank",
+            "seed",
+            "learning_rate",
+            "optimizer_steps",
+            "max_tokens",
+            "max_examples",
+            "worker_timeout_seconds",
+            "microbatch_size"
+          ],
+          "properties": {
+            "adapter_rank": {
+              "const": 4
+            },
+            "seed": {
+              "const": 42
+            },
+            "learning_rate": {
+              "const": 0.1
+            },
+            "optimizer_steps": {
+              "const": 1
+            },
+            "max_tokens": {
+              "const": 1536
+            },
+            "max_examples": {
+              "const": 32
+            },
+            "worker_timeout_seconds": {
+              "const": 180
+            },
+            "microbatch_size": {
+              "const": 1
+            }
+          }
+        },
+        "scope": {
+          "const": "owned_synthetic_development_adapter"
+        },
+        "split": {
+          "const": "development_only"
+        },
+        "rights_redaction_reviewed": {
+          "const": true
+        },
+        "experimental_training_authorized": {
+          "const": true
+        },
+        "network_export_authorized": {
+          "const": false
+        },
+        "promotion_authorized": {
+          "const": false
+        },
+        "training_ready": {
+          "const": false
+        }
+      }
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "artifact_bytes": {
+      "const": 131188
+    },
+    "train": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_revision",
+        "code_revision",
+        "weights_sha256",
+        "manifest_sha256",
+        "input_sha256",
+        "authorization_sha256",
+        "conversion_sha256",
+        "development_decisions",
+        "token_budget",
+        "base_parameters_unchanged",
+        "base_gradient_count",
+        "training_ready",
+        "mode",
+        "adapter_target",
+        "adapter_rank",
+        "adapter_parameter_count",
+        "seed",
+        "optimizer_step_count",
+        "learning_rate",
+        "development_nll_before",
+        "development_nll_after",
+        "gradient_norm",
+        "peak_vram_allocated_bytes",
+        "peak_vram_reserved_bytes",
+        "elapsed_seconds",
+        "adapter_parameters_changed",
+        "candidate_checkpoint_written",
+        "candidate_artifact_sha256",
+        "candidate_artifact_bytes"
+      ],
+      "properties": {
+        "checkpoint_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "code_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "weights_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "input_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "authorization_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "conversion_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "development_decisions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "token_budget": {
+          "const": 1536
+        },
+        "base_parameters_unchanged": {
+          "const": true
+        },
+        "base_gradient_count": {
+          "const": 0
+        },
+        "training_ready": {
+          "const": false
+        },
+        "mode": {
+          "const": "owned_episode_adapter_train_v1"
+        },
+        "adapter_target": {
+          "const": "last_mlp_down_proj"
+        },
+        "adapter_rank": {
+          "const": 4
+        },
+        "adapter_parameter_count": {
+          "const": 32768
+        },
+        "seed": {
+          "const": 42
+        },
+        "optimizer_step_count": {
+          "const": 1
+        },
+        "learning_rate": {
+          "const": 0.1
+        },
+        "development_nll_before": {
+          "type": "number",
+          "minimum": 0
+        },
+        "development_nll_after": {
+          "type": "number",
+          "minimum": 0
+        },
+        "gradient_norm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "peak_vram_allocated_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "peak_vram_reserved_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "elapsed_seconds": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "adapter_parameters_changed": {
+          "const": true
+        },
+        "candidate_checkpoint_written": {
+          "const": true
+        },
+        "candidate_artifact_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "candidate_artifact_bytes": {
+          "const": 131188
+        }
+      }
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_revision",
+        "code_revision",
+        "weights_sha256",
+        "manifest_sha256",
+        "input_sha256",
+        "authorization_sha256",
+        "conversion_sha256",
+        "development_decisions",
+        "token_budget",
+        "base_parameters_unchanged",
+        "base_gradient_count",
+        "training_ready",
+        "mode",
+        "artifact_sha256",
+        "base_development_nll",
+        "candidate_development_nll",
+        "base_development_accuracy",
+        "candidate_development_accuracy",
+        "candidate_loaded",
+        "evaluation"
+      ],
+      "properties": {
+        "checkpoint_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "code_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "weights_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "input_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "authorization_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "conversion_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "development_decisions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "token_budget": {
+          "const": 1536
+        },
+        "base_parameters_unchanged": {
+          "const": true
+        },
+        "base_gradient_count": {
+          "const": 0
+        },
+        "training_ready": {
+          "const": false
+        },
+        "mode": {
+          "const": "owned_episode_adapter_replay_v1"
+        },
+        "artifact_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "base_development_nll": {
+          "type": "number",
+          "minimum": 0
+        },
+        "candidate_development_nll": {
+          "type": "number",
+          "minimum": 0
+        },
+        "base_development_accuracy": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "candidate_development_accuracy": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "candidate_loaded": {
+          "const": true
+        },
+        "evaluation": {
+          "const": "resubstitution"
+        }
+      }
+    },
+    "evaluation": {
+      "const": "resubstitution"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "training_ready": {
+      "const": false
+    },
+    "promotion_authorized": {
+      "const": false
+    }
+  }
+}

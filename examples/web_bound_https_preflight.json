@@ -1,0 +1,40 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.3",
+    "mode": "explicit_host_bound_https_entry_probe",
+    "status": "https_entry_reached",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "runtime_sha256": "7714b84e72cd32b4ab13e7da0a7cd675266b900ad22837bf71b34577a9fa14b2",
+    "binding_sha256": "c147ea3ee5ce47b5b5ed78430a9302e2d492b9e70ab01f07176f53151b7b4821",
+    "origin_sha256": "dfc72e980f9fd5a130a13f3735fec818bff9f69944790c37860e93ab37c7ff4e",
+    "request_sha256": "829d2a287f2dc5aaa43ae1c9e8edfb374770bd92c98166d4a206554c38162519",
+    "response_sha256": "c43810dee63626a433c5110852552057ba327947b66615ff874a13d1c11141cc",
+    "response_bytes": 28,
+    "entry_html_signals": {
+      "form_count": 0,
+      "post_form_count": 0,
+      "cross_origin_form_action_count": 0,
+      "unclassified_form_action_count": 0,
+      "meta_refresh_count": 0,
+      "cross_origin_meta_refresh_count": 0,
+      "unclassified_meta_refresh_count": 0,
+      "script_count": 0,
+      "stylesheet_count": 0,
+      "image_count": 0,
+      "password_input_count": 0,
+      "cross_origin_resource_count": 0,
+      "unclassified_resource_count": 0,
+      "static_html_only": true,
+      "browser_or_account_verified": false
+    },
+    "tls_hostname_verified": true,
+    "task_binding_verified": true,
+    "runtime_identity_verified": false,
+    "browser_connected": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

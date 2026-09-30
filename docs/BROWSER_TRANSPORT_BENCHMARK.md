@@ -1,0 +1,30 @@
+# Visible browser transport comparison
+
+`scripts/compare_browser_transports.py` compares the existing visible direct-CDP form runtime with the opt-in visible Playwright MCP form runtime on the **same fixed local synthetic form**. Both run in fresh owned Ubuntu/X11/noVNC containers with the pinned desktop image, network disabled, identical finite actions and independent DOM verification. The default deterministic decision fixture isolates browser transport overhead. An explicit `--engine decider` instead starts a fresh pinned, reusable real Decider for each sample and verifies two actual S1 model calls; it is still not a Bonsai, user-approval or real-site benchmark.
+
+```sh
+PYTHONPATH=src .venv/bin/python scripts/compare_browser_transports.py \
+  --output data/browser-transport-local --repeats 2
+
+PYTHONPATH=src .venv/bin/python scripts/compare_browser_transports.py \
+  --engine decider --model-python /home/cachyos/.venv/bin/python \
+  --output data/browser-transport-real-local --repeats 2
+
+PYTHONPATH=src .venv/bin/python scripts/compare_browser_transports.py \
+  --engine decider --prewarm-decider --model-python /home/cachyos/.venv/bin/python \
+  --output data/browser-transport-prewarm-local --repeats 2
+```
+
+Use a new ignored `data/` directory for every run. Samples alternate CDP–MCP then MCP–CDP to reduce ordering bias; each starts a new desktop and browser worker. In Decider mode each also starts a fresh model process but reuses it across the two decisions of that sample. Optional `--prewarm-decider` runs the existing CPU-only idle preparation **before** task timing and reports that preparation separately; it is not a free reduction in total work or GPU preloading. The private report records desktop startup, browser startup, time from task start to the first effectful gateway tool invocation, verified task time, per-tool latency, S1 model-call latency/token/peak-VRAM aggregates, actual action status and independent verification. It now also separates the worker's full job-admission pin verification from per-call CUDA transfer and forward/inference time. These stages are nested in model-call/task wall time; do not add them to the totals. It contains no raw prompts or model outputs in `report.json`; the private trajectory DB is not a shareable artifact. A failed sample remains visible and exits nonzero. Neither command changes the managed user session or active model deployment.
+
+Two samples per transport are a smoke comparison, not stable p95 latency. The fixture mode excludes model startup; Decider mode includes its cold start in task time, but neither mode includes manual approval waits, real-site network/auth, general navigation or concurrent load. The first effectful gateway call is **not** a measured first visible pixel. A separate real-application evaluation remains necessary before claiming that either transport improves end-to-end user speed. Actual measurements are recorded in [STATUS](STATUS.md), not inferred from transport design.
+
+The 23 September baseline `data/browser-transport-20260923-a/report.json` completed two independently verified form samples per transport. Direct CDP's task time was 106–110 ms, while MCP's was 3672–3673 ms; the pinned MCP server added its default 500 ms post-tool settle wait. The fixed form's submit handler is synchronous, so this worker now sets `--timeout-settle 0` while retaining the accessibility snapshot, typed fill/click, fresh pre-action check and separate verification. It also starts its local navigation-probe server only when that probe is requested.
+
+The post-change `data/browser-transport-20260923-b/report.json` again completed two verified samples each: CDP task **97.7–99.1 ms**, MCP task **174.4–191.3 ms**. Browser worker startup was CDP **529–555 ms**, MCP **851–909 ms**. This is a substantial improvement over the measured MCP baseline but still a small fixture-only smoke, not proof that MCP beats CDP or improves end-to-end real-model/user speed. Dynamic real sites need separate readiness and outcome reconciliation before using a zero-settle setting.
+
+The explicit pinned **real Decider** run `data/browser-transport-real-decider-20260923-b/report.json` completed two independently verified samples per transport, each with two successful S1 model calls and no S2 call. With a fresh model process per sample, CDP task time was **5.636–5.665 s** and MCP **5.714–5.721 s**. The first effectful gateway tool began **5.483–5.522 s** after task start. The first model call alone took **5.457–5.465 s**; the second took **61.6–61.9 ms**. All calls used 97 input tokens and reported **3,811,927,040 B** peak VRAM. On this fixture the cold model dominates task latency; these four runs do not measure manual approval, actual first visible pixel or a user site.
+
+With explicit CPU-only prewarm before task timing, `data/browser-transport-real-prewarm-20260923-b/report.json` again had two independently verified samples per transport. CPU preparation took **4.514–4.567 s** separately; task time fell to CDP **2.898–2.909 s** and MCP **2.969–2.971 s**. The first S1 call still took **2.717–2.736 s** and the second **61.2–62.4 ms**. Preparation can overlap a genuinely idle period in the managed service, but its cost is real and it does not guarantee GPU residency or a shorter cold start. Two samples per mode cannot support p95 or production speed claims.
+
+An additional single-pair diagnostic on 24 September separated the CPU-ready first-call cost: the fresh job's full pin recheck took **1.771 s (CDP)** and **1.790 s (MCP)**, initial CPU→CUDA transfer **321/327 ms**, and first inference **518/516 ms**; the second inference was **61/60 ms** without another transfer. The verified task took **2.880/2.965 s** after separate CPU preparation of **4.485/4.483 s**. This identifies repeated artifact hashing as the largest measured first-decision component for this local fixture, not a safe basis to skip identity checks. The run used 97 input tokens and 3.812 GB peak allocated VRAM. One pair is not p50/p95, a real-site test or proof of a faster implementation.

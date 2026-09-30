@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS explicit run-bound local remote metadata consent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "run_id", "profile_sha256", "plan_sha256", "binding_sha256", "task_key", "data_rights_ref", "roles", "retention_days", "expires_at", "scope", "local_operator_attested", "external_rights_verified", "raw_content_allowed", "training_authorized", "promotion_authorized"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "local_operator_remote_metadata_consent"},
+    "run_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,100}$"},
+    "profile_sha256": {"$ref": "#/$defs/hash"},
+    "plan_sha256": {"$ref": "#/$defs/hash"},
+    "state_plan_sha256": {"$ref": "#/$defs/hash"},
+    "binding_sha256": {"$ref": "#/$defs/hash"},
+    "task_key": {"$ref": "#/$defs/key"},
+    "data_rights_ref": {"$ref": "#/$defs/key"},
+    "roles": {"type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true, "items": {"enum": ["system1", "system2"]}},
+    "retention_days": {"type": "integer", "minimum": 1, "maximum": 365},
+    "expires_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?\\+00:00$"},
+    "scope": {"enum": ["remote_route_model_metadata_only", "remote_static_model_metadata_only", "remote_json_model_metadata_only", "remote_form_model_metadata_only", "remote_form_state_model_metadata_only"]},
+    "local_operator_attested": {"const": true},
+    "external_rights_verified": {"const": false},
+    "raw_content_allowed": {"const": false},
+    "training_authorized": {"const": false},
+    "promotion_authorized": {"const": false}
+  },
+  "allOf": [{"if": {"properties": {"scope": {"const": "remote_form_state_model_metadata_only"}}, "required": ["scope"]},
+    "then": {"required": ["state_plan_sha256"]},
+    "else": {"not": {"required": ["state_plan_sha256"]}}}],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "key": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"}
+  }
+}

@@ -1,0 +1,277 @@
+{
+  "$defs": {
+    "ForwardReport": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "dataset_s1_forward_only_v1",
+          "default": "dataset_s1_forward_only_v1",
+          "title": "Mode",
+          "type": "string"
+        },
+        "checkpoint_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "title": "Checkpoint Revision",
+          "type": "string"
+        },
+        "code_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "title": "Code Revision",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "weights_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Weights Sha256",
+          "type": "string"
+        },
+        "input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Sha256",
+          "type": "string"
+        },
+        "token_budget": {
+          "maximum": 1536,
+          "minimum": 64,
+          "title": "Token Budget",
+          "type": "integer"
+        },
+        "split_metrics": {
+          "items": {
+            "$ref": "#/$defs/SplitLoss"
+          },
+          "maxItems": 6,
+          "minItems": 2,
+          "title": "Split Metrics",
+          "type": "array"
+        },
+        "peak_vram_allocated_bytes": {
+          "minimum": 1,
+          "title": "Peak Vram Allocated Bytes",
+          "type": "integer"
+        },
+        "peak_vram_reserved_bytes": {
+          "minimum": 1,
+          "title": "Peak Vram Reserved Bytes",
+          "type": "integer"
+        },
+        "elapsed_seconds": {
+          "exclusiveMinimum": 0,
+          "title": "Elapsed Seconds",
+          "type": "number"
+        },
+        "weights_loaded": {
+          "const": true,
+          "default": true,
+          "title": "Weights Loaded",
+          "type": "boolean"
+        },
+        "parameters_unchanged": {
+          "const": true,
+          "default": true,
+          "title": "Parameters Unchanged",
+          "type": "boolean"
+        },
+        "gradient_run": {
+          "const": false,
+          "default": false,
+          "title": "Gradient Run",
+          "type": "boolean"
+        },
+        "optimizer_run": {
+          "const": false,
+          "default": false,
+          "title": "Optimizer Run",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "default": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "checkpoint_revision",
+        "code_revision",
+        "manifest_sha256",
+        "weights_sha256",
+        "input_sha256",
+        "token_budget",
+        "split_metrics",
+        "peak_vram_allocated_bytes",
+        "peak_vram_reserved_bytes",
+        "elapsed_seconds"
+      ],
+      "title": "ForwardReport",
+      "type": "object"
+    },
+    "SplitLoss": {
+      "additionalProperties": false,
+      "properties": {
+        "split": {
+          "enum": [
+            "train",
+            "validation",
+            "test"
+          ],
+          "title": "Split",
+          "type": "string"
+        },
+        "layout": {
+          "enum": [
+            "state_first",
+            "schema_first"
+          ],
+          "title": "Layout",
+          "type": "string"
+        },
+        "decisions": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Decisions",
+          "type": "integer"
+        },
+        "max_padded_tokens": {
+          "maximum": 1536,
+          "minimum": 64,
+          "multipleOf": 64,
+          "title": "Max Padded Tokens",
+          "type": "integer"
+        },
+        "mean_nll": {
+          "minimum": 0,
+          "title": "Mean Nll",
+          "type": "number"
+        },
+        "correct_choices": {
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Correct Choices",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "split",
+        "layout",
+        "decisions",
+        "max_padded_tokens",
+        "mean_nll",
+        "correct_choices"
+      ],
+      "title": "SplitLoss",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "dataset_bound_s1_loss_v1",
+      "default": "dataset_bound_s1_loss_v1",
+      "title": "Mode",
+      "type": "string"
+    },
+    "dataset_id": {
+      "pattern": "^fixture-[a-f0-9]{64}$",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Dataset Manifest Sha256",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "deployment_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Manifest Sha256",
+      "type": "string"
+    },
+    "runner_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runner Sha256",
+      "type": "string"
+    },
+    "split_counts": {
+      "additionalProperties": {
+        "maximum": 32,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "maxProperties": 3,
+      "minProperties": 3,
+      "propertyNames": {
+        "enum": [
+          "train",
+          "validation",
+          "test"
+        ]
+      },
+      "required": [
+        "train",
+        "validation",
+        "test"
+      ],
+      "title": "Split Counts",
+      "type": "object"
+    },
+    "forward_report": {
+      "$ref": "#/$defs/ForwardReport"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "supervisor_tokenizer_verified": {
+      "const": false,
+      "default": false,
+      "title": "Supervisor Tokenizer Verified",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "dataset_manifest_sha256",
+    "input_sha256",
+    "deployment_manifest_sha256",
+    "runner_sha256",
+    "split_counts",
+    "forward_report"
+  ],
+  "title": "DatasetLossReport",
+  "type": "object"
+}

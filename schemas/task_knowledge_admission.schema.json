@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "FollowupTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "parent_runtime_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Parent Runtime Id",
+          "type": "string"
+        },
+        "image_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Image Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "task_kind": {
+          "enum": [
+            "hello",
+            "browser_form",
+            "vision_canvas",
+            "browser_local_navigation",
+            "browser_staging_workflow",
+            "browser_remote_entry",
+            "browser_remote_routes",
+            "browser_remote_static_assets",
+            "browser_remote_form"
+          ],
+          "title": "Task Kind",
+          "type": "string"
+        },
+        "configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Sha256",
+          "type": "string"
+        },
+        "system1_deployment_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "System1 Deployment Id",
+          "type": "string"
+        },
+        "system2_deployment_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9_-]{1,100}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "System2 Deployment Id"
+        }
+      },
+      "required": [
+        "session_id",
+        "parent_runtime_id",
+        "image_id",
+        "lease_id",
+        "generation",
+        "task_kind",
+        "configuration_sha256",
+        "system1_deployment_id",
+        "system2_deployment_id"
+      ],
+      "title": "FollowupTarget",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "untrusted": {
+      "const": true,
+      "title": "Untrusted",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gold": {
+      "const": false,
+      "title": "Gold",
+      "type": "boolean"
+    },
+    "manual_approval_required": {
+      "const": true,
+      "title": "Manual Approval Required",
+      "type": "boolean"
+    },
+    "causality_verified": {
+      "const": false,
+      "title": "Causality Verified",
+      "type": "boolean"
+    },
+    "scope_authorization_verified": {
+      "const": false,
+      "title": "Scope Authorization Verified",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "task_knowledge_admission",
+      "title": "Kind",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    },
+    "job_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "preview_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Preview Sha256",
+      "type": "string"
+    },
+    "context_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Context Sha256",
+      "type": "string"
+    },
+    "target": {
+      "$ref": "#/$defs/FollowupTarget"
+    }
+  },
+  "required": [
+    "untrusted",
+    "execution_authorized",
+    "training_ready",
+    "gold",
+    "manual_approval_required",
+    "causality_verified",
+    "scope_authorization_verified",
+    "schema_version",
+    "kind",
+    "intent_sha256",
+    "job_id",
+    "preview_sha256",
+    "context_sha256",
+    "target"
+  ],
+  "title": "TaskKnowledgeAdmission",
+  "type": "object"
+}

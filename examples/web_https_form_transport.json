@@ -1,0 +1,38 @@
+{
+  "synthetic": true,
+  "plan": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "entry_url": "https://crm.example.invalid/app/",
+    "submit_url": "https://crm.example.invalid/app/submit",
+    "receipt_url": "https://crm.example.invalid/app/receipt",
+    "body_sha256": "293bc662b1766b12804b47200978b34c4b6a9e5728258123bbe29b64e364678a",
+    "body_bytes": 13,
+    "content_type": "application/x-www-form-urlencoded",
+    "approval": "fresh_per_action",
+    "status": "draft",
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "report": {
+    "schema_version": "1.1",
+    "mode": "bounded_host_https_form_transport",
+    "status": "receipt_response_read",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "plan_sha256": "8119dbba58accd7b3f6feeed4959bddc342aa3284c143953fdb023a37ffb4809",
+    "entry_response_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "submit_request_sha256": "14ccb7d858a53fe6e2f3612a5aff5a8a8032fb8acb055fac097aa765c0b6eb61",
+    "submit_response_status": 303,
+    "receipt_url_sha256": "013349b512bf6b45f652a714121a01e46d74b68a041bf3835211ed7685f6e7d0",
+    "receipt_response_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "receipt_bytes": 42,
+    "tls_hostname_verified": true,
+    "browser_connected": false,
+    "account_verified": false,
+    "site_outcome_verified": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

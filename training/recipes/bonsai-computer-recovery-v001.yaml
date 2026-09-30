@@ -1,0 +1,53 @@
+schema_version: "1.0"
+status: design_recipe_not_executable
+dataset:
+  source: trajectory_store_snapshot
+  synthetic: false
+  accepted_review_only: true
+  require_verification_or_policy_review: true
+  require_known_usage_rights: true
+  reject_secrets: true
+  screenshots: excluded
+  split:
+    group_by: task_family_and_near_duplicate_cluster
+    train: 0.8
+    validation: 0.1
+    test: 0.1
+    seed: 42
+  benchmark_overlap: reject
+promotion:
+  automatic: false
+  policy: benchmarks/promotion-policy.json
+
+recipe_id: bonsai-computer-recovery-v001
+scope: [failure_recovery, diagnosis, revised_plan]
+schema: schemas/system2_supervisor.schema.json
+base:
+  inference_model: prism-ml/Ternary-Bonsai-2-27B-gguf
+  trainable_checkpoint: null
+  trainable_revision: null
+  inference_revision: null
+  require_lineage_and_tensor_compatibility: true
+method: lora
+converter: to_be_implemented_after_compatibility_probe
+training:
+  status: smoke_experiment_starting_values
+  epochs: 1
+  learning_rate: 0.0001
+  micro_batch_size: 1
+  gradient_accumulation_steps: 16
+  max_sequence_tokens: 2048
+  rank: 8
+  alpha: 16
+  dropout: 0.05
+  target_modules: null
+  seed: 42
+  freeze_vision_projector: true
+  loss_on_target_only: true
+inference:
+  max_specialization_adapters: 1
+  conversion_format: gguf_if_supported
+  require_exact_base_hash: true
+  require_load_and_switch_smoke: true
+evaluation: [recovery_success, plan_validity, regression_success, safety_violation_count, peak_vram]
+blocked_until: [trainable_base_verified, target_modules_verified, conversion_verified, sufficient_data, training_hardware_measured]

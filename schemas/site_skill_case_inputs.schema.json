@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "SiteSkillCaseInput": {
+      "additionalProperties": false,
+      "properties": {
+        "case_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "parameters": {
+          "maxProperties": 16,
+          "minProperties": 1,
+          "patternProperties": {
+            "^[a-z][a-z0-9_-]{0,63}$": {
+              "type": "string"
+            }
+          },
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "case_key",
+        "parameters"
+      ],
+      "title": "SiteSkillCaseInput",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/SiteSkillCaseInput"
+      },
+      "maxItems": 16,
+      "minItems": 3,
+      "title": "Cases",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "plan_sha256",
+    "cases"
+  ],
+  "title": "SiteSkillCaseInputs",
+  "type": "object"
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS synthetic Decider option-row read-only replay",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "source_sha256", "input_sha256", "deployment_manifest_sha256", "artifact_sha256", "runner_sha256", "checkpoint_revision", "code_revision", "weights_sha256", "heldout_sample_ref", "token_ids", "heldout_base_nll", "heldout_candidate_nll", "heldout_base_choice", "heldout_candidate_choice", "candidate_loaded", "base_parameters_unchanged", "synthetic", "training_ready", "promotion_authorized"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "synthetic_decider_option_rows_replay_v1"},
+    "source_sha256": {"$ref": "#/$defs/hash"},
+    "input_sha256": {"$ref": "#/$defs/hash"},
+    "deployment_manifest_sha256": {"$ref": "#/$defs/hash"},
+    "artifact_sha256": {"$ref": "#/$defs/hash"},
+    "runner_sha256": {"$ref": "#/$defs/hash"},
+    "checkpoint_revision": {"$ref": "#/$defs/revision"},
+    "code_revision": {"$ref": "#/$defs/revision"},
+    "weights_sha256": {"$ref": "#/$defs/hash"},
+    "heldout_sample_ref": {"$ref": "#/$defs/hash"},
+    "token_ids": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true,
+      "items": {"type": "integer", "minimum": 0, "maximum": 248319}},
+    "heldout_base_nll": {"type": "number", "minimum": 0},
+    "heldout_candidate_nll": {"type": "number", "minimum": 0},
+    "heldout_base_choice": {"type": "integer", "minimum": 0, "maximum": 1},
+    "heldout_candidate_choice": {"type": "integer", "minimum": 0, "maximum": 1},
+    "candidate_loaded": {"const": true},
+    "base_parameters_unchanged": {"const": true},
+    "synthetic": {"const": true},
+    "training_ready": {"const": false},
+    "promotion_authorized": {"const": false}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+  }
+}

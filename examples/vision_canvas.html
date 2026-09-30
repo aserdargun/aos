@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none'">
+<title>AOS synthetic visual task</title>
+<style>html, body { margin: 0; width: 640px; height: 360px; overflow: hidden; } canvas { display: block; }</style>
+<canvas width="640" height="360"></canvas>
+<script>
+const canvas = document.querySelector('canvas');
+const context = canvas.getContext('2d');
+let clicks = 0;
+let selected = '';
+context.fillStyle = '#f0f4f8';
+context.fillRect(0, 0, 640, 360);
+context.fillStyle = '#16243b';
+context.font = 'bold 28px sans-serif';
+context.textAlign = 'center';
+context.fillText('SYNTHETIC LOCAL TASK', 320, 70);
+context.font = '20px sans-serif';
+context.fillText('Choose SAVE. Nothing leaves this sandbox.', 320, 115);
+for (const target of [{label: 'CANCEL', left: 60, color: '#53627a'}, {label: 'SAVE', left: 360, color: '#17623e'}]) {
+  context.fillStyle = target.color;
+  context.fillRect(target.left, 180, 220, 100);
+  context.fillStyle = '#ffffff';
+  context.font = 'bold 32px sans-serif';
+  context.fillText(target.label, target.left + 110, 242);
+}
+canvas.addEventListener('click', event => {
+  if (clicks !== 0) return;
+  clicks += 1;
+  const horizontal = event.clientX;
+  const vertical = event.clientY;
+  selected = vertical >= 180 && vertical < 280 && horizontal >= 360 && horizontal < 580 ? 'SAVE' :
+    vertical >= 180 && vertical < 280 && horizontal >= 60 && horizontal < 280 ? 'CANCEL' : 'MISS';
+  context.fillStyle = '#16243b';
+  context.font = '20px sans-serif';
+  context.fillText('Selected: ' + selected, 320, 330);
+});
+window.readSyntheticOutcome = () => ({selected, clicks});
+</script>
+</html>

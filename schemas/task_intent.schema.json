@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "normalizer_version": {
+      "const": "bounded-tr-v1",
+      "default": "bounded-tr-v1",
+      "title": "Normalizer Version",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "recognized",
+        "unsupported",
+        "negated"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "task_kind": {
+      "anyOf": [
+        {
+          "enum": [
+            "hello",
+            "browser_form",
+            "vision_canvas"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Task Kind"
+    },
+    "normalized_goal": {
+      "anyOf": [
+        {
+          "maxLength": 1024,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Normalized Goal"
+    },
+    "scope": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Scope"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "requires_action_approval": {
+      "const": true,
+      "default": true,
+      "title": "Requires Action Approval",
+      "type": "boolean"
+    },
+    "reason": {
+      "enum": [
+        "exact_catalog_match",
+        "unsupported_goal",
+        "negated_or_control_request",
+        "opaque_text"
+      ],
+      "title": "Reason",
+      "type": "string"
+    }
+  },
+  "required": [
+    "input_sha256",
+    "status",
+    "reason"
+  ],
+  "title": "GoalPreview",
+  "type": "object"
+}

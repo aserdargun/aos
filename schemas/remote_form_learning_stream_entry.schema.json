@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS run-bound unreviewed HTTPS form model metadata entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "derivation_version", "entry_id", "source_event_id", "role", "model_kind", "run_ref", "profile_sha256", "plan_sha256", "consent_sha256", "form_stage", "source_sha256", "source_snapshot_sha256", "status", "metadata_only", "transport_readback_verified", "site_outcome_verified", "external_rights_verified", "redaction_reviewed", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "derivation_version": {"const": "remote-form-learning-stream-v1"},
+    "entry_id": {"$ref": "#/$defs/hash"},
+    "source_event_id": {"type": "string", "pattern": "^learning-[a-f0-9]{64}$"},
+    "role": {"enum": ["system1", "system2"]},
+    "model_kind": {"enum": ["decider_native_worker", "laya_candidate", "bonsai_native_supervisor"]},
+    "run_ref": {"$ref": "#/$defs/hash"},
+    "profile_sha256": {"$ref": "#/$defs/hash"},
+    "plan_sha256": {"$ref": "#/$defs/hash"},
+    "consent_sha256": {"$ref": "#/$defs/hash"},
+    "form_stage": {"type": "integer", "minimum": 0, "maximum": 3},
+    "source_sha256": {"$ref": "#/$defs/hash"},
+    "source_snapshot_sha256": {"$ref": "#/$defs/hash"},
+    "status": {"const": "unreviewed_metadata_candidate"},
+    "metadata_only": {"const": true},
+    "transport_readback_verified": {"const": false},
+    "site_outcome_verified": {"const": false},
+    "external_rights_verified": {"const": false},
+    "redaction_reviewed": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "allOf": [
+    {"if": {"properties": {"role": {"const": "system1"}}},
+     "then": {"properties": {"model_kind": {"enum": ["decider_native_worker", "laya_candidate"]}}}},
+    {"if": {"properties": {"role": {"const": "system2"}}},
+     "then": {"properties": {"model_kind": {"const": "bonsai_native_supervisor"}}}}
+  ],
+  "$defs": {"hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

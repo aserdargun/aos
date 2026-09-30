@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "upstream": "https://github.com/Mapika/decider",
+  "revision": "75b00fade2dd7f353106e3f4683e56fa2481ec28",
+  "files": {
+    "core.py": "62e3079027d74f0414959c0064e787912679c856d1874a899cc9c80ea760d567",
+    "prompt.py": "5a42134cf470c566e34ac38fb10e63851c21a4bb739475eef797849bcfe460a3"
+  },
+  "source_paths": {"core.py": "decider/data/core.py", "prompt.py": "decider/prompt.py"},
+  "acceptance": "Example/Q construction and gold permutation with byte-tokenizer fixture only; not a training or real-tokenizer probe"
+}

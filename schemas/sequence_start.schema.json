@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "SequencePlan": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kinds": {
+          "items": {
+            "enum": [
+              "hello",
+              "browser_form",
+              "vision_canvas"
+            ],
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 2,
+          "title": "Kinds",
+          "uniqueItems": true,
+          "type": "array"
+        },
+        "requires_action_approval": {
+          "const": true,
+          "default": true,
+          "title": "Requires Action Approval",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kinds"
+      ],
+      "title": "SequencePlan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "plan": {
+      "$ref": "#/$defs/SequencePlan"
+    },
+    "lease_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "plan",
+    "lease_id",
+    "generation"
+  ],
+  "title": "SequenceStart",
+  "type": "object"
+}

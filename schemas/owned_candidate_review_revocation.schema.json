@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Owned candidate review revocation receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "type": "string"},
+    "synthetic": {"const": true, "type": "boolean"},
+    "review_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reviewer": {"const": "local_authenticated_user", "type": "string"},
+    "decision": {"const": "revoke", "type": "string"}
+  },
+  "required": ["schema_version", "synthetic", "review_sha256", "reviewer", "decision"]
+}

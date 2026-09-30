@@ -1,0 +1,117 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "audited_remote_json_page_draft_registration",
+      "default": "audited_remote_json_page_draft_registration",
+      "title": "Mode",
+      "type": "string"
+    },
+    "status": {
+      "const": "registered_unreviewed_draft",
+      "default": "registered_unreviewed_draft",
+      "title": "Status",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "before_run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Before Run Ref",
+      "type": "string"
+    },
+    "after_run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "After Run Ref",
+      "type": "string"
+    },
+    "page_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Page Key",
+      "type": "string"
+    },
+    "knowledge_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Knowledge Sha256",
+      "type": "string"
+    },
+    "source_bound": {
+      "const": true,
+      "default": true,
+      "title": "Source Bound",
+      "type": "boolean"
+    },
+    "transport_readback_bound": {
+      "const": true,
+      "default": true,
+      "title": "Transport Readback Bound",
+      "type": "boolean"
+    },
+    "semantic_page_key_verified": {
+      "const": false,
+      "default": false,
+      "title": "Semantic Page Key Verified",
+      "type": "boolean"
+    },
+    "reviewed": {
+      "const": false,
+      "default": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "task_retrieval_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Task Retrieval Authorized",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "snapshot_sha256",
+    "profile_sha256",
+    "plan_sha256",
+    "before_run_ref",
+    "after_run_ref",
+    "page_key",
+    "knowledge_sha256"
+  ],
+  "title": "RemoteReadonlyDataPageDraftRegistration",
+  "type": "object"
+}

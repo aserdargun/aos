@@ -1,0 +1,57 @@
+{
+  "synthetic": true,
+  "note": "Schema fixture only; not evidence, reconciliation or execution authority.",
+  "receipt": {
+    "schema_version": "1.0",
+    "method": "exclusive_create_fsync_fd_read_v1",
+    "run_ref": "2222222222222222222222222222222222222222222222222222222222222222",
+    "action_ref": "7777777777777777777777777777777777777777777777777777777777777777",
+    "envelope_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+    "workspace_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "file": {
+      "device": 1,
+      "inode": 2,
+      "owner_uid": 1000,
+      "size": 28,
+      "links": 1,
+      "modified_ns": 1,
+      "changed_ns": 1,
+      "content_sha256": "09308e6af1379087dd0ae56e8bbf85b96f3861fb4c91ef2393edb70229164032"
+    }
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_write_effect_inspection",
+    "checkpoint": {
+      "schema_version": "1.0",
+      "mode": "read_only_hello_checkpoint",
+      "snapshot_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "run_ref": "2222222222222222222222222222222222222222222222222222222222222222",
+      "state_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "deployment_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "workspace_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+      "captured_at": "2026-01-01T00:00:00Z",
+      "inspected_at": "2026-01-01T00:00:01Z",
+      "unresolved_actions": 1,
+      "workspace_binding_verified": true,
+      "deployment_snapshot_matches": true,
+      "live_deployment_verified": false,
+      "effect": "exact_content",
+      "criterion_observed": true,
+      "execution_authorized": false,
+      "resume_authorized": false,
+      "automatic_replay_allowed": false,
+      "action_causality_verified": false,
+      "uncertain_effect_resolved": false
+    },
+    "action_ref": "7777777777777777777777777777777777777777777777777777777777777777",
+    "action_status": "uncertain",
+    "receipt_sha256": "a50945787c5e2bb16069afa07511acb11e2b67909953c8bdec7112e851bd4747",
+    "result": "recorded_effect_matches",
+    "inspected_at": "2026-01-01T00:00:02Z",
+    "execution_authorized": false,
+    "resume_authorized": false,
+    "automatic_replay_allowed": false,
+    "uncertain_effect_resolved": false
+  }
+}

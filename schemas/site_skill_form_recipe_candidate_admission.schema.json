@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Sha256",
+      "type": "string"
+    },
+    "source_group_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Group Sha256",
+      "type": "string"
+    },
+    "source_run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Run Ref",
+      "type": "string"
+    },
+    "source_parameter_variant_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Parameter Variant Sha256",
+      "type": "string"
+    },
+    "parameter_variant_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Variant Sha256",
+      "type": "string"
+    },
+    "invocation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Invocation Sha256",
+      "type": "string"
+    },
+    "recipe_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Recipe Sha256",
+      "type": "string"
+    },
+    "skill_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Sha256",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "purpose": {
+      "const": "development_variation",
+      "title": "Purpose",
+      "type": "string"
+    },
+    "independent_held_out": {
+      "const": false,
+      "title": "Independent Held Out",
+      "type": "boolean"
+    },
+    "dataset_ingestion_authorized": {
+      "const": false,
+      "title": "Dataset Ingestion Authorized",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "candidate_sha256",
+    "source_group_sha256",
+    "source_run_ref",
+    "source_parameter_variant_sha256",
+    "parameter_variant_sha256",
+    "invocation_sha256",
+    "recipe_sha256",
+    "skill_sha256",
+    "profile_sha256",
+    "purpose",
+    "independent_held_out",
+    "dataset_ingestion_authorized",
+    "execution_authorized"
+  ],
+  "title": "CandidateExecutionAdmission",
+  "type": "object"
+}

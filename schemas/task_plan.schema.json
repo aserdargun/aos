@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "BoundedPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "catalog_version": {
+          "const": "fixed-plan-v1",
+          "default": "fixed-plan-v1",
+          "title": "Catalog Version",
+          "type": "string"
+        },
+        "task_kind": {
+          "enum": [
+            "hello",
+            "browser_form",
+            "vision_canvas"
+          ],
+          "title": "Task Kind",
+          "type": "string"
+        },
+        "normalized_goal": {
+          "maxLength": 1024,
+          "title": "Normalized Goal",
+          "type": "string"
+        },
+        "scope": {
+          "maxLength": 128,
+          "title": "Scope",
+          "type": "string"
+        },
+        "runtime": {
+          "enum": [
+            "isolated_workspace",
+            "separate_networkless_browser"
+          ],
+          "title": "Runtime",
+          "type": "string"
+        },
+        "preconditions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Preconditions",
+          "type": "array"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/PlanStep"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Steps",
+          "type": "array"
+        },
+        "verification_method": {
+          "enum": [
+            "independent_read_equals",
+            "independent_dom_equals",
+            "independent_canvas_equals"
+          ],
+          "title": "Verification Method",
+          "type": "string"
+        },
+        "expected_json": {
+          "maxLength": 512,
+          "title": "Expected Json",
+          "type": "string"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "live_state_verified": {
+          "const": false,
+          "default": false,
+          "title": "Live State Verified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "task_kind",
+        "normalized_goal",
+        "scope",
+        "runtime",
+        "preconditions",
+        "steps",
+        "verification_method",
+        "expected_json"
+      ],
+      "title": "BoundedPlan",
+      "type": "object"
+    },
+    "GoalPreview": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "normalizer_version": {
+          "const": "bounded-tr-v1",
+          "default": "bounded-tr-v1",
+          "title": "Normalizer Version",
+          "type": "string"
+        },
+        "input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Sha256",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "recognized",
+            "unsupported",
+            "negated"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "task_kind": {
+          "anyOf": [
+            {
+              "enum": [
+                "hello",
+                "browser_form",
+                "vision_canvas"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Task Kind"
+        },
+        "normalized_goal": {
+          "anyOf": [
+            {
+              "maxLength": 1024,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normalized Goal"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "requires_action_approval": {
+          "const": true,
+          "default": true,
+          "title": "Requires Action Approval",
+          "type": "boolean"
+        },
+        "reason": {
+          "enum": [
+            "exact_catalog_match",
+            "unsupported_goal",
+            "negated_or_control_request",
+            "opaque_text"
+          ],
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "input_sha256",
+        "status",
+        "reason"
+      ],
+      "title": "GoalPreview",
+      "type": "object"
+    },
+    "PlanStep": {
+      "additionalProperties": false,
+      "properties": {
+        "order": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Order",
+          "type": "integer"
+        },
+        "phase": {
+          "enum": [
+            "observe",
+            "decide",
+            "act",
+            "verify"
+          ],
+          "title": "Phase",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "approval": {
+          "enum": [
+            "fresh_action",
+            "covered_readback",
+            "not_applicable"
+          ],
+          "title": "Approval",
+          "type": "string"
+        }
+      },
+      "required": [
+        "order",
+        "phase",
+        "description",
+        "approval"
+      ],
+      "title": "PlanStep",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_fixed_plan",
+      "default": "read_only_fixed_plan",
+      "title": "Mode",
+      "type": "string"
+    },
+    "intent": {
+      "$ref": "#/$defs/GoalPreview"
+    },
+    "plan": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BoundedPlan"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "plan_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Plan Sha256"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "requires_action_approval": {
+      "const": true,
+      "default": true,
+      "title": "Requires Action Approval",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "intent",
+    "plan",
+    "plan_sha256"
+  ],
+  "title": "PlanPreview",
+  "type": "object"
+}

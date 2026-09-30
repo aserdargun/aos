@@ -1,0 +1,28 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_remote_form_state_source",
+    "status": "unreviewed_transport_candidate",
+    "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "state_plan_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "run_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "snapshot_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "requested_roles": ["system1", "system2"],
+    "source_event_ids_by_role": {
+      "system1": ["learning-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"],
+      "system2": []
+    },
+    "approved_stage_count": 6,
+    "submit_count": 1,
+    "transport_readback_verified": true,
+    "declared_state_readback_verified": true,
+    "site_outcome_verified": false,
+    "account_verified": false,
+    "rights_reviewed": false,
+    "redaction_reviewed": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

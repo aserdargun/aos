@@ -1,0 +1,68 @@
+{
+  "synthetic": true,
+  "entry": {
+    "schema_version": "1.0",
+    "derivation_version": "learning-stream-v1",
+    "entry_id": "e221a53cd910e4e326bd99f07070f47b0173c6f704038eb6c13c4ba920b07930",
+    "kind": "call_observed",
+    "role": "system1",
+    "model_kind": "decider_native_worker",
+    "source": {
+      "run_id": "run-synthetic",
+      "step_id": "step-synthetic",
+      "call_id": "call-decider",
+      "deployment_id": "decider-synthetic",
+      "deployment_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "decision_id": "decision-synthetic",
+      "escalation_id": null,
+      "verification_id": null
+    },
+    "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "source_snapshot_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "synthetic": true,
+    "metadata_only": true,
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "downstream_entry": {
+    "schema_version": "1.0",
+    "derivation_version": "learning-stream-v2",
+    "entry_id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "kind": "downstream_verification_linked",
+    "role": "system2",
+    "model_kind": "bonsai_native_supervisor",
+    "source": {
+      "run_id": "run-synthetic",
+      "step_id": "step-synthetic",
+      "call_id": "call-bonsai",
+      "deployment_id": "bonsai-synthetic",
+      "deployment_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "decision_id": null,
+      "escalation_id": null,
+      "verification_id": "verification-synthetic",
+      "scene_observation_id": "scene-observation-synthetic"
+    },
+    "source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "source_snapshot_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "synthetic": true,
+    "metadata_only": true,
+    "collection_authorized": false,
+    "training_ready": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "opt_in_synthetic_metadata_poll",
+    "run_ref": "b1390c054dd6c5bd754bc9d917049f0d62e9275195fc624aaf8bd43798c2c0e9",
+    "source_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "source_snapshot_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "run_status": "running",
+    "roles": ["system1", "system2"],
+    "new_entries": 1,
+    "total_entries": 1,
+    "entries_by_role": {"system1": 1, "system2": 0},
+    "synthetic": true,
+    "metadata_only": true,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

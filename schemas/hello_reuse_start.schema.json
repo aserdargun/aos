@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "job_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    },
+    "manual_approval_required": {
+      "const": true,
+      "title": "Manual Approval Required",
+      "type": "boolean"
+    },
+    "guidance_intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Guidance Intent Sha256",
+      "type": "string"
+    },
+    "entry_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Entry Sha256",
+      "type": "string"
+    },
+    "reuse_intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reuse Intent Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "job_id",
+    "intent_sha256",
+    "manual_approval_required",
+    "guidance_intent_sha256",
+    "entry_sha256",
+    "reuse_intent_sha256"
+  ],
+  "title": "HelloReuseStart",
+  "type": "object"
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "type": "string"},
+    "synthetic": {"const": true, "type": "boolean"},
+    "skill_sha256": {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+    "profile_sha256": {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+    "page_draft_sha256": {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+    "task_key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "type": "string"},
+    "task_sha256": {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+    "model_role": {"const": "system1", "type": "string"},
+    "field_binding_sha256": {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+    "preconditions": {
+      "items": {"additionalProperties": false, "properties": {
+        "precondition_key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "type": "string"},
+        "kind": {"enum": ["entry_form_available", "declared_state_before"], "type": "string"},
+        "checked_at_operation": {"enum": ["fill_form", "read_state_before"], "type": "string"}
+      }, "required": ["precondition_key", "kind", "checked_at_operation"], "type": "object"},
+      "maxItems": 2, "minItems": 2, "type": "array"
+    },
+    "outcome": {"additionalProperties": false, "properties": {
+      "outcome_key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "type": "string"},
+      "kind": {"const": "submitted_field_state_transition", "type": "string"},
+      "parameter_key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "type": "string"},
+      "form_field_name": {"pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$", "type": "string"},
+      "verified_at_operation": {"const": "read_state_after", "type": "string"}
+    }, "required": ["outcome_key", "kind", "parameter_key", "form_field_name", "verified_at_operation"], "type": "object"},
+    "steps": {
+      "items": {"additionalProperties": false, "properties": {
+        "step_key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "type": "string"},
+        "operation": {"enum": ["open_entry", "read_state_before", "fill_form", "submit_form", "read_receipt", "read_state_after"], "type": "string"}
+      }, "required": ["step_key", "operation"], "type": "object"},
+      "maxItems": 6, "minItems": 6, "type": "array"
+    },
+    "execution_authorized": {"const": false, "type": "boolean"},
+    "collection_authorized": {"const": false, "type": "boolean"},
+    "reviewed": {"const": false, "type": "boolean"},
+    "activation_authorized": {"const": false, "type": "boolean"},
+    "training_ready": {"const": false, "type": "boolean"}
+  },
+  "required": ["schema_version", "synthetic", "skill_sha256", "profile_sha256", "page_draft_sha256", "task_key", "task_sha256", "model_role", "field_binding_sha256", "preconditions", "outcome", "steps", "execution_authorized", "collection_authorized", "reviewed", "activation_authorized", "training_ready"],
+  "title": "SiteSkillFormRecipe",
+  "type": "object"
+}

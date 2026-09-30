@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "pair_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "verified": false,
+  "arms": {
+    "base": {
+      "status": "not_started"
+    },
+    "adapter": {
+      "status": "not_started"
+    }
+  },
+  "comparison": null,
+  "scope": "development_only",
+  "independent_held_out": 0,
+  "promotion_authorized": false,
+  "runtime_reuse_authorized": false
+}

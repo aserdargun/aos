@@ -1,0 +1,32 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_remote_json_bundle_change",
+    "status": "changed_profile_bound",
+    "fingerprint_version": "remote-json-bundle-transport-v1",
+    "snapshot_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "plan_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "before_run_ref": "4444444444444444444444444444444444444444444444444444444444444444",
+    "after_run_ref": "5555555555555555555555555555555555555555555555555555555555555555",
+    "asset_count": 1,
+    "data_count": 1,
+    "before_fingerprint_sha256": "555e3f784edf2a6f8320014d9ce46c30d55bbe275b9f1456c5a303f9224e49ab",
+    "after_fingerprint_sha256": "35842ad554bb561d19d8854f5cee1b90a270a48c41f908e01a40a0e77eb9034c",
+    "entry_response_changed": false,
+    "page_identity_changed": false,
+    "asset_changed_indices": [],
+    "data_changed_indices": [0],
+    "profile_bound": true,
+    "transport_readback_verified": true,
+    "site_outcome_verified": false,
+    "account_verified": false,
+    "rights_reviewed": false,
+    "reviewed": false,
+    "task_retrieval_authorized": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

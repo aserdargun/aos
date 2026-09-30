@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS opt-in synthetic incremental learning metadata entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "derivation_version", "entry_id", "kind", "role", "model_kind", "source", "source_sha256", "source_snapshot_sha256", "synthetic", "metadata_only", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "derivation_version": {"enum": ["learning-stream-v1", "learning-stream-v2"]},
+    "entry_id": {"$ref": "#/$defs/hash"},
+    "kind": {"enum": ["call_observed", "verification_linked", "downstream_verification_linked"]},
+    "role": {"enum": ["system1", "system2"]},
+    "model_kind": {"enum": ["decider_native_worker", "laya_candidate", "bonsai_native_supervisor"]},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "step_id", "call_id", "deployment_id", "deployment_sha256", "decision_id", "escalation_id", "verification_id"],
+      "properties": {
+        "run_id": {"$ref": "#/$defs/id"},
+        "step_id": {"$ref": "#/$defs/id"},
+        "call_id": {"$ref": "#/$defs/id"},
+        "deployment_id": {"$ref": "#/$defs/id"},
+        "deployment_sha256": {"$ref": "#/$defs/hash"},
+        "decision_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "escalation_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "verification_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "scene_observation_id": {"$ref": "#/$defs/id"}
+      }
+    },
+    "source_sha256": {"$ref": "#/$defs/hash"},
+    "source_snapshot_sha256": {"$ref": "#/$defs/hash"},
+    "synthetic": {"const": true},
+    "metadata_only": {"const": true},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"kind": {"const": "call_observed"}}},
+      "then": {"properties": {"derivation_version": {"const": "learning-stream-v1"},
+        "source": {"properties": {"verification_id": {"type": "null"}},
+                   "not": {"required": ["scene_observation_id"]}}}}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "verification_linked"}}},
+      "then": {"properties": {"role": {"const": "system1"},
+        "derivation_version": {"const": "learning-stream-v1"}, "source": {"properties": {
+        "decision_id": {"$ref": "#/$defs/id"}, "verification_id": {"$ref": "#/$defs/id"}
+      }, "not": {"required": ["scene_observation_id"]}}}}
+    },
+    {
+      "if": {"properties": {"kind": {"const": "downstream_verification_linked"}}},
+      "then": {"properties": {"role": {"const": "system2"},
+        "derivation_version": {"const": "learning-stream-v2"}, "source": {
+        "required": ["scene_observation_id"], "properties": {
+          "decision_id": {"type": "null"}, "verification_id": {"$ref": "#/$defs/id"},
+          "scene_observation_id": {"$ref": "#/$defs/id"}
+        }}}}
+    },
+    {
+      "if": {"properties": {"role": {"const": "system2"}}},
+      "then": {"properties": {"model_kind": {"const": "bonsai_native_supervisor"}, "source": {"properties": {
+        "decision_id": {"type": "null"}
+      }}}}
+    }
+  ]
+}

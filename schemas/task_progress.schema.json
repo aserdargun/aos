@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ErrorCode": {
+      "enum": [
+        "TOOL_FAILURE",
+        "MODEL_FAILURE",
+        "INVALID_OUTPUT",
+        "TIMEOUT",
+        "UI_CHANGED",
+        "ELEMENT_MISSING",
+        "NETWORK_FAILURE",
+        "APP_CRASH",
+        "RUNTIME_CRASH",
+        "STUCK",
+        "UNSAFE_ACTION"
+      ],
+      "title": "ErrorCode",
+      "type": "string"
+    },
+    "ModelCallProgress": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "system1",
+            "system2"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "error",
+            "timeout",
+            "cancelled"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "latency_ms": {
+          "minimum": 0,
+          "title": "Latency Ms",
+          "type": "number"
+        }
+      },
+      "required": [
+        "role",
+        "status",
+        "latency_ms"
+      ],
+      "title": "ModelCallProgress",
+      "type": "object"
+    },
+    "ModelCallRoleTotals": {
+      "additionalProperties": false,
+      "properties": {
+        "ok": {
+          "minimum": 0,
+          "title": "Ok",
+          "type": "integer"
+        },
+        "total": {
+          "minimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ok",
+        "total"
+      ],
+      "title": "ModelCallRoleTotals",
+      "type": "object"
+    },
+    "ModelCallTotals": {
+      "additionalProperties": false,
+      "properties": {
+        "system1": {
+          "$ref": "#/$defs/ModelCallRoleTotals"
+        },
+        "system2": {
+          "$ref": "#/$defs/ModelCallRoleTotals"
+        }
+      },
+      "required": [
+        "system1",
+        "system2"
+      ],
+      "title": "ModelCallTotals",
+      "type": "object"
+    },
+    "ModelCallRoleLatency": {
+      "additionalProperties": false,
+      "properties": {
+        "samples": {
+          "maximum": 256,
+          "minimum": 0,
+          "title": "Samples",
+          "type": "integer"
+        },
+        "p50_ms": {
+          "anyOf": [
+            {"minimum": 0, "type": "number"},
+            {"type": "null"}
+          ],
+          "default": null,
+          "title": "P50 Ms"
+        },
+        "p95_ms": {
+          "anyOf": [
+            {"minimum": 0, "type": "number"},
+            {"type": "null"}
+          ],
+          "default": null,
+          "title": "P95 Ms"
+        }
+      },
+      "required": ["samples"],
+      "title": "ModelCallRoleLatency",
+      "type": "object"
+    },
+    "ModelCallLatency": {
+      "additionalProperties": false,
+      "properties": {
+        "system1": {"$ref": "#/$defs/ModelCallRoleLatency"},
+        "system2": {"$ref": "#/$defs/ModelCallRoleLatency"}
+      },
+      "required": ["system1", "system2"],
+      "title": "ModelCallLatency",
+      "type": "object"
+    },
+    "Phase": {
+      "enum": [
+        "CREATED",
+        "OBSERVE",
+        "DECIDE",
+        "POLICY",
+        "EXECUTE",
+        "VERIFY",
+        "SUCCEEDED",
+        "FAILED",
+        "PAUSED",
+        "CANCELLED",
+        "WAITING_HUMAN",
+        "SUPERVISOR",
+        "REPLAN"
+      ],
+      "title": "Phase",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "phase": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Phase"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "state_version": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "State Version"
+    },
+    "elapsed_ms": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Elapsed Ms"
+    },
+    "failure_code": {
+      "anyOf": [
+        {"$ref": "#/$defs/ErrorCode"},
+        {"type": "null"}
+      ],
+      "default": null
+    },
+    "model_calls": {
+      "items": {
+        "$ref": "#/$defs/ModelCallProgress"
+      },
+      "maxItems": 10,
+      "title": "Model Calls",
+      "type": "array"
+    },
+    "model_call_totals": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ModelCallTotals"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "model_call_latency": {
+      "anyOf": [
+        {"$ref": "#/$defs/ModelCallLatency"},
+        {"type": "null"}
+      ],
+      "default": null
+    }
+  },
+  "title": "TaskProgress",
+  "type": "object"
+}

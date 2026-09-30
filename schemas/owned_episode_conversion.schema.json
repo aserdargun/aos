@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_episode_conversion.schema.json",
+  "title": "Non-training owned episode conversion record",
+  "oneOf": [
+    {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "converter_identity", "source_record_sha256", "candidate_sha256", "split_group", "split", "role", "payload", "synthetic", "training_ready", "supervisor_tokenizer_verified", "loss_mask_verified", "trainer_compatible"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "converter_identity": {"$ref": "#/$defs/system1Converter"},
+        "source_record_sha256": {"$ref": "#/$defs/hash"},
+        "candidate_sha256": {"$ref": "#/$defs/hash"},
+        "split_group": {"$ref": "#/$defs/hash"},
+        "split": {"const": "development_only"},
+        "role": {"const": "system1"},
+        "payload": {"$ref": "#/$defs/system1Payload"},
+        "synthetic": {"const": true}, "training_ready": {"const": false},
+        "supervisor_tokenizer_verified": {"const": false},
+        "loss_mask_verified": {"const": false}, "trainer_compatible": {"const": false}
+      }
+    },
+    {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "converter_identity", "source_record_sha256", "candidate_sha256", "split_group", "split", "role", "payload", "synthetic", "training_ready", "supervisor_tokenizer_verified", "loss_mask_verified", "trainer_compatible"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "converter_identity": {"$ref": "#/$defs/system2Converter"},
+        "source_record_sha256": {"$ref": "#/$defs/hash"},
+        "candidate_sha256": {"$ref": "#/$defs/hash"},
+        "split_group": {"$ref": "#/$defs/hash"},
+        "split": {"const": "development_only"},
+        "role": {"const": "system2"},
+        "payload": {"$ref": "#/$defs/system2Payload"},
+        "synthetic": {"const": true}, "training_ready": {"const": false},
+        "supervisor_tokenizer_verified": {"const": false},
+        "loss_mask_verified": {"const": false}, "trainer_compatible": {"const": false}
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "system1Converter": {
+      "type": "object", "additionalProperties": false,
+      "required": ["protocol", "schema_version", "upstream_format"],
+      "properties": {"protocol": {"const": "aos-owned-episode-conversion-v1"},
+        "schema_version": {"const": "1.0"}, "upstream_format": {"const": "decider-example-q-v1"}}
+    },
+    "system2Converter": {
+      "type": "object", "additionalProperties": false,
+      "required": ["protocol", "schema_version", "upstream_format"],
+      "properties": {"protocol": {"const": "aos-owned-episode-conversion-v1"},
+        "schema_version": {"const": "1.0"}, "upstream_format": {"const": "aos-owned-plan-messages-v1"}}
+    },
+    "system1Payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["context", "qs", "task"],
+      "properties": {
+        "context": {"type": "string"},
+        "qs": {"type": "array", "minItems": 1, "maxItems": 1,
+          "items": {"type": "object", "additionalProperties": false,
+            "required": ["text", "options", "gold"],
+            "properties": {
+              "text": {"type": "string"},
+              "options": {"type": "array", "minItems": 2, "maxItems": 10,
+                "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+              "gold": {"type": "integer", "minimum": 0, "maximum": 9}
+            }}},
+        "task": {"const": "aos-owned-synthetic-form"}
+      }
+    },
+    "systemMessage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "content"],
+      "properties": {"role": {"const": "system"}, "content": {"type": "string", "minLength": 1, "maxLength": 20000}}
+    },
+    "userMessage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "content"],
+      "properties": {"role": {"const": "user"}, "content": {"type": "string", "minLength": 1, "maxLength": 20000}}
+    },
+    "step": {
+      "type": "object", "additionalProperties": false,
+      "required": ["step_key", "operation"],
+      "properties": {"step_key": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"},
+        "operation": {"enum": ["open_entry", "read_state_before", "fill_form", "submit_form", "read_receipt", "read_state_after"]}}
+    },
+    "invokeTarget": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "decision", "evidence_refs", "case_key", "parameter_value", "steps", "reason_code", "execution_authorized", "activation_authorized", "training_ready"],
+      "properties": {"schema_version": {"const": "1.0"}, "decision": {"const": "invoke_selected_skill"},
+        "evidence_refs": {"const": ["admitted-skill"]},
+        "case_key": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}$"},
+        "parameter_value": {"type": "string", "pattern": "^[A-Za-z0-9 _.-]{1,128}$"},
+        "steps": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/step"}},
+        "reason_code": {"const": "skill_match"}, "execution_authorized": {"const": false},
+        "activation_authorized": {"const": false}, "training_ready": {"const": false}}
+    },
+    "abstainTarget": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "decision", "evidence_refs", "case_key", "parameter_value", "steps", "reason_code", "execution_authorized", "activation_authorized", "training_ready"],
+      "properties": {"schema_version": {"const": "1.0"}, "decision": {"const": "needs_human"},
+        "evidence_refs": {"const": ["admitted-skill"]}, "case_key": {"type": "null"},
+        "parameter_value": {"type": "null"}, "steps": {"const": []},
+        "reason_code": {"enum": ["skill_not_applicable", "input_ambiguous", "evidence_insufficient", "safety_unclear"]},
+        "execution_authorized": {"const": false}, "activation_authorized": {"const": false}, "training_ready": {"const": false}}
+    },
+    "target": {"oneOf": [{"$ref": "#/$defs/invokeTarget"}, {"$ref": "#/$defs/abstainTarget"}]},
+    "system2Payload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["format", "messages", "target"],
+      "properties": {"format": {"const": "aos-owned-plan-messages-v1"},
+        "messages": {"type": "array", "prefixItems": [{"$ref": "#/$defs/systemMessage"}, {"$ref": "#/$defs/userMessage"}],
+          "minItems": 2, "maxItems": 2},
+        "target": {"$ref": "#/$defs/target"}}
+    }
+  }
+}

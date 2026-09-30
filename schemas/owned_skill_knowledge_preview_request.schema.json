@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "goal": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Goal",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/KnowledgeScope"
+    },
+    "query": {
+      "maxLength": 512,
+      "minLength": 1,
+      "title": "Query",
+      "type": "string"
+    },
+    "top_k": {
+      "maximum": 4,
+      "minimum": 1,
+      "title": "Top K",
+      "type": "integer"
+    },
+    "context_chars": {
+      "maximum": 2048,
+      "minimum": 256,
+      "title": "Context Chars",
+      "type": "integer"
+    },
+    "lease_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "goal",
+    "scope",
+    "query",
+    "top_k",
+    "context_chars",
+    "lease_id",
+    "generation"
+  ],
+  "title": "OwnedSkillKnowledgePreviewRequest",
+  "type": "object"
+}

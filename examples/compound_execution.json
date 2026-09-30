@@ -1,0 +1,22 @@
+{
+  "synthetic": true,
+  "request": {
+    "goal": "önce hello görevini hazırla; sonra yerel form görevini hazırla",
+    "input_sha256": "221780ad23d5358f84b0549de633a80af4cfa70c4afc7d0711139626521176f0",
+    "composition_sha256": "afc0addc138a4f89e9f523f33f60143152bab54a2fb0e63f2aa97ea5c7d6ad47",
+    "lease_id": "synthetic-lease",
+    "generation": 0
+  },
+  "sequence_request": {
+    "plan": {
+      "schema_version": "1.0",
+      "kinds": [
+        "hello",
+        "browser_form"
+      ],
+      "requires_action_approval": true
+    },
+    "lease_id": "synthetic-lease",
+    "generation": 0
+  }
+}

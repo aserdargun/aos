@@ -1,0 +1,37 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.2",
+    "mode": "read_only_post_admission_form_state_repeats",
+    "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "state_plan_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "snapshot_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "deployment_snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "bound_attempts": 2,
+    "transport_verified": 1,
+    "failed_or_cancelled": 1,
+    "elapsed_p50_ms": 1000.0,
+    "elapsed_p95_ms": 1200.0,
+    "approval_window_count": 2,
+    "approval_window_sum_ms": 300.0,
+    "elapsed_excluding_approval_p50_ms": 850.0,
+    "elapsed_excluding_approval_p95_ms": 1050.0,
+    "first_action_samples": 1,
+    "first_action_p50_ms": 200.0,
+    "first_action_p95_ms": 200.0,
+    "model_call_count": 2,
+    "model_latency_samples": 2,
+    "model_latency_sum_ms": 500.0,
+    "post_approval_stage_ms": {
+      "browser.form.open": {"samples": 1, "p50_ms": 80.0, "p95_ms": 80.0},
+      "browser.form.state_before": {"samples": 1, "p50_ms": 30.0, "p95_ms": 30.0},
+      "browser.form.fill": {"samples": 1, "p50_ms": 120.0, "p95_ms": 120.0},
+      "browser.form.submit": {"samples": 1, "p50_ms": 180.0, "p95_ms": 180.0},
+      "browser.form.receipt": {"samples": 1, "p50_ms": 60.0, "p95_ms": 60.0},
+      "browser.form.state_after": {"samples": 1, "p50_ms": 50.0, "p95_ms": 50.0}
+    },
+    "site_outcome_verified": false,
+    "real_site_acceptance": false
+  }
+}

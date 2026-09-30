@@ -1,0 +1,25 @@
+{
+  "name": "aos-console-ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.26.0",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "tauri": "tauri",
+    "native:run": "GDK_BACKEND=x11 WEBKIT_DISABLE_DMABUF_RENDERER=1 cargo run --manifest-path src-tauri/Cargo.toml --locked",
+    "native:build": "tauri build --no-bundle"
+  },
+  "dependencies": {
+    "@novnc/novnc": "1.7.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.11.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "7.0.2",
+    "vite": "8.3.0"
+  }
+}

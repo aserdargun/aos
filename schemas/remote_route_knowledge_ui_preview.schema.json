@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "remote_route_metadata_candidate_preview",
+      "default": "remote_route_metadata_candidate_preview",
+      "title": "Mode",
+      "type": "string"
+    },
+    "candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Sha256",
+      "type": "string"
+    },
+    "candidate": {
+      "additionalProperties": true,
+      "title": "Candidate",
+      "type": "object"
+    }
+  },
+  "required": [
+    "candidate_sha256",
+    "candidate"
+  ],
+  "title": "RemoteRouteKnowledgeCandidatePreview",
+  "type": "object"
+}

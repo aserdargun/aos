@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "status": {
+      "const": "case_inputs_bound_source_unverified",
+      "title": "Status",
+      "type": "string"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "case_inputs_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Case Inputs Sha256",
+      "type": "string"
+    },
+    "skill_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Sha256",
+      "type": "string"
+    },
+    "model_role": {
+      "enum": [
+        "system1",
+        "system2"
+      ],
+      "title": "Model Role",
+      "type": "string"
+    },
+    "case_count": {
+      "maximum": 16,
+      "minimum": 3,
+      "title": "Case Count",
+      "type": "integer"
+    },
+    "development_count": {
+      "maximum": 14,
+      "minimum": 1,
+      "title": "Development Count",
+      "type": "integer"
+    },
+    "held_out_count": {
+      "maximum": 15,
+      "minimum": 2,
+      "title": "Held Out Count",
+      "type": "integer"
+    },
+    "case_inputs_bound": {
+      "const": true,
+      "title": "Case Inputs Bound",
+      "type": "boolean"
+    },
+    "source_parameters_bound": {
+      "const": false,
+      "title": "Source Parameters Bound",
+      "type": "boolean"
+    },
+    "held_out_independence_verified": {
+      "const": false,
+      "title": "Held Out Independence Verified",
+      "type": "boolean"
+    },
+    "execution_performed": {
+      "const": false,
+      "title": "Execution Performed",
+      "type": "boolean"
+    },
+    "outcomes_verified": {
+      "const": false,
+      "title": "Outcomes Verified",
+      "type": "boolean"
+    },
+    "skill_validated": {
+      "const": false,
+      "title": "Skill Validated",
+      "type": "boolean"
+    },
+    "reviewed": {
+      "const": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "status",
+    "plan_sha256",
+    "case_inputs_sha256",
+    "skill_sha256",
+    "model_role",
+    "case_count",
+    "development_count",
+    "held_out_count",
+    "case_inputs_bound",
+    "source_parameters_bound",
+    "held_out_independence_verified",
+    "execution_performed",
+    "outcomes_verified",
+    "skill_validated",
+    "reviewed",
+    "activation_authorized",
+    "training_ready"
+  ],
+  "title": "SiteSkillCaseBindingReport",
+  "type": "object"
+}

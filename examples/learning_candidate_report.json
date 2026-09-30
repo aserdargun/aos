@@ -1,0 +1,26 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_candidate_gap_review",
+    "run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "event_count": 1,
+    "system1_count": 1,
+    "system2_count": 0,
+    "rows": [{
+      "schema_version": "1.0",
+      "source_event_id": "learning-e4d0d4c157ea7e73ae074d74d3eafa0c68fa91fb7a71e0bb28e68c7602fb06d9",
+      "role": "system1",
+      "has_independent_outcome": true,
+      "has_scene_evidence": false,
+      "has_downstream_verification": false,
+      "status": "blocked",
+      "label_ready": false,
+      "training_ready": false,
+      "blockers": ["collection_rights_unverified", "dataset_review_missing", "gold_label_missing", "redaction_unverified", "review_required", "site_scope_unbound", "synthetic_task_excluded", "training_not_authorized"]
+    }],
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

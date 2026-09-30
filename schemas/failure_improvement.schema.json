@@ -1,0 +1,476 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ActionCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "ok": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Ok",
+          "type": "integer"
+        },
+        "error": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Error",
+          "type": "integer"
+        },
+        "denied": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Denied",
+          "type": "integer"
+        },
+        "cancelled": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Cancelled",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ok",
+        "error",
+        "denied",
+        "cancelled"
+      ],
+      "title": "ActionCounts",
+      "type": "object"
+    },
+    "ApprovalCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "consumed": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Consumed",
+          "type": "integer"
+        },
+        "rejected": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Rejected",
+          "type": "integer"
+        },
+        "expired": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Expired",
+          "type": "integer"
+        },
+        "revoked": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Revoked",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "consumed",
+        "rejected",
+        "expired",
+        "revoked"
+      ],
+      "title": "ApprovalCounts",
+      "type": "object"
+    },
+    "CallCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "ok": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Ok",
+          "type": "integer"
+        },
+        "error": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Error",
+          "type": "integer"
+        },
+        "timeout": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Timeout",
+          "type": "integer"
+        },
+        "cancelled": {
+          "maximum": 500,
+          "minimum": 0,
+          "title": "Cancelled",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "ok",
+        "error",
+        "timeout",
+        "cancelled"
+      ],
+      "title": "CallCounts",
+      "type": "object"
+    },
+    "ErrorCode": {
+      "enum": [
+        "TOOL_FAILURE",
+        "MODEL_FAILURE",
+        "INVALID_OUTPUT",
+        "TIMEOUT",
+        "UI_CHANGED",
+        "ELEMENT_MISSING",
+        "NETWORK_FAILURE",
+        "APP_CRASH",
+        "RUNTIME_CRASH",
+        "STUCK",
+        "UNSAFE_ACTION"
+      ],
+      "title": "ErrorCode",
+      "type": "string"
+    },
+    "FailureCandidate": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "failed_task_improvement",
+          "title": "Kind",
+          "type": "string"
+        },
+        "job_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "session_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "task_kind": {
+          "enum": [
+            "hello",
+            "browser_form",
+            "vision_canvas",
+            "browser_local_navigation",
+            "browser_staging_workflow",
+            "browser_remote_entry",
+            "browser_remote_routes",
+            "browser_remote_static_assets",
+            "browser_remote_form"
+          ],
+          "title": "Task Kind",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "scope_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Scope Sha256",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "failed",
+            "cancelled"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        },
+        "failure_code": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ErrorCode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "synthetic": {
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "model_roles": {
+          "$ref": "#/$defs/RoleSummaries"
+        },
+        "approval_counts": {
+          "$ref": "#/$defs/ApprovalCounts"
+        },
+        "action_counts": {
+          "$ref": "#/$defs/ActionCounts"
+        },
+        "metadata_only": {
+          "const": true,
+          "title": "Metadata Only",
+          "type": "boolean"
+        },
+        "retrospective": {
+          "const": true,
+          "title": "Retrospective",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "gold": {
+          "const": false,
+          "title": "Gold",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "failure_attribution_verified": {
+          "const": false,
+          "title": "Failure Attribution Verified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "job_id",
+        "session_id",
+        "task_kind",
+        "run_ref",
+        "source_sha256",
+        "scope_sha256",
+        "outcome",
+        "failure_code",
+        "synthetic",
+        "model_roles",
+        "approval_counts",
+        "action_counts",
+        "metadata_only",
+        "retrospective",
+        "training_ready",
+        "gold",
+        "execution_authorized",
+        "failure_attribution_verified"
+      ],
+      "title": "FailureCandidate",
+      "type": "object"
+    },
+    "ReviewOption": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "enum": [
+            "accept",
+            "reject"
+          ],
+          "title": "Decision",
+          "type": "string"
+        },
+        "correction_code": {
+          "anyOf": [
+            {
+              "enum": [
+                "refresh_observation",
+                "inspect_before_retry",
+                "request_clarification",
+                "repair_environment"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Correction Code"
+        },
+        "confirm_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Confirm Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision",
+        "correction_code",
+        "confirm_sha256"
+      ],
+      "title": "ReviewOption",
+      "type": "object"
+    },
+    "ReviewSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "enum": [
+            "accept",
+            "reject"
+          ],
+          "title": "Decision",
+          "type": "string"
+        },
+        "correction_code": {
+          "anyOf": [
+            {
+              "enum": [
+                "refresh_observation",
+                "inspect_before_retry",
+                "request_clarification",
+                "repair_environment"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Correction Code"
+        },
+        "receipt_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Receipt Sha256",
+          "type": "string"
+        },
+        "revoked": {
+          "title": "Revoked",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "decision",
+        "correction_code",
+        "receipt_sha256",
+        "revoked"
+      ],
+      "title": "ReviewSummary",
+      "type": "object"
+    },
+    "RoleSummaries": {
+      "additionalProperties": false,
+      "properties": {
+        "system1": {
+          "$ref": "#/$defs/RoleSummary"
+        },
+        "system2": {
+          "$ref": "#/$defs/RoleSummary"
+        }
+      },
+      "required": [
+        "system1",
+        "system2"
+      ],
+      "title": "RoleSummaries",
+      "type": "object"
+    },
+    "RoleSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "deployment_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9_-]{1,100}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Deployment Id"
+        },
+        "real_model": {
+          "title": "Real Model",
+          "type": "boolean"
+        },
+        "calls": {
+          "$ref": "#/$defs/CallCounts"
+        }
+      },
+      "required": [
+        "deployment_id",
+        "real_model",
+        "calls"
+      ],
+      "title": "RoleSummary",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "job_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "available": {
+      "const": true,
+      "title": "Available",
+      "type": "boolean"
+    },
+    "candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Sha256",
+      "type": "string"
+    },
+    "candidate": {
+      "$ref": "#/$defs/FailureCandidate"
+    },
+    "saved": {
+      "title": "Saved",
+      "type": "boolean"
+    },
+    "review": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ReviewSummary"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "review_options": {
+      "items": {
+        "$ref": "#/$defs/ReviewOption"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "title": "Review Options",
+      "type": "array"
+    },
+    "source_current": {
+      "title": "Source Current",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "job_id",
+    "available",
+    "candidate_sha256",
+    "candidate",
+    "saved",
+    "review",
+    "review_options",
+    "source_current"
+  ],
+  "title": "FailureImprovement",
+  "type": "object"
+}

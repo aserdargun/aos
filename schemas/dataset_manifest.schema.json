@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS synthetic dataset manifest",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "dataset_id": {
+      "type": "string",
+      "pattern": "^fixture-[a-f0-9]{64}$"
+    },
+    "recipe_id": {
+      "const": "fixture-dataset-v001"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "training_ready": {
+      "const": false
+    },
+    "seed": {
+      "const": 42
+    },
+    "redaction_version": {
+      "const": "reviewed-fixture-v1"
+    },
+    "group_algorithm": {
+      "const": "connected-run-family-reviewed-cluster-input-v1"
+    },
+    "split_algorithm": {
+      "const": "sha256-mod100-80-10-10-v1"
+    },
+    "memberships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sample_id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+          },
+          "kind": {
+            "enum": [
+              "system1_choice",
+              "system2_supervisor"
+            ]
+          },
+          "split": {
+            "enum": [
+              "train",
+              "validation",
+              "test"
+            ]
+          },
+          "group_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "record_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "sample_id",
+          "kind",
+          "split",
+          "group_sha256",
+          "source_sha256",
+          "record_sha256"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "builder_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "schemas": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "converters": {
+      "type": "object",
+      "properties": {
+        "system1_choice": {
+          "type": "string",
+          "minLength": 1
+        },
+        "system2_supervisor": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "system1_choice",
+        "system2_supervisor"
+      ],
+      "additionalProperties": false
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "lines": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "sha256",
+          "bytes",
+          "lines"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "recipe_id",
+    "synthetic",
+    "training_ready",
+    "seed",
+    "redaction_version",
+    "group_algorithm",
+    "split_algorithm",
+    "memberships",
+    "sources",
+    "builder_sha256",
+    "schemas",
+    "converters",
+    "files"
+  ],
+  "additionalProperties": false
+}

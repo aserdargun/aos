@@ -1,0 +1,63 @@
+{
+  "description": "Illustrative synthetic reuse admission; all hashes and identities are placeholders and confer no authority.",
+  "synthetic": true,
+  "admission": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "purpose": "owned_selected_skill_reuse_admission",
+    "preview": {
+      "schema_version": "1.0",
+      "synthetic": true,
+      "purpose": "owned_selected_skill_reuse",
+      "previous_manager_session": "app-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "previous_stopped_state_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "previous_lifecycle_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "source_workspace_identity": {
+        "version": "descriptor-workspace-v1",
+        "path_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "device": 1,
+        "inode": 2,
+        "owner_uid": 1000
+      },
+      "source_database_identity": {
+        "path_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "device": 1,
+        "inode": 3,
+        "owner_uid": 1000
+      },
+      "source_manifest_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+      "source_job_id": "job-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source_run_ref": "6666666666666666666666666666666666666666666666666666666666666666",
+      "source_invocation_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+      "source_desktop_session_id": "desktop-session-cccccccccccccccccccccccccccccccc",
+      "source_fingerprint_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+      "family_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+      "release_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "selection_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "review_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "candidate_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "recipe_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "review_evidence_execution_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "source_audit_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "review_evidence_audit_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "replay_inventory_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "prior_sessions_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "origin": "https://demo.invalid:8443",
+      "certificate_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+      "execution_authorized": false,
+      "old_actions_replayed": false,
+      "activation_authorized": false,
+      "training_ready": false
+    },
+    "preview_sha256": "196faa45c994868a740052d2701b5bce0ca7dea2a314bb3278a371b53f37a26d",
+    "manager_session": "app-dddddddddddddddddddddddddddddddd",
+    "desktop_session_id": "desktop-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "runtime_id": "runtime-ffffffffffffffffffffffffffffffff",
+    "lease_id": "lease-11111111111111111111111111111111",
+    "generation": 0,
+    "execution_authorized": false,
+    "old_actions_replayed": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

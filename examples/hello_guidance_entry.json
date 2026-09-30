@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "kind": "finite_hello_guidance",
+  "entry_version": 1,
+  "guidance_code": "refresh_observation",
+  "context_version": "hello-guidance-v1",
+  "context_sha256": "3c1ae2bc3b122b84cfaffa30841055b09f9ded059d49fa1e76bf603e94624d97",
+  "scope": {
+    "session_id": "session-fixture",
+    "parent_runtime_id": "runtime-fixture",
+    "image_id": "synthetic-image",
+    "configuration_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "system1_deployment_id": "fixture-decision-v1",
+    "workspace_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "role": "system1"
+  },
+  "source": {
+    "source_job_id": "job-fixture",
+    "candidate_sha256": "3c45a1c7d5cd7efdd3719a66118e503a72650b602be016dd7afab782b855bf32",
+    "receipt_sha256": "6ac25a1bd023f3dfd028dd0c85f45fc30d79ebebadab38b0ec28c26db4ee95ee",
+    "source_sha256": "ad357f2f41afe9bccabb22a4640dd87af756c7c37d67d907fe192339f4a0e461",
+    "contract": {
+      "semantic_sha256": "5603a5ce2ba4a8b120881cf99e52a222a3368ca7693064d8e616ce272589e470",
+      "binding_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  },
+  "execution_authorized": false,
+  "causality_verified": false,
+  "gold": false,
+  "training_ready": false
+}

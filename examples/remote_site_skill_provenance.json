@@ -1,0 +1,30 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_remote_skill_source_inspection",
+    "status": "unreviewed_route_source_match",
+    "skill_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "page_draft_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "plan_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "route_index": 0,
+    "run_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "snapshot_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "model_role": "system1",
+    "deployment_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "source_event_ids": ["learning-e4d0d4c157ea7e73ae074d74d3eafa0c68fa91fb7a71e0bb28e68c7602fb06d9"],
+    "source_request_sha256": ["3333333333333333333333333333333333333333333333333333333333333333"],
+    "profile_bound": true,
+    "page_readback_bound": true,
+    "transport_readback_verified": true,
+    "site_outcome_verified": false,
+    "account_verified": false,
+    "parameter_values_bound": false,
+    "reviewed": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

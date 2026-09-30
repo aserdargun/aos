@@ -1,0 +1,29 @@
+{
+  "synthetic": true,
+  "plan": {
+    "schema_version": "1.0",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "routes": ["https://crm.example.invalid/app/", "https://crm.example.invalid/details/?view=compact&page=1"],
+    "approval": "fresh_per_action",
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "explicit_bound_readonly_route_fetch",
+    "status": "https_route_reached",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "task_sha256": "b78ff024be5fb58104eb15d1ddd2d5930315a2ab3909a7a9933de26b2bcd2268",
+    "plan_sha256": "776ee25395be4434f29d6dd3ccf7f4366022cf28c9f9a6ec51832cda0b7a54cc",
+    "route_index": 1,
+    "request_sha256": "1efef4f671d66d4d29336cc56bb8e363d8e93d1f1044c2690969163cdc1e95f2",
+    "response_sha256": "2ed1cc65a5bb2e95afb2d1b5494bd56a0a28b01fa2ef352708ebb29d1507d230",
+    "response_bytes": 30,
+    "tls_hostname_verified": true,
+    "browser_connected": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

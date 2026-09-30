@@ -1,0 +1,27 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "preview_version": "choice-source-preflight-v1",
+    "mode": "hash_only",
+    "training_ready": false,
+    "metadata_claims_verified": false,
+    "run_ref": "0000000000000000000000000000000000000000000000000000000000000000",
+    "label_ref": null,
+    "snapshot_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "source_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "projection_sha256": null,
+    "candidate_sha256": null,
+    "accepted_choice_labels": 0,
+    "derivation_matches": null,
+    "receipt_status": "not_requested",
+    "blockers": [
+      "no_accepted_choice_labels",
+      "redaction_unverified",
+      "reviewer_authentication_unverified",
+      "synthetic_content_excluded",
+      "training_not_authorized",
+      "usage_rights_unverified"
+    ]
+  }
+}

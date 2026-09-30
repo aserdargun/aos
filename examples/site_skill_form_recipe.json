@@ -1,0 +1,32 @@
+{
+  "synthetic": true,
+  "recipe": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "skill_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "profile_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "page_draft_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "task_key": "synthetic-search",
+    "task_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "model_role": "system1",
+    "field_binding_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "preconditions": [
+      {"precondition_key": "baseline-known", "kind": "declared_state_before", "checked_at_operation": "read_state_before"},
+      {"precondition_key": "form-available", "kind": "entry_form_available", "checked_at_operation": "fill_form"}
+    ],
+    "outcome": {"outcome_key": "synthetic-result", "kind": "submitted_field_state_transition", "parameter_key": "record-query", "form_field_name": "message", "verified_at_operation": "read_state_after"},
+    "steps": [
+      {"step_key": "open", "operation": "open_entry"},
+      {"step_key": "before", "operation": "read_state_before"},
+      {"step_key": "fill", "operation": "fill_form"},
+      {"step_key": "submit", "operation": "submit_form"},
+      {"step_key": "receipt", "operation": "read_receipt"},
+      {"step_key": "after", "operation": "read_state_after"}
+    ],
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "reviewed": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

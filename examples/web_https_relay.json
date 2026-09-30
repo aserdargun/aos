@@ -1,0 +1,17 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "mode": "one_shot_host_https_entry_relay",
+    "status": "entry_response_served",
+    "profile_sha256": "d7c8eee8f622e08a97416bd13e727556992abb389ef70dc0203792a355584456",
+    "binding_sha256": "c147ea3ee5ce47b5b5ed78430a9302e2d492b9e70ab01f07176f53151b7b4821",
+    "response_sha256": "c43810dee63626a433c5110852552057ba327947b66615ff874a13d1c11141cc",
+    "response_bytes": 28,
+    "request_attempts": 2,
+    "browser_identity_verified": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}

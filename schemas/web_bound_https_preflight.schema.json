@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS explicit host task-bound HTTPS entry preflight report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "status", "profile_sha256", "task_sha256", "runtime_sha256", "binding_sha256", "origin_sha256", "request_sha256", "response_sha256", "response_bytes", "entry_html_signals", "tls_hostname_verified", "task_binding_verified", "runtime_identity_verified", "browser_connected", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.3"},
+    "mode": {"const": "explicit_host_bound_https_entry_probe"},
+    "status": {"const": "https_entry_reached"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "task_sha256": {"$ref": "#/$defs/checksum"},
+    "runtime_sha256": {"$ref": "#/$defs/checksum"},
+    "binding_sha256": {"$ref": "#/$defs/checksum"},
+    "origin_sha256": {"$ref": "#/$defs/checksum"},
+    "request_sha256": {"$ref": "#/$defs/checksum"},
+    "response_sha256": {"$ref": "#/$defs/checksum"},
+    "response_bytes": {"type": "integer", "minimum": 0, "maximum": 65536},
+    "entry_html_signals": {"anyOf": [{"$ref": "#/$defs/entry_html_signals"}, {"type": "null"}]},
+    "tls_hostname_verified": {"const": true},
+    "task_binding_verified": {"const": true},
+    "runtime_identity_verified": {"const": false},
+    "browser_connected": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "entry_html_signals": {
+      "type": "object", "additionalProperties": false,
+      "required": ["form_count", "post_form_count", "cross_origin_form_action_count", "unclassified_form_action_count", "meta_refresh_count", "cross_origin_meta_refresh_count", "unclassified_meta_refresh_count", "script_count", "stylesheet_count", "image_count", "password_input_count", "cross_origin_resource_count", "unclassified_resource_count", "static_html_only", "browser_or_account_verified"],
+      "properties": {
+        "form_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "post_form_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "cross_origin_form_action_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "unclassified_form_action_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "meta_refresh_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "cross_origin_meta_refresh_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "unclassified_meta_refresh_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "script_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "stylesheet_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "image_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "password_input_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "cross_origin_resource_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "unclassified_resource_count": {"type": "integer", "minimum": 0, "maximum": 65536},
+        "static_html_only": {"const": true},
+        "browser_or_account_verified": {"const": false}
+      }
+    }
+  }
+}

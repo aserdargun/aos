@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS durable reviewer journal envelope",
+  "type": "object",
+  "properties": {
+    "journal_version": {"const": "1.0"},
+    "sequence": {"type": "integer", "minimum": 0},
+    "previous_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "kind": {"enum": ["header", "event"]},
+    "database_binding": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "baseline_receipts_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "event": {"type": "object"}
+  },
+  "required": ["journal_version", "sequence", "previous_sha256", "sha256", "kind"],
+  "additionalProperties": false,
+  "oneOf": [
+    {"properties": {"kind": {"const": "header"}, "sequence": {"const": 0}},
+     "required": ["database_binding", "baseline_receipts_sha256", "created_at"], "not": {"required": ["event"]}},
+    {"properties": {"kind": {"const": "event"}, "sequence": {"minimum": 1}},
+     "required": ["event"], "not": {"anyOf": [{"required": ["database_binding"]}, {"required": ["baseline_receipts_sha256"]}, {"required": ["created_at"]}]}}
+  ]
+}

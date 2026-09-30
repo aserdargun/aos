@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS real tokenizer and collate preflight (not training)",
+  "type": "object",
+  "$defs": {
+    "revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "probe": {"const": "decider_real_tokenizer_v1"},
+    "synthetic": {"const": true},
+    "training_ready": {"const": false},
+    "weights_loaded": {"const": false},
+    "loss_verified": {"const": false},
+    "cuda_initialized": {"const": false},
+    "checkpoint_revision": {"$ref": "#/$defs/revision"},
+    "tokenizer_revision": {"$ref": "#/$defs/revision"},
+    "code_revision": {"$ref": "#/$defs/revision"},
+    "dependencies": {
+      "type": "object", "properties": {"torch": {"type": "string"}, "transformers": {"type": "string"}, "tokenizers": {"type": "string"}},
+      "required": ["torch", "transformers", "tokenizers"], "additionalProperties": false
+    },
+    "tokenizer_files": {
+      "type": "object", "properties": {"tokenizer.json": {"$ref": "#/$defs/hash"}, "tokenizer_config.json": {"$ref": "#/$defs/hash"},
+        "config.json": {"$ref": "#/$defs/hash"}, "chat_template.jinja": {"$ref": "#/$defs/hash"}},
+      "required": ["tokenizer.json", "tokenizer_config.json", "config.json", "chat_template.jinja"], "additionalProperties": false
+    },
+    "code_files": {
+      "type": "object", "properties": {"__init__.py": {"$ref": "#/$defs/hash"}, "model.py": {"$ref": "#/$defs/hash"}, "prompt.py": {"$ref": "#/$defs/hash"}},
+      "required": ["__init__.py", "model.py", "prompt.py"], "additionalProperties": false
+    },
+    "core_sha256": {"$ref": "#/$defs/hash"},
+    "examples": {"type": "integer", "minimum": 1, "maximum": 32},
+    "variants": {"type": "integer", "minimum": 40, "maximum": 1280},
+    "batches": {"const": 40},
+    "max_context_tokens": {"type": "integer", "minimum": 1, "maximum": 1536},
+    "max_input_tokens": {"type": "integer", "minimum": 1, "maximum": 1536},
+    "max_padded_tokens": {"type": "integer", "minimum": 64, "maximum": 1536, "multipleOf": 64},
+    "token_budget": {"type": "integer", "minimum": 64, "maximum": 1536},
+    "variant_digest": {"$ref": "#/$defs/hash"}
+  },
+  "required": ["schema_version", "probe", "synthetic", "training_ready", "weights_loaded", "loss_verified", "cuda_initialized", "checkpoint_revision", "tokenizer_revision", "code_revision", "dependencies", "tokenizer_files", "code_files", "core_sha256", "examples", "variants", "batches", "max_context_tokens", "max_input_tokens", "max_padded_tokens", "token_budget", "variant_digest"],
+  "additionalProperties": false
+}

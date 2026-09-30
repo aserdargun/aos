@@ -1,0 +1,41 @@
+{
+  "synthetic": true,
+  "report": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "status": "source_bound_development_execution",
+    "admission": {
+      "schema_version": "1.0",
+      "synthetic": true,
+      "candidate_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "source_group_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source_run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "source_parameter_variant_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "parameter_variant_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "invocation_sha256": "4c032684e23962c965bed699cf07e1da198acc13227d10030abd4c6459c07e41",
+      "recipe_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+      "skill_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "profile_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "purpose": "development_variation",
+      "independent_held_out": false,
+      "dataset_ingestion_authorized": false,
+      "execution_authorized": false
+    },
+    "admission_sha256": "780edd35a9ae1a5f3f8dab699d295a50bc5e84af5be79ac0d33cb3f0bb8ab1d3",
+    "source_group_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "source_run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "execution_run_ref": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "source_snapshot_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "recipe_audit_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "admission_observation_ref": "3333333333333333333333333333333333333333333333333333333333333333",
+    "source_bound": true,
+    "executable_recipe_executed": true,
+    "source_and_execution_events_disjoint": true,
+    "held_out_independence_verified": false,
+    "site_outcome_verified": false,
+    "skill_validated": false,
+    "dataset_ingestion_authorized": false,
+    "training_ready": false,
+    "activation_authorized": false
+  }
+}

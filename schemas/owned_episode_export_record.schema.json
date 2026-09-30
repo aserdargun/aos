@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_episode_export_record.schema.json",
+  "title": "One reviewed, development-only owned episode export row",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "record_kind", "candidate_sha256", "source", "input", "target", "review_receipt_sha256", "target_provenance", "split_group", "split", "synthetic", "training_ready"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "record_kind": {"const": "owned_episode_system1"},
+        "candidate_sha256": {"$ref": "#/$defs/hash"},
+        "source": {"$ref": "#/$defs/system1Source"},
+        "input": {"$ref": "#/$defs/system1Input"},
+        "target": {"$ref": "#/$defs/prediction"},
+        "review_receipt_sha256": {"$ref": "#/$defs/hash"},
+        "target_provenance": {"const": "human_reviewed_exact_prediction"},
+        "split_group": {"$ref": "#/$defs/hash"},
+        "split": {"const": "development_only"},
+        "synthetic": {"const": true},
+        "training_ready": {"const": false}
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "record_kind", "candidate_sha256", "source", "input", "target", "review_receipt_sha256", "target_provenance", "split_group", "split", "synthetic", "training_ready"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "record_kind": {"const": "owned_episode_system2"},
+        "candidate_sha256": {"$ref": "#/$defs/hash"},
+        "source": {"$ref": "#/$defs/system2Source"},
+        "input": {"$ref": "#/$defs/system2Input"},
+        "target": {"$ref": "#/$defs/ownedSkillPlan"},
+        "review_receipt_sha256": {"$ref": "#/$defs/hash"},
+        "target_provenance": {"const": "human_reviewed_exact_prediction"},
+        "split_group": {"$ref": "#/$defs/hash"},
+        "split": {"const": "development_only"},
+        "synthetic": {"const": true},
+        "training_ready": {"const": false}
+      }
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "system1Source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["run_ref", "step_ref", "call_ref", "decision_ref", "state_snapshot_ref", "planning_bundle_sha256", "deployment_id", "deployment_sha256"],
+      "properties": {
+        "run_ref": {"$ref": "#/$defs/hash"}, "step_ref": {"$ref": "#/$defs/hash"},
+        "call_ref": {"$ref": "#/$defs/hash"}, "decision_ref": {"$ref": "#/$defs/hash"},
+        "state_snapshot_ref": {"$ref": "#/$defs/hash"}, "planning_bundle_sha256": {"$ref": "#/$defs/hash"},
+        "deployment_id": {"type": "string", "minLength": 1, "maxLength": 256},
+        "deployment_sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "system2Source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["planning_id", "planning_bundle_sha256", "deployment_id", "deployment_sha256"],
+      "properties": {
+        "planning_id": {"type": "string", "pattern": "^planning-[a-f0-9]{32}$"},
+        "planning_bundle_sha256": {"$ref": "#/$defs/hash"},
+        "deployment_id": {"type": "string", "minLength": 1, "maxLength": 256},
+        "deployment_sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "option": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label"], "properties": {"id": {"type": "string"}, "label": {"type": "string"}}
+    },
+    "system1Input": {
+      "type": "object", "additionalProperties": false,
+      "required": ["request", "request_sha256"],
+      "properties": {
+        "request_sha256": {"$ref": "#/$defs/hash"},
+        "request": {
+          "type": "object", "additionalProperties": false,
+          "required": ["state", "question", "options"],
+          "properties": {
+            "state": {"type": "string"}, "question": {"type": "string"},
+            "options": {"type": "array", "minItems": 2, "maxItems": 10, "items": {"$ref": "#/$defs/option"}}
+          }
+        }
+      }
+    },
+    "system2Input": {
+      "type": "object", "additionalProperties": false,
+      "required": ["request", "request_sha256"],
+      "properties": {"request_sha256": {"$ref": "#/$defs/hash"}, "request": {"type": "object"}}
+    },
+    "prediction": {
+      "type": "object", "additionalProperties": false,
+      "required": ["selected_option", "probabilities"],
+      "properties": {
+        "selected_option": {"type": "string"},
+        "probabilities": {"type": "object", "minProperties": 2, "maxProperties": 10,
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}}
+      }
+    },
+    "planStep": {
+      "type": "object", "additionalProperties": false,
+      "required": ["step_key", "operation"],
+      "properties": {
+        "step_key": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"},
+        "operation": {"type": "string", "enum": ["open_entry", "read_state_before", "fill_form", "submit_form", "read_receipt", "read_state_after"]}
+      }
+    },
+    "ownedSkillPlan": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["schema_version", "decision", "evidence_refs", "case_key", "parameter_value", "steps", "reason_code", "execution_authorized", "activation_authorized", "training_ready"],
+          "properties": {
+            "schema_version": {"const": "1.0"}, "decision": {"const": "invoke_selected_skill"},
+            "evidence_refs": {"const": ["admitted-skill"]},
+            "case_key": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,63}$"},
+            "parameter_value": {"type": "string", "pattern": "^[A-Za-z0-9 _.-]{1,128}$"},
+            "steps": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"$ref": "#/$defs/planStep"},
+              "allOf": [{"contains": {"properties": {"operation": {"const": "open_entry"}}, "required": ["operation"]}, "minContains": 1, "maxContains": 1},
+                {"contains": {"properties": {"operation": {"const": "fill_form"}}, "required": ["operation"]}, "minContains": 1, "maxContains": 1},
+                {"contains": {"properties": {"operation": {"const": "read_state_before"}}, "required": ["operation"]}, "minContains": 1, "maxContains": 1},
+                {"contains": {"properties": {"operation": {"const": "submit_form"}}, "required": ["operation"]}, "minContains": 1, "maxContains": 1},
+                {"contains": {"properties": {"operation": {"const": "read_receipt"}}, "required": ["operation"]}, "minContains": 1, "maxContains": 1},
+                {"contains": {"properties": {"operation": {"const": "read_state_after"}}, "required": ["operation"]}, "minContains": 1, "maxContains": 1}]},
+            "reason_code": {"const": "skill_match"}, "execution_authorized": {"const": false},
+            "activation_authorized": {"const": false}, "training_ready": {"const": false}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["schema_version", "decision", "evidence_refs", "case_key", "parameter_value", "steps", "reason_code", "execution_authorized", "activation_authorized", "training_ready"],
+          "properties": {
+            "schema_version": {"const": "1.0"}, "decision": {"const": "needs_human"},
+            "evidence_refs": {"const": ["admitted-skill"]}, "case_key": {"type": "null"},
+            "parameter_value": {"type": "null"}, "steps": {"const": []},
+            "reason_code": {"type": "string", "enum": ["skill_not_applicable", "input_ambiguous", "evidence_insufficient", "safety_unclear"]},
+            "execution_authorized": {"const": false}, "activation_authorized": {"const": false},
+            "training_ready": {"const": false}
+          }
+        }
+      ]
+    }
+  }
+}

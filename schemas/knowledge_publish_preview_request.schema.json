@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "scope": {
+      "$ref": "#/$defs/KnowledgeScope"
+    },
+    "source_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "title": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "text": {
+      "maxLength": 32768,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "previous_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Previous Sha256"
+    },
+    "expires_at": {
+      "format": "date-time",
+      "maxLength": 40,
+      "minLength": 20,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?(?:Z|\\+00:00)$",
+      "title": "Expires At",
+      "type": "string"
+    },
+    "rights_attested": {
+      "const": true,
+      "title": "Rights Attested",
+      "type": "boolean"
+    },
+    "storage_consent": {
+      "const": true,
+      "title": "Storage Consent",
+      "type": "boolean"
+    },
+    "synthetic": {
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "scope",
+    "source_id",
+    "title",
+    "text",
+    "previous_sha256",
+    "expires_at",
+    "rights_attested",
+    "storage_consent",
+    "synthetic",
+    "schema_version"
+  ],
+  "title": "UploadRequest",
+  "type": "object"
+}

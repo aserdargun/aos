@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS local reviewer minimized audit event",
+  "type": "object",
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "authentication": {"const": "linux_peercred_v1"},
+    "authorization_ref": {"type": "string", "pattern": "^peercred-[a-f0-9]{32}$"},
+    "peer_uid": {"type": ["integer", "null"], "minimum": 0},
+    "event_sha256": {"anyOf": [{"type": "string", "pattern": "^[a-f0-9]{64}$"}, {"type": "null"}]},
+    "grant_sha256": {"anyOf": [{"type": "string", "pattern": "^[a-f0-9]{64}$"}, {"type": "null"}]},
+    "grant_expires_at": {"type": ["number", "null"]},
+    "stage": {"enum": ["authenticated", "prepared", "confirmation", "committed", "cancelled", "denied", "delivery_uncertain"]},
+    "reason": {"enum": ["ok", "explicit_rejection", "peer_transport_denied", "peer_identity_denied", "peer_not_authorized", "session_expired", "peer_disconnected", "message_size_denied", "invalid_request", "scope_or_expiry_denied", "writer_unavailable", "scope_or_attestation_denied", "source_not_supported", "source_changed", "label_unavailable", "candidate_not_reviewed_or_derived", "receipt_unavailable", "scope_or_receipt_denied", "confirmation_binding_denied", "audit_unavailable", "request_or_storage_denied"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "training_ready": {"const": false}
+  },
+  "required": ["schema_version", "authentication", "authorization_ref", "peer_uid", "event_sha256", "grant_sha256", "grant_expires_at", "stage", "reason", "created_at", "training_ready"],
+  "additionalProperties": false
+}

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "task_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Task Key",
+      "type": "string"
+    },
+    "entry_url": {
+      "maxLength": 2048,
+      "minLength": 1,
+      "title": "Entry Url",
+      "type": "string"
+    },
+    "allowed_origins": {
+      "items": {
+        "maxLength": 300,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 16,
+      "minItems": 1,
+      "title": "Allowed Origins",
+      "type": "array"
+    },
+    "tools": {
+      "items": {
+        "enum": [
+          "browser.navigate",
+          "browser.snapshot",
+          "browser.fill",
+          "browser.click",
+          "browser.verify"
+        ],
+        "type": "string"
+      },
+      "maxItems": 5,
+      "minItems": 2,
+      "title": "Tools",
+      "type": "array"
+    },
+    "max_pages": {
+      "maximum": 8,
+      "minimum": 1,
+      "title": "Max Pages",
+      "type": "integer"
+    },
+    "max_navigations": {
+      "maximum": 16,
+      "minimum": 1,
+      "title": "Max Navigations",
+      "type": "integer"
+    },
+    "max_actions": {
+      "maximum": 16,
+      "minimum": 1,
+      "title": "Max Actions",
+      "type": "integer"
+    },
+    "max_seconds": {
+      "maximum": 900,
+      "minimum": 1,
+      "title": "Max Seconds",
+      "type": "integer"
+    },
+    "verification_ref": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Verification Ref",
+      "type": "string"
+    },
+    "approval": {
+      "const": "fresh_per_action",
+      "default": "fresh_per_action",
+      "title": "Approval",
+      "type": "string"
+    },
+    "uncertain_write": {
+      "const": "stop_without_retry",
+      "default": "stop_without_retry",
+      "title": "Uncertain Write",
+      "type": "string"
+    },
+    "network_access": {
+      "const": false,
+      "default": false,
+      "title": "Network Access",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profile_sha256",
+    "task_key",
+    "entry_url",
+    "allowed_origins",
+    "tools",
+    "max_pages",
+    "max_navigations",
+    "max_actions",
+    "max_seconds",
+    "verification_ref"
+  ],
+  "title": "WebTaskContract",
+  "type": "object"
+}

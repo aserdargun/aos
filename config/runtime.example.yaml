@@ -1,0 +1,26 @@
+schema_version: "1.0"
+status: design_only_not_executable
+host:
+  os: CachyOS
+  gpu: NVIDIA RTX 4070 Ti SUPER
+  vram_gb: 16
+  ram_gb: 32
+services:
+  orchestrator: http://127.0.0.1:8000
+  system2: http://127.0.0.1:8001
+  system1: http://127.0.0.1:8002
+  computer_gateway: http://127.0.0.1:8003
+  novnc: http://127.0.0.1:6080
+computer:
+  backend: docker
+  ubuntu_baseline: "24.04"
+  image_digest: null
+  workspace_root: /workspace
+  gpu_passthrough: false
+  host_home_mount: false
+  docker_socket_mount: false
+models:
+  max_concurrency: 1
+  bonsai_context_target: 16384
+  decider_context_initial_cap: 1536
+  all_artifact_revisions_require_verification: true

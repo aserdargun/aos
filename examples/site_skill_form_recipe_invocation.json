@@ -1,0 +1,41 @@
+{
+  "synthetic": true,
+  "invocation": {
+    "schema_version": "2.0",
+    "synthetic": true,
+    "status": "admission_ready",
+    "skill_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "skill_plan_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "case_inputs_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "case_key": "development-one",
+    "profile_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "task_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "form_plan_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+    "state_plan_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+    "field_binding_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+    "recipe_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+    "preconditions": [
+      {"precondition_key": "baseline-known", "kind": "declared_state_before", "checked_at_operation": "read_state_before"},
+      {"precondition_key": "form-available", "kind": "entry_form_available", "checked_at_operation": "fill_form"}
+    ],
+    "outcome": {"outcome_key": "synthetic-result", "kind": "submitted_field_state_transition", "parameter_key": "record-query", "form_field_name": "message", "verified_at_operation": "read_state_after"},
+    "steps": [
+      {"step_key": "open", "operation": "open_entry"},
+      {"step_key": "before", "operation": "read_state_before"},
+      {"step_key": "fill", "operation": "fill_form"},
+      {"step_key": "submit", "operation": "submit_form"},
+      {"step_key": "receipt", "operation": "read_receipt"},
+      {"step_key": "after", "operation": "read_state_after"}
+    ],
+    "fresh_approval_per_stage": true,
+    "maximum_post_count": 1,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "recipe_executed": false,
+    "skill_executed": false,
+    "site_outcome_verified": false,
+    "reviewed": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

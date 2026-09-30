@@ -1,0 +1,48 @@
+{
+  "description": "Synthetic review receipt only; hashes and steps are illustrative, not real user or site evidence.",
+  "synthetic": true,
+  "receipt": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "decision": "accept",
+    "purpose": "development_review",
+    "reviewer": "local_authenticated_user",
+    "candidate_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "source_run_ref": "2222222222222222222222222222222222222222222222222222222222222222",
+    "source_invocation_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "source_group_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "source_fingerprint_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "candidate_execution_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+    "execution_run_ref": "7777777777777777777777777777777777777777777777777777777777777777",
+    "invocation_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+    "recipe_sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+    "skill_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "case_key": "dev-beta",
+    "parameter_variant_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "summary": {
+      "skill_key": "save-record",
+      "expected_outcome_key": "record-saved",
+      "parameter_key": "record-query",
+      "form_field_name": "message",
+      "steps": [
+        {"step_key": "open-entry", "operation": "open_entry"},
+        {"step_key": "read-before", "operation": "read_state_before"},
+        {"step_key": "fill-form", "operation": "fill_form"},
+        {"step_key": "submit-form", "operation": "submit_form"},
+        {"step_key": "read-receipt", "operation": "read_receipt"},
+        {"step_key": "read-after", "operation": "read_state_after"}
+      ]
+    },
+    "activation_authorized": false,
+    "training_ready": false,
+    "independent_held_out": false
+  },
+  "revocation": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "review_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "reviewer": "local_authenticated_user",
+    "decision": "revoke"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS unbound synthetic page-to-draft comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "knowledge_sha256", "selected_profile_sha256", "draft_page_key", "draft_revision", "evidence_page_key", "evidence_fingerprint_version", "evidence_fingerprint_sha256", "evidence_source", "run_ref", "snapshot_sha256", "profile_bound", "origin_verified", "route_verified", "fingerprint_semantics_verified", "reviewed", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"enum": ["page_key_mismatch_unbound", "hash_equal_unbound", "hash_different_unbound"]},
+    "knowledge_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "selected_profile_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "draft_page_key": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"},
+    "draft_revision": {"type": "integer", "minimum": 1, "maximum": 100},
+    "evidence_page_key": {"enum": ["start", "details"]},
+    "evidence_fingerprint_version": {"const": "synthetic-local-page-v1"},
+    "evidence_fingerprint_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "evidence_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "verification_id", "observation_id"],
+      "properties": {
+        "event_id": {"type": "string", "pattern": "^learning-[a-f0-9]{64}$"},
+        "verification_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+        "observation_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"}
+      }
+    },
+    "run_ref": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "snapshot_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "profile_bound": {"const": false},
+    "origin_verified": {"const": false},
+    "route_verified": {"const": false},
+    "fingerprint_semantics_verified": {"const": false},
+    "reviewed": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  }
+}

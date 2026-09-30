@@ -1,0 +1,33 @@
+{
+  "synthetic": true,
+  "note": "Schema fixture only; not runtime, recovery or model evidence.",
+  "workspace_identity": {
+    "version": "descriptor-workspace-v1",
+    "path_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+    "device": 1,
+    "inode": 2,
+    "owner_uid": 1000
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_hello_checkpoint",
+    "snapshot_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "run_ref": "2222222222222222222222222222222222222222222222222222222222222222",
+    "state_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "deployment_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "workspace_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "captured_at": "2026-01-01T00:00:00Z",
+    "inspected_at": "2026-01-01T00:00:01Z",
+    "unresolved_actions": 1,
+    "workspace_binding_verified": true,
+    "deployment_snapshot_matches": true,
+    "live_deployment_verified": false,
+    "effect": "exact_content",
+    "criterion_observed": true,
+    "execution_authorized": false,
+    "resume_authorized": false,
+    "automatic_replay_allowed": false,
+    "action_causality_verified": false,
+    "uncertain_effect_resolved": false
+  }
+}

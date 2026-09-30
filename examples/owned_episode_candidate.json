@@ -1,0 +1,40 @@
+{
+  "description": "Illustrative synthetic owned episode candidate; hashes and content are placeholders, with no real model call, outcome label, review, or training authority.",
+  "synthetic": true,
+  "candidate": {
+    "schema_version": "1.0",
+    "synthetic": true,
+    "candidate_id": "f59bbc3351c9db2c0951c659cf7ba711b24d4f245058d5c9753330fb86d7345d",
+    "episode_id": "episode-11111111111111111111111111111111",
+    "consent_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "source_group_sha256": "c1296f1755a96538ac0f9288ec8ff44da9232bfb0e2490314bede04d59817c8a",
+    "role": "system2",
+    "source": {
+      "planning_id": "planning-00000000000000000000000000000000",
+      "planning_bundle_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "deployment_id": "synthetic-planner-placeholder",
+      "deployment_sha256": "4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    "input": {
+      "request": {"goal": "synthetic placeholder", "evidence": []},
+      "request_sha256": "bf6808f2efa205cc1a10b3a82f8848e5fc7c2e7fdb46f0b3bf7b385b0267a55f"
+    },
+    "prediction": {
+      "schema_version": "1.0",
+      "decision": "needs_human",
+      "evidence_refs": ["admitted-skill"],
+      "case_key": null,
+      "parameter_value": null,
+      "steps": [],
+      "reason_code": "evidence_insufficient",
+      "execution_authorized": false,
+      "activation_authorized": false,
+      "training_ready": false
+    },
+    "reviewed": false,
+    "execution_authorized": false,
+    "collection_authorized": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

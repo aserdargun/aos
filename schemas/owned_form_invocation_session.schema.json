@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Owned synthetic form invocation session manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "synthetic",
+    "mode",
+    "origin",
+    "profile_sha256",
+    "skill_sha256",
+    "form_plan_sha256",
+    "state_plan_sha256",
+    "certificate_sha256",
+    "invocation_sha256",
+    "sources",
+    "claims"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "mode": {
+      "const": "owned_synthetic_form_invocation"
+    },
+    "origin": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://w3-owned-form\\.aos\\.invalid:[1-9][0-9]{0,4}$"
+    },
+    "profile_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "skill_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "form_plan_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "state_plan_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "certificate_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "invocation_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remote-entry-task.json",
+        "remote-form-plan.json",
+        "remote-form-value.txt",
+        "remote-form-state-plan.json",
+        "remote-form-skill-plan.json",
+        "remote-form-skill-case-inputs.json",
+        "remote-form-skill-field-bindings.json",
+        "site-page-draft.json",
+        "site-skill-draft.json",
+        "owned-form-certificate.pem",
+        "owned-form-key.pem"
+      ],
+      "properties": {
+        "remote-entry-task.json": {
+          "$ref": "#/$defs/sha256"
+        },
+        "remote-form-plan.json": {
+          "$ref": "#/$defs/sha256"
+        },
+        "remote-form-value.txt": {
+          "$ref": "#/$defs/sha256"
+        },
+        "remote-form-state-plan.json": {
+          "$ref": "#/$defs/sha256"
+        },
+        "remote-form-skill-plan.json": {
+          "$ref": "#/$defs/sha256"
+        },
+        "remote-form-skill-case-inputs.json": {
+          "$ref": "#/$defs/sha256"
+        },
+        "remote-form-skill-field-bindings.json": {
+          "$ref": "#/$defs/sha256"
+        },
+        "site-page-draft.json": {
+          "$ref": "#/$defs/sha256"
+        },
+        "site-skill-draft.json": {
+          "$ref": "#/$defs/sha256"
+        },
+        "owned-form-certificate.pem": {
+          "$ref": "#/$defs/sha256"
+        },
+        "owned-form-key.pem": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skill_executed",
+        "site_outcome_verified",
+        "reviewed",
+        "activation_authorized",
+        "training_ready"
+      ],
+      "properties": {
+        "skill_executed": {
+          "const": false
+        },
+        "site_outcome_verified": {
+          "const": false
+        },
+        "reviewed": {
+          "const": false
+        },
+        "activation_authorized": {
+          "const": false
+        },
+        "training_ready": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

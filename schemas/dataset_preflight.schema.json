@@ -1,0 +1,289 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "dataset_bound_s1_tokenizer_v1",
+      "default": "dataset_bound_s1_tokenizer_v1",
+      "title": "Mode",
+      "type": "string"
+    },
+    "dataset_id": {
+      "pattern": "^fixture-[a-f0-9]{64}$",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Dataset Manifest Sha256",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "deployment_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Manifest Sha256",
+      "type": "string"
+    },
+    "runner_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runner Sha256",
+      "type": "string"
+    },
+    "split_counts": {
+      "additionalProperties": {
+        "maximum": 32,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "maxProperties": 3,
+      "minProperties": 3,
+      "propertyNames": {
+        "enum": [
+          "train",
+          "validation",
+          "test"
+        ]
+      },
+      "required": [
+        "train",
+        "validation",
+        "test"
+      ],
+      "title": "Split Counts",
+      "type": "object"
+    },
+    "tokenizer_report": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "probe": {
+          "const": "decider_real_tokenizer_v1"
+        },
+        "synthetic": {
+          "const": true
+        },
+        "training_ready": {
+          "const": false
+        },
+        "weights_loaded": {
+          "const": false
+        },
+        "loss_verified": {
+          "const": false
+        },
+        "cuda_initialized": {
+          "const": false
+        },
+        "checkpoint_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "type": "string"
+        },
+        "tokenizer_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "type": "string"
+        },
+        "code_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "type": "string"
+        },
+        "dependencies": {
+          "additionalProperties": false,
+          "properties": {
+            "torch": {
+              "type": "string"
+            },
+            "transformers": {
+              "type": "string"
+            },
+            "tokenizers": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "torch",
+            "transformers",
+            "tokenizers"
+          ],
+          "type": "object"
+        },
+        "tokenizer_files": {
+          "additionalProperties": false,
+          "properties": {
+            "tokenizer.json": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            "tokenizer_config.json": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            "config.json": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            "chat_template.jinja": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "tokenizer.json",
+            "tokenizer_config.json",
+            "config.json",
+            "chat_template.jinja"
+          ],
+          "type": "object"
+        },
+        "code_files": {
+          "additionalProperties": false,
+          "properties": {
+            "__init__.py": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            "model.py": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            "prompt.py": {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "__init__.py",
+            "model.py",
+            "prompt.py"
+          ],
+          "type": "object"
+        },
+        "core_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "examples": {
+          "maximum": 32,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "variants": {
+          "maximum": 1280,
+          "minimum": 40,
+          "type": "integer"
+        },
+        "batches": {
+          "const": 40
+        },
+        "max_context_tokens": {
+          "maximum": 1536,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "max_input_tokens": {
+          "maximum": 1536,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "max_padded_tokens": {
+          "maximum": 1536,
+          "minimum": 64,
+          "multipleOf": 64,
+          "type": "integer"
+        },
+        "token_budget": {
+          "maximum": 1536,
+          "minimum": 64,
+          "type": "integer"
+        },
+        "variant_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "probe",
+        "synthetic",
+        "training_ready",
+        "weights_loaded",
+        "loss_verified",
+        "cuda_initialized",
+        "checkpoint_revision",
+        "tokenizer_revision",
+        "code_revision",
+        "dependencies",
+        "tokenizer_files",
+        "code_files",
+        "core_sha256",
+        "examples",
+        "variants",
+        "batches",
+        "max_context_tokens",
+        "max_input_tokens",
+        "max_padded_tokens",
+        "token_budget",
+        "variant_digest"
+      ],
+      "title": "AOS real tokenizer and collate preflight (not training)",
+      "type": "object"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "forward_loss_verified": {
+      "const": false,
+      "default": false,
+      "title": "Forward Loss Verified",
+      "type": "boolean"
+    },
+    "supervisor_tokenizer_verified": {
+      "const": false,
+      "default": false,
+      "title": "Supervisor Tokenizer Verified",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "dataset_manifest_sha256",
+    "input_sha256",
+    "deployment_manifest_sha256",
+    "runner_sha256",
+    "split_counts",
+    "tokenizer_report"
+  ],
+  "title": "DatasetTokenizerReport",
+  "type": "object"
+}

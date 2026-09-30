@@ -1,0 +1,133 @@
+{
+  "description": "Entirely synthetic schema examples, including placeholder tokenizer report; not executed model, readiness or training evidence.",
+  "synthetic": true,
+  "manifest": {
+    "schema_version": "1.0",
+    "format": "owned-episode-conversion-v1",
+    "episode_id": "episode-1b6a5469c1bf45a888eef25da8a414cf",
+    "export_sha256": "1740e0bc47f813382039b1d59088c586406436aaf2b28855353ee0d29232e26c",
+    "execution": {
+      "candidate_execution_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "planning_bundle_sha256": "775b2eb91922b1b9aba1b833b7a9325b0d7208c59460464f00e48ceb2c9eecae",
+      "execution_source_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "review_receipts": {
+      "system1": "c0b9397983f04260c5bca510706d643f478577d16dd11a2a243ba6600705d4d1",
+      "system2": "f50f0a923abf14fef25bb1ed015550f4042228291432c7ee1ffff70ec844986a"
+    },
+    "converter_sha256": "386e5514af8081e9d0a37bd7be23058821849a782864360b7d02aabfb7c7f677",
+    "source_group_sha256": "c1296f1755a96538ac0f9288ec8ff44da9232bfb0e2490314bede04d59817c8a",
+    "counts": {
+      "system1": 1,
+      "system2": 1
+    },
+    "split": "development_only",
+    "synthetic": true,
+    "training_ready": false,
+    "memberships": {
+      "system1": [
+        {
+          "source_record_sha256": "1bbc57ee4f3de80e397ff89834854ef3c8ae72677079aa067d778f92d216375a",
+          "converted_record_sha256": "37571d8ce44625b620089399b3dfa99dce4be62a1375101aeb4ac823beea1c02"
+        }
+      ],
+      "system2": [
+        {
+          "source_record_sha256": "499aef2698074b39284f23af9e54e88188f34aded7821b4f8693c006e64fa656",
+          "converted_record_sha256": "ce34b0cd668f51be757debdc76a39d070624b1d33fc53660a9b201d4c3573867"
+        }
+      ]
+    },
+    "files": {
+      "system1.converted.jsonl": "4f07ea21ee0e6271fbe90a03ac9c5289dc9526c2335e81351932ab6375bdaefe",
+      "system2.converted.jsonl": "e90793a9887d8451a14adef6a8ba94a4b2f40b1b9c6cb2a2ca86b375470bdca2"
+    }
+  },
+  "readiness": {
+    "schema_version": "1.0",
+    "available": true,
+    "episode_id": "episode-1b6a5469c1bf45a888eef25da8a414cf",
+    "export_sha256": "1740e0bc47f813382039b1d59088c586406436aaf2b28855353ee0d29232e26c",
+    "conversion_sha256": "0bff92b4a7226ef4bfccebfe7bc4ac6c446cf6914ac0d687f2e9b5134edcb683",
+    "persisted": false,
+    "counts": {
+      "system1": 1,
+      "system2": 1
+    },
+    "source_group_sha256": "c1296f1755a96538ac0f9288ec8ff44da9232bfb0e2490314bede04d59817c8a",
+    "split": "development_only",
+    "system1": {
+      "format": "decider-example-q-v1",
+      "converter_verified": true,
+      "tokenizer": "missing",
+      "tokenizer_start_available": false
+    },
+    "system2": {
+      "format": "aos-owned-plan-messages-v1",
+      "converter_verified": true,
+      "tokenizer": "unverified",
+      "trainer": "unverified"
+    },
+    "tokenizer_report_sha256": null,
+    "blockers": [
+      "independent_validation_test_missing",
+      "promotion_unavailable",
+      "rights_redaction_review_missing",
+      "synthetic_development_only",
+      "system1_forward_loss_missing",
+      "system1_tokenizer_missing",
+      "system1_tokenizer_prerequisites_missing",
+      "system2_tokenizer_trainer_unverified",
+      "training_authorization_missing"
+    ],
+    "training_ready": false,
+    "promotion_authorized": false
+  },
+  "tokenizer": {
+    "schema_version": "1.0",
+    "conversion_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "input_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "deployment_manifest_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "deployment_id": "decider-dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "runner_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "probe": {
+      "schema_version": "1.0",
+      "probe": "decider_real_tokenizer_v1",
+      "synthetic": true,
+      "training_ready": false,
+      "weights_loaded": false,
+      "loss_verified": false,
+      "cuda_initialized": false,
+      "checkpoint_revision": "0000000000000000000000000000000000000000",
+      "tokenizer_revision": "0000000000000000000000000000000000000000",
+      "code_revision": "1111111111111111111111111111111111111111",
+      "dependencies": {
+        "torch": "synthetic",
+        "transformers": "synthetic",
+        "tokenizers": "synthetic"
+      },
+      "tokenizer_files": {
+        "tokenizer.json": "0000000000000000000000000000000000000000000000000000000000000000",
+        "tokenizer_config.json": "0000000000000000000000000000000000000000000000000000000000000000",
+        "config.json": "0000000000000000000000000000000000000000000000000000000000000000",
+        "chat_template.jinja": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "code_files": {
+        "__init__.py": "0000000000000000000000000000000000000000000000000000000000000000",
+        "model.py": "0000000000000000000000000000000000000000000000000000000000000000",
+        "prompt.py": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "core_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "examples": 4,
+      "variants": 160,
+      "batches": 40,
+      "max_context_tokens": 32,
+      "max_input_tokens": 61,
+      "max_padded_tokens": 64,
+      "token_budget": 1536,
+      "variant_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "synthetic": true,
+    "training_ready": false
+  }
+}

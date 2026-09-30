@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "format": {
+      "const": "aos_native_shell_tar_v1",
+      "default": "aos_native_shell_tar_v1",
+      "title": "Format",
+      "type": "string"
+    },
+    "synthetic": {
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "profile": {
+      "enum": [
+        "debug",
+        "release"
+      ],
+      "title": "Profile",
+      "type": "string"
+    },
+    "platform": {
+      "const": "linux-x86_64",
+      "default": "linux-x86_64",
+      "title": "Platform",
+      "type": "string"
+    },
+    "artifact": {
+      "const": "aos-console",
+      "default": "aos-console",
+      "title": "Artifact",
+      "type": "string"
+    },
+    "artifact_bytes": {
+      "maximum": 134217728,
+      "minimum": 64,
+      "title": "Artifact Bytes",
+      "type": "integer"
+    },
+    "artifact_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Artifact Sha256",
+      "type": "string"
+    },
+    "source_sha256": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 4,
+      "minProperties": 4,
+      "propertyNames": {
+        "enum": [
+          "ui/src-tauri/Cargo.toml",
+          "ui/src-tauri/build.rs",
+          "ui/src-tauri/src/main.rs",
+          "ui/src-tauri/tauri.conf.json"
+        ]
+      },
+      "title": "Source Sha256",
+      "type": "object"
+    },
+    "dependency_lock_sha256": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 3,
+      "minProperties": 3,
+      "propertyNames": {
+        "enum": [
+          "ui/src-tauri/Cargo.lock",
+          "ui/pnpm-lock.yaml",
+          "uv.lock"
+        ]
+      },
+      "title": "Dependency Lock Sha256",
+      "type": "object"
+    },
+    "source_scope": {
+      "const": "tauri_shell_configuration_only",
+      "default": "tauri_shell_configuration_only",
+      "title": "Source Scope",
+      "type": "string"
+    },
+    "backend_origin": {
+      "const": "http://127.0.0.1:8765/ui/",
+      "default": "http://127.0.0.1:8765/ui/",
+      "title": "Backend Origin",
+      "type": "string"
+    },
+    "runtime_profile": {
+      "const": "external_backend_and_system_webkitgtk_x11",
+      "default": "external_backend_and_system_webkitgtk_x11",
+      "title": "Runtime Profile",
+      "type": "string"
+    },
+    "build_provenance_verified": {
+      "const": false,
+      "default": false,
+      "title": "Build Provenance Verified",
+      "type": "boolean"
+    },
+    "runtime_dependencies_bundled": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Dependencies Bundled",
+      "type": "boolean"
+    },
+    "standalone_inference": {
+      "const": false,
+      "default": false,
+      "title": "Standalone Inference",
+      "type": "boolean"
+    },
+    "installation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Installation Authorized",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "synthetic",
+    "profile",
+    "artifact_bytes",
+    "artifact_sha256",
+    "source_sha256",
+    "dependency_lock_sha256"
+  ],
+  "title": "NativePackageManifest",
+  "type": "object"
+}

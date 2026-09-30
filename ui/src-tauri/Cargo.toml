@@ -1,0 +1,17 @@
+[package]
+name = "aos-console"
+version = "0.1.0"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.6", features = [] }
+
+[profile.release]
+strip = true
+lto = "thin"
+
+[profile.dev]
+debug = 0

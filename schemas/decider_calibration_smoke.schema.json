@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS synthetic transient Decider calibration diagnostic",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "source_sha256", "input_sha256", "deployment_manifest_sha256", "runner_sha256", "checkpoint_revision", "code_revision", "weights_sha256", "train_sample_ref", "heldout_sample_ref", "token_budget", "optimizer_step_count", "train_nll_before", "train_nll_after", "heldout_nll_before", "heldout_nll_after", "scalar_gradient_abs", "temperature_before", "temperature_after", "model_parameters_unchanged", "model_gradient_count", "transient_scalar_only", "checkpoint_written", "synthetic", "training_ready", "promotion_authorized"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "synthetic_decider_transient_calibration_v1"},
+    "source_sha256": {"$ref": "#/$defs/hash"},
+    "input_sha256": {"$ref": "#/$defs/hash"},
+    "deployment_manifest_sha256": {"$ref": "#/$defs/hash"},
+    "runner_sha256": {"$ref": "#/$defs/hash"},
+    "checkpoint_revision": {"$ref": "#/$defs/revision"},
+    "code_revision": {"$ref": "#/$defs/revision"},
+    "weights_sha256": {"$ref": "#/$defs/hash"},
+    "train_sample_ref": {"$ref": "#/$defs/hash"},
+    "heldout_sample_ref": {"$ref": "#/$defs/hash"},
+    "token_budget": {"const": 1536},
+    "optimizer_step_count": {"const": 1},
+    "train_nll_before": {"type": "number", "minimum": 0},
+    "train_nll_after": {"type": "number", "minimum": 0},
+    "heldout_nll_before": {"type": "number", "minimum": 0},
+    "heldout_nll_after": {"type": "number", "minimum": 0},
+    "scalar_gradient_abs": {"type": "number", "minimum": 0},
+    "temperature_before": {"const": 1.0},
+    "temperature_after": {"type": "number", "exclusiveMinimum": 0},
+    "model_parameters_unchanged": {"const": true},
+    "model_gradient_count": {"const": 0},
+    "transient_scalar_only": {"const": true},
+    "checkpoint_written": {"const": false},
+    "synthetic": {"const": true},
+    "training_ready": {"const": false},
+    "promotion_authorized": {"const": false}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+  }
+}

@@ -1,0 +1,44 @@
+schema_version: "1.0"
+status: design_recipe_not_executable
+dataset:
+  source: trajectory_store_snapshot
+  synthetic: false
+  accepted_review_only: true
+  require_verification_or_policy_review: true
+  require_known_usage_rights: true
+  reject_secrets: true
+  screenshots: excluded
+  split:
+    group_by: task_family_and_near_duplicate_cluster
+    train: 0.8
+    validation: 0.1
+    test: 0.1
+    seed: 42
+  benchmark_overlap: reject
+promotion:
+  automatic: false
+  policy: benchmarks/promotion-policy.json
+
+recipe_id: decider-computer-v001
+scope: [tool_selection, action_selection, escalation, safety]
+schema: schemas/system1_choice.schema.json
+base:
+  model: Mapika/decider-2b
+  checkpoint_revision: null
+  code_revision: null
+  require_pinning: true
+method: continued_delta_training
+converter: to_be_implemented_against_pinned_upstream
+training:
+  status: smoke_experiment_starting_values
+  epochs: 1
+  learning_rate: 0.00001
+  micro_batch_size: 1
+  gradient_accumulation_steps: 16
+  max_sequence_tokens: 1536
+  seed: 42
+  replay_ratio: 0.2
+  replay_source: null
+  require_replay_source_license_and_split_audit: true
+evaluation: [accuracy, nll, brier, ece, aurc, escalation_precision, safety_violation_count]
+blocked_until: [checkpoint_pinned, converter_tested, replay_source_pinned, sufficient_data, measured_vram]

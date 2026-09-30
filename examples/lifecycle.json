@@ -1,0 +1,54 @@
+{
+  "synthetic": true,
+  "event": {
+    "schema_version": "1.0",
+    "birth": {
+      "schema_version": "1.0",
+      "runtime_id": "desktop-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "container_name": "aos-desktop-bbbbbbbbbbbbbbbbbbbb",
+      "image_id": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "source_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "workspace": {
+        "version": "descriptor-workspace-v1",
+        "path_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "device": 1,
+        "inode": 2,
+        "owner_uid": 1000
+      },
+      "process": {
+        "boot_id": "00000000-0000-0000-0000-000000000001",
+        "pid": 123,
+        "start_ticks": 100,
+        "pid_namespace": 200,
+        "uid": 1000
+      }
+    },
+    "sequence": 0,
+    "previous_sha256": null,
+    "stage": "intent",
+    "container_id": null,
+    "recorded_at": "2026-09-21T14:00:00+00:00"
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_desktop_lifecycle",
+    "journal_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "birth_ref": "6dcba31b535b35364f6df57afcc93638c146cb6baf40d6228f8dd398cf62f289",
+    "runtime_ref": "2222222222222222222222222222222222222222222222222222222222222222",
+    "workspace_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "image_id": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "source_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "recorded_stage": "intent",
+    "owner_observation": "not_observed",
+    "workspace_busy": false,
+    "container_observation": "created",
+    "observation_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "inspected_at": "2026-09-21T14:00:01+00:00",
+    "orphan_confirmed": false,
+    "model_deployment_verified": false,
+    "execution_authorized": false,
+    "resume_authorized": false,
+    "cleanup_authorized": false,
+    "automatic_replay_allowed": false
+  }
+}

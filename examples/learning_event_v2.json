@@ -1,0 +1,31 @@
+{
+  "schema_version": "2.0",
+  "derivation_version": "learning-evidence-v2",
+  "event_id": "learning-e4d0d4c157ea7e73ae074d74d3eafa0c68fa91fb7a71e0bb28e68c7602fb06d9",
+  "role": "system1",
+  "model_kind": "decider_native_worker",
+  "source": {
+    "run_id": "run-test",
+    "step_id": "step-test",
+    "call_id": "call-test",
+    "deployment_id": "decider-test",
+    "deployment_sha256": "df1bcd349716b20aec66471db7ce52ffb9091b584511f29a62da8849183bc512",
+    "decision_id": "decision-test",
+    "escalation_id": null,
+    "verification_ids": ["verification-test"],
+    "scene_observation_id": null,
+    "downstream_verification_ids": []
+  },
+  "run_status": "running",
+  "verified_outcome": true,
+  "metadata_only": true,
+  "training_ready": false,
+  "blockers": [
+    "collection_rights_unverified",
+    "redaction_unverified",
+    "review_required",
+    "site_scope_unbound",
+    "synthetic_task_excluded",
+    "training_not_authorized"
+  ]
+}

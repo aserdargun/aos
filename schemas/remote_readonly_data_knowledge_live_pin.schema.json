@@ -1,0 +1,116 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "historical_remote_json_review_pin",
+      "default": "historical_remote_json_review_pin",
+      "title": "Mode",
+      "type": "string"
+    },
+    "review_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Review Sha256",
+      "type": "string"
+    },
+    "knowledge_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Knowledge Sha256",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "source_snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Snapshot Sha256",
+      "type": "string"
+    },
+    "page_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Page Key",
+      "type": "string"
+    },
+    "draft_revision": {
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Draft Revision",
+      "type": "integer"
+    },
+    "landmark_keys": {
+      "items": {
+        "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+        "type": "string"
+      },
+      "maxItems": 32,
+      "title": "Landmark Keys",
+      "type": "array"
+    },
+    "page_fingerprint_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Page Fingerprint Sha256",
+      "type": "string"
+    },
+    "metadata_reviewed": {
+      "const": true,
+      "default": true,
+      "title": "Metadata Reviewed",
+      "type": "boolean"
+    },
+    "current_readback_bound": {
+      "const": false,
+      "default": false,
+      "title": "Current Readback Bound",
+      "type": "boolean"
+    },
+    "task_retrieval_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Task Retrieval Authorized",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "review_sha256",
+    "knowledge_sha256",
+    "profile_sha256",
+    "plan_sha256",
+    "source_snapshot_sha256",
+    "page_key",
+    "draft_revision",
+    "landmark_keys",
+    "page_fingerprint_sha256"
+  ],
+  "title": "LiveRemoteReadonlyDataKnowledgePin",
+  "type": "object"
+}

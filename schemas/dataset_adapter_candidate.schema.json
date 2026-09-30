@@ -1,0 +1,504 @@
+{
+  "$defs": {
+    "AdapterReplayReport": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "dataset_s1_adapter_replay_v1",
+          "default": "dataset_s1_adapter_replay_v1",
+          "title": "Mode",
+          "type": "string"
+        },
+        "checkpoint_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "title": "Checkpoint Revision",
+          "type": "string"
+        },
+        "code_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "title": "Code Revision",
+          "type": "string"
+        },
+        "weights_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Weights Sha256",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Sha256",
+          "type": "string"
+        },
+        "artifact_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Artifact Sha256",
+          "type": "string"
+        },
+        "train_decisions": {
+          "maximum": 4,
+          "minimum": 1,
+          "title": "Train Decisions",
+          "type": "integer"
+        },
+        "token_budget": {
+          "maximum": 1536,
+          "minimum": 64,
+          "title": "Token Budget",
+          "type": "integer"
+        },
+        "base_train_nll": {
+          "minimum": 0,
+          "title": "Base Train Nll",
+          "type": "number"
+        },
+        "candidate_train_nll": {
+          "minimum": 0,
+          "title": "Candidate Train Nll",
+          "type": "number"
+        },
+        "base_train_accuracy": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Base Train Accuracy",
+          "type": "number"
+        },
+        "candidate_train_accuracy": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Candidate Train Accuracy",
+          "type": "number"
+        },
+        "validation_decisions": {
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Validation Decisions",
+          "type": "integer"
+        },
+        "base_validation_nll": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Validation Nll"
+        },
+        "candidate_validation_nll": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Candidate Validation Nll"
+        },
+        "base_validation_accuracy": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Validation Accuracy"
+        },
+        "candidate_validation_accuracy": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Candidate Validation Accuracy"
+        },
+        "test_decisions": {
+          "maximum": 32,
+          "minimum": 0,
+          "title": "Test Decisions",
+          "type": "integer"
+        },
+        "base_test_nll": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Test Nll"
+        },
+        "candidate_test_nll": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Candidate Test Nll"
+        },
+        "base_test_accuracy": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Test Accuracy"
+        },
+        "candidate_test_accuracy": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Candidate Test Accuracy"
+        },
+        "candidate_loaded": {
+          "const": true,
+          "default": true,
+          "title": "Candidate Loaded",
+          "type": "boolean"
+        },
+        "base_parameters_unchanged": {
+          "const": true,
+          "default": true,
+          "title": "Base Parameters Unchanged",
+          "type": "boolean"
+        },
+        "base_gradient_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Base Gradient Count",
+          "type": "integer"
+        },
+        "training_ready": {
+          "const": false,
+          "default": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "checkpoint_revision",
+        "code_revision",
+        "weights_sha256",
+        "manifest_sha256",
+        "input_sha256",
+        "artifact_sha256",
+        "train_decisions",
+        "token_budget",
+        "base_train_nll",
+        "candidate_train_nll",
+        "base_train_accuracy",
+        "candidate_train_accuracy",
+        "validation_decisions",
+        "base_validation_nll",
+        "candidate_validation_nll",
+        "base_validation_accuracy",
+        "candidate_validation_accuracy",
+        "test_decisions",
+        "base_test_nll",
+        "candidate_test_nll",
+        "base_test_accuracy",
+        "candidate_test_accuracy"
+      ],
+      "title": "AdapterReplayReport",
+      "type": "object"
+    },
+    "AdapterWorkerReport": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "dataset_s1_adapter_candidate_v1",
+          "default": "dataset_s1_adapter_candidate_v1",
+          "title": "Mode",
+          "type": "string"
+        },
+        "checkpoint_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "title": "Checkpoint Revision",
+          "type": "string"
+        },
+        "code_revision": {
+          "pattern": "^[a-f0-9]{40}$",
+          "title": "Code Revision",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "weights_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Weights Sha256",
+          "type": "string"
+        },
+        "input_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Input Sha256",
+          "type": "string"
+        },
+        "train_decisions": {
+          "maximum": 4,
+          "minimum": 1,
+          "title": "Train Decisions",
+          "type": "integer"
+        },
+        "token_budget": {
+          "maximum": 1536,
+          "minimum": 64,
+          "title": "Token Budget",
+          "type": "integer"
+        },
+        "adapter_target": {
+          "const": "last_mlp_down_proj",
+          "default": "last_mlp_down_proj",
+          "title": "Adapter Target",
+          "type": "string"
+        },
+        "adapter_rank": {
+          "const": 4,
+          "default": 4,
+          "title": "Adapter Rank",
+          "type": "integer"
+        },
+        "adapter_parameter_count": {
+          "const": 32768,
+          "title": "Adapter Parameter Count",
+          "type": "integer"
+        },
+        "seed": {
+          "const": 42,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "optimizer_step_count": {
+          "const": 1,
+          "default": 1,
+          "title": "Optimizer Step Count",
+          "type": "integer"
+        },
+        "train_nll_before": {
+          "minimum": 0,
+          "title": "Train Nll Before",
+          "type": "number"
+        },
+        "train_nll_after": {
+          "minimum": 0,
+          "title": "Train Nll After",
+          "type": "number"
+        },
+        "gradient_norm": {
+          "exclusiveMinimum": 0,
+          "title": "Gradient Norm",
+          "type": "number"
+        },
+        "peak_vram_allocated_bytes": {
+          "minimum": 1,
+          "title": "Peak Vram Allocated Bytes",
+          "type": "integer"
+        },
+        "peak_vram_reserved_bytes": {
+          "minimum": 1,
+          "title": "Peak Vram Reserved Bytes",
+          "type": "integer"
+        },
+        "elapsed_seconds": {
+          "exclusiveMinimum": 0,
+          "title": "Elapsed Seconds",
+          "type": "number"
+        },
+        "base_parameters_unchanged": {
+          "const": true,
+          "default": true,
+          "title": "Base Parameters Unchanged",
+          "type": "boolean"
+        },
+        "base_gradient_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Base Gradient Count",
+          "type": "integer"
+        },
+        "adapter_parameters_changed": {
+          "const": true,
+          "default": true,
+          "title": "Adapter Parameters Changed",
+          "type": "boolean"
+        },
+        "candidate_checkpoint_written": {
+          "const": true,
+          "default": true,
+          "title": "Candidate Checkpoint Written",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "default": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "candidate_artifact_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Artifact Sha256",
+          "type": "string"
+        },
+        "candidate_artifact_bytes": {
+          "const": 131188,
+          "default": 131188,
+          "title": "Candidate Artifact Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "checkpoint_revision",
+        "code_revision",
+        "manifest_sha256",
+        "weights_sha256",
+        "input_sha256",
+        "train_decisions",
+        "token_budget",
+        "adapter_parameter_count",
+        "seed",
+        "train_nll_before",
+        "train_nll_after",
+        "gradient_norm",
+        "peak_vram_allocated_bytes",
+        "peak_vram_reserved_bytes",
+        "elapsed_seconds",
+        "candidate_artifact_sha256"
+      ],
+      "title": "AdapterWorkerReport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.2",
+      "default": "1.2",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "dataset_bound_s1_adapter_candidate_v1",
+      "default": "dataset_bound_s1_adapter_candidate_v1",
+      "title": "Mode",
+      "type": "string"
+    },
+    "dataset_id": {
+      "pattern": "^fixture-[a-f0-9]{64}$",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "dataset_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Dataset Manifest Sha256",
+      "type": "string"
+    },
+    "input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Input Sha256",
+      "type": "string"
+    },
+    "deployment_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Manifest Sha256",
+      "type": "string"
+    },
+    "runner_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Runner Sha256",
+      "type": "string"
+    },
+    "split_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "propertyNames": {
+        "enum": [
+          "train",
+          "validation",
+          "test"
+        ]
+      },
+      "title": "Split Counts",
+      "type": "object"
+    },
+    "train_report": {
+      "$ref": "#/$defs/AdapterWorkerReport"
+    },
+    "replay_report": {
+      "$ref": "#/$defs/AdapterReplayReport"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "dataset_manifest_sha256",
+    "input_sha256",
+    "deployment_manifest_sha256",
+    "runner_sha256",
+    "split_counts",
+    "train_report",
+    "replay_report"
+  ],
+  "title": "DatasetAdapterCandidateReport",
+  "type": "object"
+}

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "read_only_hello_checkpoint",
+      "default": "read_only_hello_checkpoint",
+      "title": "Mode",
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Sha256",
+      "type": "string"
+    },
+    "deployment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Sha256",
+      "type": "string"
+    },
+    "workspace_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Workspace Sha256",
+      "type": "string"
+    },
+    "captured_at": {
+      "title": "Captured At",
+      "type": "string"
+    },
+    "inspected_at": {
+      "title": "Inspected At",
+      "type": "string"
+    },
+    "unresolved_actions": {
+      "minimum": 0,
+      "title": "Unresolved Actions",
+      "type": "integer"
+    },
+    "workspace_binding_verified": {
+      "const": true,
+      "default": true,
+      "title": "Workspace Binding Verified",
+      "type": "boolean"
+    },
+    "deployment_snapshot_matches": {
+      "const": true,
+      "default": true,
+      "title": "Deployment Snapshot Matches",
+      "type": "boolean"
+    },
+    "live_deployment_verified": {
+      "const": false,
+      "default": false,
+      "title": "Live Deployment Verified",
+      "type": "boolean"
+    },
+    "effect": {
+      "enum": [
+        "exact_content",
+        "absent",
+        "different_content",
+        "unreadable"
+      ],
+      "title": "Effect",
+      "type": "string"
+    },
+    "criterion_observed": {
+      "title": "Criterion Observed",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "resume_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Resume Authorized",
+      "type": "boolean"
+    },
+    "automatic_replay_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Replay Allowed",
+      "type": "boolean"
+    },
+    "action_causality_verified": {
+      "const": false,
+      "default": false,
+      "title": "Action Causality Verified",
+      "type": "boolean"
+    },
+    "uncertain_effect_resolved": {
+      "const": false,
+      "default": false,
+      "title": "Uncertain Effect Resolved",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "snapshot_sha256",
+    "run_ref",
+    "state_sha256",
+    "deployment_sha256",
+    "workspace_sha256",
+    "captured_at",
+    "inspected_at",
+    "unresolved_actions",
+    "effect",
+    "criterion_observed"
+  ],
+  "title": "CheckpointReport",
+  "type": "object"
+}

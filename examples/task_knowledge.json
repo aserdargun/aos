@@ -1,0 +1,392 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "requests": {
+    "preview": {
+      "schema_version": "1.0",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "query": "hello",
+      "top_k": 4,
+      "context_chars": 2048,
+      "task_kind": "hello",
+      "lease_id": "lease-14d5663f36014ac4b8fc557b882779d6",
+      "generation": 0
+    },
+    "start": {
+      "schema_version": "1.0",
+      "preview": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "manual_approval_required": true,
+        "causality_verified": false,
+        "scope_authorization_verified": false,
+        "schema_version": "1.0",
+        "kind": "task_knowledge_preview",
+        "preview_id": "knowledge-preview-d6a7232ed46b4eec9e6c5a498b9b92f8",
+        "expires_at": "2026-09-30T04:30:35.745462+00:00",
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "query": "hello",
+        "top_k": 4,
+        "context_chars": 2048,
+        "retrieval": {
+          "untrusted": true,
+          "execution_authorized": false,
+          "training_ready": false,
+          "gold": false,
+          "schema_version": "1.0",
+          "kind": "knowledge_search",
+          "scope": {
+            "application_id": "synthetic-app",
+            "tenant_id": "synthetic-tenant",
+            "account_role": "reader"
+          },
+          "query_sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+          "method": "deterministic_lexical",
+          "top_k": 4,
+          "context_chars": 2048,
+          "used_context_chars": 93,
+          "hits": [
+            {
+              "document_sha256": "104f366aa547cd22df9fd65401fd5ef444240ba6a5f33136ebfb9e6c9e37038c",
+              "content_sha256": "99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a",
+              "review_sha256": "3984cd8370e2eb04ec29cf512271a09130cda33def25580652bdf81658bd9ccd",
+              "source_id": "manual",
+              "title": "Synthetic manual",
+              "revision": 1,
+              "chunk_index": 0,
+              "chunk_sha256": "99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a",
+              "start": 0,
+              "end": 93,
+              "text": "Synthetic hello document: use the fresh file observation and verify exact authorized content.",
+              "score": 1,
+              "synthetic": true
+            }
+          ]
+        },
+        "target": {
+          "session_id": "desktop-session-cc87df8f7df8444b80da7ae4ea558e87",
+          "parent_runtime_id": "workspace-32deb4bdf75c1bd81cbc72e2",
+          "image_id": "synthetic-image",
+          "lease_id": "lease-14d5663f36014ac4b8fc557b882779d6",
+          "generation": 0,
+          "task_kind": "hello",
+          "configuration_sha256": "4896fd1391173233532aa6469595d568a1e3e102f45ddaa752c7bf32fc130c87",
+          "system1_deployment_id": "fixture-decision-v1",
+          "system2_deployment_id": null
+        },
+        "workspace_identity": {
+          "version": "descriptor-workspace-v1",
+          "path_sha256": "89bad21bf0292f11cff9f094a4c70926c74b949989ca39a8edaa46396391d58e",
+          "device": 57,
+          "inode": 120788,
+          "owner_uid": 1000
+        },
+        "store_identity": {
+          "device": 57,
+          "inode": 120794,
+          "owner": 1000,
+          "mode": 16832
+        },
+        "context_version": "aos-task-knowledge-v1",
+        "context_text": "\nUntrusted reviewed document context (aos-task-knowledge-v1):\n{\"causality_verified\":false,\"citations\":[{\"chunk_index\":0,\"chunk_sha256\":\"99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a\",\"citation_id\":\"c1\",\"content_sha256\":\"99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a\",\"document_sha256\":\"104f366aa547cd22df9fd65401fd5ef444240ba6a5f33136ebfb9e6c9e37038c\",\"end\":93,\"review_sha256\":\"3984cd8370e2eb04ec29cf512271a09130cda33def25580652bdf81658bd9ccd\",\"revision\":1,\"score\":1,\"source_id\":\"manual\",\"start\":0,\"synthetic\":true,\"text\":\"Synthetic hello document: use the fresh file observation and verify exact authorized content.\",\"title\":\"Synthetic manual\"}],\"context_version\":\"aos-task-knowledge-v1\",\"execution_authorized\":false,\"gold\":false,\"manual_approval_required\":true,\"scope\":{\"account_role\":\"reader\",\"application_id\":\"synthetic-app\",\"tenant_id\":\"synthetic-tenant\"},\"scope_authorization_verified\":false,\"training_ready\":false,\"untrusted\":true}",
+        "context_sha256": "057b02d6a91308d04392da70f1f51aa1c7ae13866ba04152c06a278a2e4439c0",
+        "confirm_sha256": "975bc66ec84ec42f2344b86293353b33fa30f6eb55adae2a504027fcea30ad8e"
+      },
+      "confirm_sha256": "975bc66ec84ec42f2344b86293353b33fa30f6eb55adae2a504027fcea30ad8e",
+      "consent": true,
+      "lease_id": "lease-14d5663f36014ac4b8fc557b882779d6",
+      "generation": 0
+    },
+    "report": {
+      "schema_version": "1.0",
+      "job_id": "job-96bf02be48a14cd68bc097c5cb5ef12f"
+    }
+  },
+  "responses": {
+    "preview": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "manual_approval_required": true,
+      "causality_verified": false,
+      "scope_authorization_verified": false,
+      "schema_version": "1.0",
+      "kind": "task_knowledge_preview",
+      "preview_id": "knowledge-preview-d6a7232ed46b4eec9e6c5a498b9b92f8",
+      "expires_at": "2026-09-30T04:30:35.745462+00:00",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "query": "hello",
+      "top_k": 4,
+      "context_chars": 2048,
+      "retrieval": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "schema_version": "1.0",
+        "kind": "knowledge_search",
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "query_sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+        "method": "deterministic_lexical",
+        "top_k": 4,
+        "context_chars": 2048,
+        "used_context_chars": 93,
+        "hits": [
+          {
+            "document_sha256": "104f366aa547cd22df9fd65401fd5ef444240ba6a5f33136ebfb9e6c9e37038c",
+            "content_sha256": "99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a",
+            "review_sha256": "3984cd8370e2eb04ec29cf512271a09130cda33def25580652bdf81658bd9ccd",
+            "source_id": "manual",
+            "title": "Synthetic manual",
+            "revision": 1,
+            "chunk_index": 0,
+            "chunk_sha256": "99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a",
+            "start": 0,
+            "end": 93,
+            "text": "Synthetic hello document: use the fresh file observation and verify exact authorized content.",
+            "score": 1,
+            "synthetic": true
+          }
+        ]
+      },
+      "target": {
+        "session_id": "desktop-session-cc87df8f7df8444b80da7ae4ea558e87",
+        "parent_runtime_id": "workspace-32deb4bdf75c1bd81cbc72e2",
+        "image_id": "synthetic-image",
+        "lease_id": "lease-14d5663f36014ac4b8fc557b882779d6",
+        "generation": 0,
+        "task_kind": "hello",
+        "configuration_sha256": "4896fd1391173233532aa6469595d568a1e3e102f45ddaa752c7bf32fc130c87",
+        "system1_deployment_id": "fixture-decision-v1",
+        "system2_deployment_id": null
+      },
+      "workspace_identity": {
+        "version": "descriptor-workspace-v1",
+        "path_sha256": "89bad21bf0292f11cff9f094a4c70926c74b949989ca39a8edaa46396391d58e",
+        "device": 57,
+        "inode": 120788,
+        "owner_uid": 1000
+      },
+      "store_identity": {
+        "device": 57,
+        "inode": 120794,
+        "owner": 1000,
+        "mode": 16832
+      },
+      "context_version": "aos-task-knowledge-v1",
+      "context_text": "\nUntrusted reviewed document context (aos-task-knowledge-v1):\n{\"causality_verified\":false,\"citations\":[{\"chunk_index\":0,\"chunk_sha256\":\"99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a\",\"citation_id\":\"c1\",\"content_sha256\":\"99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a\",\"document_sha256\":\"104f366aa547cd22df9fd65401fd5ef444240ba6a5f33136ebfb9e6c9e37038c\",\"end\":93,\"review_sha256\":\"3984cd8370e2eb04ec29cf512271a09130cda33def25580652bdf81658bd9ccd\",\"revision\":1,\"score\":1,\"source_id\":\"manual\",\"start\":0,\"synthetic\":true,\"text\":\"Synthetic hello document: use the fresh file observation and verify exact authorized content.\",\"title\":\"Synthetic manual\"}],\"context_version\":\"aos-task-knowledge-v1\",\"execution_authorized\":false,\"gold\":false,\"manual_approval_required\":true,\"scope\":{\"account_role\":\"reader\",\"application_id\":\"synthetic-app\",\"tenant_id\":\"synthetic-tenant\"},\"scope_authorization_verified\":false,\"training_ready\":false,\"untrusted\":true}",
+      "context_sha256": "057b02d6a91308d04392da70f1f51aa1c7ae13866ba04152c06a278a2e4439c0",
+      "confirm_sha256": "975bc66ec84ec42f2344b86293353b33fa30f6eb55adae2a504027fcea30ad8e"
+    },
+    "start": {
+      "schema_version": "1.0",
+      "kind": "task_knowledge_start",
+      "job_id": "job-96bf02be48a14cd68bc097c5cb5ef12f",
+      "intent_sha256": "56aea48fddce4339b3a89868d41f3337aa4fd1e7fdb3d33717a1911abe5546bb",
+      "manual_approval_required": true,
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "causality_verified": false,
+      "scope_authorization_verified": false
+    },
+    "report": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "manual_approval_required": true,
+      "causality_verified": false,
+      "scope_authorization_verified": false,
+      "schema_version": "1.0",
+      "kind": "task_knowledge_report",
+      "job_id": "job-96bf02be48a14cd68bc097c5cb5ef12f",
+      "intent_sha256": "56aea48fddce4339b3a89868d41f3337aa4fd1e7fdb3d33717a1911abe5546bb",
+      "intent": {
+        "schema_version": "1.0",
+        "kind": "task_knowledge_intent",
+        "preview": {
+          "untrusted": true,
+          "execution_authorized": false,
+          "training_ready": false,
+          "gold": false,
+          "manual_approval_required": true,
+          "causality_verified": false,
+          "scope_authorization_verified": false,
+          "schema_version": "1.0",
+          "kind": "task_knowledge_preview",
+          "preview_id": "knowledge-preview-d6a7232ed46b4eec9e6c5a498b9b92f8",
+          "expires_at": "2026-09-30T04:30:35.745462+00:00",
+          "scope": {
+            "application_id": "synthetic-app",
+            "tenant_id": "synthetic-tenant",
+            "account_role": "reader"
+          },
+          "query": "hello",
+          "top_k": 4,
+          "context_chars": 2048,
+          "retrieval": {
+            "untrusted": true,
+            "execution_authorized": false,
+            "training_ready": false,
+            "gold": false,
+            "schema_version": "1.0",
+            "kind": "knowledge_search",
+            "scope": {
+              "application_id": "synthetic-app",
+              "tenant_id": "synthetic-tenant",
+              "account_role": "reader"
+            },
+            "query_sha256": "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",
+            "method": "deterministic_lexical",
+            "top_k": 4,
+            "context_chars": 2048,
+            "used_context_chars": 93,
+            "hits": [
+              {
+                "document_sha256": "104f366aa547cd22df9fd65401fd5ef444240ba6a5f33136ebfb9e6c9e37038c",
+                "content_sha256": "99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a",
+                "review_sha256": "3984cd8370e2eb04ec29cf512271a09130cda33def25580652bdf81658bd9ccd",
+                "source_id": "manual",
+                "title": "Synthetic manual",
+                "revision": 1,
+                "chunk_index": 0,
+                "chunk_sha256": "99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a",
+                "start": 0,
+                "end": 93,
+                "text": "Synthetic hello document: use the fresh file observation and verify exact authorized content.",
+                "score": 1,
+                "synthetic": true
+              }
+            ]
+          },
+          "target": {
+            "session_id": "desktop-session-cc87df8f7df8444b80da7ae4ea558e87",
+            "parent_runtime_id": "workspace-32deb4bdf75c1bd81cbc72e2",
+            "image_id": "synthetic-image",
+            "lease_id": "lease-14d5663f36014ac4b8fc557b882779d6",
+            "generation": 0,
+            "task_kind": "hello",
+            "configuration_sha256": "4896fd1391173233532aa6469595d568a1e3e102f45ddaa752c7bf32fc130c87",
+            "system1_deployment_id": "fixture-decision-v1",
+            "system2_deployment_id": null
+          },
+          "workspace_identity": {
+            "version": "descriptor-workspace-v1",
+            "path_sha256": "89bad21bf0292f11cff9f094a4c70926c74b949989ca39a8edaa46396391d58e",
+            "device": 57,
+            "inode": 120788,
+            "owner_uid": 1000
+          },
+          "store_identity": {
+            "device": 57,
+            "inode": 120794,
+            "owner": 1000,
+            "mode": 16832
+          },
+          "context_version": "aos-task-knowledge-v1",
+          "context_text": "\nUntrusted reviewed document context (aos-task-knowledge-v1):\n{\"causality_verified\":false,\"citations\":[{\"chunk_index\":0,\"chunk_sha256\":\"99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a\",\"citation_id\":\"c1\",\"content_sha256\":\"99e5d40dd4c2da1da2d0adc817e42d2a2b5b44db6947e383c204e2f67a34e20a\",\"document_sha256\":\"104f366aa547cd22df9fd65401fd5ef444240ba6a5f33136ebfb9e6c9e37038c\",\"end\":93,\"review_sha256\":\"3984cd8370e2eb04ec29cf512271a09130cda33def25580652bdf81658bd9ccd\",\"revision\":1,\"score\":1,\"source_id\":\"manual\",\"start\":0,\"synthetic\":true,\"text\":\"Synthetic hello document: use the fresh file observation and verify exact authorized content.\",\"title\":\"Synthetic manual\"}],\"context_version\":\"aos-task-knowledge-v1\",\"execution_authorized\":false,\"gold\":false,\"manual_approval_required\":true,\"scope\":{\"account_role\":\"reader\",\"application_id\":\"synthetic-app\",\"tenant_id\":\"synthetic-tenant\"},\"scope_authorization_verified\":false,\"training_ready\":false,\"untrusted\":true}",
+          "context_sha256": "057b02d6a91308d04392da70f1f51aa1c7ae13866ba04152c06a278a2e4439c0",
+          "confirm_sha256": "975bc66ec84ec42f2344b86293353b33fa30f6eb55adae2a504027fcea30ad8e"
+        },
+        "inference_consent": true,
+        "trajectory_storage_consent": true
+      },
+      "admission_sha256": "e75f1853148f6d35782aafd44f85958c07d1be16c432887c783d923486420ba0",
+      "admission": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "manual_approval_required": true,
+        "causality_verified": false,
+        "scope_authorization_verified": false,
+        "schema_version": "1.0",
+        "kind": "task_knowledge_admission",
+        "intent_sha256": "56aea48fddce4339b3a89868d41f3337aa4fd1e7fdb3d33717a1911abe5546bb",
+        "job_id": "job-96bf02be48a14cd68bc097c5cb5ef12f",
+        "preview_sha256": "975bc66ec84ec42f2344b86293353b33fa30f6eb55adae2a504027fcea30ad8e",
+        "context_sha256": "057b02d6a91308d04392da70f1f51aa1c7ae13866ba04152c06a278a2e4439c0",
+        "target": {
+          "session_id": "desktop-session-cc87df8f7df8444b80da7ae4ea558e87",
+          "parent_runtime_id": "workspace-32deb4bdf75c1bd81cbc72e2",
+          "image_id": "synthetic-image",
+          "lease_id": "lease-14d5663f36014ac4b8fc557b882779d6",
+          "generation": 0,
+          "task_kind": "hello",
+          "configuration_sha256": "4896fd1391173233532aa6469595d568a1e3e102f45ddaa752c7bf32fc130c87",
+          "system1_deployment_id": "fixture-decision-v1",
+          "system2_deployment_id": null
+        }
+      },
+      "historical_binding_verified": true,
+      "context_binding_verified": true,
+      "model_request_verified": false,
+      "knowledge_applied": false,
+      "current_source_valid": true,
+      "current_authority_valid": true,
+      "prepared_context_count": 1,
+      "dispatched_context_count": 0,
+      "successful_model_call_count": 0,
+      "context_proofs": [
+        {
+          "admission_sha256": "e75f1853148f6d35782aafd44f85958c07d1be16c432887c783d923486420ba0",
+          "call_id": null,
+          "context_sha256": "057b02d6a91308d04392da70f1f51aa1c7ae13866ba04152c06a278a2e4439c0",
+          "intent_sha256": "56aea48fddce4339b3a89868d41f3337aa4fd1e7fdb3d33717a1911abe5546bb",
+          "job_id": "job-96bf02be48a14cd68bc097c5cb5ef12f",
+          "options": [
+            {
+              "id": "write_file",
+              "label": "Create the authorized hello file with the exact requested content"
+            },
+            {
+              "id": "ask_supervisor",
+              "label": "Ask the supervisor for help"
+            },
+            {
+              "id": "ask_human",
+              "label": "Ask the user for help"
+            }
+          ],
+          "options_sha256": "973abf41b03ec4aadb00c2e51ed5e75f1682703f529d07da8af0be491f272204",
+          "request_sha256": "cc2d999139fe52ffe07a518ae680d90715e31fa611d9941f62f6207c216dd645",
+          "run_id": "run-c2fd6d0b07e04e87a104cc8bef89f4a8",
+          "schema_version": "1.0",
+          "snapshot_id": "snapshot-b687c7301a6349e0905ea87c98bb2849",
+          "state_sha256": "a2444368fd3babf440358f0e94deb33f0d98561179b50ea7f929b569cac55151",
+          "state_version": 2,
+          "step_id": "step-b73cf767f96c4897bcb11d5815ce2b2b"
+        }
+      ],
+      "dispatch_proofs": [],
+      "model_proofs": [],
+      "outcome": {
+        "status": "verified",
+        "verification_count": 1,
+        "scope": "fixed_task_outcome",
+        "reason": "independent_evidence_verified"
+      }
+    }
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "$defs": {
+    "SiteSkillFormCohortCaseReport": {
+      "additionalProperties": false,
+      "properties": {
+        "case_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "cohort": {
+          "enum": [
+            "development",
+            "held_out"
+          ],
+          "title": "Cohort",
+          "type": "string"
+        },
+        "declared_state_readback_verified": {
+          "const": true,
+          "title": "Declared State Readback Verified",
+          "type": "boolean"
+        },
+        "form_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Form Plan Sha256",
+          "type": "string"
+        },
+        "parameter_values_bound_to_plan": {
+          "const": true,
+          "title": "Parameter Values Bound To Plan",
+          "type": "boolean"
+        },
+        "run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "state_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Plan Sha256",
+          "type": "string"
+        },
+        "submitted_value_readback_bound": {
+          "const": true,
+          "title": "Submitted Value Readback Bound",
+          "type": "boolean"
+        },
+        "transport_readback_verified": {
+          "const": true,
+          "title": "Transport Readback Verified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "case_key",
+        "cohort",
+        "run_ref",
+        "form_plan_sha256",
+        "state_plan_sha256",
+        "parameter_values_bound_to_plan",
+        "submitted_value_readback_bound",
+        "transport_readback_verified",
+        "declared_state_readback_verified"
+      ],
+      "title": "SiteSkillFormCohortCaseReport",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "case_count": {
+      "maximum": 16,
+      "minimum": 3,
+      "title": "Case Count",
+      "type": "integer"
+    },
+    "case_inputs_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Case Inputs Sha256",
+      "type": "string"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/SiteSkillFormCohortCaseReport"
+      },
+      "maxItems": 16,
+      "minItems": 3,
+      "title": "Cases",
+      "type": "array"
+    },
+    "development_count": {
+      "maximum": 14,
+      "minimum": 1,
+      "title": "Development Count",
+      "type": "integer"
+    },
+    "held_out_count": {
+      "maximum": 15,
+      "minimum": 2,
+      "title": "Held Out Count",
+      "type": "integer"
+    },
+    "held_out_independence_verified": {
+      "const": false,
+      "title": "Held Out Independence Verified",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "reviewed": {
+      "const": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selection_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Selection Sha256",
+      "type": "string"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "skill_executed": {
+      "const": false,
+      "title": "Skill Executed",
+      "type": "boolean"
+    },
+    "skill_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Sha256",
+      "type": "string"
+    },
+    "skill_validated": {
+      "const": false,
+      "title": "Skill Validated",
+      "type": "boolean"
+    },
+    "snapshot_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Snapshot Sha256",
+      "type": "string"
+    },
+    "source_ids_separated_from_held_out": {
+      "const": true,
+      "title": "Source Ids Separated From Held Out",
+      "type": "boolean"
+    },
+    "source_parameters_bound": {
+      "const": false,
+      "title": "Source Parameters Bound",
+      "type": "boolean"
+    },
+    "status": {
+      "const": "audited_form_cohort_transport_only",
+      "title": "Status",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "status",
+    "skill_sha256",
+    "plan_sha256",
+    "case_inputs_sha256",
+    "selection_sha256",
+    "snapshot_sha256",
+    "case_count",
+    "development_count",
+    "held_out_count",
+    "cases",
+    "source_ids_separated_from_held_out",
+    "source_parameters_bound",
+    "skill_executed",
+    "site_outcome_verified",
+    "held_out_independence_verified",
+    "skill_validated",
+    "reviewed",
+    "activation_authorized",
+    "training_ready"
+  ],
+  "title": "SiteSkillFormCohortReport",
+  "type": "object"
+}

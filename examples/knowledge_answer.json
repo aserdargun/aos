@@ -1,0 +1,465 @@
+{
+  "schema_version": "1.0",
+  "synthetic": true,
+  "requests": {
+    "preview": {
+      "schema_version": "1.0",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "question": "password reset",
+      "top_k": 8,
+      "context_chars": 8192,
+      "lease_id": "synthetic-lease",
+      "generation": 1
+    },
+    "start": {
+      "schema_version": "1.0",
+      "preview": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "schema_version": "1.0",
+        "kind": "knowledge_answer_preview",
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "question": "password reset",
+        "top_k": 8,
+        "context_chars": 8192,
+        "retrieval": {
+          "untrusted": true,
+          "execution_authorized": false,
+          "training_ready": false,
+          "gold": false,
+          "schema_version": "1.0",
+          "kind": "knowledge_search",
+          "scope": {
+            "application_id": "synthetic-app",
+            "tenant_id": "synthetic-tenant",
+            "account_role": "reader"
+          },
+          "query_sha256": "658adf8d733cfbe570dbe401baa0c7a0d4cb538db749e60f2d3cc946d7a23c90",
+          "method": "deterministic_lexical",
+          "top_k": 8,
+          "context_chars": 8192,
+          "used_context_chars": 79,
+          "hits": [
+            {
+              "document_sha256": "42bc7e5e1fbfc2ff39539d446f6f5cfe1384053df5b98d101ca17c9b7b63d519",
+              "content_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+              "review_sha256": "c94af7940286023de9bcd2cefce3f77436e436dc94499726bd7e43321ffe0934",
+              "source_id": "manual",
+              "title": "Synthetic manual",
+              "revision": 1,
+              "chunk_index": 0,
+              "chunk_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+              "start": 0,
+              "end": 79,
+              "text": "Synthetic password reset instructions: open Settings and select Reset password.",
+              "score": 2,
+              "synthetic": true
+            }
+          ]
+        },
+        "deployment": {
+          "deployment_id": "synthetic-answerer-v1",
+          "kind": "synthetic_knowledge_answerer",
+          "pins": {},
+          "real_model": false
+        },
+        "authority": {
+          "session_id": "synthetic-session",
+          "lease_id": "synthetic-lease",
+          "generation": 1
+        },
+        "store_identity": {
+          "device": 57,
+          "inode": 86431,
+          "owner": 1000,
+          "mode": 16832
+        },
+        "confirm_sha256": "ed9e43267d7e6451241ed4256817363162f2f62f27f4a437b69cd07ed13d854d"
+      },
+      "confirm_sha256": "ed9e43267d7e6451241ed4256817363162f2f62f27f4a437b69cd07ed13d854d",
+      "consent": true,
+      "lease_id": "synthetic-lease",
+      "generation": 1
+    },
+    "status": {
+      "schema_version": "1.0",
+      "answer_id": "answer-f29d61bc9bb3422da95c70d6cb53c861"
+    },
+    "report": {
+      "schema_version": "1.0",
+      "answer_id": "answer-f29d61bc9bb3422da95c70d6cb53c861"
+    },
+    "cancel": {
+      "schema_version": "1.0",
+      "answer_id": "answer-f29d61bc9bb3422da95c70d6cb53c861"
+    }
+  },
+  "responses": {
+    "preview": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_answer_preview",
+      "scope": {
+        "application_id": "synthetic-app",
+        "tenant_id": "synthetic-tenant",
+        "account_role": "reader"
+      },
+      "question": "password reset",
+      "top_k": 8,
+      "context_chars": 8192,
+      "retrieval": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "schema_version": "1.0",
+        "kind": "knowledge_search",
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "query_sha256": "658adf8d733cfbe570dbe401baa0c7a0d4cb538db749e60f2d3cc946d7a23c90",
+        "method": "deterministic_lexical",
+        "top_k": 8,
+        "context_chars": 8192,
+        "used_context_chars": 79,
+        "hits": [
+          {
+            "document_sha256": "42bc7e5e1fbfc2ff39539d446f6f5cfe1384053df5b98d101ca17c9b7b63d519",
+            "content_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+            "review_sha256": "c94af7940286023de9bcd2cefce3f77436e436dc94499726bd7e43321ffe0934",
+            "source_id": "manual",
+            "title": "Synthetic manual",
+            "revision": 1,
+            "chunk_index": 0,
+            "chunk_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+            "start": 0,
+            "end": 79,
+            "text": "Synthetic password reset instructions: open Settings and select Reset password.",
+            "score": 2,
+            "synthetic": true
+          }
+        ]
+      },
+      "deployment": {
+        "deployment_id": "synthetic-answerer-v1",
+        "kind": "synthetic_knowledge_answerer",
+        "pins": {},
+        "real_model": false
+      },
+      "authority": {
+        "session_id": "synthetic-session",
+        "lease_id": "synthetic-lease",
+        "generation": 1
+      },
+      "store_identity": {
+        "device": 57,
+        "inode": 86431,
+        "owner": 1000,
+        "mode": 16832
+      },
+      "confirm_sha256": "ed9e43267d7e6451241ed4256817363162f2f62f27f4a437b69cd07ed13d854d"
+    },
+    "start": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_answer_status",
+      "available": true,
+      "answer_id": "answer-f29d61bc9bb3422da95c70d6cb53c861",
+      "status": "pending",
+      "bundle_sha256": null,
+      "real_model": false,
+      "model_called": false,
+      "citation_binding_verified": false,
+      "error_code": null
+    },
+    "status": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_answer_status",
+      "available": true,
+      "answer_id": "answer-f29d61bc9bb3422da95c70d6cb53c861",
+      "status": "ready",
+      "bundle_sha256": "f63bcb270ac90e74f4b2357547bf661fabd1b023a358164c08e7749f02c5c73b",
+      "real_model": false,
+      "model_called": true,
+      "citation_binding_verified": true,
+      "error_code": null
+    },
+    "report": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_answer_report",
+      "available": true,
+      "answer_id": "answer-f29d61bc9bb3422da95c70d6cb53c861",
+      "status": "ready",
+      "bundle_sha256": "f63bcb270ac90e74f4b2357547bf661fabd1b023a358164c08e7749f02c5c73b",
+      "real_model": false,
+      "model_called": true,
+      "citation_binding_verified": true,
+      "error_code": null,
+      "preview": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "schema_version": "1.0",
+        "kind": "knowledge_answer_preview",
+        "scope": {
+          "application_id": "synthetic-app",
+          "tenant_id": "synthetic-tenant",
+          "account_role": "reader"
+        },
+        "question": "password reset",
+        "top_k": 8,
+        "context_chars": 8192,
+        "retrieval": {
+          "untrusted": true,
+          "execution_authorized": false,
+          "training_ready": false,
+          "gold": false,
+          "schema_version": "1.0",
+          "kind": "knowledge_search",
+          "scope": {
+            "application_id": "synthetic-app",
+            "tenant_id": "synthetic-tenant",
+            "account_role": "reader"
+          },
+          "query_sha256": "658adf8d733cfbe570dbe401baa0c7a0d4cb538db749e60f2d3cc946d7a23c90",
+          "method": "deterministic_lexical",
+          "top_k": 8,
+          "context_chars": 8192,
+          "used_context_chars": 79,
+          "hits": [
+            {
+              "document_sha256": "42bc7e5e1fbfc2ff39539d446f6f5cfe1384053df5b98d101ca17c9b7b63d519",
+              "content_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+              "review_sha256": "c94af7940286023de9bcd2cefce3f77436e436dc94499726bd7e43321ffe0934",
+              "source_id": "manual",
+              "title": "Synthetic manual",
+              "revision": 1,
+              "chunk_index": 0,
+              "chunk_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+              "start": 0,
+              "end": 79,
+              "text": "Synthetic password reset instructions: open Settings and select Reset password.",
+              "score": 2,
+              "synthetic": true
+            }
+          ]
+        },
+        "deployment": {
+          "deployment_id": "synthetic-answerer-v1",
+          "kind": "synthetic_knowledge_answerer",
+          "pins": {},
+          "real_model": false
+        },
+        "authority": {
+          "session_id": "synthetic-session",
+          "lease_id": "synthetic-lease",
+          "generation": 1
+        },
+        "store_identity": {
+          "device": 57,
+          "inode": 86431,
+          "owner": 1000,
+          "mode": 16832
+        },
+        "confirm_sha256": "ed9e43267d7e6451241ed4256817363162f2f62f27f4a437b69cd07ed13d854d"
+      },
+      "model_request": {
+        "evidence": [
+          {
+            "chunk_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+            "document_sha256": "42bc7e5e1fbfc2ff39539d446f6f5cfe1384053df5b98d101ca17c9b7b63d519",
+            "id": "c1",
+            "text": "Synthetic password reset instructions: open Settings and select Reset password."
+          }
+        ],
+        "model": "synthetic-answerer-v1",
+        "question": "password reset"
+      },
+      "model_response": {
+        "needs_human": false,
+        "quotes": [
+          {
+            "citation_id": "c1",
+            "text": "open Settings and select Reset password."
+          }
+        ],
+        "schema_version": "1.0"
+      },
+      "bundle": {
+        "untrusted": true,
+        "execution_authorized": false,
+        "training_ready": false,
+        "gold": false,
+        "schema_version": "1.0",
+        "kind": "knowledge_answer_bundle",
+        "answer_id": "answer-f29d61bc9bb3422da95c70d6cb53c861",
+        "preview": {
+          "untrusted": true,
+          "execution_authorized": false,
+          "training_ready": false,
+          "gold": false,
+          "schema_version": "1.0",
+          "kind": "knowledge_answer_preview",
+          "scope": {
+            "application_id": "synthetic-app",
+            "tenant_id": "synthetic-tenant",
+            "account_role": "reader"
+          },
+          "question": "password reset",
+          "top_k": 8,
+          "context_chars": 8192,
+          "retrieval": {
+            "untrusted": true,
+            "execution_authorized": false,
+            "training_ready": false,
+            "gold": false,
+            "schema_version": "1.0",
+            "kind": "knowledge_search",
+            "scope": {
+              "application_id": "synthetic-app",
+              "tenant_id": "synthetic-tenant",
+              "account_role": "reader"
+            },
+            "query_sha256": "658adf8d733cfbe570dbe401baa0c7a0d4cb538db749e60f2d3cc946d7a23c90",
+            "method": "deterministic_lexical",
+            "top_k": 8,
+            "context_chars": 8192,
+            "used_context_chars": 79,
+            "hits": [
+              {
+                "document_sha256": "42bc7e5e1fbfc2ff39539d446f6f5cfe1384053df5b98d101ca17c9b7b63d519",
+                "content_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+                "review_sha256": "c94af7940286023de9bcd2cefce3f77436e436dc94499726bd7e43321ffe0934",
+                "source_id": "manual",
+                "title": "Synthetic manual",
+                "revision": 1,
+                "chunk_index": 0,
+                "chunk_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+                "start": 0,
+                "end": 79,
+                "text": "Synthetic password reset instructions: open Settings and select Reset password.",
+                "score": 2,
+                "synthetic": true
+              }
+            ]
+          },
+          "deployment": {
+            "deployment_id": "synthetic-answerer-v1",
+            "kind": "synthetic_knowledge_answerer",
+            "pins": {},
+            "real_model": false
+          },
+          "authority": {
+            "session_id": "synthetic-session",
+            "lease_id": "synthetic-lease",
+            "generation": 1
+          },
+          "store_identity": {
+            "device": 57,
+            "inode": 86431,
+            "owner": 1000,
+            "mode": 16832
+          },
+          "confirm_sha256": "ed9e43267d7e6451241ed4256817363162f2f62f27f4a437b69cd07ed13d854d"
+        },
+        "consent": {
+          "confirm_sha256": "ed9e43267d7e6451241ed4256817363162f2f62f27f4a437b69cd07ed13d854d",
+          "inference_consent": true,
+          "storage_consent": true
+        },
+        "deployment": {
+          "deployment_id": "synthetic-answerer-v1",
+          "kind": "synthetic_knowledge_answerer",
+          "pins": {},
+          "real_model": false
+        },
+        "authority": {
+          "session_id": "synthetic-session",
+          "lease_id": "synthetic-lease",
+          "generation": 1
+        },
+        "evidence": [
+          {
+            "chunk_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+            "document_sha256": "42bc7e5e1fbfc2ff39539d446f6f5cfe1384053df5b98d101ca17c9b7b63d519",
+            "id": "c1",
+            "text": "Synthetic password reset instructions: open Settings and select Reset password."
+          }
+        ],
+        "model_request": {
+          "evidence": [
+            {
+              "chunk_sha256": "b2189502de8bf37cdb37ca15819079ccd53908cc3f828b8330e121d642b61de6",
+              "document_sha256": "42bc7e5e1fbfc2ff39539d446f6f5cfe1384053df5b98d101ca17c9b7b63d519",
+              "id": "c1",
+              "text": "Synthetic password reset instructions: open Settings and select Reset password."
+            }
+          ],
+          "model": "synthetic-answerer-v1",
+          "question": "password reset"
+        },
+        "model_response": {
+          "needs_human": false,
+          "quotes": [
+            {
+              "citation_id": "c1",
+              "text": "open Settings and select Reset password."
+            }
+          ],
+          "schema_version": "1.0"
+        },
+        "real_model": false,
+        "synthetic": true,
+        "citation_binding_verified": true,
+        "semantic_relevance_verified": false
+      },
+      "historical_binding_verified": true,
+      "current_source_valid": true,
+      "current_authority_valid": true,
+      "semantic_relevance_verified": false
+    },
+    "cancel": {
+      "untrusted": true,
+      "execution_authorized": false,
+      "training_ready": false,
+      "gold": false,
+      "schema_version": "1.0",
+      "kind": "knowledge_answer_status",
+      "available": true,
+      "answer_id": "answer-f29d61bc9bb3422da95c70d6cb53c861",
+      "status": "ready",
+      "bundle_sha256": "f63bcb270ac90e74f4b2357547bf661fabd1b023a358164c08e7749f02c5c73b",
+      "real_model": false,
+      "model_called": true,
+      "citation_binding_verified": true,
+      "error_code": null
+    }
+  }
+}

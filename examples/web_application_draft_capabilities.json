@@ -1,0 +1,9 @@
+{
+  "synthetic": true,
+  "capabilities": {
+    "schema_version": "1.1",
+    "mode": "web_application_draft_capabilities",
+    "static_asset_content_types": ["text/css", "text/javascript", "application/javascript", "image/png", "image/jpeg", "image/webp", "image/gif"],
+    "static_asset_canonical_query": true
+  }
+}

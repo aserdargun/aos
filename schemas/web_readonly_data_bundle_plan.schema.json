@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "WebReadOnlyDataResource": {
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "content_type": {
+          "const": "application/json",
+          "default": "application/json",
+          "title": "Content Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "title": "WebReadOnlyDataResource",
+      "type": "object"
+    },
+    "WebStaticAsset": {
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "content_type": {
+          "enum": [
+            "text/css",
+            "text/javascript",
+            "application/javascript",
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ],
+          "title": "Content Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "content_type"
+      ],
+      "title": "WebStaticAsset",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "task_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Task Sha256",
+      "type": "string"
+    },
+    "assets": {
+      "items": {
+        "$ref": "#/$defs/WebStaticAsset"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Assets",
+      "type": "array"
+    },
+    "data_resources": {
+      "items": {
+        "$ref": "#/$defs/WebReadOnlyDataResource"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "title": "Data Resources",
+      "type": "array"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profile_sha256",
+    "task_sha256",
+    "assets",
+    "data_resources"
+  ],
+  "title": "WebReadOnlyDataBundlePlan",
+  "type": "object"
+}

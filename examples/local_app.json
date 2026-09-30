@@ -1,0 +1,31 @@
+{
+  "synthetic": true,
+  "note": "Schema fixture only; these process identities are not live process evidence.",
+  "state": {
+    "version": "1",
+    "session": "app-11111111111111111111111111111111",
+    "mode": "fixture",
+    "synthetic_staging": false,
+    "synthetic_learning": false,
+    "owned_synthetic_form_invocation": false,
+    "owned_synthetic_form_recipe": false,
+    "owned_form_manifest_sha256": null,
+    "owned_form_invocation_sha256": null,
+    "owned_form_recipe_sha256": null,
+    "remote_entry_profile_sha256": null,
+    "remote_entry_task_sha256": null,
+    "remote_routes_plan_sha256": null,
+    "phase": "stopped",
+    "supervisor": {
+      "boot_id": "00000000-0000-0000-0000-000000000000",
+      "pid": 100,
+      "start_ticks": 1,
+      "pid_namespace": 1,
+      "uid": 1000
+    },
+    "backend": null,
+    "token_name": null,
+    "started_at": "2026-09-21T00:00:00Z",
+    "url": "http://127.0.0.1:8765/ui/"
+  }
+}

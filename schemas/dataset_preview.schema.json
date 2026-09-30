@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS hash-only source-candidate preview",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "preview_version": {
+      "const": "choice-source-preflight-v1"
+    },
+    "mode": {
+      "const": "hash_only"
+    },
+    "training_ready": {
+      "const": false
+    },
+    "metadata_claims_verified": {
+      "const": false
+    },
+    "run_ref": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "label_ref": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "projection_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "candidate_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "accepted_choice_labels": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "derivation_matches": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "receipt_status": {
+      "enum": [
+        "not_requested",
+        "unavailable_v7",
+        "missing",
+        "revoked",
+        "candidate_changed",
+        "source_changed",
+        "binding_mismatch",
+        "current",
+        "invalid"
+      ]
+    },
+    "blockers": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "training_not_authorized",
+          "reviewer_authentication_unverified",
+          "redaction_unverified",
+          "usage_rights_unverified",
+          "run_missing",
+          "source_unsettled",
+          "task_kind_unsupported",
+          "synthetic_content_excluded",
+          "run_not_verified",
+          "image_artifacts_excluded",
+          "label_selection_required",
+          "no_accepted_choice_labels",
+          "label_unavailable",
+          "label_not_accepted",
+          "label_kind_unsupported",
+          "label_evidence_invalid",
+          "label_target_incomplete",
+          "decision_snapshot_invalid",
+          "decision_question_differs",
+          "model_request_differs",
+          "model_prediction_differs",
+          "model_call_missing",
+          "candidate_not_supplied",
+          "candidate_invalid",
+          "candidate_derivation_differs",
+          "receipt_not_current",
+          "receipt_not_supplied",
+          "source_record_invalid"
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "preview_version",
+    "mode",
+    "training_ready",
+    "metadata_claims_verified",
+    "run_ref",
+    "label_ref",
+    "snapshot_sha256",
+    "source_sha256",
+    "projection_sha256",
+    "candidate_sha256",
+    "accepted_choice_labels",
+    "derivation_matches",
+    "receipt_status",
+    "blockers"
+  ],
+  "additionalProperties": false
+}

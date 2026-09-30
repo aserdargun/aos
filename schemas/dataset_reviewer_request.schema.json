@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS local reviewer request (synthetic S1 only)",
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "operation": {"const": "prepare_accept"},
+        "run_id": {"$ref": "#/$defs/id"},
+        "label_id": {"$ref": "#/$defs/id"},
+        "source_sha256": {"$ref": "#/$defs/hash"},
+        "candidate": {"type": "object"},
+        "attestations": {
+          "type": "array", "uniqueItems": true, "minItems": 3, "maxItems": 3,
+          "items": {"enum": ["content_reviewed", "usage_rights_reviewed", "redaction_reviewed"]}
+        }
+      },
+      "required": ["operation", "run_id", "label_id", "source_sha256", "candidate", "attestations"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {"operation": {"const": "prepare_revoke"}, "receipt_id": {"$ref": "#/$defs/id"}},
+      "required": ["operation", "receipt_id"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "operation": {"const": "confirm"},
+        "challenge": {"type": "string", "minLength": 43, "maxLength": 43, "pattern": "^[A-Za-z0-9_-]+$"},
+        "event_sha256": {"$ref": "#/$defs/hash"},
+        "approved": {"type": "boolean"}
+      },
+      "required": ["operation", "challenge", "event_sha256", "approved"],
+      "additionalProperties": false
+    }
+  ]
+}

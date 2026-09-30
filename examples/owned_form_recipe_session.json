@@ -1,0 +1,31 @@
+{
+  "synthetic": true,
+  "manifest": {
+    "schema_version": "2.0",
+    "synthetic": true,
+    "mode": "owned_synthetic_form_recipe",
+    "origin": "https://w3-owned-form.aos.invalid:19432",
+    "profile_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "skill_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "form_plan_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+    "state_plan_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+    "recipe_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "certificate_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+    "invocation_sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+    "sources": {
+      "remote-entry-task.json": "8888888888888888888888888888888888888888888888888888888888888888",
+      "remote-form-plan.json": "9999999999999999999999999999999999999999999999999999999999999999",
+      "remote-form-value.txt": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "remote-form-state-plan.json": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "remote-form-skill-plan.json": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "remote-form-skill-case-inputs.json": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "remote-form-skill-field-bindings.json": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "remote-form-skill-recipe.json": "5555555555555555555555555555555555555555555555555555555555555555",
+      "site-page-draft.json": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "site-skill-draft.json": "abababababababababababababababababababababababababababababababab",
+      "owned-form-certificate.pem": "6666666666666666666666666666666666666666666666666666666666666666",
+      "owned-form-key.pem": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+    },
+    "claims": {"skill_executed": false, "site_outcome_verified": false, "reviewed": false, "activation_authorized": false, "training_ready": false}
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "remote_json_knowledge_live_readback",
+      "default": "remote_json_knowledge_live_readback",
+      "title": "Mode",
+      "type": "string"
+    },
+    "review_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Review Sha256",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "matched",
+        "stale"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "expected_fingerprint_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Fingerprint Sha256",
+      "type": "string"
+    },
+    "current_fingerprint_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Current Fingerprint Sha256",
+      "type": "string"
+    },
+    "page_key": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Page Key"
+    },
+    "draft_revision": {
+      "anyOf": [
+        {
+          "maximum": 100,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Draft Revision"
+    },
+    "landmark_keys": {
+      "anyOf": [
+        {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+            "type": "string"
+          },
+          "maxItems": 32,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Landmark Keys"
+    },
+    "metadata_reviewed": {
+      "const": true,
+      "default": true,
+      "title": "Metadata Reviewed",
+      "type": "boolean"
+    },
+    "current_readback_bound": {
+      "const": true,
+      "default": true,
+      "title": "Current Readback Bound",
+      "type": "boolean"
+    },
+    "task_retrieval_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Task Retrieval Authorized",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "review_sha256",
+    "status",
+    "expected_fingerprint_sha256",
+    "current_fingerprint_sha256"
+  ],
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "matched"}}},
+      "then": {"required": ["page_key", "draft_revision", "landmark_keys"]},
+      "else": {"not": {"anyOf": [
+        {"required": ["page_key"]},
+        {"required": ["draft_revision"]},
+        {"required": ["landmark_keys"]}
+      ]}}
+    }
+  ],
+  "title": "LiveRemoteReadonlyDataKnowledgeEvent",
+  "type": "object"
+}

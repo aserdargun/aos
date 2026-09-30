@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "untrusted": {
+      "const": true,
+      "title": "Untrusted",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gold": {
+      "const": false,
+      "title": "Gold",
+      "type": "boolean"
+    },
+    "manual_approval_required": {
+      "const": true,
+      "title": "Manual Approval Required",
+      "type": "boolean"
+    },
+    "causality_verified": {
+      "const": false,
+      "title": "Causality Verified",
+      "type": "boolean"
+    },
+    "scope_authorization_verified": {
+      "const": false,
+      "title": "Scope Authorization Verified",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "task_knowledge_start",
+      "title": "Kind",
+      "type": "string"
+    },
+    "job_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "untrusted",
+    "execution_authorized",
+    "training_ready",
+    "gold",
+    "manual_approval_required",
+    "causality_verified",
+    "scope_authorization_verified",
+    "schema_version",
+    "kind",
+    "job_id",
+    "intent_sha256"
+  ],
+  "title": "TaskKnowledgeStart",
+  "type": "object"
+}

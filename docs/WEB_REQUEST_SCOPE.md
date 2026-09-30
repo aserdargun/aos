@@ -1,0 +1,9 @@
+# Web request origin scope check
+
+`aos.web_request_scope.require_request_origin` is a pure, fail-closed helper for a future request interceptor. It reopens the immutable profile and revalidates the hash-bound task/runtime draft before accepting an absolute ASCII HTTP(S) URL at an exact declared origin. It rejects ambiguous authority syntax, noncanonical ports/hosts, fragments, control characters, non-HTTP schemes and relative URLs. Paths, percent-encoded paths and query strings can be present because browsers request those resources; the helper returns only the origin and never logs the URL.
+
+The same function can be applied to main-frame navigation, redirects and subresources, but **it is not currently wired into Chromium/MCP and grants no access**. The owned Ubuntu container remains network-none. Exact origin matching alone cannot restrict paths or effectful same-origin GET/POST actions; it also cannot enforce DNS/IP resolution, rebinding resistance, TLS/account/tenant boundaries, or request/byte budgets. Do not enable a real-site networked runtime on the basis of this helper. Separately, the local two-page fixture server admits only exact `GET /start` or `GET /details` on its attested loopback Host and has fixed connection/response-byte budgets; this server-side rule does not intercept general browser requests or authorize a real site. This draft reopens the profile chain for every call; a real-site request interceptor will need a separately designed, bounded task-scoped cache while retaining invalidation and identity checks.
+
+Focused validation: `.venv/bin/python -m unittest tests.test_web_request_scope -v`. No stored contract, schema or migration is introduced.
+
+An [explicit host HTTPS entry preflight](WEB_HTTPS_PREFLIGHT.md) is a separate, manually invoked one-request reachability check for a stored remote profile. It neither wires this helper into Chromium nor changes the browser's network-none runtime.

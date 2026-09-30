@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "synthetic",
+    "planning_id",
+    "generation",
+    "planning_admission_verified",
+    "candidate_execution_sha256",
+    "preview_sha256",
+    "planning_bundle_sha256",
+    "reuse_admission_sha256",
+    "candidate_sha256",
+    "invocation_sha256",
+    "user_confirmed_plan_sha256",
+    "manager_session",
+    "desktop_session_id",
+    "runtime_id",
+    "lease_id",
+    "execution_authorized",
+    "activation_authorized",
+    "training_ready",
+    "independent_held_out"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "synthetic": {
+      "const": true
+    },
+    "planning_id": {
+      "type": "string",
+      "pattern": "^planning-[a-f0-9]{32}$"
+    },
+    "generation": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "planning_admission_verified": {
+      "const": true
+    },
+    "candidate_execution_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "preview_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "planning_bundle_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "reuse_admission_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "candidate_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "invocation_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "user_confirmed_plan_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "manager_session": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "desktop_session_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "runtime_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "lease_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "execution_authorized": {
+      "const": false
+    },
+    "activation_authorized": {
+      "const": false
+    },
+    "training_ready": {
+      "const": false
+    },
+    "independent_held_out": {
+      "const": false
+    }
+  }
+}

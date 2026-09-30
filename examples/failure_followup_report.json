@@ -1,0 +1,20 @@
+{
+  "manual_approval_required": true,
+  "guidance_applied": false,
+  "causality_verified": false,
+  "gold": false,
+  "training_ready": false,
+  "schema_version": "1.0",
+  "job_id": "job-followup",
+  "source_job_id": "job-fixture",
+  "intent_sha256": "b28aa52a0288468e82f90071d0690b29d8d3a3d7c3378331dd8f7a6a3285e8b7",
+  "historical_binding_verified": true,
+  "current_source_valid": true,
+  "current_review_valid": true,
+  "outcome": {
+    "status": "not_verified",
+    "verification_count": 0,
+    "scope": "none",
+    "reason": "run_not_settled_success"
+  }
+}

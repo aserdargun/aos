@@ -1,0 +1,39 @@
+{
+  "synthetic": true,
+  "purpose": "schema fixture only; not Bonsai inference evidence",
+  "admitted_skill": {
+    "id": "admitted-skill",
+    "skill_key": "save_record",
+    "parameter_key": "record-query",
+    "form_field_name": "message",
+    "ordered_steps": [
+      {"step_key": "open-entry", "operation": "open_entry"},
+      {"step_key": "before-state", "operation": "read_state_before"},
+      {"step_key": "fill-message", "operation": "fill_form"},
+      {"step_key": "submit-message", "operation": "submit_form"},
+      {"step_key": "read-receipt", "operation": "read_receipt"},
+      {"step_key": "after-state", "operation": "read_state_after"}
+    ],
+    "requested_case_key": "dev-gamma",
+    "requested_value": "gamma"
+  },
+  "plan": {
+    "schema_version": "1.0",
+    "decision": "invoke_selected_skill",
+    "evidence_refs": ["admitted-skill"],
+    "case_key": "dev-gamma",
+    "parameter_value": "gamma",
+    "steps": [
+      {"step_key": "open-entry", "operation": "open_entry"},
+      {"step_key": "before-state", "operation": "read_state_before"},
+      {"step_key": "fill-message", "operation": "fill_form"},
+      {"step_key": "submit-message", "operation": "submit_form"},
+      {"step_key": "read-receipt", "operation": "read_receipt"},
+      {"step_key": "after-state", "operation": "read_state_after"}
+    ],
+    "reason_code": "skill_match",
+    "execution_authorized": false,
+    "activation_authorized": false,
+    "training_ready": false
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "one_shot_host_https_readonly_data_bundle_relay",
+      "default": "one_shot_host_https_readonly_data_bundle_relay",
+      "title": "Mode",
+      "type": "string"
+    },
+    "status": {
+      "const": "bundle_served",
+      "default": "bundle_served",
+      "title": "Status",
+      "type": "string"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "task_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Task Sha256",
+      "type": "string"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "entry_response_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Entry Response Sha256",
+      "type": "string"
+    },
+    "asset_response_sha256": {
+      "items": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Asset Response Sha256",
+      "type": "array"
+    },
+    "data_response_sha256": {
+      "items": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 1,
+      "title": "Data Response Sha256",
+      "type": "array"
+    },
+    "request_attempts": {
+      "maximum": 32,
+      "minimum": 3,
+      "title": "Request Attempts",
+      "type": "integer"
+    },
+    "browser_identity_verified": {
+      "const": false,
+      "default": false,
+      "title": "Browser Identity Verified",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "collection_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Collection Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profile_sha256",
+    "task_sha256",
+    "plan_sha256",
+    "entry_response_sha256",
+    "asset_response_sha256",
+    "data_response_sha256",
+    "request_attempts"
+  ],
+  "title": "WebReadOnlyDataBundleRelayReport",
+  "type": "object"
+}

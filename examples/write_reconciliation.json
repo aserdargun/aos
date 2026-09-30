@@ -1,0 +1,34 @@
+{
+  "synthetic": true,
+  "description": "Explicitly synthetic schema fixture; hashes are placeholders, not execution evidence.",
+  "receipt": {
+    "schema_version": "1.0",
+    "mode": "recorded_hello_write_result",
+    "reconciliation_id": "reconciliation-11111111111111111111111111111111",
+    "request": {
+      "schema_version": "1.0",
+      "mode": "record_hello_write_result",
+      "run_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "action_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "snapshot_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "state_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "receipt_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "workspace_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "deployment_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "expires_at": 2000000000.0,
+      "previous_status": "uncertain",
+      "recorded_status": "ok",
+      "execution_authorized": false,
+      "resume_authorized": false,
+      "automatic_replay_allowed": false
+    },
+    "request_sha256": "64f9b6c5778cc0a705d855901940834abe0e61df9b68ace37ab3f44af0aee9e0",
+    "actor": "acceptance_test",
+    "recorded_at": "2026-09-21T00:00:00+00:00",
+    "action_result_recorded": true,
+    "run_success_declared": false,
+    "execution_authorized": false,
+    "resume_authorized": false,
+    "automatic_replay_allowed": false
+  }
+}

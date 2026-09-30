@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "note": "Illustrative schema fixture; not a registered model measurement.",
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_synthetic_adapter_registry_inspection",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "adapter_id": "decider-adapter-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "deployment_id": "decider-adapter-experiment-cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "artifact_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "candidate_report_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "status": "available_experimental",
+    "runtime_enabled": false,
+    "promotion_authorized": false
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "KnowledgeHit": {
+      "additionalProperties": false,
+      "properties": {
+        "document_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Document Sha256",
+          "type": "string"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "source_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "revision": {
+          "maximum": 32,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "chunk_index": {
+          "maximum": 31,
+          "minimum": 0,
+          "title": "Chunk Index",
+          "type": "integer"
+        },
+        "chunk_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Chunk Sha256",
+          "type": "string"
+        },
+        "start": {
+          "maximum": 32767,
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "end": {
+          "maximum": 32768,
+          "minimum": 1,
+          "title": "End",
+          "type": "integer"
+        },
+        "text": {
+          "maxLength": 1024,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "score": {
+          "maximum": 512,
+          "minimum": 1,
+          "title": "Score",
+          "type": "integer"
+        },
+        "synthetic": {
+          "title": "Synthetic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document_sha256",
+        "content_sha256",
+        "review_sha256",
+        "source_id",
+        "title",
+        "revision",
+        "chunk_index",
+        "chunk_sha256",
+        "start",
+        "end",
+        "text",
+        "score",
+        "synthetic"
+      ],
+      "title": "KnowledgeHit",
+      "type": "object"
+    },
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "untrusted": {
+      "const": true,
+      "title": "Untrusted",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gold": {
+      "const": false,
+      "title": "Gold",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "knowledge_search",
+      "title": "Kind",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/KnowledgeScope"
+    },
+    "query_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Query Sha256",
+      "type": "string"
+    },
+    "method": {
+      "const": "deterministic_lexical",
+      "title": "Method",
+      "type": "string"
+    },
+    "top_k": {
+      "maximum": 8,
+      "minimum": 1,
+      "title": "Top K",
+      "type": "integer"
+    },
+    "context_chars": {
+      "maximum": 8192,
+      "minimum": 256,
+      "title": "Context Chars",
+      "type": "integer"
+    },
+    "used_context_chars": {
+      "maximum": 8192,
+      "minimum": 0,
+      "title": "Used Context Chars",
+      "type": "integer"
+    },
+    "hits": {
+      "items": {
+        "$ref": "#/$defs/KnowledgeHit"
+      },
+      "maxItems": 8,
+      "title": "Hits",
+      "type": "array"
+    }
+  },
+  "required": [
+    "untrusted",
+    "execution_authorized",
+    "training_ready",
+    "gold",
+    "schema_version",
+    "kind",
+    "scope",
+    "query_sha256",
+    "method",
+    "top_k",
+    "context_chars",
+    "used_context_chars",
+    "hits"
+  ],
+  "title": "KnowledgeSearch",
+  "type": "object"
+}

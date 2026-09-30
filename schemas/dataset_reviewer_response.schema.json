@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS local reviewer response",
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"}
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "status": {"const": "confirmation_required"},
+        "receipt": {"type": "object"},
+        "event_sha256": {"$ref": "#/$defs/hash"},
+        "challenge": {"type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"},
+        "expires_in_seconds": {"type": "number", "minimum": 0, "maximum": 120},
+        "training_ready": {"const": false}
+      },
+      "required": ["status", "receipt", "event_sha256", "challenge", "expires_in_seconds", "training_ready"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": {"const": "recorded"},
+        "receipt_id": {"$ref": "#/$defs/id"},
+        "event_sha256": {"$ref": "#/$defs/hash"},
+        "training_ready": {"const": false}
+      },
+      "required": ["status", "receipt_id", "event_sha256", "training_ready"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {"status": {"const": "cancelled"}, "training_ready": {"const": false}},
+      "required": ["status", "training_ready"],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "status": {"enum": ["denied", "delivery_uncertain"]},
+        "reason": {"type": "string", "pattern": "^[a-z_]{1,80}$"},
+        "training_ready": {"const": false}
+      },
+      "required": ["status", "reason", "training_ready"],
+      "additionalProperties": false
+    }
+  ]
+}

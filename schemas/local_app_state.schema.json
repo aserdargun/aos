@@ -1,0 +1,351 @@
+{
+  "$defs": {
+    "ProcessIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "minimum": 1,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "pid_namespace": {
+          "minimum": 1,
+          "title": "Pid Namespace",
+          "type": "integer"
+        },
+        "uid": {
+          "minimum": 1,
+          "title": "Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "boot_id",
+        "pid",
+        "start_ticks",
+        "pid_namespace",
+        "uid"
+      ],
+      "title": "ProcessIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "session": {
+      "pattern": "^app-[a-f0-9]{32}$",
+      "title": "Session",
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "real",
+        "fixture"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "synthetic_staging": {
+      "default": false,
+      "title": "Synthetic Staging",
+      "type": "boolean"
+    },
+    "synthetic_learning": {
+      "default": false,
+      "title": "Synthetic Learning",
+      "type": "boolean"
+    },
+    "owned_synthetic_form_invocation": {
+      "default": false,
+      "title": "Owned Synthetic Form Invocation",
+      "type": "boolean"
+    },
+    "owned_synthetic_form_recipe": {
+      "default": false,
+      "title": "Owned Synthetic Form Recipe",
+      "type": "boolean"
+    },
+    "owned_form_manifest_sha256": {
+      "anyOf": [
+        {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+        {"type": "null"}
+      ],
+      "default": null,
+      "title": "Owned Form Manifest Sha256"
+    },
+    "owned_form_invocation_sha256": {
+      "anyOf": [
+        {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+        {"type": "null"}
+      ],
+      "default": null,
+      "title": "Owned Form Invocation Sha256"
+    },
+    "owned_form_recipe_sha256": {
+      "anyOf": [
+        {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+        {"type": "null"}
+      ],
+      "default": null,
+      "title": "Owned Form Recipe Sha256"
+    },
+    "owned_skill_reuse_sha256": {
+      "anyOf": [
+        {"pattern": "^[a-f0-9]{64}$", "type": "string"},
+        {"type": "null"}
+      ],
+      "default": null,
+      "title": "Owned Skill Reuse Sha256"
+    },
+    "owned_skill_source_session": {
+      "anyOf": [
+        {"pattern": "^app-[a-f0-9]{32}$", "type": "string"},
+        {"type": "null"}
+      ],
+      "default": null,
+      "title": "Owned Skill Source Session"
+    },
+    "remote_entry_profile_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Entry Profile Sha256"
+    },
+    "remote_entry_task_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Entry Task Sha256"
+    },
+    "remote_routes_plan_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Routes Plan Sha256"
+    },
+    "remote_static_assets_plan_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Static Assets Plan Sha256"
+    },
+    "remote_route_review_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Route Review Sha256"
+    },
+    "remote_route_review_source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Route Review Source Sha256"
+    },
+    "remote_json_review_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Json Review Sha256"
+    },
+    "remote_json_review_source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Json Review Source Sha256"
+    },
+    "remote_form_plan_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Form Plan Sha256"
+    },
+    "remote_form_field_name": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Form Field Name"
+    },
+    "remote_form_fields_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Form Fields Sha256"
+    },
+    "remote_form_state_plan_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Form State Plan Sha256"
+    },
+    "remote_form_cookie_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Form Cookie Sha256"
+    },
+    "phase": {
+      "enum": [
+        "starting",
+        "running",
+        "stopped",
+        "failed"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "supervisor": {
+      "$ref": "#/$defs/ProcessIdentity"
+    },
+    "backend": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProcessIdentity"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "token_name": {
+      "anyOf": [
+        {
+          "pattern": "^desktop-console-[a-f0-9]{16}\\.token$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Token Name"
+    },
+    "started_at": {
+      "title": "Started At",
+      "type": "string"
+    },
+    "url": {
+      "const": "http://127.0.0.1:8765/ui/",
+      "default": "http://127.0.0.1:8765/ui/",
+      "title": "Url",
+      "type": "string"
+    }
+  },
+  "required": [
+    "session",
+    "mode",
+    "phase",
+    "supervisor",
+    "started_at"
+  ],
+  "title": "LocalAppState",
+  "type": "object"
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS content-free learning evidence event v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "derivation_version", "event_id", "role", "model_kind", "source", "run_status", "verified_outcome", "metadata_only", "training_ready", "blockers"],
+  "properties": {
+    "schema_version": {"const": "2.0"},
+    "derivation_version": {"const": "learning-evidence-v2"},
+    "event_id": {"type": "string", "pattern": "^learning-[a-f0-9]{64}$"},
+    "role": {"enum": ["system1", "system2"]},
+    "model_kind": {"enum": ["decider_native_worker", "laya_candidate", "bonsai_native_supervisor", "owned_episode_adapter_runtime"]},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "step_id", "call_id", "deployment_id", "deployment_sha256", "decision_id", "escalation_id", "verification_ids", "scene_observation_id", "downstream_verification_ids"],
+      "properties": {
+        "run_id": {"$ref": "#/$defs/id"},
+        "step_id": {"$ref": "#/$defs/id"},
+        "call_id": {"$ref": "#/$defs/id"},
+        "deployment_id": {"$ref": "#/$defs/id"},
+        "deployment_sha256": {"$ref": "#/$defs/hash"},
+        "decision_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "escalation_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "verification_ids": {"type": "array", "uniqueItems": true, "maxItems": 100, "items": {"$ref": "#/$defs/id"}},
+        "scene_observation_id": {"anyOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "downstream_verification_ids": {"type": "array", "uniqueItems": true, "maxItems": 100, "items": {"$ref": "#/$defs/id"}}
+      }
+    },
+    "run_status": {"enum": ["created", "running", "paused", "waiting_human", "succeeded", "failed", "cancelled"]},
+    "verified_outcome": {"type": "boolean"},
+    "metadata_only": {"const": true},
+    "training_ready": {"const": false},
+    "blockers": {
+      "type": "array", "uniqueItems": true, "minItems": 5, "maxItems": 8,
+      "items": {"enum": ["collection_rights_unverified", "redaction_unverified", "site_scope_unbound", "review_required", "training_not_authorized", "synthetic_task_excluded", "outcome_not_attributed", "supervisor_plan_not_linked"]}
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,128}$"},
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "allOf": [
+    {"if": {"properties": {"verified_outcome": {"const": true}}}, "then": {"properties": {"source": {"properties": {"verification_ids": {"minItems": 1}}}}}},
+    {"if": {"properties": {"source": {"properties": {"scene_observation_id": {"type": "null"}}}}}, "then": {"properties": {"source": {"properties": {"downstream_verification_ids": {"maxItems": 0}}}}}},
+    {"if": {"properties": {"role": {"const": "system2"}}}, "then": {"properties": {"model_kind": {"const": "bonsai_native_supervisor"}, "source": {"properties": {"decision_id": {"type": "null"}, "verification_ids": {"maxItems": 0}}}, "verified_outcome": {"const": false}}}},
+    {"if": {"properties": {"role": {"const": "system1"}}}, "then": {"properties": {"model_kind": {"enum": ["decider_native_worker", "laya_candidate", "owned_episode_adapter_runtime"]}, "source": {"properties": {"decision_id": {"$ref": "#/$defs/id"}, "escalation_id": {"type": "null"}, "scene_observation_id": {"type": "null"}, "downstream_verification_ids": {"maxItems": 0}}}}}}
+  ]
+}

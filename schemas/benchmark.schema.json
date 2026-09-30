@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "BenchmarkSample": {
+      "additionalProperties": false,
+      "properties": {
+        "case": {
+          "enum": [
+            "file-roundtrip",
+            "recovery-path"
+          ],
+          "title": "Case",
+          "type": "string"
+        },
+        "repeat": {
+          "maximum": 5,
+          "minimum": 1,
+          "title": "Repeat",
+          "type": "integer"
+        },
+        "run_id": {
+          "pattern": "^run-[a-f0-9]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "directory": {
+          "pattern": "^sample-[0-9]{2}$",
+          "title": "Directory",
+          "type": "string"
+        },
+        "duration_seconds": {
+          "maximum": 65,
+          "minimum": 0,
+          "title": "Duration Seconds",
+          "type": "number"
+        },
+        "actions": {
+          "maximum": 3,
+          "minimum": 2,
+          "title": "Actions",
+          "type": "integer"
+        },
+        "failed_probe_actions": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Failed Probe Actions",
+          "type": "integer"
+        },
+        "fixture_supervisor_calls": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Fixture Supervisor Calls",
+          "type": "integer"
+        },
+        "system2_model_calls": {
+          "const": 0,
+          "default": 0,
+          "title": "System2 Model Calls",
+          "type": "integer"
+        },
+        "human_requests": {
+          "const": 0,
+          "default": 0,
+          "title": "Human Requests",
+          "type": "integer"
+        },
+        "independently_verified": {
+          "const": true,
+          "default": true,
+          "title": "Independently Verified",
+          "type": "boolean"
+        },
+        "database_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Database Sha256",
+          "type": "string"
+        },
+        "artifact_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Artifact Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case",
+        "repeat",
+        "run_id",
+        "directory",
+        "duration_seconds",
+        "actions",
+        "failed_probe_actions",
+        "fixture_supervisor_calls",
+        "database_sha256",
+        "artifact_sha256"
+      ],
+      "title": "BenchmarkSample",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "executed_fixture_workspace_baseline",
+      "default": "executed_fixture_workspace_baseline",
+      "title": "Mode",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "repeats": {
+      "maximum": 5,
+      "minimum": 1,
+      "title": "Repeats",
+      "type": "integer"
+    },
+    "samples": {
+      "items": {
+        "$ref": "#/$defs/BenchmarkSample"
+      },
+      "maxItems": 10,
+      "minItems": 2,
+      "title": "Samples",
+      "type": "array"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "catalog_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Catalog Sha256",
+      "type": "string"
+    },
+    "promotion_policy_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Promotion Policy Sha256",
+      "type": "string"
+    },
+    "configuration_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Configuration Sha256",
+      "type": "string"
+    },
+    "environment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Environment Sha256",
+      "type": "string"
+    },
+    "coverage_gaps": {
+      "const": [
+        "fixture_engines_only",
+        "recovery_path_partial_missing_authorized_file_only",
+        "ten_catalog_tasks_unexecuted",
+        "no_independent_held_out_tasks",
+        "no_model_comparison",
+        "no_gpu_or_network_isolation_measurement",
+        "no_rollback_rehearsal",
+        "policy_not_frozen"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Coverage Gaps",
+      "type": "array"
+    },
+    "independent_held_out_tasks": {
+      "const": 0,
+      "default": 0,
+      "title": "Independent Held Out Tasks",
+      "type": "integer"
+    },
+    "real_model": {
+      "const": false,
+      "default": false,
+      "title": "Real Model",
+      "type": "boolean"
+    },
+    "statistical_superiority_established": {
+      "const": false,
+      "default": false,
+      "title": "Statistical Superiority Established",
+      "type": "boolean"
+    },
+    "promotion_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Promotion Authorized",
+      "type": "boolean"
+    },
+    "training_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Training Authorized",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "repeats",
+    "samples",
+    "source_sha256",
+    "catalog_sha256",
+    "promotion_policy_sha256",
+    "configuration_sha256",
+    "environment_sha256",
+    "coverage_gaps"
+  ],
+  "title": "BenchmarkReport",
+  "type": "object"
+}

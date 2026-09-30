@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Owned skill development release",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "type": "string"},
+    "synthetic": {"const": true, "type": "boolean"},
+    "purpose": {"const": "development_release", "type": "string"},
+    "family": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "profile_sha256": {"$ref": "#/$defs/checksum"},
+        "application_key": {"$ref": "#/$defs/key"},
+        "tenant_key": {"$ref": "#/$defs/key"},
+        "account_role": {"$ref": "#/$defs/key"},
+        "task_key": {"$ref": "#/$defs/key"},
+        "task_sha256": {"$ref": "#/$defs/checksum"},
+        "page_draft_sha256": {"$ref": "#/$defs/checksum"},
+        "skill_key": {"$ref": "#/$defs/key"},
+        "model_role": {"const": "system1", "type": "string"},
+        "field_binding_sha256": {"$ref": "#/$defs/checksum"}
+      },
+      "required": ["profile_sha256", "application_key", "tenant_key", "account_role",
+        "task_key", "task_sha256", "page_draft_sha256", "skill_key", "model_role",
+        "field_binding_sha256"]
+    },
+    "family_sha256": {"$ref": "#/$defs/checksum"},
+    "revision": {"type": "integer", "minimum": 1},
+    "parent_release_sha256": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/checksum"}]},
+    "candidate_sha256": {"$ref": "#/$defs/checksum"},
+    "skill_sha256": {"$ref": "#/$defs/checksum"},
+    "recipe_sha256": {"$ref": "#/$defs/checksum"},
+    "review_sha256": {"$ref": "#/$defs/checksum"},
+    "source_run_ref": {"$ref": "#/$defs/checksum"},
+    "source_group_sha256": {"$ref": "#/$defs/checksum"},
+    "source_fingerprint_sha256": {"$ref": "#/$defs/checksum"},
+    "evidence_execution_sha256": {"$ref": "#/$defs/checksum"},
+    "activation_authorized": {"const": false, "type": "boolean"},
+    "training_ready": {"const": false, "type": "boolean"},
+    "independent_held_out": {"const": false, "type": "boolean"}
+  },
+  "required": ["schema_version", "synthetic", "purpose", "family", "family_sha256",
+    "revision", "parent_release_sha256", "candidate_sha256", "skill_sha256",
+    "recipe_sha256", "review_sha256", "source_run_ref", "source_group_sha256",
+    "source_fingerprint_sha256", "evidence_execution_sha256", "activation_authorized",
+    "training_ready", "independent_held_out"],
+  "$defs": {
+    "checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "key": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"}
+  }
+}

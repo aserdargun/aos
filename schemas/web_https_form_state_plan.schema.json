@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS bounded HTTPS form declared state readback plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "profile_sha256", "task_sha256", "form_plan_sha256", "state_url", "expected_before_sha256", "expected_after_sha256", "approval", "status", "execution_authorized", "collection_authorized"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "task_sha256": {"$ref": "#/$defs/checksum"},
+    "form_plan_sha256": {"$ref": "#/$defs/checksum"},
+    "state_url": {"type": "string", "minLength": 1, "maxLength": 2048, "pattern": "^https://"},
+    "expected_before_sha256": {"$ref": "#/$defs/checksum"},
+    "expected_after_sha256": {"$ref": "#/$defs/checksum"},
+    "marker_id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"},
+    "expected_before_marker_sha256": {"$ref": "#/$defs/checksum"},
+    "expected_after_marker_sha256": {"$ref": "#/$defs/checksum"},
+    "submitted_field_name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$"},
+    "approval": {"const": "fresh_per_action"},
+    "status": {"const": "draft"},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false}
+  },
+  "dependentRequired": {
+    "marker_id": ["expected_before_marker_sha256", "expected_after_marker_sha256"],
+    "expected_before_marker_sha256": ["marker_id", "expected_after_marker_sha256"],
+    "expected_after_marker_sha256": ["marker_id", "expected_before_marker_sha256"],
+    "submitted_field_name": ["marker_id", "expected_before_marker_sha256", "expected_after_marker_sha256"]
+  },
+  "$defs": {"checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

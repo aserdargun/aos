@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS fresh-run remote route metadata reuse",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "status", "review_sha256", "knowledge_sha256", "profile_sha256", "plan_sha256", "current_run_ref", "route_index", "page_key", "draft_revision", "landmark_keys", "outgoing_page_keys", "page_fingerprint_sha256", "metadata_reviewed", "current_readback_bound", "origin_verified", "account_verified", "site_outcome_verified", "task_retrieval_authorized", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "remote_route_knowledge_reuse"},
+    "status": {"const": "reviewed_metadata_reused"},
+    "review_sha256": {"$ref": "#/$defs/checksum"},
+    "knowledge_sha256": {"$ref": "#/$defs/checksum"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "plan_sha256": {"$ref": "#/$defs/checksum"},
+    "current_run_ref": {"$ref": "#/$defs/checksum"},
+    "route_index": {"type": "integer", "minimum": 0, "maximum": 7},
+    "page_key": {"$ref": "#/$defs/key"},
+    "draft_revision": {"type": "integer", "minimum": 1, "maximum": 100},
+    "landmark_keys": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+    "outgoing_page_keys": {"type": "array", "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}},
+    "page_fingerprint_sha256": {"$ref": "#/$defs/checksum"},
+    "link_sample_sha256": {"$ref": "#/$defs/checksum"},
+    "metadata_reviewed": {"const": true},
+    "current_readback_bound": {"const": true},
+    "origin_verified": {"const": false},
+    "account_verified": {"const": false},
+    "site_outcome_verified": {"const": false},
+    "task_retrieval_authorized": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "key": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$"}
+  }
+}

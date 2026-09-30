@@ -1,0 +1,39 @@
+{
+  "synthetic": true,
+  "profile": {
+    "schema_version": "1.0",
+    "application_key": "synthetic-staging-workflow",
+    "revision": 1,
+    "previous_sha256": null,
+    "environment": "local_test",
+    "tenant_key": "synthetic-tenant",
+    "account_role": "tester",
+    "entry_url": "http://127.0.0.1:32123/app",
+    "allowed_origins": ["http://127.0.0.1:32123"],
+    "task_keys": ["synthetic-staging-workflow"],
+    "learning": {
+      "system1": "disabled",
+      "system2": "disabled",
+      "data_rights_ref": null,
+      "retention_days": 1,
+      "raw_screenshots": false,
+      "automatic_training": false,
+      "automatic_promotion": false
+    }
+  },
+  "pin": {
+    "schema_version": "1.0",
+    "profile_sha256": "8a41af130f9aac2c895be9b6bc64f006561ddee577dbf287694b8ab71d1d9c3c",
+    "task_key": "synthetic-staging-workflow",
+    "fixture_port": 32123,
+    "parent_runtime_id": "desktop-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "container_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "image_id": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "mcp_bundle_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "worker_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "fixture_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "runtime_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+    "network_mode": "none",
+    "collection_authorized": false
+  }
+}

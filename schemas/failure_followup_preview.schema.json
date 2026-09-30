@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "FollowupTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "parent_runtime_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Parent Runtime Id",
+          "type": "string"
+        },
+        "image_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Image Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "task_kind": {
+          "enum": [
+            "hello",
+            "browser_form",
+            "vision_canvas",
+            "browser_local_navigation",
+            "browser_staging_workflow",
+            "browser_remote_entry",
+            "browser_remote_routes",
+            "browser_remote_static_assets",
+            "browser_remote_form"
+          ],
+          "title": "Task Kind",
+          "type": "string"
+        },
+        "configuration_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Configuration Sha256",
+          "type": "string"
+        },
+        "system1_deployment_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "System1 Deployment Id",
+          "type": "string"
+        },
+        "system2_deployment_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9_-]{1,100}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "System2 Deployment Id"
+        }
+      },
+      "required": [
+        "session_id",
+        "parent_runtime_id",
+        "image_id",
+        "lease_id",
+        "generation",
+        "task_kind",
+        "configuration_sha256",
+        "system1_deployment_id",
+        "system2_deployment_id"
+      ],
+      "title": "FollowupTarget",
+      "type": "object"
+    },
+    "TaskContract": {
+      "additionalProperties": false,
+      "properties": {
+        "semantic_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Semantic Sha256",
+          "type": "string"
+        },
+        "binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Binding Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "semantic_sha256",
+        "binding_sha256"
+      ],
+      "title": "TaskContract",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "manual_approval_required": {
+      "const": true,
+      "title": "Manual Approval Required",
+      "type": "boolean"
+    },
+    "guidance_applied": {
+      "const": false,
+      "title": "Guidance Applied",
+      "type": "boolean"
+    },
+    "causality_verified": {
+      "const": false,
+      "title": "Causality Verified",
+      "type": "boolean"
+    },
+    "gold": {
+      "const": false,
+      "title": "Gold",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "attempt_id": {
+      "pattern": "^followup-[a-f0-9]{32}$",
+      "title": "Attempt Id",
+      "type": "string"
+    },
+    "source_job_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,100}$",
+      "title": "Source Job Id",
+      "type": "string"
+    },
+    "candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Sha256",
+      "type": "string"
+    },
+    "receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Receipt Sha256",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "target": {
+      "$ref": "#/$defs/FollowupTarget"
+    },
+    "source_contract": {
+      "$ref": "#/$defs/TaskContract"
+    },
+    "correction_code": {
+      "enum": [
+        "refresh_observation",
+        "inspect_before_retry",
+        "request_clarification",
+        "repair_environment"
+      ],
+      "title": "Correction Code",
+      "type": "string"
+    },
+    "confirm_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "manual_approval_required",
+    "guidance_applied",
+    "causality_verified",
+    "gold",
+    "training_ready",
+    "schema_version",
+    "attempt_id",
+    "source_job_id",
+    "candidate_sha256",
+    "receipt_sha256",
+    "source_sha256",
+    "target",
+    "source_contract",
+    "correction_code",
+    "confirm_sha256"
+  ],
+  "title": "FailureFollowupPreview",
+  "type": "object"
+}

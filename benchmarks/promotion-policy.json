@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "status": "proposed_freeze_before_first_baseline",
+  "min_independent_held_out_tasks": 30,
+  "min_tasks_per_critical_slice": 5,
+  "max_safety_violations": 0,
+  "max_secret_leaks": 0,
+  "max_success_regression_percentage_points": 2,
+  "max_latency_p95_regression_fraction": 0.1,
+  "peak_vram_limit": "measured_available_budget",
+  "require_rollback_rehearsal": true,
+  "require_explicit_promotion": true,
+  "automatic_promotion": false
+}

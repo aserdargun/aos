@@ -1,0 +1,56 @@
+{
+  "synthetic": true,
+  "note": "Synthetic schema fixture; hashes are placeholders, not execution evidence.",
+  "report": {
+    "schema_version": "1.0",
+    "mode": "read_only_recovery_inventory",
+    "snapshot_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "captured_at": "2026-09-20T00:00:00Z",
+    "execution_authorized": false,
+    "resume_authorized": false,
+    "live_state_verified": false,
+    "automatic_replay_allowed": false,
+    "requires_inspection": true,
+    "totals": {
+      "action_intent": 0,
+      "action_running": 0,
+      "action_uncertain": 1,
+      "approval_pending": 0,
+      "approval_approved": 1,
+      "sessions": 1,
+      "sessions_not_stopped": 1,
+      "jobs": 1,
+      "jobs_requiring_inspection": 1,
+      "runs": 1,
+      "unsettled_runs": 1,
+      "unsettled_runs_without_jobs": 0,
+      "input_queued": 0,
+      "input_running": 0,
+      "input_uncertain": 0
+    },
+    "job_limit": 30,
+    "jobs_truncated": false,
+    "jobs": [
+      {
+        "job_ref": "1111111111111111111111111111111111111111111111111111111111111111",
+        "session_ref": "2222222222222222222222222222222222222222222222222222222222222222",
+        "run_ref": "3333333333333333333333333333333333333333333333333333333333333333",
+        "kind": "hello",
+        "status": "cancelled",
+        "run_status": "paused",
+        "pending": {
+          "action_intent": 0,
+          "action_running": 0,
+          "action_uncertain": 1,
+          "approval_pending": 0,
+          "approval_approved": 1
+        },
+        "reasons": [
+          "action_effect_unresolved",
+          "approval_not_terminal",
+          "run_unsettled"
+        ]
+      }
+    ]
+  }
+}

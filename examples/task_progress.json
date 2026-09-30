@@ -1,0 +1,22 @@
+{
+  "synthetic": true,
+  "note": "Schema fixture only; timings do not describe a real model execution.",
+  "progress": {
+    "phase": "EXECUTE",
+    "state_version": 5,
+    "elapsed_ms": 12000.0,
+    "failure_code": null,
+    "model_calls": [
+      {"role": "system1", "status": "ok", "latency_ms": 250.0},
+      {"role": "system2", "status": "ok", "latency_ms": 1000.0}
+    ],
+    "model_call_totals": {
+      "system1": {"ok": 1, "total": 1},
+      "system2": {"ok": 1, "total": 1}
+    },
+    "model_call_latency": {
+      "system1": {"samples": 1, "p50_ms": 250.0, "p95_ms": 250.0},
+      "system2": {"samples": 1, "p50_ms": 1000.0, "p95_ms": 1000.0}
+    }
+  }
+}

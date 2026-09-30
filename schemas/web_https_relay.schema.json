@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS one-shot host HTTPS entry relay report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "mode", "status", "profile_sha256", "binding_sha256", "response_sha256", "response_bytes", "request_attempts", "browser_identity_verified", "execution_authorized", "collection_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "mode": {"const": "one_shot_host_https_entry_relay"},
+    "status": {"const": "entry_response_served"},
+    "profile_sha256": {"$ref": "#/$defs/checksum"},
+    "binding_sha256": {"$ref": "#/$defs/checksum"},
+    "response_sha256": {"$ref": "#/$defs/checksum"},
+    "response_bytes": {"type": "integer", "minimum": 0, "maximum": 65536},
+    "request_attempts": {"type": "integer", "minimum": 1, "maximum": 8},
+    "browser_identity_verified": {"const": false},
+    "execution_authorized": {"const": false},
+    "collection_authorized": {"const": false},
+    "training_ready": {"const": false}
+  },
+  "$defs": {
+    "checksum": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

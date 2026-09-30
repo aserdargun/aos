@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "SiteSkillValidationCase": {
+      "additionalProperties": false,
+      "properties": {
+        "case_key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "title": "Case Key", "type": "string"},
+        "cohort": {"enum": ["development", "held_out"], "title": "Cohort", "type": "string"},
+        "parameter_keys": {"items": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "type": "string"}, "maxItems": 16, "title": "Parameter Keys", "type": "array"},
+        "parameter_variant_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Parameter Variant Sha256", "type": "string"},
+        "expected_outcome_key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "title": "Expected Outcome Key", "type": "string"}
+      },
+      "required": ["case_key", "cohort", "parameter_keys", "parameter_variant_sha256", "expected_outcome_key"],
+      "title": "SiteSkillValidationCase",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0", "title": "Schema Version", "type": "string"},
+    "synthetic": {"const": true, "title": "Synthetic", "type": "boolean"},
+    "skill_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Skill Sha256", "type": "string"},
+    "profile_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Profile Sha256", "type": "string"},
+    "page_draft_sha256": {"pattern": "^[a-f0-9]{64}$", "title": "Page Draft Sha256", "type": "string"},
+    "task_key": {"pattern": "^[a-z][a-z0-9_-]{0,63}$", "title": "Task Key", "type": "string"},
+    "model_role": {"enum": ["system1", "system2"], "title": "Model Role", "type": "string"},
+    "source_variant_sha256": {"items": {"pattern": "^[a-f0-9]{64}$", "type": "string"}, "maxItems": 16, "minItems": 1, "title": "Source Variant Sha256", "type": "array"},
+    "cases": {"items": {"$ref": "#/$defs/SiteSkillValidationCase"}, "maxItems": 16, "minItems": 3, "title": "Cases", "type": "array"}
+  },
+  "required": ["schema_version", "synthetic", "skill_sha256", "profile_sha256", "page_draft_sha256", "task_key", "model_role", "source_variant_sha256", "cases"],
+  "title": "SiteSkillValidationPlan",
+  "type": "object"
+}

@@ -1,0 +1,38 @@
+{
+  "synthetic": true,
+  "note": "Illustrative schema fixture; not a real site result.",
+  "plan": {
+    "schema_version": "1.0",
+    "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "form_plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "source_snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "url": "https://example.com/oracle",
+    "field_key": "status",
+    "expected_value_sha256": "50c0b99d69589c3d0ce5d4ee1c764576504c83c7913c4c088f526e1354963299",
+    "method": "GET",
+    "status": "draft",
+    "execution_authorized": false,
+    "collection_authorized": false
+  },
+  "report": {
+    "schema_version": "1.0",
+    "mode": "explicit_post_run_json_readback",
+    "plan_sha256": "edef4820f3f93ae549aacc945a42c452515fe061d79ccecafe425b367139157e",
+    "profile_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "form_plan_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "run_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "source_snapshot_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "request_sha256": "03ef1bb4018eebee77da725d7db4b9dd8359f9f53f592a44e7d49130af6f7fe8",
+    "response_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "response_bytes": 18,
+    "observed_value_sha256": "50c0b99d69589c3d0ce5d4ee1c764576504c83c7913c4c088f526e1354963299",
+    "declared_value_matched": true,
+    "tls_hostname_verified": true,
+    "browser_connected": false,
+    "account_verified": false,
+    "site_outcome_verified": false,
+    "collection_authorized": false,
+    "training_ready": false
+  }
+}
