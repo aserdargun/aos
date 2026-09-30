@@ -63,9 +63,11 @@ CASES = {
         'tests': ['test_desktop_task_ui.RealDesktopTaskTests'],
         'flags': ['AOS_REAL_TASK_TESTS']},
     'real_reuse': {
-        'scope': 'Real Decider, selected skill in new isolated session, source revocation and offline audit',
-        'tests': ['test_owned_skill_reuse_managed.OwnedSkillReuseManagedTests'],
-        'flags': ['AOS_DESKTOP_TESTS', 'AOS_OWNED_SKILL_REUSE_TESTS']},
+        'scope': 'Real Decider selected-skill reuse and Bonsai document-context plans; synthetic site, source revocation and audit',
+        'tests': ['test_owned_skill_reuse_managed.OwnedSkillReuseManagedTests',
+                  'test_owned_skill_knowledge_managed.OwnedSkillKnowledgeManagedTests'],
+        'flags': ['AOS_DESKTOP_TESTS', 'AOS_OWNED_SKILL_REUSE_TESTS',
+                  'AOS_OWNED_SKILL_KNOWLEDGE_MANAGED_TESTS']},
     'real_learning': {
         'scope': 'Real S1/S2 capture, review/export, tokenizer, CUDA adapter and same-case pair; development only',
         'tests': ['test_owned_episode_managed.OwnedEpisodeManagedTests'],

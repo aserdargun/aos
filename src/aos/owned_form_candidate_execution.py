@@ -763,7 +763,8 @@ def load_candidate_execution_bundle(candidate_directory: Path,
         for filename, checksum in manifest['files'].items():
             if re.fullmatch(r'[a-f0-9]{64}', checksum or '') is None:
                 raise ValueError('owned_candidate_execution_file_pin_invalid')
-            content = _read_private_child(directory_fd, filename, 65536)
+            limit = 131072 if filename == 'planning-bundle.json' else 65536
+            content = _read_private_child(directory_fd, filename, limit)
             if hashlib.sha256(content).hexdigest() != checksum:
                 raise ValueError('owned_candidate_execution_file_changed')
             raw_files[filename] = content

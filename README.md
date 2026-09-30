@@ -10,12 +10,12 @@ Bu README mimari sözleşmenin girişidir. Ayrıntılar bağlantılı `docs/` do
 
 ## Geliştirme süresi, token kullanımı ve modeller
 
-**Gözlem: 30 Eylül 2026, 09:42:03 (Europe/Istanbul; 06:42:03 UTC).** Kaynak: ana geliştirme konuşmasının aktif Codex goal kullanım sayacı (`get_goal`, thread `01a0bad9-51a3-75b1-b8b9-b00f2fdffc86`). Aşağıdaki kümülatif değerler bu gözlemde doğrulanmıştır; önceki sayaç kaydı güncel gözlemle değiştirilmiştir. Alt coding worker sayaçları toplanmaz. Sayılar tamamlanmış proje maliyeti değildir ve bu hedef dışındaki geliştirme toplamını kanıtlamaz.
+**Gözlem: 30 Eylül 2026, 09:55:03 (Europe/Istanbul; 06:55:03 UTC).** Kaynak: ana geliştirme konuşmasının aktif Codex goal kullanım sayacı (`get_goal`, thread `01a0bad9-51a3-75b1-b8b9-b00f2fdffc86`). Aşağıdaki kümülatif değerler bu gözlemde doğrulanmıştır; önceki sayaç kaydı güncel gözlemle değiştirilmiştir. Alt coding worker sayaçları toplanmaz. Sayılar tamamlanmış proje maliyeti değildir ve bu hedef dışındaki geliştirme toplamını kanıtlamaz.
 
 | Ölçüm | Kaydedilen değer | Kapsam |
 |---|---|---|
-| Sayaçtaki süre | **59 saat 29 dakika 33 saniye** — yaklaşık **59,49 saat** | `timeUsedSeconds = 214173`; insan çalışma saati, GPU saati veya paralel ajan-saat toplamı olarak yorumlanmaz |
-| Sayaçtaki token | **48.956.944 token** — yaklaşık **48,96 milyon** | `tokensUsed = 48956944`; sayaç girdi/çıktı/cache ve model başına dağılım vermiyor |
+| Sayaçtaki süre | **59 saat 42 dakika 33 saniye** — yaklaşık **59,71 saat** | `timeUsedSeconds = 214953`; insan çalışma saati, GPU saati veya paralel ajan-saat toplamı olarak yorumlanmaz |
+| Sayaçtaki token | **49.013.953 token** — yaklaşık **49,01 milyon** | `tokensUsed = 49013953`; sayaç girdi/çıktı/cache ve model başına dağılım vermiyor |
 | Ölçülen hedefin başlangıcı | **23 Eylül 2026, 16:46:45 (Europe/Istanbul)** | `createdAt = 1790171205`; bu hedef öncesindeki geliştirme ve başka konuşmalar kapsanmış kabul edilmez |
 | Projenin tüm geçmişi / parasal maliyet | **Tam toplam doğrulanamıyor** | Eksik oturum geçmişi ve faturalandırma dökümü nedeniyle sayı uydurulmaz |
 
@@ -61,7 +61,7 @@ Model başına ücret, toplam faturalandırılan token veya her alt ajanın exac
 
 **Belgenin gerçekten kullanıldığını arayüzde denetle:** Tasks'taki salt-okunur rapor, prepared/dispatched/başarılı gerçek-model proof sayıları, exact kaynak/Prediction hash'leri, bağımsız sonuç ve historical/current-source ayrımını gösterir. Ayrı Refresh task/model başlatmaz; fixture hazırlığı actual model use gösteremez. Gerçek Hello ve visible MCP form raporları authenticated Chromium'da doğrulandı. Development ayrı knowledge kabul kartlarını gösterir; gerçek-site kabulü **0/6** kalır. [Kanıt](docs/STATUS.md).
 
-**S2 skill önerisinde belge bağlamı:** yeni context-capable owned-reuse oturumunda ayrı preview, inference/private-storage izinleri ve exact hash ile incelenmiş kaynak metni Bonsai planlama girdisine bağlanır. Native model/service kabulü iki EN/TR hedefte geçti; admitted skill/kontrol sentetik, S1 effect kabulü ayrı ve açıktır. Kaynak/dispatch/request/response ve revocation denetlenir; plan önerisi yürütme veya eğitim yetkisi değildir. Development bu ayrı dilimle **56/65** dar checklist gösterir, W1–W6 **0/6** kalır. [Akış ve sınırlar](docs/OWNED_SKILL_KNOWLEDGE.md).
+**S2 skill önerisinde belge bağlamı:** yeni context-capable owned-reuse oturumunda ayrı preview, inference/private-storage izinleri ve exact hash ile incelenmiş kaynak metni Bonsai planlama girdisine bağlanır. Native model/service kabulüne ek olarak izole managed oturumda iki EN/TR hedef, ayrı bind/start ve gerçek Decider ile altışar taze onay/bağımsız readback'ten geçti; üçüncü koşu kaynak iptaliyle fill/POST öncesinde durdu. Site/belge sentetiktir; bu genel hedef veya gerçek-site kabulü değildir. Kaynak/dispatch/request/response ve revocation denetlenir; plan önerisi yürütme veya eğitim yetkisi değildir. Development bu ayrı dilimle **56/65** dar checklist gösterir, W1–W6 **0/6** kalır. [Akış ve sınırlar](docs/OWNED_SKILL_KNOWLEDGE.md).
 
 **İncelenmiş belgeden ayrı izinli Bonsai yanıtı:** Knowledge bölüm 4 exact bağlam önizlemesi, yeni inference/storage izni ve ayrı hash onayıyla yerel S2'yi çağırır. Yanıt yalnız doğrulanmış kaynak alıntıları veya abstention'dır; EN/TR iki sentetik olgu ve yanıtlanamayan bir soru gerçek pinli Bonsai ile geçti. Fixture/gerçek, tarihsel kaynak/güncel yetki ayrı raporlanır. Genel task-context RAG, serbest yanıt doğruluğu veya eğitim/promotion kabulü değildir. [Sözleşme](docs/DOCUMENT_KNOWLEDGE_ANSWERS.md).
 

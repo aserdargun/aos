@@ -24,6 +24,8 @@ Knowledge belge/answer sözleşmeleri `core` içinde gerçek-model bayrağı olm
 
 İsteğe bağlı aynı native testte `AOS_UI_TESTS=1` ayrıca açılırsa, testin değişmemiş gerçek raporları Chromium'daki kaynak validator'larıyla denetlenir. Bu salt okunur browser-record kabulü managed plan→bind→S1→oracle değildir. UI kaynak server'ı yalnız testin kendi loopback portunu/process group'unu kullanır; kullanıcı backend'i yeniden başlatılmaz. Python `0.0`, negative-zero ve scientific gösterimleri wire 1.1 canonical metinleriyle korunur, model pinleri normalleştirilmez. Doğrudan opt-in çağrılar da ayrıca idle GPU rezervasyonu gerektirir.
 
+`real_reuse` ayrıca `test_owned_skill_knowledge_managed.OwnedSkillKnowledgeManagedTests` ve ayrı `AOS_OWNED_SKILL_KNOWLEDGE_MANAGED_TESTS=1` bayrağını seçer. Gerçek iki isolated manager/backend oturumunda source candidate→review→release→selection→reuse, ardından S2 belge planı→ayrı bind/start→S1→altı test-harness onayı→independent oracle ve revoke-before-fill/replay retlerini sınar. Site ve belge sentetiktir; kullanıcı corpus'u yerine helper'ın private test kökü kullanılır. Bu hedefli vaka sonuçları [STATUS](STATUS.md) içinde ayrı kaydedilir; yeni selector'ın varlığı veya flag yokken skip test başarısı değildir.
+
 ## Çalıştırma
 
 Bu bilgisayardaki hazırlanmış `.venv`, Docker, pinli Chromium/MCP ve gerçek profil için yerel model/CUDA kurulumunu kullanır; eksik modelleri indirmez. UI kaynakları değiştiyse önce `pnpm --dir ui build` çalıştırın. Log/raporlar 0600, yeni rapor dizini 0700 izinlidir; testlerin kendi dosya-izin ortamı değiştirilmez.

@@ -38,7 +38,7 @@ class OwnedSkillKnowledgeManagedTests(unittest.TestCase):
         self.fail('Context plan did not complete within 180 seconds')
 
     def test_real_bilingual_context_plans_execute_and_revocation_blocks_fill(self):
-        base = REPO_ROOT / 'data' / ('owned-skill-knowledge-managed-' + uuid4().hex)
+        base = REPO_ROOT / 'data' / ('local-app-test-' + uuid4().hex)
         base.mkdir(mode=0o700)
         helper = execution_helpers.OwnedCandidateExecutionManagedTests()
         releases = release_helpers.OwnedSkillReleaseManagedTests()

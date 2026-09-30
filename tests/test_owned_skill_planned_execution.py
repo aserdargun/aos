@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from jsonschema import ValidationError
 
@@ -356,12 +357,23 @@ class OwnedSkillPlannedExecutionTests(unittest.TestCase):
                 reuse_admission=item['reuse_admission'],
                 planning_bundle_sha256=item['planning_hash'],
                 planning_bundle=item['planning_bundle'])
-            loaded, _ = load_candidate_execution_bundle(root, item['execution_sha256'])
+            from aos import owned_form_candidate_execution as execution
+
+            with patch.object(execution, '_read_private_child', wraps=execution._read_private_child) as reader:
+                loaded, _ = load_candidate_execution_bundle(root, item['execution_sha256'])
+            limits = {call.args[1]: call.args[2] for call in reader.call_args_list}
+            self.assertEqual(limits['planning-bundle.json'], 131072)
+            self.assertTrue(all(limit == 65536 for name, limit in limits.items()
+                                if name not in {'planning-bundle.json', 'manifest.json'}))
             self.assertEqual(bundle_path.name, item['execution_sha256'])
             self.assertEqual(loaded['manifest']['schema_version'], '1.4')
             self.assertEqual(loaded['planning-bundle'], item['planning_bundle'])
             self.assertEqual(loaded['manifest']['planning_bundle_sha256'],
                              item['planning_hash'])
+            planning_path = bundle_path / 'planning-bundle.json'
+            planning_path.write_bytes(b' ' * 131073)
+            with self.assertRaises(ValueError):
+                load_candidate_execution_bundle(root, item['execution_sha256'])
 
     def test_v14_missing_or_tampered_planning_artifact_fails_closed(self):
         with tempfile.TemporaryDirectory() as directory:

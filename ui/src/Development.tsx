@@ -15,8 +15,8 @@ const formStageLabels: Record<string, string> = {
 const completed = [
   {
     title: 'İncelenmiş belge bağlamıyla gerçek S2 skill önerisi',
-    detail: 'Ayrı inference ve özel saklama izniyle iki EN/TR hedef, kaynak metnini gerçek pinli Bonsai planlama isteğine bağladı. Exact dispatch/request/response ve kaynak iptali sonrası plan seçimi reddi doğrulandı. Kontrol ve admitted skill sentetiktir; bu S1 yürütmesi, genel hedef çözümü, eğitim veya nedensel kalite kabulü değildir.',
-    evidence: 'Gerçek pinli Bonsai model/service, iki sentetik hedef; EN/TR fixture UI ve izin/bozulma retleri; docs/OWNED_SKILL_KNOWLEDGE.md, docs/STATUS.md'
+    detail: 'İncelenmiş kaynak metni ayrı izinlerle gerçek Bonsai planına bağlandı. İzole managed oturumda EN/TR hedefler ayrı bind/start, gerçek Decider, altışar taze onay ve bağımsız readback ile geçti. Üçüncü koşuda kaynak iptali fill/POST öncesinde yürütmeyi durdurdu; replay reddedildi. Site ve belge sentetiktir; genel hedefler, eğitim veya nedensel kalite kabulü değildir.',
+    evidence: 'Gerçek pinli Bonsai/Decider, iki managed EN/TR görev ve revoke-before-fill; ayrı fixture UI; docs/OWNED_SKILL_KNOWLEDGE.md, docs/STATUS.md'
   },
   {
     title: 'İncelenmiş belgeyi gerçek S1 görev kararında kullanma',
