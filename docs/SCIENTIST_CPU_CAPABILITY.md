@@ -17,6 +17,17 @@ zero model tokens. A zero-token request alone never selects this profile.
 - `ScientistCpuCapabilityVerifier(client, grant)`: a callable for the existing
   `ScientistLabService(..., verify_capability=verifier)` hook.
 
+`create_scientist_cpu_service(controller, client, grant)` in
+`src/aos/scientist_cpu_session.py` provides the concrete composition for a supplied
+`DesktopController` and its store. It requires a fresh, unbound, inactive client
+with only the exact reviewed suite; it installs the verifier and the existing
+Lab service's approval, intent and readback callbacks. Construction performs no
+remote request, creates no runtime and grants no approval. The supplied service
+can be passed to the existing `create_console(..., scientist_lab=service)` path.
+Authenticated console routes still require a matching explicit approval before
+POST and persist the intent before dispatch. Per-control deadlines and bounded
+local close are inherited; closing the client does not prove remote cleanup.
+
 The canonical AOS schemas are
 [`scientist_cpu_capability.schema.json`](../schemas/scientist_cpu_capability.schema.json)
 and [`scientist_cpu_reviewed_grant.schema.json`](../schemas/scientist_cpu_reviewed_grant.schema.json).
@@ -69,9 +80,17 @@ rejection, the existing transport request shape and the real service/journal
 approval boundary using synthetic observations. Their dated results are in
 [STATUS](STATUS.md); mocks do not establish a live Scientist experiment.
 
-Still required: reviewed startup configuration and version-pair acknowledgment;
-an isolated, explicitly owned synthetic CPU grant/runtime; typed start through
-AOS with approval/intent; independent Scorer/report readback and cleanup.
+On 3 October 2026, a separately reviewed isolated CPU/API/Scorer run completed
+through this composition and its independent status/report/status and retained
+report path. The controller/decision/approval driver was explicitly a fixture;
+the remote API, experiment and Scorer were real. The exact one-experiment,
+600-second, zero-token acceptance and private evidence references are recorded
+in [STATUS](STATUS.md). This does not establish deployed user-interface or model
+decision acceptance. Actual inflight cancellation, recovery and final owned
+remote cleanup remain separate checks.
 Optional `field_intent` and `prior_experience` forwarding, web specialization and
-control-panel startup wiring are subsequent integration work, not implemented
-by installing this verifier. The native/GPU acceptance remains a separate gate.
+control-panel deployment are subsequent integration work, not completed by
+installing the factory. Synthetic ASGI tests exercise the real console routes
+with a fixture controller and mocked Scientist responses; they are not a real
+user, model or Scientist experiment acceptance. The native/GPU acceptance remains
+a separate gate.

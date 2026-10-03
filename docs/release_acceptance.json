@@ -5,19 +5,19 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T13:48:18Z",
+    "recorded_at": "2026-10-03T14:29:00Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
       "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
     },
     "blocker": {
-      "en": "Source handoff is published at 77eb9bd. Native prelaunch/exclusion and zero-token CPU capability adapters pass 93 combined checks. The production shared-start driver/activation-rights composition is missing and fails closed. Active broker-worker coexistence, real CPU start/report verification and joint GPU acceptance remain open; no live promotion or v0.1.0 tag.",
-      "tr": "Kaynak teslimi 77eb9bd ile yayımlandı. Native prelaunch/dışlama ve sıfır-token CPU capability adaptörleri birleşik93 kontrolden geçti. Üretim shared-start driver/activation-rights bağlantısı eksik ve fail closed. Aktif broker-worker coexistence, gerçek CPU start/rapor doğrulaması ve ortak GPU kabulü açık; canlı promotion veya v0.1.0 etiketi yok."
+      "en": "Source baseline is published at 931b55e. One real isolated Scientist CPU/API/Scorer run completed through AOS with independent report verification; decision/controller/approval were explicitly fixtures. 99 focused checks pass. Actual inflight cancellation, final owned cleanup, deployed user UI and shared native/GPU acceptance remain open; no default-session promotion or v0.1.0 tag.",
+      "tr": "Kaynak tabanı 931b55e ile yayımlandı. Gerçek izole Scientist CPU/API/Scorer koşusu AOS üzerinden bağımsız rapor doğrulamasıyla tamamlandı; karar/controller/onay açıkça fixture idi. 99 odaklı kontrol geçti. Gerçek inflight iptal, nihai owned cleanup, kullanıcı UI teslimi ve ortak native/GPU kabulü açık; varsayılan oturum promotion veya v0.1.0 etiketi yok."
     },
     "next_action": {
-      "en": "Review the final Scientist source/image pair and a bounded isolated CPU setup first; only after actual API generation/capability readback run one approved synthetic experiment through AOS. Separately implement trusted native launch composition and live worker exclusion; keep GPU HOLD until coordinated acceptance passes.",
-      "tr": "Önce son Scientist source/image çiftini ve sınırlı izole CPU kurulumunu incele; actual API generation/capability readback sonrası AOS üzerinden bir onaylı sentetik deney çalıştır. Ayrı olarak trusted native launch bağlantısı ve live worker dışlamasını tamamla; koordineli kabul geçmeden GPU HOLD sürsün."
+      "en": "Capture exact completed-run worker cleanup, then separately review one controlled inflight CPU cancellation and retained-API/PG cleanup. Freeze and validate the source/prototype handoff with disclosed gaps. Native launch composition and worker coexistence remain separate; keep GPU HOLD.",
+      "tr": "Tamamlanan koşunun exact worker kapanışını kaydet; ardından ayrı kontrollü inflight CPU iptalini ve tutulan API/PG kapanışını incele. Kaynak/prototip teslimini bilinen eksikleriyle dondur ve doğrula. Native launch bağlantısı ve worker coexistence ayrıdır; GPU HOLD sürsün."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",

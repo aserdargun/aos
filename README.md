@@ -2,7 +2,7 @@
 
 Yerel modellerle bilgisayar ve web uygulaması kullanımı, doğrulanabilir görevler ve kontrollü öğrenme için deneysel bir ajan işletim sistemi.
 
-**Hedef sürüm: v0.1.0.** Paket metadata'sı `0.1.0`; işler ve teslim kapıları kapanmadan Git sürüm etiketi oluşturulmaz. [Sürümleme koşulları](docs/DELIVERY_AND_CONTINUATION.md#requested-release-version).
+**Hedef kaynak/prototip sürümü: v0.1.0.** Paket metadata'sı `0.1.0`; son kaynak teslim kontrolleri tamamlanmadan Git sürüm etiketi oluşturulmaz. Bu sürüm, altı ürün kabul aşamasının tamamlandığı anlamına gelmez. [Sürümleme koşulları](docs/DELIVERY_AND_CONTINUATION.md#requested-release-version), [sürüm notları](docs/releases/v0.1.0.md).
 
 **3 Ekim 2026 teslim kapsamı: test edilebilir kaynak/prototip. Tamamlanmış üretim ürünü değildir.** Mevcut pilot korunur; AI Scientist ile tek GPU otoritesi üzerinden tam ortak çalışma ve hedef uygulamaya özel gerçek-site kabulü sonraki aşamadır. Bu ayrım eksikleri gizlemek için değil, devralan kişinin neyi güvenle kullanabileceğini göstermek içindir.
 
@@ -32,7 +32,7 @@ Kaynak deposu: [aserdargun/aos](https://github.com/aserdargun/aos). Tanıtım si
 | Web kontrolü | Ubuntu Chromium, Playwright MCP, yetkili profiller ve bounded form akışları | Genel login/SSO/MFA, dinamik CSRF ve şirket uygulaması kabulü tamamlanmadı |
 | Skill ve bilgi | İncelenen adaylar, açık seçim/revoke, sınırlı retrieval ve görev bağlamı | Genel RAG kalitesi, otomatik ustalaşma ve sınırsız skill aktarımı yok |
 | Eğitim | İzinli veri inceleme/export ve dar tarihli S1 deneyleri | Genel S2 LoRA/QLoRA, sürekli otomatik eğitim ve kalite garantisi yok |
-| AI Scientist | Typed Lab start/status/stop/report, intent, fencing ve kaynak sözleşmeleri | Gerçek native exclusion producer/consumer ve koordineli GPU kabulü açık |
+| AI Scientist | Typed Lab akışı; fixture onaylı gerçek CPU deneyi ve bağımsız rapor kabulü; kaynak native dışlama adaptörleri | Gerçek inflight iptal/cleanup, kullanıcı UI teslimi, ortak GPU ve aktif worker coexistence açık |
 | Orkestrasyon | Typed görev/policy ve opt-in uzman ajan temelleri | Genel kararlı plugin API ve sınırsız ajan çoğaltma teslim edilmedi |
 | Dağıtım | Allowlist + hash manifestli kaynak arşivi | Temiz makinede tek komut GPU kurulumu, üretim SLA'sı ve lisans açık |
 
@@ -128,7 +128,7 @@ Komutlar ve **tamamlandı sayılma ölçütleri** [teslim/devam rehberinde](docs
 
 AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamasını orkestre eder. Scientist deney yaşam döngüsünü ve paylaşılan GPU tahsisini yönetir. Diğer ajanlar aynı typed policy sınırından geçer; ajan çoğaltmak kaynak/yetki sınırını çoğaltmaz.
 
-**Mevcut teslim kısmi entegrasyondur.** Shared-only runtime adayı canlıya uygulanmadı. Maintenance ve `NativeExclusionReader` kaynakta/CPU testlerinde vardır; gerçek bakım veya dışlama kabulü yapılmadı. Okuyucu aktif model-interpreter süreçlerini hâlâ konservatif olarak reddeder; çalışan broker worker'larıyla sürekli birlikte kullanım tamamlanmadı. Ayrı [CPU Scientist capability adaptörü](docs/SCIENTIST_CPU_CAPABILITY.md) mevcut approval/journal kapılarını korur; startup bağlantısı ve gerçek CPU deney kabulü açıktır. Yeni source/config/version çifti, ayrı bakım onayı, owner/generation/fencing, fiziksel cleanup ve Scientist'in tek yürütücülü küçük GPU kabulü olmadan ortak sistem hazır denmez.
+**Mevcut teslim kısmi entegrasyondur.** Shared-only runtime adayı canlıya uygulanmadı. Maintenance ve `NativeExclusionReader` kaynakta/CPU testlerinde vardır; gerçek bakım veya dışlama kabulü yapılmadı. Okuyucu aktif model-interpreter süreçlerini hâlâ konservatif olarak reddeder; çalışan broker worker'larıyla sürekli birlikte kullanım tamamlanmadı. Ayrı [CPU Scientist adaptörü](docs/SCIENTIST_CPU_CAPABILITY.md) ile fixture karar/onay sürücüsü üzerinden gerçek izole API/deney/Scorer ve bağımsız rapor kabulü geçti. Bu kullanıcı UI, model veya GPU kabulü değildir; inflight iptal ve nihai uzak cleanup ayrıdır. Yeni source/config/version çifti, ayrı bakım onayı, owner/generation/fencing, fiziksel cleanup ve Scientist'in tek yürütücülü küçük GPU kabulü olmadan ortak sistem hazır denmez.
 
 [Runtime sözleşmesi](docs/SCIENTIST_RUNTIME_INTEGRATION.md), [native handover](docs/NATIVE_HANDOVER.md), [shared-only aday](scripts/shared-only-runtime-v1/README.md), [yeni ajan ekleme](docs/EXTENDING_AOS.md). Sonraki aşama için bunlar çalışma planıdır; endpoint, ortak dosya yolu veya desteklenmeyen adapter uydurulmaz.
 
@@ -144,7 +144,7 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli teslim snapshot'ı: 3 Ekim 2026, 13:55:27 UTC / 16:55:27 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=12831282`, `timeUsedSeconds=75135`: **20 saat 52 dakika 15 saniye / 20,8708333 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
+**Tarihli teslim snapshot'ı: 3 Ekim 2026, 14:22:59 UTC / 17:22:59 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=13180021`, `timeUsedSeconds=76787`: **21 saat 19 dakika 47 saniye / 21,3297222 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 

@@ -1,5 +1,6 @@
 import hashlib
 import json
+import math
 import os
 import shutil
 import subprocess
@@ -420,6 +421,17 @@ class NativeMaintenanceTests(unittest.TestCase):
         entries = maintenance._reviewed_entry_paths(self.request)
         with self.assertRaises(ValueError):
             maintenance._entry_matches(['python', '-m', 'aos.cli', '-m', 'aos.cli'], self.repository, entries)
+
+    def test_floating_point_deadline_exact_bound_does_not_renew_authority(self):
+        issued = 32080.3521725
+        expires = issued + 900
+        self.assertGreater(expires - issued, 900)
+        payload = self.request.model_dump(mode='json') | {'issued_boottime': issued, 'expires_boottime': expires}
+        request = maintenance.NativeMaintenanceRequest.model_validate(payload)
+        self.assertEqual(request.expires_boottime, expires)
+        for invalid in (math.nextafter(expires, math.inf), issued, issued - 1, math.inf, math.nan):
+            with self.subTest(expires=invalid), self.assertRaises(ValueError):
+                maintenance.NativeMaintenanceRequest.model_validate(payload | {'expires_boottime': invalid})
 
     def test_canonical_schema_equality_and_request_validation(self):
         for model, name in [(maintenance.NativeMaintenanceStore, 'native_maintenance_store'),

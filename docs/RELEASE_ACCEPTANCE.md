@@ -8,6 +8,13 @@ yükseltmez; yeni runtime, kullanıcı teslimi veya ürün tamamlanması değild
 
 ## Kontrol panelinin güncel okuma biçimi
 
+14:29 kaynak checkpoint'i: ilk gerçek izole CPU/API/Scorer koşusu AOS typed
+LabService üzerinden tamamlandı; bağımsız terminal raporu hash ile doğrulandı
+ve kalıcı readback kaydedildi. Karar/controller/onay sürücüsü fixture idi;
+kullanıcı UI, model veya GPU kabulü değildir. 99 odaklı CPU kontrolü geçti.
+Gerçek inflight iptal, nihai owned cleanup ve native/GPU kapıları açık;
+altı stage bayrağı değiştirilmedi. Ayrıntılı kanıt STATUS içindedir.
+
 13:48 kaynak checkpoint'i: prelaunch verifier da uygulandı; birleşik93 kontrol
 geçti. Native production driver/activation-rights composition gerçekten eksik
 ve default shared start fail closed. Sıradaki kabul ayrı bounded CPU setup →

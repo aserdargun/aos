@@ -79,7 +79,7 @@ class NativeMaintenanceRequest(TypedModel):
     @model_validator(mode='after')
     def exact_request(self):
         _path(self.handover_path)
-        if not 0 < self.expires_boottime - self.issued_boottime <= 900:
+        if not self.issued_boottime < self.expires_boottime <= self.issued_boottime + 900:
             raise ValueError('Maintenance validity must be finite and at most 900 seconds')
         for files, checksum in ((self.source_files, self.source_sha256), (self.config_files, self.config_sha256)):
             for name in files:

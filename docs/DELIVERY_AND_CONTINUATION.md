@@ -25,7 +25,7 @@ document is not a second status database, percentage or replacement roadmap.
 | Console | Authenticated control center, task/control surfaces and historical versus current evidence separation; dated local UI checks | Current remote-client acceptance or delivery of every later source change to the running UI |
 | Scientist integration | Typed Lab requests, durable intent/status/result paths, scoped host preparation and CPU/synthetic boundary tests; historical bounded real experiments | Current shared-runtime end-to-end success, second-task/fairness/cancellation acceptance or sustained native GPU exclusion |
 | Shared runtime preparation | Explicit plan/provision, scoped paths, identity checks and no-replay launch intent; an inert private workspace was prepared | A running shared service, current broker generation, activation or GPU rights |
-| Native handover | Preview, inhibit primitive, staged entry and maintenance source with bounded CPU tests; unapplied shared-only source candidate | Executed maintenance, production native-exclusion producer/consumer or verified physical handover |
+| Native handover | Preview, inhibit primitive, staged entry, maintenance, concrete exclusion reader and prelaunch verifier source with bounded CPU tests; unapplied shared-only source candidate | Executed maintenance, integrated trusted activation driver, actual worker coexistence or verified physical handover |
 | Learning and specialization | Narrow reviewed knowledge/skill/episode paths, dataset tooling and dated experimental adapter evidence | General continuous learning, arbitrary-site specialization, accepted QLoRA or production model promotion |
 | Agent orchestration | Opt-in durable runner and bounded CPU/synthetic adapter tests | A generally delivered live multi-agent product or arbitrary third-party agent compatibility |
 
@@ -156,9 +156,11 @@ authorization. Existing [handover preview](NATIVE_HANDOVER.md),
 [inhibit primitive](NATIVE_INHIBIT.md) and
 [staged entry](NATIVE_DECIDER_ENTRY.md) are not substitutes for completed coverage.
 
-The native-exclusion module currently supplies the typed evidence contract,
-not a production `read_native_exclusion` producer. Its production consumer and
-the joint trusted activation/cleanup composition remain open. Required live
+The native-exclusion module now supplies a concrete `NativeExclusionReader`
+and separate `NativeExclusionPrelaunchVerifier`, verified in bounded CPU tests.
+The production shared-manager driver and joint trusted activation/cleanup
+composition remain open; source implementation does not establish live worker
+coexistence or an accepted handover. Required live
 evidence must distinguish retired legacy identities from the actual new shared
 unit/process generation and bind boot, plan, source/configuration, sustainable
 admission closure, independent worker absence and original finite validity.
@@ -281,8 +283,12 @@ corpora, trajectories or adapters.
 
 ### Requested release version
 
-The requested first release is **v0.1.0**, to be versioned after the agreed
-work and delivery checks finish. Python, web UI, Cargo and Tauri package metadata
+The requested first release is **v0.1.0**, a **source/prototype delivery** to be
+versioned after the source-delivery checks below finish. It is not conditional
+on completing all six future runtime/product stages: those remain open in the
+canonical acceptance record, including the explicitly deferred SWAPP stage.
+This distinction neither redefines the full goal nor promotes runtime authority.
+Python, web UI, Cargo and Tauri package metadata
 already declare `0.1.0`; this does not mean a Git release exists or acceptance
 has passed. At the 3 October review no `v0.1.0` Git tag existed. Do not tag the
 old HEAD while the tested implementation remains in uncommitted/untracked files.
@@ -291,6 +297,8 @@ known limitations and usage, refresh the manifest, and commit that coherent
 reviewed tree. Only then create the requested version tag and publish within
 the separately authorized remote/branch scope, without force push. Do not call
 this a completed production/GPU release or an approved open-source license.
+The [planned release note](releases/v0.1.0.md) records the bounded source scope;
+it is not evidence that the tag has been created.
 
 **Acceptable source handoff:** reviewed source and exact manifest; validation and
 focused/core test evidence with skips/environment; checked archive membership;
@@ -342,10 +350,14 @@ whole working tree or blindly stage all dirty files. Scheduled commit/push is a
 separate explicitly reviewed automation boundary, not a side effect of these
 commands, and must not publish private artifacts or unreviewed changes.
 
-**Administrative work still open in this handoff:** the usage collector is
-implemented and can record a private hourly bucket when invoked, but an hourly
-timer and reviewed automatic Git commit/push service are not installed. The
-earlier automation request is not counted as complete. Do not replace it with
+**Administrative progress and remaining work:** the private hourly usage timer
+was explicitly installed and activated on 3 October, 13:14 UTC. Actual readback
+showed enabled/active-waiting; its first service run succeeded and produced a
+private snapshot. [USAGE_TIMER](USAGE_TIMER.md) preserves the earlier failure and
+corrected activation evidence. This is accounting-service acceptance, not an
+AOS runtime or GPU change. Reviewed automatic Git commit/push is still not
+installed, so the broader automation request is not counted as complete.
+Do not replace it with
 blind staging of the development working tree. It needs an approved exact file
 set, source/privacy checks, clean-index and branch/remote checks, drift handling,
 non-force publication and visible failure reporting. This is separate from the

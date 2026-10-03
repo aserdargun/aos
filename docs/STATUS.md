@@ -1,3 +1,91 @@
+## 3 Ekim 2026, 14:27 UTC — ilk gerçek kontrollü Scientist CPU entegrasyonu geçti
+
+AOS ve Scientist oturumlarının ayrı source/config incelemesi ardından Scientist
+yalnız kendisine ait izole PostgreSQL/Scorer/API hazırlığını çalıştırdı. AOS,
+systemd/proc kimliğini authenticated capability GET öncesinde ve sonrasında
+bağımsız okudu; actual capability, incelenen suite/entry/data/config/grant ile
+tam eşleşti. Phase-A kaynak kapanışı 258 dosyaydı; AOS CPU çağırıcı kapanışı
+700 kütüphane/sözleşme/migration/dependency-metadata ve özel çağırıcı dosyasını
+kapsadı. Kaynak incelemesi imported-code veya GPU yetkisi olarak sunulmadı.
+
+Ardından AOS `create_scientist_cpu_service` ile mevcut typed LabService,
+controller, policy, onay ve journal akışını kullandı. **Karar/controller/onay
+sürücüsü açıkça fixture idi; uzak Scientist API, deney ve bağımsız Scorer gerçekti.**
+İncelenen bütçe bir deney, 600 saniye, sıfır model tokenıydı. Intent gönderimden
+önce kalıcılaştırıldı; tek POST acknowledged oldu, belirsiz etki tekrarlanmadı.
+Scientist yalnız bu gerçek run UUID'sini bağımsız ledger kontrolünden sonra
+kendi Director'ı ile çalıştırdı.
+
+**AOS çağırıcı exit 0:** terminal `completed` → bağımsız status/report/status
+eşliği → rapor içeriğinin canonical hash doğrulaması → ayrı kalıcı readback.
+Rapor SHA-256:
+`ef4944202eb341d53b11d9ddf5cd5e181811fea31cc99c5f99665ab07f66068f`.
+Yerel DB yeniden salt okunur açılarak tam bir acknowledged etki ve bir retained
+report kaydı doğrulandı. Toplam **303,697 saniye**, başlangıç kuyruğu dahil;
+151 durum okuması. Doğrulanan raporda 10 score ve `benchmark_acceptance=false`
+vardır. Scientist dokuz baseline, bir OPTICS ve Referee DISCARD/0 KEEP
+bildirdi; holdout çalıştırılmadı. Tamamlanan işlem araştırma/kalite başarısı,
+model hız benchmark'ı veya öğrenilmiş adaptör olarak sunulmaz.
+Yerel client kapandı; uzak worker/GPU cleanup bu yerel kapanıştan çıkarılmadı.
+Scientist exact Director/Scorer/sandbox kapanış kanıtını ayrıca topluyor;
+izole API/PG ayrı incelenecek iptal senaryosu için henüz tutuluyor.
+
+Özel kanıt kökü `data/native-exclusion-20261003/`: `phase-a-ack.private.json`,
+`cpu-actual-readback.private.json`, `phase-b-source.private.json`,
+`phase-b-config.private.json`, `phase-b-caller.log` ve
+`cpu-phase-b-first/journal.private.jsonl`. Bu dosyalar public pakete alınmaz.
+Sözleşme `scientist.lab-cpu-capability.v1`, explicit profil
+`scientist-cpu-mode-grid.v1`; native/GPU sözleşmesi değiştirilmedi.
+
+Yeni CPU-service factory gerçek authenticated console ASGI rotalarıyla ayrıca
+sentetik taşıma üzerinden sınandı. İzinsiz/eski envelope/changed capability ve
+controller generation POST öncesinde reddedildi; gerçek kullanıcı tarayıcı
+kabulü iddia edilmez. Son birleşik **99 PASS / 3,227 s**, strict ResourceWarning.
+Log `composed-focused-final.log`; önceki `composed-focused.log` 98 testte altı
+fixture kurulum hatası içerir. Hatanın gerçek nedeni 900 saniyelik süreyi float
+çıkarma ile sınamanın `900.0000000000036` üretebilmesiydi. Validator artık
+`issued < expires <= issued + 900` kullanır; tolerans verilmedi, fixture süresi
+kısaltılmadı. Deterministik test sınır üstündeki ilk temsil edilebilir sayıyı da
+reddeder. Değişiklikler frozen161 dışında; pinler ve canlı varsayılan AOS aynı.
+
+**Entegrasyon kısmi:** normal kontrollü CPU/API kabulü geçti. Gerçek inflight
+iptal/toparlanma, nihai owned cleanup, kullanıcı UI teslimi, production native
+startup/worker coexistence ve Scientist-only ortak GPU kabulü açık. Altı ürün
+aşaması tamamlandı yapılmadı; `v0.1.0` etiketi henüz oluşturulmadı.
+
+## 3 Ekim 2026, 14:05 UTC — yayımlanmış kaynakta gerçekten ayrı ortam kurulumu
+
+İncelenen kaynak `931b55ef9b8ffe0f9a93f068ff7175ef1110dc8d` commit'iyle
+mevcut `origin/main` dalına normal fast-forward push edildi; remote SHA ayrıca
+okundu. Canlı checkout HEAD/index'i, çalışan varsayılan oturum ve frozen161
+kaynak pini korunuyor. Kaynak yayını deployment veya `v0.1.0` etiketi değildir.
+Yayın kanıtı `data/native-exclusion-20261003/publication.private.json`.
+
+Yayın kopyasında **yeni ve ayrı** `data/rc2-fresh-install/environment`
+ortamına gerçek `python3 -m scripts.setup_local --install --offline` kurulumu
+tamamlandı. Kurulum mevcut host bağımlılık önbelleğini kullandı; boş önbellekli
+yeni makine veya GPU kurulumu iddiası değildir. Editable kaynak bağı doğrulandı.
+Gözlenen kaynak manifesti
+`30f4b126ea8a5207faafc2feb60e8874aa41c36e033cb110bfb5d73e05877b7b`.
+
+Bu yeni interpreter ile **5632 paket kontrolü PASS**; gerçek CLI'da
+`agentctl hello --engine fixture` dosya görevini bağımsız doğrulayıp
+`succeeded`, `verified=true`, **`real_model=false`** döndürdü. Ardından
+odaklı 94 kontrolde **93 PASS / 1 SKIP / 3,314 s**; tek skip teslim paketine
+alınmayan özel geliştirme kanıtıdır. Bunlar sentetik motor/CPU kabulüdür,
+Decider/Bonsai, Scientist deneyi veya masaüstü kabulü değildir.
+
+Kanıtlar `data/native-exclusion-20261003/` altında `fresh-install.log`,
+`fresh-package.log`, `fresh-hello.log` ve `fresh-focused.log` içindedir.
+Önceki extracted tekrar da **93 PASS / 1 SKIP / 3,116 s** ve 5632 paket
+kontrolüyle geçti (`extracted-combined-final.log`, `extracted-package-final.log`).
+Önceki başarısız extracted log silinmedi; düzeltme sonrası sonuçtan ayrıdır.
+
+Saatlik özel kullanım timer'ı ayrıca active/waiting/enabled; servis sonucu
+success/0 ve 14:00 UTC özel kayıt dosyası mevcut. Git otomasyonu hâlâ ayrı açık
+iştir. Bounded credential/özel-host deseni taraması RC2 arşivinde bulgu vermedi;
+bu tam güvenlik/lisans incelemesi değildir. Lisans seçimi bekliyor.
+
 ## 3 Ekim 2026, 13:55 UTC — temiz kaynak testinden özel kanıt bağımlılığı ayrıldı
 
 İzole kaynak arşivinde paket doğrulaması5632 geçti; odaklı93 testin biri
