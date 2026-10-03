@@ -23,7 +23,7 @@ from aos.shared_desktop_provision import LAUNCH_INTENT_NAME, PROVISION_NAME, pro
 
 
 class SyntheticSharedHostFixture:
-    def __init__(self, root):
+    def __init__(self, root, *, broker_identity_sha256='b' * 64):
         self.root = root
         for path in (root / 'data', root / 'data/local-app-v1', root / 'runs', root / 'scripts'):
             path.mkdir(mode=0o700)
@@ -43,7 +43,7 @@ class SyntheticSharedHostFixture:
             python_path=str(self.python), python_sha256=sources[str(self.python)],
             launcher_path=str(self.launcher), launcher_sha256=sources[str(self.launcher)],
             source_files=sources, source_sha256=digest(sources), config_files=configs, config_sha256=digest(configs),
-            broker_socket=str(root / 'synthetic-broker.sock'), broker_identity_sha256='b' * 64,
+            broker_socket=str(root / 'synthetic-broker.sock'), broker_identity_sha256=broker_identity_sha256,
             limits=SharedDesktopLimits(cpu_quota_percent=200, memory_max_bytes=1073741824,
                                        tasks_max=128, stop_timeout_seconds=2))
         self.plan = prepare_plan(self.template, predecessor=None, new_session='app-' + '2' * 32)

@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "ProcessIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "minimum": 1,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "pid_namespace": {
+          "minimum": 1,
+          "title": "Pid Namespace",
+          "type": "integer"
+        },
+        "uid": {
+          "minimum": 1,
+          "title": "Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "boot_id",
+        "pid",
+        "start_ticks",
+        "pid_namespace",
+        "uid"
+      ],
+      "title": "ProcessIdentity",
+      "type": "object"
+    },
+    "ScientistServerGeneration": {
+      "additionalProperties": false,
+      "properties": {
+        "uid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Uid",
+          "type": "integer"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "unit": {
+          "maxLength": 255,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.@-]+\\.service$",
+          "title": "Unit",
+          "type": "string"
+        },
+        "invocation_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Invocation Id",
+          "type": "string"
+        },
+        "control_group": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "pattern": "^/",
+          "title": "Control Group",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uid",
+        "pid",
+        "start_ticks",
+        "boot_id",
+        "unit",
+        "invocation_id",
+        "control_group"
+      ],
+      "title": "ScientistServerGeneration",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Sha256",
+      "type": "string"
+    },
+    "transport_schema_sha256": {
+      "const": "842fe08b2f7f7dbb1f0d0bcf000a5d3029eb4335114da800324d0e34952478f6",
+      "title": "Transport Schema Sha256",
+      "type": "string"
+    },
+    "plan_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Plan Path",
+      "type": "string"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "activation_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Activation Path",
+      "type": "string"
+    },
+    "activation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Activation Sha256",
+      "type": "string"
+    },
+    "provision_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provision Sha256",
+      "type": "string"
+    },
+    "manager": {
+      "$ref": "#/$defs/ProcessIdentity"
+    },
+    "broker": {
+      "$ref": "#/$defs/ScientistServerGeneration"
+    },
+    "issued_boottime": {
+      "minimum": 0,
+      "title": "Issued Boottime",
+      "type": "number"
+    },
+    "expires_boottime": {
+      "exclusiveMinimum": 0,
+      "title": "Expires Boottime",
+      "type": "number"
+    }
+  },
+  "required": [
+    "request_id",
+    "binding_sha256",
+    "transport_schema_sha256",
+    "plan_path",
+    "plan_sha256",
+    "activation_path",
+    "activation_sha256",
+    "provision_sha256",
+    "manager",
+    "broker",
+    "issued_boottime",
+    "expires_boottime"
+  ],
+  "title": "ScientistSharedLaunchReview",
+  "type": "object"
+}

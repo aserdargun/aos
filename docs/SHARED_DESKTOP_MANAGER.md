@@ -58,6 +58,12 @@ somut, sabit systemd transport'u ve v2 manager durumunu bağlar.
 
 ## Gerçek activation neden henüz hazır değil?
 
+3 Ekim21:14UTC: [somut Scientist istemci adaptörü](SCIENTIST_SHARED_LAUNCH_ADAPTER.md)
+host verify/claim bağlantısına hazırdır; lokal review şeması ve113 CPU testle
+doğrulandı. Gerçek Unix frame/credential çapraz testi de geçti; yetki/systemd
+denetimleri sentetikti. Üretim listener/authority, in-unit guard ve fiziksel
+cleanup bileşimi henüz hazır değil; varsayılan kapalı kalır.
+
 ### 3 Ekim 2026, 20:51 UTC — kaynak yerleşimi ve ayrı claim
 
 Güvenilir host bileşimi artık

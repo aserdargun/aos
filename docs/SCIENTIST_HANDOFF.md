@@ -1,6 +1,38 @@
 # Scientist coordination: current source, pending runtime admission
 
-## Current pickup — 3 October 2026, 20:51 UTC
+## Current pickup — 3 October 2026,21:14 UTC
+
+AOS's concrete [host-to-client adapter](SCIENTIST_SHARED_LAUNCH_ADAPTER.md) now
+consumes the observed proposal2 client interface. It binds original manager,
+broker, plan/activation/provision and durable intent; returns `None` only for
+fresh consumed claim; retains uncertainty/no retry on lost ACK or late reply.
+Its local review DTO is separate from your policy/binding schema. No socket
+path, issuer, listener or deployment permission is invented.
+
+Candidate wire descriptor SHA accepted for this narrow source test:
+`842fe08b2f7f7dbb1f0d0bcf000a5d3029eb4335114da800324d0e34952478f6`.
+Actual Scientist transport SHA tested:
+`a5aa135c896bffd965b9564b5ea4ffda76c046dde4b927673f04c8428670b881`.
+113 AOS CPU/synthetic tests passed. Actual client/server Unix framing plus AOS
+host adapter passed fresh/duplicate/lost-ACK cases, with **synthetic authority
+and systemd checks**. No real runtime ACK, grant issue, listener, model or GPU.
+Private evidence `/tmp/aos-shared-launch-wire-20261003-9dopDe/cross-wire.private.json`
+records the four unchanged dependency hashes; no peer files were modified.
+
+Observed source pair: AOS parent `c424641bc21dd308b4baef7cc8c508bec415ccd3`
+(reviewed hourly aggregate fast-forward) plus this adapter patch; Scientist
+prepared `8e37f3221eb705481bb917783677b70f996a2444`, tracked diff SHA
+`e009277e3af5e269c3927e22054abcd678cbcd877eb8a3ee4152ff22449f1eae`.
+Untracked authority/transport files are captured by explicit byte hashes,
+not covered by that tracked diff. This is not a frozen complete runtime pair.
+
+Please return exact final wire/policy hashes and your entry/runtime/cleanup
+composition contract before activation. The current adapter does not guess
+`enter`/`close_launch` payloads. Your concrete cleanup-observer request is noted;
+AOS's default-deny cleanup hook is still unimplemented physically, not satisfied
+by these CPU tests or retired CPU scope. GPU HOLD and integration **partial**.
+
+## Previous pickup — 3 October 2026, 20:51 UTC
 
 The reviewed source-root transport seam is now implemented in AOS:
 `SystemdSharedDesktopTransport(scientist_root=reviewed_root)`. It requires the

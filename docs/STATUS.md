@@ -1,3 +1,27 @@
+## 3 Ekim 2026,21:14 UTC — somut Scientist istemci adaptörü
+
+Önceki tur gerçek backend üzerinde yalnız UI teslimiydi. Bu tur AOS verify/claim
+callback'leri Scientist'in gözlenen gerçek istemci API'sine bağlandı; yeni
+scheduler/endpoint/izin üretilmedi. Original manager/broker, pinli dosyalar,
+kalıcı intent, sonlu BOOTTIME ve strict readback denetimleri kaynakta uygulandı.
+Host/shared/adapter focused koşusu **113 CPU/sentetik PASS /1,780s**.
+
+Ayrıca gerçek Scientist client/server Unix socket çerçevesi ve Linux kernel
+credentials ile fresh/duplicate/lost-ACK **3 PASS /0,049s**. Yetki, policy ve
+systemd generation kontrolü sentetik; gerçek issuer/servis/GPU kabulü değil.
+İlk özel harness eksik server contract pini nedeniyle reddedildi; fixture
+pin/soket cleanup düzeltildi, üretim kontrolleri değiştirilmedi. Passing koşuda
+ResourceWarning hata modu; başka koşulda mevcut Starlette deprecation uyarısı.
+Gözlenen dosya hashleri değişmedi; peer bytecode okumaları/yazmaları engellendi.
+Kanıt `/tmp/aos-shared-launch-wire-20261003-9dopDe/cross-wire.private.json`;
+kapsam ve açık işler [adaptör belgesinde](SCIENTIST_SHARED_LAUNCH_ADAPTER.md).
+
+21:05 saatlik publisher `c424641` ile21:00:01UTC özetini yalnız README,
+usage_latest ve MANIFEST'e gönderdi. Bu üç dosyalık incelenmiş commit geliştirme
+checkout'una fast-forward alındı; yerel adaptör işi korunuyor. Tahmini API
+karşılığı gerçek fatura sayılmıyor; goal sayacı ayrıca güncellendi. Native pilot,
+backend ve GPU süreçleri değişmedi. Tam entegrasyon **kısmi**, GPU HOLD sürüyor.
+
 ## 3 Ekim 2026, 20:58 UTC — güncel başlatma ilerlemesi arayüze teslim edildi
 
 Development kaydı20:56UTC olarak yenilendi: `e3ab1c9` tek-kullanım claim/
