@@ -73,6 +73,10 @@ büyük GPU rezervi olarak Qwen3.8-27B ve Cloudflare Clef adaylarını ayrı gö
 Bu profiller indirilmiş/etkin modeller, executable trainer veya öğrenilmiş
 adaptör değildir; mevcut Decider/Bonsai ve tek Scientist GPU otoritesi korunur.
 
+Üç üretici adayda `aos.unsloth_conversion` kaynak/base'e bağlı, hedefi prompt'tan
+ayıran offline mesaj hazırlığı sağlar. Bu dönüşüm veri hakkı, tokenizer/loss-mask
+uyumu veya eğitim izni vermez; Clef'in özel karar başlığı ayrıca doğrulanmalıdır.
+
 ## Mevcut arayüzü açma
 
 Hazırlanmış AOS hostunda:
@@ -161,7 +165,7 @@ adımı gösterir. Bu teslim tam core veya gerçek Scientist kabulü yerine geç
 
 ## Geliştirme süresi, token ve maliyet
 
-**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 19:18:12 UTC / 22:18:12 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=15954153`, `timeUsedSeconds=94500`: **26 saat 15 dakika / 26,25 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 19:26:17 UTC / 22:26:17 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16036763`, `timeUsedSeconds=94956`: **26 saat 22 dakika 36 saniye / 26,3766667 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 

@@ -5,7 +5,7 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T18:56:07Z",
+    "recorded_at": "2026-10-03T19:26:17Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
@@ -24,6 +24,43 @@
       "tr": "Tarihli kaynak kaydıdır; canlı worker telemetrisi veya teslim edilmiş UI değildir. Bu JSON güncellemesi mevcut UI dosyalarını yeniden derlemez. CPU kontrolleri ve kaynak readback'i runtime/GPU yetkisi veya aşama tamamlanması vermez. SWAPP intranet testi en sondadır."
     },
     "updates": [
+      {
+        "id": "candidate_message_conversion",
+        "state": "verified_cpu",
+        "recorded_at": "2026-10-03T19:26:17Z",
+        "title": {
+          "en": "Model-bound training data preparation",
+          "tr": "Modele bağlı eğitim verisi hazırlığı"
+        },
+        "detail": {
+          "en": "Qwen3.5, Gemma 4 and Qwen3.8 now have offline message converters with source/base hashes, corrected targets and preserved split groups. 28 CPU tests pass, one upstream test is skipped. No tokenizer, training or GPU job ran. Clef remains blocked on its custom decision head.",
+          "tr": "Qwen3.5, Gemma 4 ve Qwen3.8 için kaynak/base hashleri, düzeltilmiş hedefler ve korunan split gruplarıyla offline mesaj dönüştürücüleri hazır. 28 CPU testi geçti; bir upstream test atlandı. Tokenizer, eğitim veya GPU işi çalışmadı. Clef özel karar başlığına bağlı olarak kapalı."
+        },
+        "evidence": [
+          "docs/UNSLOTH_CANDIDATES.md",
+          "tests/test_unsloth_conversion.py",
+          "schemas/unsloth_message_record.schema.json"
+        ]
+      },
+      {
+        "id": "theme_usage_delivery",
+        "state": "verified_cpu",
+        "recorded_at": "2026-10-03T19:18:12Z",
+        "title": {
+          "en": "Consistent light/dark themes and hourly usage publication",
+          "tr": "Tutarlı açık/koyu tema ve saatlik kullanım yayını"
+        },
+        "detail": {
+          "en": "The live UI uses the umayos.org palette in both themes; tab geometry and saved preferences are verified on desktop and mobile. Backend/GPU unchanged. An hourly aggregate-only publisher is enabled; its first real service check correctly skipped unchanged data. Automatic changed-data push is not yet observed.",
+          "tr": "Canlı arayüz iki temada umayos.org paletini kullanıyor; sekme ölçüleri ve kayıtlı tercih masaüstü/mobilde doğrulandı. Backend/GPU değişmedi. Yalnız aggregate yayımlayan saatlik servis etkin; ilk gerçek kontrol değişmeyen veriyi doğru şekilde atladı. Yeni veriyle otomatik push henüz gözlenmedi."
+        },
+        "evidence": [
+          "docs/CONTROL_CENTER.md",
+          "docs/USAGE_PUBLICATION.md",
+          "docs/STATUS.md",
+          "tests/test_control_center_ui.py"
+        ]
+      },
       {
         "id": "model_training_preparation",
         "state": "in_progress",

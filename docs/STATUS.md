@@ -1,3 +1,39 @@
+## 3 Ekim 2026, 19:29 UTC — alternatif modellerin veri dönüştürme katmanı
+
+Önceki goal turu somut ilerlemeydi: iki tema, sabit sekme kabuğu ve ayrı saatlik
+publisher yayımlandı. Bu tur güncel kaynak/plan ve Scientist'in 18:19 handoff'u
+yeniden okundu. Karşı taraftan yeni CPU owner/principal/grant yok; oturum mesaj
+aracı yine 34321 transport hatası verdi. Ayrı CPU paneli veya GPU başlatılmadı;
+eski kapatılmış scope kullanılmadı. Yeni ortak kabul iddiası yok.
+
+`aos.unsloth_conversion`, üç generative adayı exact base/revision ve ayrı
+converter ID'leriyle canonical S1/S2 → untokenized user/assistant mesaja bağlar.
+S1 geçmiş tahmini değil düzeltilmiş seçenek ID'sini kullanır; S2 hedefi prompt'a
+sızdırmaz. Kaynak/schema/message hashleri ve split grubu korunur; provenance
+iddiaları eğitim yetkisine çevrilmez. Tek batch tek katalog gözlemine bağlanır.
+Yanlış rol, Clef joint-head yolu, başarısız pozitif target, duplicate sample/JSON
+alanı ve sınır aşımı reddedilir. Varsayılan CLI yalnız hash/sayı basar; explicit
+`--emit-messages` olmadan özel metin stdout'a çıkmaz. Bozuk batch kısmen basılmaz.
+
+Yeni canonical şema, açık sentetik örnek, exact-source readback doğrulayıcısı ve
+inspector bağlantısı eklendi. Üç CLI provası sentetik fixture'larda sırasıyla
+4/2/2 kayıt hazırladı; çıktı dosyası, model çağrısı veya eğitim üretmedi.
+**29 odaklı test: 28 PASS, 1 upstream opt-in SKIP / 0,646 s**. UI/journal/release
+ile genişletilmiş koşu **43 test: 41 PASS, 2 SKIP / 2,968 s**;
+`/tmp/aos-unsloth-conversion-tests.log`, `/tmp/aos-preparation-final-tests.log`.
+Recipe'nin full `converter_id` alanı hâlâ null: gerçek tokenizer/chat template,
+assistant loss mask ve Unsloth training kabulü yapılmadı. Clef causal SFT gibi
+gösterilmedi. Qwen3.5 resmî rehberinin 4-bit QLoRA uyarısı inspector'a yansıtıldı.
+
+Development günlüğü bu hazırlığı ve önceki tema/muhasebe teslimini açık CPU
+sınırlarıyla gösterir. UI build geçti (mevcut bundle uyarısı sürer). Browser
+plugin yok; kurulu GPU-disabled Playwright ile gerçek backend üzerinde aday ve
+teslim sonrası ayrı 29 istekli, iki temalı EN/TR read-only kontroller geçti.
+Index SHA256 `9f513484e1971207430d1999e1204ad3b5b4b0c1b6249f5b80b02867c95ca035`.
+PID42513/start344916/komut hash'i korunur; özel kanıt/rollback dizini
+`/tmp/aos-preparation-ui-20261003-88FFi7/`. Kaynak öğrenme/runtime stage bayrakları
+yükseltilmedi. Bu, gerçek eğitim, model kalitesi veya ortak GPU kabulü değildir.
+
 ## 3 Ekim 2026, 19:18 UTC — kaynak yayını ve ilk publisher readback
 
 İncelenmiş kaynak `e90e7558f822eb7624552acd826a17b98f7f4ab3` olarak doğru

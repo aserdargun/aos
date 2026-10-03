@@ -42,11 +42,17 @@ def inspect_candidate(candidate_id, method):
     candidate = matches[0]
     recipe = json.loads((ROOT / 'training/recipes' / ('unsloth-' + candidate_id + '-v001.json')).read_text())
     validate_recipe(recipe, candidate)
+    message_converter = candidate_id in {'qwen35_4b_s1', 'gemma4_12b_s2', 'qwen38_27b_s2'}
     return {'candidate_id': candidate_id, 'method': method, 'base': recipe['base'],
         'role': recipe['role'], 'dataset_schema': recipe['dataset']['canonical_schema'],
         'recipe_id': recipe['recipe_id'], 'training_ready': False, 'runtime_authority': False,
         'adapter_namespace_template': f'data/training-candidates/{candidate_id}/{method}/{{run_id}}',
         'quantization_plan': '4-bit training loader compatibility probe' if method == 'qlora' else 'unquantized training base compatibility probe',
+        'message_preparation': {'available': message_converter,
+            'converter_id': 'aos-' + candidate_id + '-messages-v1' if message_converter else None,
+            'tokenizer_applied': False, 'assistant_loss_mask_verified': False},
+        'method_cautions': ['Unsloth advises against Qwen3.5 4-bit QLoRA due to quantization differences; prefer a reviewed LoRA probe.']
+            if candidate_id == 'qwen35_4b_s1' and method == 'qlora' else [],
         'blocked_until': recipe['blocked_until'], 'automatic_promotion': False}
 
 

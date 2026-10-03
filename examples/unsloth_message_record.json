@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "format": "aos.unsloth-messages.v1",
+  "candidate_id": "qwen35_4b_s1",
+  "role": "system1",
+  "base": {
+    "repository": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+  },
+  "converter_id": "aos-qwen35_4b_s1-messages-v1",
+  "source_kind": "system1_choice",
+  "source_record_sha256": "fca1599c955204c4cfefbbb3110307a776492b4bada89e908ee014487424c420",
+  "source_schema_sha256": "49c8ef6ff3a8f714cbbd92440f713471feac69acfcddf86de456e647e4567d97",
+  "sample_id": "s1-write",
+  "split_group": "run-hello",
+  "synthetic": true,
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"input\":{\"options\":[{\"id\":\"write_file\",\"label\":\"Write the authorized file\"},{\"id\":\"ask_supervisor\",\"label\":\"Ask the supervisor\"}],\"question\":\"What is the next action?\",\"state\":\"Goal: create /workspace/hello.txt with Hello from the local agent. followed by a newline. File is absent. Workspace writes are authorized.\"},\"instruction\":\"Choose exactly one supplied option. Return only JSON with selected_option equal to its exact id. Do not provide reasoning or execute an action.\"}"
+    },
+    {
+      "role": "assistant",
+      "content": "{\"selected_option\":\"write_file\"}"
+    }
+  ],
+  "messages_sha256": "2d9018cf1d368a4ef14bf7b802a4bd67d05d26d528c45143ceb6fedf56adf8b5",
+  "training_ready": false,
+  "training_authorized": false,
+  "runtime_authority": false,
+  "tokenizer_applied": false,
+  "assistant_loss_mask_verified": false,
+  "provenance_claims_verified": false
+}

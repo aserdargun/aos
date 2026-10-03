@@ -1382,6 +1382,10 @@ def validate_files():
     check(len(candidate_ids) == len(set(candidate_ids)), 'Unique research model candidate IDs')
     check(all(candidate['source_url'] == 'https://huggingface.co/' + candidate['repository']
               for candidate in model_candidates['candidates']), 'Research candidate sources match repositories')
+    prepared_example = read_json('examples/unsloth_message_record.json')
+    validators['unsloth_message_record.schema.json'].validate(prepared_example)
+    check(prepared_example['synthetic'] is True and prepared_example['training_ready'] is False,
+          'Message preparation example is synthetic and never training-ready')
     for candidate in model_candidates['candidates']:
         recipe = read_json('training/recipes/unsloth-' + candidate['id'] + '-v001.json')
         validate_recipe(recipe, candidate)

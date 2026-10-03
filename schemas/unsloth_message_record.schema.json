@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS model-bound Unsloth message preparation, not training admission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "format", "candidate_id", "role", "base", "converter_id", "source_kind", "source_record_sha256", "source_schema_sha256", "sample_id", "split_group", "synthetic", "messages", "messages_sha256", "training_ready", "training_authorized", "runtime_authority", "tokenizer_applied", "assistant_loss_mask_verified", "provenance_claims_verified"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "format": {"const": "aos.unsloth-messages.v1"},
+    "candidate_id": {"enum": ["qwen35_4b_s1", "gemma4_12b_s2", "qwen38_27b_s2"]},
+    "role": {"enum": ["system1", "system2"]},
+    "base": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository", "revision"],
+      "properties": {
+        "repository": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+        "revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"}
+      }
+    },
+    "converter_id": {"type": "string", "pattern": "^aos-(qwen35_4b_s1|gemma4_12b_s2|qwen38_27b_s2)-messages-v1$"},
+    "source_kind": {"enum": ["system1_choice", "system2_supervisor"]},
+    "source_record_sha256": {"$ref": "#/$defs/hash"},
+    "source_schema_sha256": {"$ref": "#/$defs/hash"},
+    "messages_sha256": {"$ref": "#/$defs/hash"},
+    "sample_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "split_group": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"},
+    "synthetic": {"type": "boolean"},
+    "messages": {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "prefixItems": [
+        {"$ref": "#/$defs/message", "properties": {"role": {"const": "user"}}},
+        {"$ref": "#/$defs/message", "properties": {"role": {"const": "assistant"}}}
+      ],
+      "items": false
+    },
+    "training_ready": {"const": false},
+    "training_authorized": {"const": false},
+    "runtime_authority": {"const": false},
+    "tokenizer_applied": {"const": false},
+    "assistant_loss_mask_verified": {"const": false},
+    "provenance_claims_verified": {"const": false}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "message": {
+      "type": "object", "additionalProperties": false, "required": ["role", "content"],
+      "properties": {"role": {"enum": ["user", "assistant"]}, "content": {"type": "string", "minLength": 1}}
+    }
+  }
+}
