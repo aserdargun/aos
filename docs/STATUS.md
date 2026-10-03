@@ -1,3 +1,35 @@
+## 3 Ekim 2026, 18:38 UTC — README model ve maliyet kırılımı
+
+Kullanıcının Scientist README'sine benzer özet isteği uygulandı. Kardeş depo
+yalnız okundu; AOS'un kendi metadata/token olayları yeniden toplandı. 18:34:08 UTC
+kesiminde 95 oturum/7 model-effort satırı/166 UTC saat kovası gözlendi; toplam
+4.367.291.356 kaydedilmiş token birimi. Bu observation'da collector anomaly yok;
+full-project, atomic snapshot veya fatura kapsamı değildir.
+
+README input/cache/output/model/effort ve UTC gün tablolarını gösterir. Resmî
+tarifeler bağımsız kontrol edildi; dated Standard/short-context API karşılığı
+1.954,71 USD, **gerçek ücret değil**. Fatura ve abonelik bedeli bilinmiyor.
+Current-default runtime DB'de 0 model-call görülmesi geçmiş model tüketimini
+sıfırlamaz. Ayrı authoritative goal snapshot ve tarihi yenilendi; farklı
+kapsamların sayaçları toplanmadı. Public veri yalnız sanitize aggregate.
+
+`scripts.summarize_usage` salt okunur yeniden üretim sağlar. **19 CPU PASS /
+0,012 s:** collector+özet tests; cache/reasoning çift sayımı, nonzero cache-write,
+unknown model, invalid fiyat/count, duplicate aggregate ve README eşliği.
+Özel log `/tmp/aos-usage-summary-tests-20261003.log`; yeni private collector
+snapshot izole publication checkout `data/accounting/2026-10-03T180000Z.json`.
+Operational saatlik18:00 snapshot yeniden yazılmadı. Timer active; backend,
+UI ve GPU bu muhasebe diliminde değişmedi. Detay [USAGE_ACCOUNTING](USAGE_ACCOUNTING.md).
+
+Son odaklı doğrulama: **35 test / 0,041 s; 34 PASS, 1 SKIP** (usage summary,
+collector, timer installer ve source license). Paket denetimi **5739 PASS**;
+GPU/runtime/training kabulü değildir. Loglar `/tmp/aos-usage-summary-final-20261003.log`
+ve `/tmp/aos-usage-summary-package-20261003.log`. Kullanıcının kota sınırı
+nedeniyle yeni geliştirme kapsamı açılmadan kaynak teslimi kapatılıyor.
+Codex kalan kota yüzdesi mevcut goal sayacından okunamaz; yüzde uydurulmadı.
+Public `v0.1.0` etiketi korunur; bu muhasebe güncellemesi etiket sonrası `main`
+işidir. Ortak Scientist GPU kabulü ve hedef uygulama kabulü tamamlanmadı.
+
 ## 3 Ekim 2026, 18:20 UTC — güncel UI'nin gerçek salt okunur teslimi
 
 Önceki tur source main `ed209498afa1e9c6a4c4573d0c0e8daff2a2ec17` yayınıyla

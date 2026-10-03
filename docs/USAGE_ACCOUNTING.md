@@ -1,5 +1,53 @@
 # Güvenli geliştirme kullanım kaydı
 
+## README model/maliyet özeti — 3 Ekim 2026, 18:34 UTC
+
+AI Scientist README'si biçim örneği olarak salt okunur incelendi; onun sayaçları
+ve maliyeti AOS'a aktarılmadı. AOS-owned metadata yeniden toplandı: 95 oturum,
+166 UTC saat kovası, 32.681 sayılan usage olayı; 1.884 değişmeyen bildirim ve
+34 inherited metadata kaydı dışlandı. Bu gözlemde anomaly yoktur; dosyalar
+arasında atomic snapshot veya bütün proje kapsamı iddia edilmez.
+
+Sabit cutoff `2026-10-03T18:34:08.162946Z`; son usage olayı
+`2026-10-03T18:33:27.325000Z`. Kaydedilen toplam **4.367.291.356** token:
+input4.351.340.188, output15.951.168; cached input4.268.718.848 ve reasoning
+output5.406.238 alt kümelerdir. Cache-write gözlemi0. Public
+[sanitize snapshot](usage_snapshot_20261003.json) yalnız aggregate taşır;
+özel mesaj, session kimliği, ham dosya yolu veya credential içermez.
+
+README'de sağlayıcı/model/effort, input/cache/output/toplam, UTC gün ve ayrı
+varsayımsal API maliyeti vardır. [Tarife kaydı](usage_prices_20261003.json)
+3 Ekim'de [resmî fiyat sayfası](https://developers.openai.com/api/docs/pricing)
+ve [GPT-6 Sol modeli](https://developers.openai.com/api/docs/models/gpt-6-sol)
+üzerinden bağımsız doğrulandı. **Standard / kısa bağlam senaryosu 1.954,71 USD**;
+bu ücret faturası, abonelik tahsisi veya tarihsel gerçek maliyet değildir.
+Geçmiş service tier/bağlam/tarife, vergi, araç, bölge, indirim ve donanım giderleri
+bilinmiyor. Fiyatlanamayan modeller sıfır maliyetli sayılmaz.
+
+Hesap: `((input - cached_input) × input_rate + cached_input × cached_rate
++ output × output_rate) / 1_000_000`. Decimal aritmetiği kullanılır; toplam
+yuvarlanmamış satırlardan hesaplanır. Reasoning yeniden eklenmez. Nonzero
+cache-write muhasebesi kanıtlanmadan o satır fiyatlanmaz. Doğrulanmamış sağlayıcı/
+model unpriced kalır. Goal sayacı bu hesaba sokulmaz.
+
+Mevcut default runtime DB salt okunur gözleminde `model_calls=0`; tarihsel
+runtime toplamı bilinmiyor. Bu local DB sonucu geliştirme sağlayıcı sayaçlarına
+eklenmez ve tüm uygulamanın maliyeti0 diye yorumlanmaz.
+
+Saatlik timer active olarak yeniden gözlendi; mevcut özel snapshot'lar korunur.
+README bloğu ve UTC gün tablosu aşağıdaki salt-okunur komutla yeniden üretilebilir:
+
+```sh
+python -m scripts.summarize_usage data/accounting/YYYY-MM-DDTHH0000Z.json
+```
+
+Komut yalnız stdout üretir; kayıt/README/Git/servis değiştirmez. Yeni saatlik
+snapshot'ı inceleyip public aggregate ve işaretli README bloğunu birlikte yenileyin;
+tarife tarihi güncel değilse yeni resmî inceleme olmadan “güncel fiyat” demeyin.
+19 CPU test; subset hesabı, eksik fiyat, invalid sayı/etiket, duplicate model/gün,
+sanitize çıktı ve public snapshot–README eşliğini doğrular. Bunlar gerçek fatura
+doğrulaması değildir. Tarihsel gözlemler aşağıda korunur.
+
 Bu kayıt yalnız AOS kapsamındaki yerel Codex metadata/token sayaçlarını içerir.
 Provider token faturalaması, abonelik, ücret veya bütün proje toplamı değildir.
 AOS runtime Decider/Bonsai/Scientist GPU tokenları geliştirme provider
