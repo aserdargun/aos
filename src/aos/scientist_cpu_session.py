@@ -1,5 +1,8 @@
+import asyncio
+
 from .desktop_control import DesktopController
 from .scientist_cpu_capability import ScientistCpuCapabilityVerifier, ScientistCpuReviewedGrant
+from .scientist_cpu_study import read_cpu_study_async
 from .scientist_lab import ScientistLabClient, _deny_authority, _deny_effect
 from .scientist_lab_service import ScientistLabService, prepare_scientist_lab_startup
 from .scientist_transport import ScientistAdmissionError
@@ -7,9 +10,36 @@ from .storage import TrajectoryStore
 
 
 class ScientistCpuLabService(ScientistLabService):
+    def _authority(self, task, action):
+        if getattr(self.client, '_cpu_study_active', None) is not None:
+            raise ScientistAdmissionError('Lab admission waits for the existing CPU study readback to drain')
+        return super()._authority(task, action)
+
+    async def cpu_study_async(self):
+        def current():
+            with self.controller.lock:
+                state = self.controller.state()
+                if (self._closing or self._shared_drain_latched or self._shared_cleanup_controls_closed
+                        or state['session_id'] != self.controller.session_id
+                        or state['runtime_id'] != self.controller.runtime.runtime_id or state['status'] != 'running'):
+                    raise ScientistAdmissionError('CPU study readback is unavailable for this controller')
+                self.capability._check_client()
+                return {field: state[field] for field in ('session_id', 'runtime_id', 'owner', 'lease_id', 'generation')}
+        binding = current()
+        pending = asyncio.current_task()
+        self._active_controls.add(pending)
+        try:
+            value = await read_cpu_study_async(self.client, self.capability.grant)
+            if current() != binding:
+                raise ScientistAdmissionError('Controller changed during CPU study readback')
+            return {'study': value, 'metadata_only': True, 'execution_authorized': False,
+                    'snapshot_content_verified': False, 'candidate_code_verified': False}
+        finally:
+            self._active_controls.discard(pending)
+
     def inventory(self):
         capability = self.capability.grant.capability
-        return {**super().inventory(), 'request_limits': {
+        return {**super().inventory(), 'cpu_study_supported': True, 'request_limits': {
             'profile': self.capability.grant.profile, 'source': 'reviewed_configuration',
             'suite': capability.suite_id, 'track': capability.track,
             'max_experiments': capability.max_experiments,

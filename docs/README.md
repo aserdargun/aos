@@ -13,6 +13,8 @@
 
 ## Ayrıntılı sözleşmeler
 
+- [SCIENTIST_CPU_STUDY — yetkili salt okunur veri/yöntem tanımı ve peer wire incelemesi](SCIENTIST_CPU_STUDY.md)
+
 - [FAILURE_FOLLOWUP — incelenmiş başarısızlıktan ayrı izinli yeni görev ve sonuç denetimi](FAILURE_FOLLOWUP.md)
 - [FAILURE_IMPROVEMENT — başarısız görevden ayrı, izinli metadata incelemesi ve düzeltme önerisi](FAILURE_IMPROVEMENT.md)
 - [FAILURE_GUIDANCE — incelenmiş sonlu yönlendirmeyi yeni Hello kararında kullanma](FAILURE_GUIDANCE.md)

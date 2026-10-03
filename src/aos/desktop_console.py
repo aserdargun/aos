@@ -3175,6 +3175,23 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
             return {'configured': False, 'joint_runtime_admitted': False, 'jobs': [], 'inference': inference}
         return {**scientist_lab.inventory(), 'inference': inference}
 
+    @app.get('/api/scientist/cpu-study')
+    async def scientist_cpu_study(request: Request):
+        from .scientist_cpu_session import ScientistCpuLabService
+        from .scientist_transport import ScientistAdmissionError
+
+        if request.query_params:
+            raise HTTPException(400, 'No Scientist query parameters are permitted')
+        if not isinstance(scientist_lab, ScientistCpuLabService) or control_lock.locked():
+            raise HTTPException(409, 'Reviewed Scientist CPU integration is unavailable')
+        try:
+            result = await scientist_lab.cpu_study_async()
+            if control_lock.locked():
+                raise ScientistAdmissionError('Scientist control changed during readback')
+            return result
+        except ScientistAdmissionError:
+            raise HTTPException(409, 'Reviewed Scientist CPU study readback unavailable') from None
+
     @app.post('/api/scientist/{operation}')
     async def scientist_operation(operation: str, request: Request):
         from .scientist_lab import ScientistLabBudget, ScientistLabUncertain

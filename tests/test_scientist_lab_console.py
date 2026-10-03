@@ -54,6 +54,12 @@ class ScientistLabConsoleTests(unittest.IsolatedAsyncioTestCase):
         self.store.close()
         self.temporary.cleanup()
 
+    async def test_cpu_study_unavailable_for_non_cpu_service_without_remote_read(self):
+        with patch.object(self.remote, '_request') as request:
+            result = await self.client.get('/api/scientist/cpu-study')
+        self.assertEqual(result.status_code, 409)
+        request.assert_not_called()
+
     async def post(self, operation, value):
         return await self.client.post('/api/scientist/' + operation, headers=self.headers, json=value)
 

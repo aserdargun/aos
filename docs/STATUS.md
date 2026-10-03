@@ -1,3 +1,46 @@
+## 3 Ekim 2026, 17:35 UTC — Scientist CPU veri/yöntem readback kaynağı
+
+Önceki goal turu gerçek ilerlemeydi: public main ve annotated v0.1.0 etiketi
+`a1a0c2e32f7aeea4c03afdfd7cd519476b4ee7f3` olarak remote readback ile doğrulandı.
+Etiket sabit kalır. Bu yeni dilim eski sürüm kabulünü genişletmez.
+
+Scientist thread okuması transport hatasıyla erişilemedi. Karşı checkout
+`55c5300600112ab823f76ec434029d6dc23e513c` ve yerel farkları salt okunur
+incelendi. Yeni descriptor belgesi ile ayrı hazırlanmış runtime kaynak dosyası
+okundu; Git HEAD ile runtime byte kimliği karıştırılmadı. Şema `263f5883…`,
+producer `7aa5e984…` karşı tarafın kaynak kaydıyla eşleşti; tam kimlik ve AOS
+wire-review özeti [SCIENTIST_CPU_STUDY](SCIENTIST_CPU_STUDY.md) içinde. Bu tek
+taraflı kaynak incelemesi reciprocal ACK veya yeni runtime yetkisi değildir.
+
+Kaynakta authenticated explicit GET → exact reviewed CPU capability/owner/suite
+→ bounded off-event-loop descriptor read → config hash/prefix/snapshot-summary
+kontrolleri → EN/TR panel gösterimi bağlandı. Veri/yöntem özeti otomatik okunmaz;
+eski/non-CPU backend'de kontrol gizlenir veya endpoint reddedilir. Hiçbir POST,
+deney/model başlatma, approval/intent veya GPU tahsis yolu eklenmedi. Satır sayısı
+skor değildir; candidate code ve raw snapshot bağımsız doğrulanmış sayılmaz.
+İptal/timeout, uncertain kontrol, kapanış/drain, controller nesli veya transport
+değişiminde readback reddedilir; gerçek worker kapanmadan cleanup tamamlanmaz.
+
+**93 CPU/mock PASS / 24,240 s:** descriptor, CPU service/startup/capability,
+console/context/readback, shared-only candidate ve release kaydı. **14 gerçek
+Chromium / mocked API PASS / 8,143 s:** açık GET, sıfır POST, EN/TR, mobil taşma
+olmaması, yanlış authority yanıtında eski sonucun temizlenmesi, legacy fallback.
+TypeScript ve izole Vite build geçti; mevcut büyük chunk uyarısı korundu.
+İlk hedef koşu testte global monotonic saat mock'u nedeniyle hata verdi; yalnız
+test modülünün clock referansını mock'layacak şekilde düzeltildi, 34 hedef test
+geçti. Başarısız log silinmedi; runtime saati veya güvenlik kontrolü değiştirilmedi.
+
+Özel kanıt: izole checkout `data/cpu-study-20261003/` içindeki `focused.log`,
+`focused-corrected.log`, `combined-final.log`, `typescript-final.log`, `build-final.log`, `ui-final.log`;
+UI görselleri `data/scientist-ui-qa-y3q08hpc/` altında. Descriptor beklerken
+inventory yanıt verir; yeni Lab proposal ek capability GET veya intent yaratmadan
+reddedilir. İptal sonrası gerçek metadata worker bitene kadar aynı engel korunur.
+Ham kanıt yayımlanmaz.
+Tam core yeniden çalıştırılmadı. Yeni UI/backend deploy edilmedi; default
+oturum ve Scientist dosyaları/süreçleri korunur. Actual CPU console/context
+run'ı için yeni ortak kaynak/config/scope incelemesi, owner-bound experience
+okuması, aktif Scorer iptali ve Scientist-only GPU kabulü açık kalır.
+
 ## 3 Ekim 2026, 17:14 UTC — v0.1.0 kaynak sürüm denetimi
 
 İzole kaynak checkout'u `627d410` üzerinden denetlendi; çalışan kullanıcı

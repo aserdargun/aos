@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {api} from './api';
 import {t} from './i18n';
+import {ScientistCpuStudy} from './ScientistCpuStudy';
 
 interface Approval {
   action_id: string;
@@ -24,6 +25,7 @@ interface Inventory {
   program_version?: string;
   request_limits?: unknown;
   supported_context_fields?: unknown;
+  cpu_study_supported?: unknown;
   inference?: {configured: boolean; admission_blocked: boolean; unresolved_count: number;
     resolved_count?: number;
     unresolved_lab_effect_count?: number;
@@ -290,6 +292,8 @@ export function ScientistLab() {
         <p>{t('İncelenmiş yapılandırma sınırları; canlı yetki veya GPU kabulü değildir. Her işlemde sunucu tekrar doğrular.')}</p>
         <p>{t('En fazla deney')}: {cpuLimits.maxExperiments} · {t('En fazla saniye')}: {cpuLimits.maxWallSeconds} · {t('Model token')}: 0</p>
       </section> : null}
+      {cpuLimits && inventory.cpu_study_supported === true ? <ScientistCpuStudy
+        key={JSON.stringify(inventory.request_limits)} suite={selected} disabled={busy || !!inventoryError}/> : null}
       <form data-testid="scientist-proposal-form" onSubmit={event => {
         event.preventDefault();
         if (proposal && !busy) void perform('propose', proposal);

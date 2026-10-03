@@ -67,6 +67,61 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
         page.get_by_label('Requested duration (seconds)', exact=True).fill(wall_seconds)
         page.get_by_label('Requested model token limit', exact=True).fill(model_tokens)
 
+    def test_cpu_study_explicit_read_translated_prefix_and_fail_closed_without_post(self):
+        from playwright.sync_api import expect
+        page = self.browser.new_page(viewport={'width': 1280, 'height': 900})
+        calls, errors = [], []
+        page.on('pageerror', lambda error: errors.append(str(error)))
+        inventory = {'configured': True, 'joint_runtime_admitted': False, 'jobs': [],
+            'allowed_suites': ['aos-cpu-example'], 'program_version': 'mode-grid.v1', 'cpu_study_supported': True,
+            'request_limits': {'profile': 'scientist-cpu-mode-grid.v1', 'source': 'reviewed_configuration',
+                'suite': 'aos-cpu-example', 'track': 'mode', 'max_experiments': 1,
+                'max_wall_seconds': 600, 'model_tokens': 0}}
+        result = {'study': json.loads((REPO_ROOT / 'examples/scientist_cpu_study.json').read_text()),
+            'metadata_only': True, 'execution_authorized': False,
+            'snapshot_content_verified': False, 'candidate_code_verified': False}
+        def endpoint(route):
+            calls.append((route.request.method, route.request.url))
+            if route.request.method != 'GET':
+                route.fulfill(status=500)
+            elif route.request.url.endswith('/cpu-study'):
+                route.fulfill(json=result)
+            else:
+                route.fulfill(json=inventory)
+        page.route('**/api/scientist/**', endpoint)
+        try:
+            page.goto(f'http://127.0.0.1:{self.server.server_port}/')
+            page.get_by_text('Scientist experiments', exact=True).click()
+            button = page.get_by_role('button', name='Read study description', exact=True)
+            expect(button).to_be_enabled()
+            self.assertFalse(any(url.endswith('/cpu-study') for _method, url in calls))
+            button.click()
+            description = page.get_by_test_id('scientist-cpu-study-result')
+            expect(description).to_contain_text('synthetic.step')
+            expect(description).to_contain_text('Evaluation input rows: 192')
+            expect(description).to_contain_text('method order is not a performance ranking')
+            expect(description.locator('li')).to_have_count(1)
+            expect(description.locator('li strong')).to_have_text('LSH')
+            page.screenshot(path=str(self.root / 'cpu-study-en.png'), full_page=True)
+            page.get_by_role('button', name='TR', exact=True).click()
+            page.set_viewport_size({'width': 390, 'height': 844})
+            expect(description).to_contain_text('Değerlendirme giriş satırı: 192')
+            expect(page.get_by_test_id('scientist-cpu-study')).to_contain_text('Sonuç, onay ya da ham veri doğrulaması değildir.')
+            self.assertFalse(page.evaluate('document.documentElement.scrollWidth > window.innerWidth'))
+            page.screenshot(path=str(self.root / 'cpu-study-tr-mobile.png'), full_page=True)
+            result['execution_authorized'] = True
+            page.get_by_role('button', name='Deney tanımını oku', exact=True).click()
+            expect(description).to_have_count(0)
+            expect(page.get_by_test_id('scientist-cpu-study').get_by_role('alert')).to_contain_text('Deney tanımı doğrulanamadı.')
+            inventory.pop('cpu_study_supported')
+            page.get_by_role('button', name='Yenile', exact=True).click()
+            expect(page.get_by_test_id('scientist-cpu-study')).to_have_count(0)
+            self.assertEqual([method for method, _url in calls if method != 'GET'], [])
+            self.assertEqual(len([url for _method, url in calls if url.endswith('/cpu-study')]), 2)
+            self.assertEqual(errors, [])
+        finally:
+            page.close()
+
     def test_optional_field_intent_is_validated_trimmed_and_omitted_when_disabled(self):
         from playwright.sync_api import expect
         page = self.browser.new_page(viewport={'width': 1280, 'height': 800})

@@ -110,6 +110,13 @@ invalid budgets even when a caller bypasses the UI.
 
 ## Contract identities
 
+An explicit [CPU study description](SCIENTIST_CPU_STUDY.md) consumer now exists
+in source. Local inventory advertises it only for the reviewed CPU service;
+the user-requested authenticated GET shows bounded synthetic dataset metadata
+and ordered method configurations. It grants no experiment or GPU authority.
+The descriptor wire review, remaining peer/runtime ACK and unverified raw-data/
+candidate-code boundaries are recorded separately from this capability contract.
+
 Optional context controls additionally require the local backend inventory to
 advertise `supported_context_fields: [field_intent, prior_experience]`. This is
 local DTO/UI compatibility metadata, not remote eligibility or execution authority.

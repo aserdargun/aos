@@ -38,7 +38,7 @@ Kaynak deposu: [aserdargun/aos](https://github.com/aserdargun/aos). Tanıtım si
 
 Tam ürün kapanışı için tek aşama kaydı [RELEASE_ACCEPTANCE](docs/RELEASE_ACCEPTANCE.md) ve [canonical JSON](docs/release_acceptance.json) dosyalarıdır. Bu kaynak teslimi o aşamaları tamamlandı yapmaz; uydurulmuş bir toplam yüzde verilmez.
 
-**Son kaynak doğrulaması, 3 Ekim 2026:** temiz kaynak checkout'undaki kurulum varsayımları test fixture'larında düzeltildi; üretim güvenlik kontrolleri değiştirilmedi. 3497 testlik core koşusunda **3181 PASS, 316 SKIP, 0 FAIL/ERROR** (510,531 saniye); atlanan gerçek GPU/UI kontrolleri nedeniyle rapor `partial` kalır. Beş SQLite finalizer uyarısı ayrıca kaydedildi; warning-clean veya genel runtime kabulü iddia edilmez. [Kanıt ve sınırlar](docs/STATUS.md).
+**v0.1.0 kaynak doğrulaması, 3 Ekim 2026:** temiz kaynak checkout'undaki kurulum varsayımları test fixture'larında düzeltildi; üretim güvenlik kontrolleri değiştirilmedi. 3497 testlik core koşusunda **3181 PASS, 316 SKIP, 0 FAIL/ERROR** (510,531 saniye); atlanan gerçek GPU/UI kontrolleri nedeniyle rapor `partial` kalır. Beş SQLite finalizer uyarısı ayrıca kaydedildi; warning-clean veya genel runtime kabulü iddia edilmez. Etiket sonrası [CPU veri/yöntem tanımı](docs/SCIENTIST_CPU_STUDY.md) kaynak diliminde **93 CPU/mock ve 14 Chromium/UI testi** geçti; tam core yeniden çalıştırılmadı, canlıya aktarılmadı. [Kanıt ve sınırlar](docs/STATUS.md).
 
 ## Mimari ve donanım
 
@@ -146,7 +146,7 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli sürüm snapshot'ı: 3 Ekim 2026, 17:14:43 UTC / 20:14:43 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14803599`, `timeUsedSeconds=87091`: **24 saat 11 dakika 31 saniye / 24,1919444 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 17:35:48 UTC / 20:35:48 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14927099`, `timeUsedSeconds=88357`: **24 saat 32 dakika 37 saniye / 24,5436111 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 
