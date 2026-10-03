@@ -199,12 +199,12 @@ Geliştirmeye başlamadan [AGENTS.md](AGENTS.md), [CODEX_KICKOFF.md](CODEX_KICKO
 ### Sağlayıcı/model ve maliyet kırılımı
 
 <!-- aos-usage:start -->
-Kayıt kesimi: **2026-10-03T19:00:01.020094Z**; **95 AOS oturumu**; durum: `observed`.
-Token olayı kapsamı: `2026-09-19T18:08:27.410000Z` → `2026-10-03T18:59:48.928000Z`. Tüm proje/fatura kapsamı değildir.
+Kayıt kesimi: **2026-10-03T20:00:02.271181Z**; **95 AOS oturumu**; durum: `observed`.
+Token olayı kapsamı: `2026-09-19T18:08:27.410000Z` → `2026-10-03T19:57:43.082000Z`. Tüm proje/fatura kapsamı değildir.
 
 | Sağlayıcı | Model | Effort | Input | Cached input¹ | Output | Toplam token | API karşılığı² (USD) |
 |---|---|---|---:|---:|---:|---:|---:|
-| openai | gpt-6-astra | high | 761,165,124 | 740,569,088 | 3,300,644 | 764,465,768 | 1,111.56 |
+| openai | gpt-6-astra | high | 777,545,446 | 756,544,128 | 3,401,211 | 780,946,657 | 1,136.62 |
 | openai | gpt-6-astra | max | 71,984,493 | 69,604,736 | 377,444 | 72,361,937 | 112.27 |
 | openai | gpt-6-luna | high | 418,381,260 | 411,382,400 | 1,373,702 | 419,754,962 | 5.50 |
 | openai | gpt-6-luna | medium | 10,560,748 | 10,264,576 | 36,211 | 10,596,959 | 0.15 |
@@ -212,7 +212,7 @@ Token olayı kapsamı: `2026-09-19T18:08:27.410000Z` → `2026-10-03T18:59:48.92
 | openai | gpt-6.1-sol | high | 177,753,582 | 172,769,536 | 909,016 | 178,662,598 | 36.34 |
 | openai | gpt-6.1-sol | medium | 686,338,266 | 671,100,160 | 3,062,913 | 689,401,179 | 128.22 |
 
-**Kaydedilmiş token: 4,375,689,661.** Fiyatlanabilen alt kümenin varsayımsal API karşılığı: **1,968.59 USD**; fiyatlanamayan token: **0**.
+**Kaydedilmiş token: 4,392,170,550.** Fiyatlanabilen alt kümenin varsayımsal API karşılığı: **1,993.65 USD**; fiyatlanamayan token: **0**.
 
 ¹ Cached input, input toplamının alt kümesidir. Reasoning output da output içine dahildir; tekrar toplanmaz.
 ² Standard / kısa bağlam tarifesiyle karşılaştırma senaryosu; gerçek ücret, abonelik bedeli veya tarihsel fatura değildir.
@@ -234,7 +234,7 @@ Goal token/süre sayacı ve yerel runtime tüketimi bu toplama eklenmez.
 | 2026-09-30 | 540,176,965 |
 | 2026-10-01 | 306,293,248 |
 | 2026-10-02 | 67,777,780 |
-| 2026-10-03 | 399,585,671 |
+| 2026-10-03 | 416,066,560 |
 <!-- aos-usage:end -->
 
 Tarifeler 3 Ekim 2026 tarihinde [resmî OpenAI fiyat sayfası](https://developers.openai.com/api/docs/pricing) ve [GPT-6 Sol model sayfası](https://developers.openai.com/api/docs/models/gpt-6-sol) üzerinden doğrulandı. [Tarihli tarife girdisi](docs/usage_prices_20261003.json), [güncel sanitize edilmiş sayaç kaydı](docs/usage_latest.json), [hesaplama yöntemi](docs/USAGE_ACCOUNTING.md).
