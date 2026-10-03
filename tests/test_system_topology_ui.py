@@ -125,3 +125,48 @@ class SystemTopologyUITests(unittest.TestCase):
         expect(self.page.get_by_test_id('system-topology')).to_contain_text('her eylem için S2 çağrısı gerekmez')
         self.page.screenshot(path=str(self.evidence / 'tr-mobile.png'), full_page=True)
         self.check_read_only_health()
+
+    def test_themes_follow_system_then_preserve_explicit_choice_across_tabs_and_reload(self):
+        from playwright.sync_api import expect
+
+        self.page.emulate_media(color_scheme='light')
+        self.open_panel()
+        expect(self.page.locator('html')).to_have_attribute('data-theme', 'light')
+        self.page.emulate_media(color_scheme='dark')
+        expect(self.page.locator('html')).to_have_attribute('data-theme', 'dark')
+        for theme, background in (('light', 'rgb(255, 255, 255)'), ('dark', 'rgb(11, 31, 58)')):
+            self.page.get_by_role('button', name=theme.title(), exact=True).click()
+            self.page.emulate_media(color_scheme='dark' if theme == 'light' else 'light')
+            for tab in ('Development', 'Models', 'System & topology', 'Scientist Lab'):
+                self.page.get_by_role('button', name=tab, exact=True).click()
+                expect(self.page.locator('html')).to_have_attribute('data-theme', theme)
+                self.assertEqual(self.page.evaluate('getComputedStyle(document.documentElement).backgroundColor'), background)
+                self.check_read_only_health()
+            self.page.reload()
+            expect(self.page.get_by_role('button', name=theme.title(), exact=True)).to_have_attribute('aria-pressed', 'true')
+            self.page.set_viewport_size({'width': 390, 'height': 844})
+            self.check_read_only_health()
+            self.page.screenshot(path=str(self.evidence / ('theme-' + theme + '-mobile.png')))
+            self.page.set_viewport_size({'width': 1440, 'height': 1000})
+
+    def test_login_button_hover_and_input_are_readable_in_both_themes(self):
+        from playwright.sync_api import expect
+
+        self.page.route('**/api/session', lambda route: route.fulfill(json={'authenticated': False}))
+        self.page.goto(f'http://127.0.0.1:{self.server.server_port}/ui/')
+        button = self.page.get_by_role('button', name='Sign in', exact=True)
+        expect(button).to_be_visible()
+        for theme in ('light', 'dark'):
+            self.page.get_by_role('button', name=theme.title(), exact=True).click()
+            button.hover()
+            colors = button.evaluate('element => { const style = getComputedStyle(element); return [style.color, style.backgroundColor]; }')
+            luminances = []
+            for color in colors:
+                channels = [int(channel.strip()) / 255 for channel in color.removeprefix('rgb(').removesuffix(')').split(',')]
+                linear = [channel / 12.92 if channel <= 0.04045 else ((channel + 0.055) / 1.055) ** 2.4 for channel in channels]
+                luminances.append(sum(channel * weight for channel, weight in zip(linear, (0.2126, 0.7152, 0.0722))))
+            self.assertGreaterEqual((max(luminances) + 0.05) / (min(luminances) + 0.05), 4.5)
+            self.assertEqual(self.page.locator('#token').evaluate('element => getComputedStyle(element).color'),
+                             self.page.evaluate('getComputedStyle(document.documentElement).color'))
+            self.page.screenshot(path=str(self.evidence / ('login-' + theme + '-hover.png')))
+            self.check_read_only_health()

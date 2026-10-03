@@ -1,3 +1,22 @@
+## 3 Ekim 2026,21:30 UTC — açık/koyu tema uyumu
+
+Mevcut UMAY açık/koyu temaları korundu; yeni tema sistemi kurulmadı.
+Giriş düğmesinin hover rengi karanlık zeminde okunaksız kalabiliyordu;
+ortak accent metin rengiyle düzeltildi. Form alanları tema metni ve fontunu
+miras alıyor. Sistem tercihi, açık seçim, dört sekme arası geçiş, reload,
+390px mobil görünüm ve iki temada giriş hover kontrastı (en az4,5:1)
+**4 Chromium/sentetik API testi /2,238s** ile geçti. İlk testte yanlış
+Scientist sekme adı timeout üretti; locator gerçek Scientist Lab adına düzeltildi.
+Build geçti; mevcut500kB bundle uyarısı sürüyor. Browser plugin yok;
+yüklü Python Playwright ve GPU-disabled Chromium kullanıldı.
+
+Mevcut backend üzerinde API mock olmadan candidate ve teslim edilmiş UI
+kontrolleri:1440×1000 EN /390×844 TR, iki tema, kalıcılık ve salt-okunur
+gezinme geçti. Yalnız boş local-login POST ve GET izinliydi; görev başlatılmadı.
+UI-only atomik teslimde backend PID42513/start344916 değişmedi; eski assetler
+ve rollback index korundu. Kanıt `/tmp/aos-theme-20261003-WaFke2/`.
+Mac tarayıcısı bağımsız doğrulanmadı; backend/GPU/Scientist kabulü değildir.
+
 ## 3 Ekim 2026,21:14 UTC — somut Scientist istemci adaptörü
 
 Önceki tur gerçek backend üzerinde yalnız UI teslimiydi. Bu tur AOS verify/claim
