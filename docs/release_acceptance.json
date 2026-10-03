@@ -5,25 +5,53 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T19:26:17Z",
+    "recorded_at": "2026-10-03T20:08:02Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
       "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
     },
     "blocker": {
-      "en": "Source/prototype v0.1.0 is published; full product acceptance remains open. Live Scientist is unconfigured. The separate CPU panel is prepared but not started; fresh scope and start authorization are missing. Four alternative models and per-model Unsloth designs are research candidates, not enabled inference or training. Shared GPU remains on HOLD.",
-      "tr": "Kaynak/prototip v0.1.0 yayımlandı; tam ürün kabulü açık. Canlı Scientist yapılandırılmamış. Ayrı CPU paneli hazırlandı ama başlamadı; taze kapsam ve başlatma onayı eksik. Dört alternatif model ve model başına Unsloth taslakları araştırma adayıdır; etkin çıkarım veya eğitim değildir. Ortak GPU HOLD sürüyor."
+      "en": "Source/prototype v0.1.0 is published; full product acceptance remains open. Live Scientist is unconfigured. The portable CPU panel launcher is ready, but real panel acceptance needs fresh scope and separate start authorization. Shared GPU also needs an agreed finite launch authority producer and production verifier; this is missing runtime code, not only a permission wait. GPU HOLD remains.",
+      "tr": "Kaynak/prototip v0.1.0 yayımlandı; tam ürün kabulü açık. Canlı Scientist yapılandırılmamış. Taşınabilir CPU paneli başlatıcısı hazır; gerçek panel kabulü için taze kapsam ve ayrı başlatma onayı gerekiyor. Ortak GPU ayrıca üzerinde uzlaşılmış sonlu başlatma yetkisi üreticisi ve üretim doğrulayıcısı gerektiriyor; yalnız izin beklenmiyor, runtime kodu da eksik. GPU HOLD sürüyor."
     },
     "next_action": {
-      "en": "Review the fresh isolated Scientist CPU scope and explicit start permission for actual panel acceptance. For model alternatives, pin and verify adapters, training converters and GPU budgets before activation; keep the current pilot and default models unchanged.",
-      "tr": "Gerçek panel kabulü için taze izole Scientist CPU kapsamını ve açık başlatma onayını incele. Model alternatiflerinde aktivasyondan önce adaptör, eğitim converter ve GPU bütçelerini pinleyip doğrula; mevcut pilot ve varsayılan modeller değişmesin."
+      "en": "Review the fresh isolated Scientist CPU scope and explicit start permission for actual panel acceptance. In parallel, obtain the peer decision on the shared-launch issuer, single-use/revocation and cleanup contract, then implement the production composition. Keep the current pilot and default models unchanged.",
+      "tr": "Gerçek panel kabulü için taze izole Scientist CPU kapsamını ve açık başlatma onayını incele. Paralel olarak ortak başlatmanın yetki üreticisi, tek kullanım/iptal ve cleanup sözleşmesi için karşı incelemeyi al; ardından üretim bileşimini uygula. Mevcut pilot ve varsayılan modeller değişmesin."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",
       "tr": "Tarihli kaynak kaydıdır; canlı worker telemetrisi veya teslim edilmiş UI değildir. Bu JSON güncellemesi mevcut UI dosyalarını yeniden derlemez. CPU kontrolleri ve kaynak readback'i runtime/GPU yetkisi veya aşama tamamlanması vermez. SWAPP intranet testi en sondadır."
     },
     "updates": [
+      {
+        "id": "hourly_usage_published",
+        "state": "verified_cpu",
+        "recorded_at": "2026-10-03T20:05:03Z",
+        "title": {
+          "en": "First automatic hourly usage publication verified",
+          "tr": "İlk otomatik saatlik kullanım yayını doğrulandı"
+        },
+        "detail": {
+          "en": "The scheduled service published the 20:00 UTC model/token/cost aggregate to GitHub main as a6e6c42. Remote readback and all 1,691 source-file hashes match. Only README, usage_latest.json and MANIFEST changed; no raw sessions, development worktree or runtime changes. Estimates remain separate from actual bills and subscriptions.",
+          "tr": "Zamanlanmış servis 20:00 UTC model/token/maliyet özetini a6e6c42 ile GitHub main'e gönderdi. Uzak kayıt ve 1.691 kaynak dosyasının hashleri doğrulandı. Yalnız README, usage_latest.json ve MANIFEST değişti; ham oturumlar, geliştirme çalışma ağacı ve runtime değişmedi. Tahminler gerçek fatura ve abonelikten ayrı tutuluyor."
+        },
+        "evidence": ["docs/USAGE_PUBLICATION.md", "docs/STATUS.md", "tests/test_publish_usage.py"]
+      },
+      {
+        "id": "portable_cpu_panel",
+        "state": "verified_cpu",
+        "recorded_at": "2026-10-03T19:49:00Z",
+        "title": {
+          "en": "Portable reviewed Scientist CPU panel launcher",
+          "tr": "Taşınabilir, incelenmiş Scientist CPU paneli başlatıcısı"
+        },
+        "detail": {
+          "en": "Source 540fc95 adds check-only by default, explicit start, pinned configuration and separate project UI/cookies/data. 78 CPU/synthetic checks passed; no real Scientist or Docker launch ran. The finite shared-launch proposal is published, but the production authority composition is not implemented or agreed. Existing pilot unchanged.",
+          "tr": "540fc95 kaynağı: varsayılan yalnız kontrol, açık başlatma, pinli yapılandırma ve ayrı proje UI/cookie/veri alanları. 78 CPU/sentetik kontrol geçti; gerçek Scientist veya Docker başlatılmadı. Sonlu ortak başlatma önerisi yayımlandı; üretim yetki bileşimi uygulanmadı veya karşılıklı onaylanmadı. Mevcut pilot değişmedi."
+        },
+        "evidence": ["docs/SCIENTIST_CPU_PANEL.md", "tests/test_scientist_cpu_panel.py", "docs/SCIENTIST_SHARED_LAUNCH_PROPOSAL.md"]
+      },
       {
         "id": "candidate_message_conversion",
         "state": "verified_cpu",
@@ -51,8 +79,8 @@
           "tr": "Tutarlı açık/koyu tema ve saatlik kullanım yayını"
         },
         "detail": {
-          "en": "The live UI uses the umayos.org palette in both themes; tab geometry and saved preferences are verified on desktop and mobile. Backend/GPU unchanged. An hourly aggregate-only publisher is enabled; its first real service check correctly skipped unchanged data. Automatic changed-data push is not yet observed.",
-          "tr": "Canlı arayüz iki temada umayos.org paletini kullanıyor; sekme ölçüleri ve kayıtlı tercih masaüstü/mobilde doğrulandı. Backend/GPU değişmedi. Yalnız aggregate yayımlayan saatlik servis etkin; ilk gerçek kontrol değişmeyen veriyi doğru şekilde atladı. Yeni veriyle otomatik push henüz gözlenmedi."
+          "en": "The live UI uses the umayos.org palette in both themes; tab geometry and saved preferences are verified on desktop and mobile. Backend/GPU unchanged. The aggregate-only publisher was enabled and its initial manual check correctly skipped unchanged data. The later automatic publication is recorded separately above.",
+          "tr": "Canlı arayüz iki temada umayos.org paletini kullanıyor; sekme ölçüleri ve kayıtlı tercih masaüstü/mobilde doğrulandı. Backend/GPU değişmedi. Yalnız aggregate yayımlayan servis etkinleştirildi; ilk manuel kontrol değişmeyen veriyi doğru şekilde atladı. Daha sonraki otomatik yayın üstte ayrı kayıtlıdır."
         },
         "evidence": [
           "docs/CONTROL_CENTER.md",

@@ -7,6 +7,23 @@ separate. The last authoritative goal observation remains historical between
 interactive handoffs; the publisher cannot obtain an authoritative live goal API
 counter and does not invent or sum overlapping observations.
 
+## First scheduled publication observed
+
+On **3 October 2026, 20:05:03 UTC**, the enabled timer completed its first
+scheduled changed-data publication: `Result=success`, exit 0. The collector's
+cutoff was `2026-10-03T20:00:02.271181Z`. Published commit
+`a6e6c42035af3197bc3f4afc4a18aaef45d95d30` has parent
+`138a3dfc70b15f37d91f56684a2078f977ae0825`; independent GitHub readback matched.
+Only the three allowlisted files changed, and all 1,691 published source files
+matched the new manifest. No development worktree, backend or GPU process was
+changed by the publisher. This is real publication evidence, not a mock result
+or a guarantee of future network/host availability.
+
+The clean development checkout subsequently fast-forwarded by that one reviewed
+aggregate-only commit; no merge commit, history rewrite or local-change reset
+was performed. Future development handoffs must likewise inspect remote changes
+before continuing, rather than overwrite an automated publication.
+
 ## Scope and safety
 
 - Reads only the current UTC hour's private collector snapshot. Missing, future

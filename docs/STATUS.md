@@ -1,3 +1,36 @@
+## 3 Ekim 2026, 20:12 UTC — güncel Development kayıtları canlı arayüzde
+
+Önceki tur somut ilerlemeydi: sonlu başlatma önerisi yayımlandı ve mevcut canlı
+timer'ın ilk otomatik changed-data push'u gözlendi. 20:05:03 UTC servis exit0/
+success; 20:00:02.271181 UTC kesimli aggregate `a6e6c42` ile doğru origin/main'e
+çıktı. Üç allowlist dosyası dışında fark yok; tüm1691 dosya manifestle eşleşti.
+Public geliştirme checkout'u yalnız bu incelenmiş tek commit ile fast-forward
+oldu; merge commit, reset veya yerel değişiklik kaybı yok.
+
+Development artık otomatik saatlik yayın, taşınabilir CPU paneli ve gerçek açık
+runtime kodunu ayrı gösterir: ortak activation issuer/verifier eksikliği yalnız
+izin bekleme değildir. Eski manuel publisher kontrolü tarihli tutulur, sonraki
+otomatik başarıya yönlendirir. Altı ürün aşaması veya genel yüzde yükseltilmedi;
+canlı Scientist bağlantısı hâlâ unconfigured. Günlük checkpoint'i20:08:02 UTC.
+
+UI build geçti; mevcut >500kB chunk uyarısı sürer. **14 kontrol:13 PASS,1 private
+evidence SKIP /2,340s**. İlk çalışmada günlükteki `scripts/` kanıt yolu mevcut
+allowlist tarafından doğru reddedildi; public test kanıtı kullanıldı, şema
+genişletilmedi. Browser plugin yok; kurulu GPU-disabled Python Playwright ile
+1440x1000 EN ve390x844 TR, light/dark, kalıcı seçim, topoloji ve unconfigured
+Scientist kontrolleri hem aday assetlerde hem teslim sonrasında geçti.
+Her gerçek-backend akışında29 istek; yalnız GET ve boş local-login POST'una
+izin verildi. Görev/deney etkisi veya API mock'u yok; console/runtime hata yok.
+
+Yalnız UI assetleri atomik yayımlandı, eski assetler/rollback index korundu.
+Yeni index SHA256 `3b0b2d9d3748c11a6552ba1f2d70a537f7cf1a4ce664632a84a5f50e545025bc`;
+PID42513/start344916/cmdline `de23e5618fcc70950bd5e096188432465b7c918320a2a3f3eaf458f899051d6f`
+değişmedi. Ekran görüntüleri, aday/teslim QA ve promotion makbuzu
+`/tmp/aos-development-delivery-20261003-LlUebj/` içinde özeldir. Mac bridge
+active; hosttan Tailscale bridge isteği403 aldı, ACL gevşetilmedi. Gerçek
+aserdargun/Mac tarayıcı kabulü yapılmadı; doğrulanan URL host loopback8765'tir.
+Backend/GPU yeniden başlatılmadı. Entegrasyon kısmi, gerçek ortak kabul açık.
+
 ## 3 Ekim 2026, 19:57 UTC — ortak başlatma için somut karşı inceleme
 
 Önceki tur ilerlemeydi: CPU paneli başlatıcısı `540fc95` ile yayımlandı. Bu tur

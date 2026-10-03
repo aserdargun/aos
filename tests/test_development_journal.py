@@ -36,7 +36,7 @@ class DevelopmentJournalTests(unittest.TestCase):
         checkpoint = self.snapshot['checkpoint']
         self.assertEqual(checkpoint['scope'], 'manual_development_checkpoint')
         self.assertEqual([update['state'] for update in checkpoint['updates']],
-                         ['verified_cpu', 'verified_cpu', 'in_progress', 'verified_cpu', 'verified_cpu', 'in_progress', 'in_progress', 'in_progress', 'next'])
+                         ['verified_cpu', 'verified_cpu', 'verified_cpu', 'verified_cpu', 'in_progress', 'verified_cpu', 'verified_cpu', 'in_progress', 'in_progress', 'in_progress', 'next'])
         for update in checkpoint['updates']:
             for evidence in update['evidence']:
                 if not evidence.startswith('data/'):

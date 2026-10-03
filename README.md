@@ -172,13 +172,13 @@ ya da önceden dondurulmuş CPU workspace'ini değiştirmez.
 
 ## Geliştirme süresi, token ve maliyet
 
-**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 19:57:20 UTC / 22:57:20 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16273389`, `timeUsedSeconds=96848`: **26 saat 54 dakika 8 saniye / 26,9022222 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 20:12:37 UTC / 23:12:37 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16343882`, `timeUsedSeconds=97766`: **27 saat 9 dakika 26 saniye / 27,1572222 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 
 Yerel geliştirme session kayıtları sağlayıcı/model/effort/zaman kırılımı için ayrı kapsamdır. Gerçek faturalar, abonelik bedeli ve tahmini API maliyeti birbirinin yerine kullanılmaz; bilinmeyen ücret sıfır sayılmaz. Uygulama `model_calls` kayıtları da geliştirme JSONL tüketimine eklenmez. [Muhasebe yöntemi ve düzenli kayıt](docs/USAGE_ACCOUNTING.md).
 
-Bu hostta [saatlik özel kullanım kaydı](docs/USAGE_TIMER.md) etkinleştirildi ve servis ilk kez başarıyla çalıştı. Ayrı [saatlik aggregate publisher](docs/USAGE_PUBLICATION.md) yalnız incelenmiş README kullanım bloğu, public özet ve manifesti normal commit/push ile günceller; ham özel kayıtları veya geliştirme worktree değişikliklerini yayımlamaz. Etkinleştirme kanıtı STATUS içindedir.
+Bu hostta [saatlik özel kullanım kaydı](docs/USAGE_TIMER.md) etkinleştirildi ve servis ilk kez başarıyla çalıştı. Ayrı [saatlik aggregate publisher](docs/USAGE_PUBLICATION.md) yalnız incelenmiş README kullanım bloğu, public özet ve manifesti normal commit/push ile günceller; ham özel kayıtları veya geliştirme worktree değişikliklerini yayımlamaz. İlk gerçek zamanlanmış yeni-veri yayını 3 Ekim20:05 UTC'de `a6e6c42` ile doğrulandı; kanıt STATUS içindedir.
 
 Önceki README, bütün tarihli sayaç gözlemleri ve atıflı model rol geçmişi [historical archive](docs/README_HISTORY_20261003.md) içinde korunur; güncel kabul kaydı değildir. Yeni geliştirici/Claude oturumunda uyumlu sayaç yoksa son doğrulanmış değer historical tutulmalı, proje toplamı uydurulmamalıdır.
 

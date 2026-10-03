@@ -2,6 +2,15 @@
 
 Preserved dated records, not current acceptance. Cumulative counters overlap; do not add them. See [current README](../README.md) and [delivery guide](DELIVERY_AND_CONTINUATION.md).
 
+## Superseded goal snapshot — 3 October 2026, 19:57:20 UTC
+
+Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, goal `bu son planı uygula`,
+start `createdAt=1790835738` (1 October 2026, 06:22:18 UTC):
+`tokensUsed=16273389`, `timeUsedSeconds=96848`, **26h 54m 8s / 26.9022222 hours**.
+Observed roles remain Astra 6/high review, Sol 6.1/high implementation,
+Sol 6.1/medium UI/docs; root variant unverified. Not billing, model-specific,
+whole-project or human-time accounting. Do not sum overlapping counters.
+
 ## Superseded goal snapshot — 3 October 2026, 19:45:43 UTC
 
 Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, goal `bu son planı uygula`,
