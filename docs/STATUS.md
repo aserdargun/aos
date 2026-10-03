@@ -1,3 +1,38 @@
+## 3 Ekim 2026, 16:12 UTC — ayrı CPU Scientist konsol başlangıcı bağlandı
+
+İzole publication checkout'unda `serve_desktop.main` artık explicit typed
+`scientist_lab_config` + `scientist_cpu_grant` çiftini, yalnız ayrı fixture
+oturumunda mevcut CPU service factory'ye bağlar. Private credential ve exact
+owner/authority/suite/program/context doğrulaması desktop oluşmadan yapılır.
+Default port/workspace/database, native model/prewarm/skill reuse ve karışık
+shared runtime hook'ları reddedilir. API okunarak grant türetilmez. Mevcut
+onay/intent, fresh capability ve lifespan kapanışı aynen kullanılır; inventory
+ortak runtime kabulünü hâlâ false gösterir.
+
+**38 PASS / 1,808 s:** CPU startup/session, eski Scientist startup ve optional
+context kontrolleri. Yeni beş test; mismatch/private credential/native/default
+retlerini, gerçek startup → console → authenticated ASGI inventory ve yerel
+client kapanışını kapsar. Desktop fixture, Uvicorn yürütücüsü kontrollü test
+sürücüsüdür; gerçek Scientist çağrısı veya kullanıcı browser kabulü değildir.
+İlk test mock'u `isinstance` ile uyumsuz sınıf değiştirdiği için düzeltildi;
+production guard gevşetilmedi. İlk ve düzeltilmiş loglar korunur.
+
+**20 PASS / 1,188 s:** 14 CPU capability ve altı shared-only candidate testi.
+İlk candidate kontrolü değiştirilmiş `serve_desktop.py` hash'ini doğru biçimde
+reddetti. Kaynak farkı incelenerek yalnız ilgili before/after hash'leri ve patch
+context/hash'i güncellendi. Disposable kopyada bütün candidate pinleri, native
+retleri ve yeni CPU hook'un shared-only engine kuralını aşamaması doğrulandı.
+Live kaynağa candidate uygulanmadı; GPU/model/servis/deployment yapılmadı.
+
+Özel kanıtlar izole checkout'ta `data/cpu-console-startup-20261003/` altında
+`focused.log`, `console-final.log`, `candidate-regression.log`,
+`candidate-final.log`. Scientist thread haberleşme aracı bu gözlemde transport
+hatası verdi; karşı taraf teyidi veya yeni ortak kabul iddia edilmez. Default
+operational checkout tracked diff hash'i önceki teslimle aynı kaldı.
+Sonraki kapı: güncel çiftin review'u ve explicit ayrı CPU console üzerinden
+optional context ile gerçek kontrollü görev; native/GPU ve kullanıcı teslimi
+açık kalır. [Başlangıç sözleşmesi](SCIENTIST_CPU_CAPABILITY.md).
+
 ## 3 Ekim 2026, 15:53 UTC — System & topology paneli ve gerçek rendered navigasyon
 
 Yan menüye **System & topology / Sistem ve topoloji** eklendi; Development

@@ -54,15 +54,15 @@
      result = await engine.plan("Create and verify the authorized /workspace/hello.txt containing Hello from the local agent. followed by a newline. The initial read failed because the file is absent. No overwrite, host access or other files are authorized.",
 --- a/scripts/serve_desktop.py
 +++ b/scripts/serve_desktop.py
-@@ -198,6 +198,8 @@
+@@ -199,6 +199,8 @@
                          help='Permit per-task opt-in synthetic metadata only in this private outbox')
      parser.add_argument('--bonsai-manifest', type=Path, default=REPO_ROOT / 'models/bonsai-manifest.json')
      arguments = parser.parse_args()
 +    if arguments.engine != 'scientist':
 +        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
-     owned_parameter_startup = None
-     project_options = (arguments.owned_parameter_project_directory,
-                        arguments.owned_parameter_project_manifest_sha256)
+     cpu_startup = None
+     if scientist_cpu_grant is not None:
+         if (arguments.engine != 'fixture' or arguments.vision_engine not in {'disabled', 'fixture'}
 --- a/services/decider/broker_worker.py
 +++ b/services/decider/broker_worker.py
 @@ -4,7 +4,7 @@

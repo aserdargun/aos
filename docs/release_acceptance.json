@@ -5,7 +5,7 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T15:53:00Z",
+    "recorded_at": "2026-10-03T16:12:10Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
@@ -16,8 +16,8 @@
       "tr": "Optional amaç ve seçilmiş geçmiş aktarımı izole kaynakta typed onay/intent ve EN/TR kontrollere eklendi. 27 odaklı ve 71 geniş Lab testi geçti (geniş koşuda üç finalizer uyarısı); 11 sentetik API Chromium kontrolü ve dört source DTO karşılaştırması geçti. Yeni context ile gerçek kabul, default UI teslimi ve native/GPU kapıları açık; v0.1.0 lisans kararı bekler."
     },
     "next_action": {
-      "en": "Validate/package the isolated source, then obtain a fresh source/config/runtime review before an actual AOS task with optional intent and eligible selected history. Prior CPU acceptance does not certify changed bytes. Keep independent native/GPU gates, no automatic deployment and GPU HOLD; owner license decision remains separate.",
-      "tr": "İzole kaynağı doğrula/paketle; optional amaç ve uygun geçmişle gerçek AOS görevi öncesi yeni source/config/runtime incelemesi yap. Önceki CPU kabulü değişen dosyaları doğrulamaz. Native/GPU kapıları, otomatik deployment yasağı ve GPU HOLD korunsun; sahibin lisans kararı ayrıdır."
+      "en": "Source publication and explicit CPU-fixture console startup composition are implemented; 38 startup/session/context and 20 capability/shared-only checks pass. Obtain a fresh source/config/runtime review before an actual separate-console task with optional intent and selected history. Prior CPU acceptance does not certify changed bytes. Keep GPU HOLD and no automatic deployment; peer coordination transport is currently unavailable.",
+      "tr": "Kaynak yayını ve explicit CPU-fixture konsol başlangıcı uygulandı; 38 startup/session/context ve 20 capability/shared-only kontrol geçti. Optional amaç ve seçilmiş geçmişle ayrı konsolda gerçek görev öncesi yeni source/config/runtime incelemesi yap. Önceki CPU kabulü değişen dosyaları doğrulamaz. GPU HOLD ve otomatik deployment yasağı korunsun; karşı oturum haberleşme aracı şu an erişilemiyor."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",

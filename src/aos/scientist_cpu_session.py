@@ -1,9 +1,23 @@
 from .desktop_control import DesktopController
 from .scientist_cpu_capability import ScientistCpuCapabilityVerifier, ScientistCpuReviewedGrant
 from .scientist_lab import ScientistLabClient, _deny_authority, _deny_effect
-from .scientist_lab_service import ScientistLabService
+from .scientist_lab_service import ScientistLabService, prepare_scientist_lab_startup
 from .scientist_transport import ScientistAdmissionError
 from .storage import TrajectoryStore
+
+
+def prepare_scientist_cpu_startup(config, grant: ScientistCpuReviewedGrant):
+    """Validate an explicit trusted CPU composition before desktop creation; no remote requests."""
+    if not isinstance(grant, ScientistCpuReviewedGrant):
+        raise ScientistAdmissionError('CPU startup requires a typed reviewed grant')
+    grant = ScientistCpuReviewedGrant.model_validate(grant.model_dump(by_alias=True), strict=True)
+    config, client = prepare_scientist_lab_startup(config)
+    if (config.allowed_suites != frozenset({grant.capability.suite_id})
+            or config.program_version != grant.capability.program_version
+            or config.authorization_context_sha256 != grant.authorization_context_sha256):
+        raise ScientistAdmissionError('CPU startup configuration differs from the exact reviewed grant')
+    ScientistCpuCapabilityVerifier(client, grant)
+    return config, client, grant
 
 
 def create_scientist_cpu_service(controller: DesktopController, client: ScientistLabClient,

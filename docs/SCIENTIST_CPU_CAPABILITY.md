@@ -57,6 +57,39 @@ attest those manifests. A separate exact source/config/runtime review is needed
 before running the joint acceptance; merely filling in these hash fields does
 not perform that review or grant deployment rights.
 
+## Explicit desktop startup composition
+
+The trusted Python entrypoint now accepts
+`scripts.serve_desktop.main(scientist_lab_config=config, scientist_cpu_grant=grant)`.
+`config` must be a `ScientistLabStartup` and `grant` a separately reviewed
+`ScientistCpuReviewedGrant`. This is not a new unauthenticated CLI switch or an
+automatic loader of endpoint claims. A deployment owner supplies both typed
+objects after reviewing the actual source/config/runtime pair and credential.
+Do not construct the grant by accepting whatever capability an endpoint returns.
+
+The process arguments must select `--engine fixture`, an explicit non-default
+`--workspace`, `--database`, `--console-assets-root` and a port other than 8765.
+Vision is disabled or explicitly fixture-only. Native Decider/Bonsai, prewarm,
+owned skill reuse, shared broker hooks and mixed capability verifiers are
+rejected before creating the desktop. Existing runtime ownership, source pins,
+path checks and session cleanup still apply; this hook is not deployment consent.
+
+`prepare_scientist_cpu_startup` revalidates the grant and startup objects, private
+credential and exact authority/principal/single-suite/program/context match.
+It makes no remote request. After the existing controller starts, the same
+prepared client and reviewed grant are bound through `create_scientist_cpu_service`
+to the actual authenticated console. The existing lifespan closes local controls;
+it does not stop or prove cleanup of a remote Scientist experiment. Per-action
+fresh capability verification, human approval, intent and independent readback
+remain mandatory. Inventory still reports `joint_runtime_admitted: false`.
+
+This separate CPU fixture path is deliberately unavailable in the shared-only
+promotion candidate: that candidate continues to require `--engine scientist`
+before CPU startup preparation. Its patch and source hashes were reviewed and
+rebased for this addition, not applied to the live source. No source check gives
+the default service this new configuration. Actual remote/UI acceptance is still
+separate from the synthetic desktop startup and ASGI tests.
+
 ## Contract identities
 
 The reviewed Scientist wire schema SHA-256 is

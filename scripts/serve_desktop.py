@@ -29,6 +29,7 @@ from aos.scientist_bootstrap_factory import ScientistBootstrapAdmissionFactory
 from aos.scientist_protocol import _reject_constant, _unique_object
 from aos.scientist_transport import ScientistAdmissionError
 from aos.scientist_lab_service import ScientistLabService, prepare_scientist_lab_startup
+from aos.scientist_cpu_session import create_scientist_cpu_service, prepare_scientist_cpu_startup
 from aos.storage import TrajectoryStore
 from aos.vision import BonsaiVisionSupervisor, FixtureVisionSupervisor
 from aos.dataset_preflight import bounded_file
@@ -62,7 +63,7 @@ def prepare_console_assets(runtime, assets_root=None):
 def main(*, scientist_confirm_runtime=None, scientist_lab_config=None, scientist_verify_lab_capability=None,
          scientist_admission_factory=None, scientist_output_contract=None, scientist_output_context_tokens=16384,
          scientist_bootstrap_expected_peer=None, scientist_bootstrap_factory=None,
-         scientist_retained_resolver_factory=None):
+         scientist_retained_resolver_factory=None, scientist_cpu_grant=None):
     parser = argparse.ArgumentParser(description='Authenticated loopback-only AOS desktop console')
     parser.add_argument('--port', type=int, default=8765)
     parser.add_argument('--local-ui-auto-login', action='store_true',
@@ -198,6 +199,26 @@ def main(*, scientist_confirm_runtime=None, scientist_lab_config=None, scientist
                         help='Permit per-task opt-in synthetic metadata only in this private outbox')
     parser.add_argument('--bonsai-manifest', type=Path, default=REPO_ROOT / 'models/bonsai-manifest.json')
     arguments = parser.parse_args()
+    cpu_startup = None
+    if scientist_cpu_grant is not None:
+        if (arguments.engine != 'fixture' or arguments.vision_engine not in {'disabled', 'fixture'}
+                or arguments.reuse_decider or arguments.prewarm_decider
+                or arguments.prewarm_idle_seconds is not None or arguments.gpu_idle_seconds is not None
+                or arguments.owned_skill_reuse_sha256 is not None
+                or any(value is not None for value in (
+                    scientist_confirm_runtime, scientist_verify_lab_capability, scientist_admission_factory,
+                    scientist_output_contract, scientist_bootstrap_expected_peer, scientist_bootstrap_factory,
+                    scientist_retained_resolver_factory, arguments.scientist_broker_socket))
+                or type(scientist_output_context_tokens) is not int or scientist_output_context_tokens != 16384):
+            parser.error('CPU Lab startup requires a separate fixture session without native or shared GPU hooks')
+        if (arguments.port == 8765 or arguments.console_assets_root is None
+                or arguments.workspace.absolute() == (REPO_ROOT / 'data/desktop-workspace').absolute()
+                or arguments.database.absolute() == (REPO_ROOT / 'data/desktop-console.sqlite').absolute()):
+            parser.error('CPU Lab startup requires separate explicit workspace, database, console assets and port')
+        try:
+            cpu_startup = prepare_scientist_cpu_startup(scientist_lab_config, scientist_cpu_grant)
+        except (OSError, ValueError, ScientistAdmissionError):
+            parser.error('CPU Lab startup requires matching reviewed grant, configuration and private credential')
     owned_parameter_startup = None
     project_options = (arguments.owned_parameter_project_directory,
                        arguments.owned_parameter_project_manifest_sha256)
@@ -282,7 +303,7 @@ def main(*, scientist_confirm_runtime=None, scientist_lab_config=None, scientist
     elif scientist_output_context_tokens != 16384 or type(scientist_output_context_tokens) is not int:
         parser.error('Scientist output context configuration requires the original admission factory and contract')
     lab_startup = None
-    if scientist_lab_config is not None:
+    if scientist_lab_config is not None and cpu_startup is None:
         if arguments.engine != 'scientist' or not callable(scientist_verify_lab_capability):
             parser.error('Lab startup requires Scientist engine and an explicit trusted joint Lab capability verifier')
         try:
@@ -1204,7 +1225,10 @@ def main(*, scientist_confirm_runtime=None, scientist_lab_config=None, scientist
 
             knowledge_answerer = BonsaiKnowledgeAnswerer(arguments.bonsai_manifest)
         scientist_lab = None
-        if lab_startup is not None:
+        if cpu_startup is not None:
+            _lab_config, lab_client, cpu_grant = cpu_startup
+            scientist_lab = create_scientist_cpu_service(controller, lab_client, cpu_grant)
+        elif lab_startup is not None:
             lab_config, lab_client = lab_startup
             scientist_lab = ScientistLabService(controller, lab_client,
                 authorization_context_sha256=lab_config.authorization_context_sha256,

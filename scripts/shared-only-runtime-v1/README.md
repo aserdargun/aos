@@ -15,7 +15,11 @@ all before/after hashes. Never apply it to the current live default session.
 Native Decider one-shot/reusable, Bonsai calls, owned adapter/Laya/adaptation,
 native CLI/managed start/supervise/restart, staged native entry, and direct GPU
 probe/worker callables deny before effects. `serve_desktop` requires the existing
-Scientist engine; explicit shared manager operations remain separate. Native
+Scientist engine; explicit shared manager operations remain separate.
+The ordinary desktop source's explicit CPU Lab fixture hook is also rejected
+by this Scientist-only engine selection; it cannot bypass the promoted profile.
+The candidate hashes/patch context include that source addition, without changing
+the engine-selection policy or asserting new runtime acceptance. Native
 `ModelSession` construction denies; the original implementation becomes
 `BrokerModelSession`, explicitly imported only by the existing Decider broker
 worker. Its TurnGate ordering and authority checks are unchanged.

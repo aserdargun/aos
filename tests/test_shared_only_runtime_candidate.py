@@ -145,6 +145,13 @@ with tempfile.TemporaryDirectory() as directory:
     assert ScientistBonsaiSupervisor(manifest,None).identity['kind']=='scientist_bonsai_broker'
     assert ScientistBonsaiVisionSupervisor(manifest,None).identity['kind']=='scientist_bonsai_broker'
 module=runpy.run_path('scripts/serve_desktop.py')
+with patch.object(sys,'argv',['serve_desktop','--engine','fixture']):
+    try:
+        module['main'](scientist_cpu_grant=object())
+    except RuntimeError as error:
+        assert 'native/unbrokered entry disabled' in str(error)
+    else:
+        raise AssertionError('Separate CPU session bypassed shared-only engine policy')
 with patch.object(sys,'argv',['serve_desktop','--engine','decider']):
     try:
         module['main']()

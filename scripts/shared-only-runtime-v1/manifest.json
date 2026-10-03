@@ -6,7 +6,7 @@
   "promotion_required": true,
   "native_exclusion_verified": false,
   "gpu_release_verified": false,
-  "patch_sha256": "a0cbf60e092a7ef2b6caefeeefe6f105486d0013df5a1cc8e3cd154f44a8bf54",
+  "patch_sha256": "42224664000c59a840a561c44c439f98bb7d79594985ac882baffcc6b8f0430a",
   "denial_message": "Shared-only runtime profile: native/unbrokered entry disabled",
   "files": [
     {
@@ -62,13 +62,13 @@
     },
     {
       "path": "scripts/serve_desktop.py",
-      "before_sha256": "403182d7a993bd5773a1de0bd5c4f14d5f983c4d46f887846a743ba2ecf392e0",
-      "after_sha256": "457b7e5848df680960e683e08f88ccd7da7b4ad8f70a382c81213590fbd546d7",
+      "before_sha256": "0641e6539484654ab1a33697e27d82cb5cc128a2acdbf7a657d778caeee6ac2a",
+      "after_sha256": "47a35b0b943e0de9b7358c94ebcacdc6c8aa2a3628eb4543cd785fde2159fa18",
       "entrypoints": [
         {
           "symbol": "main",
           "policy": "scientist_engine_only",
-          "before_line": 62
+          "before_line": 63
         }
       ]
     },
