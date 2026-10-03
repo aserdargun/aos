@@ -1,6 +1,6 @@
 # Source-only handoff and publication
 
-AOS is being prepared for public source distribution and private forks. License selection is still pending; source availability alone is not an open-source license. Nothing in this workflow publishes to a remote repository or grants rights to redistribute model weights or company data.
+AOS's original source and documentation are available under [Apache-2.0](../LICENSE) for public source distribution and private forks, subject to its terms. See [licensing scope](LICENSING.md). Nothing in this workflow publishes to a remote repository or grants rights to redistribute separately licensed model weights or company data.
 
 ## Build a reviewed source archive
 
@@ -16,7 +16,7 @@ The output must not exist. The packager uses a source allowlist and verified `MA
 
 Excluded content includes local model/adapter weights, private datasets, trajectories, screenshots, databases, tokens, runtime state, virtualenvs, node_modules and build output. The private-root README placeholders are included. Do not replace this command with `tar` of the whole working tree or `git add .` on the development host. Local agent configuration directories are ignored, not a publication allowlist.
 
-This is an integrity and file-policy check, **not** a comprehensive secret scanner or a signature. Text source can still contain sensitive values. Before publishing, inspect the archive and review source/history for secrets, personal host identifiers, proprietary content and third-party licenses. Historical `docs/STATUS.md` describes one development machine, not a fresh-host guarantee; public connection guides use placeholders. Select the project license and review any notices before a public release. Do not copy private artifacts into a fork to reproduce historical evidence.
+This is an integrity and file-policy check, **not** a comprehensive secret scanner or a signature. Text source can still contain sensitive values. Before publishing, inspect the archive and review source/history for secrets, personal host identifiers, proprietary content and third-party licenses. Historical `docs/STATUS.md` describes one development machine, not a fresh-host guarantee; public connection guides use placeholders. Preserve the project license and review applicable third-party notices before a public release. Do not copy private artifacts into a fork to reproduce historical evidence.
 
 ## New-host setup tiers
 
@@ -71,6 +71,6 @@ Follow [Claude handoff](CLAUDE_HANDOFF.md), [extension guide](EXTENDING_AOS.md) 
 - Source-only focused/core tests and UI build report their actual environment, skips and limits separately.
 - Archive membership contains no local runtime artifacts; tampered paths, links and hashes are rejected by tests.
 - No running session is restarted, no model is changed, no training occurs, and no remote publication is performed by packaging.
-- License choice, fresh-host GPU setup, general learning/RAG/model migration and real-site acceptance remain explicit open items rather than completed percentages.
+- Apache-2.0 and package metadata are included; applicable third-party rights, fresh-host GPU setup, general learning/RAG/model migration and real-site acceptance remain separate review items rather than completed percentages.
 
 Executed results belong in [STATUS](STATUS.md). Passing the source handoff does not imply the product roadmap is finished.

@@ -2,8 +2,9 @@
 
 **Dated source-handoff scope: 3 October 2026.** This is a guide to receiving,
 checking and continuing AOS, not a production release, runtime authorization or
-claim that the complete product works. License selection remains pending:
-publicly readable source is not an approved open-source license.
+claim that the complete product works. The maintainer-authorized license for
+AOS's original source and documentation is [Apache-2.0](../LICENSE); third-party
+artifacts keep their own terms. See [licensing scope](LICENSING.md).
 
 The next development phase should complete a bounded AI-Scientist and authorized
 web-application workflow **inside AOS**, using its Tasks/control surface and
@@ -314,14 +315,14 @@ First freeze and review the exact source set, rerun the required checks, record
 known limitations and usage, refresh the manifest, and commit that coherent
 reviewed tree. Only then create the requested version tag and publish within
 the separately authorized remote/branch scope, without force push. Do not call
-this a completed production/GPU release or an approved open-source license.
+this a completed production/GPU release; the source license is a separate matter.
 The [planned release note](releases/v0.1.0.md) records the bounded source scope;
 it is not evidence that the tag has been created.
-License selection remains an explicit gate before public versioned release,
-as required by [SOURCE_HANDOFF](SOURCE_HANDOFF.md). The v0.1.0 tag is deferred
-pending the owner's license decision and final review. Previously authorized
-reviewed source-checkpoint publication is not a release/tag or license approval;
-no intentionally unlicensed release policy is inferred here.
+The maintainer delegated license selection on 3 October 2026; Apache-2.0 is now
+included for the original source and documentation. This closes the project
+license-choice gate in [SOURCE_HANDOFF](SOURCE_HANDOFF.md), not third-party
+rights review or final source-release acceptance. The v0.1.0 tag still requires
+that final review; source-checkpoint publication is not itself a release/tag.
 
 **Acceptable source handoff:** reviewed source and exact manifest; validation and
 focused/core test evidence with skips/environment; checked archive membership;
@@ -341,7 +342,7 @@ requires final review and a refreshed manifest before the planned tag.
 Scientist/native handover and producer/consumer acceptance; fresh current-source
 GPU/task/cancellation/cleanup evidence; target-user UI delivery; authorized web
 workflow and specialization acceptance; clean-host runtime reproducibility;
-license decision and applicable third-party/model rights. SWAPP remains deferred,
+applicable third-party/model rights. SWAPP remains deferred,
 not silently removed from the full goal.
 
 **Regression closure, 3 October:** the seven failures from the initial handoff

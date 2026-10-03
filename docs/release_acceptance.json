@@ -5,19 +5,19 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T16:31:57Z",
+    "recorded_at": "2026-10-03T16:42:48Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
       "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
     },
     "blocker": {
-      "en": "UI-only promotion is user-authorized and verified against the running backend; backend and GPU were not restarted. Scientist remains unconfigured in the live session. CPU startup/context/limits exist in source, not deployed backend admission. Peer coordination transport is unavailable; shared GPU acceptance remains open. License choice was delegated to the agent and remains a separate release task.",
-      "tr": "Yalnız UI aktarımı kullanıcı onayıyla yapıldı ve çalışan backend ile doğrulandı; backend/GPU yeniden başlamadı. Canlı Scientist bağlantısı yapılandırılmamış durumda. CPU startup/context/sınırlar kaynakta; backend kabulü deploy edilmedi. Karşı oturum haberleşmesi erişilemiyor; ortak GPU kabulü açık. Lisans seçimi ajana devredildi, ayrı sürüm işi olarak kaldı."
+      "en": "UI-only promotion is verified against the running backend without restart; Scientist remains unconfigured in the live session. CPU startup/context/limits exist in source, not deployed backend admission. Shared GPU acceptance remains open. The delegated license choice is closed: Apache-2.0 now covers original source; third-party rights and final source-release review remain separate.",
+      "tr": "Yalnız UI aktarımı çalışan backend ile yeniden başlatmadan doğrulandı; canlı Scientist bağlantısı yapılandırılmamış durumda. CPU startup/context/sınırlar kaynakta; backend kabulü deploy edilmedi. Ortak GPU kabulü açık. Devredilen lisans seçimi kapandı: özgün kaynak Apache-2.0; üçüncü taraf hakları ve son kaynak sürüm incelemesi ayrı."
     },
     "next_action": {
-      "en": "Verify the updated UI from the authorized Mac, then review a separate CPU console/runtime pair for an actual optional-context experiment. Publish the selected license separately and finish source-release checks. Keep default backend unchanged and GPU HOLD until coordinated admission.",
-      "tr": "Yetkili Mac üzerinden güncellenen UI erişimini doğrula; ardından gerçek optional-context deneyi için ayrı CPU console/runtime çiftini incele. Seçilen lisansı ayrı yayımla ve kaynak sürüm kontrollerini kapat. Koordineli kabul öncesi default backend değişmesin, GPU HOLD korunsun."
+      "en": "Finish the v0.1.0 source-release audit, verify updated UI access from the authorized Mac, then review a separate CPU console/runtime pair for an actual optional-context experiment. Keep default backend unchanged and GPU HOLD until coordinated admission.",
+      "tr": "v0.1.0 kaynak sürüm incelemesini kapat, yetkili Mac üzerinden güncel UI erişimini doğrula; ardından gerçek optional-context deneyi için ayrı CPU console/runtime çiftini incele. Koordineli kabul öncesi default backend değişmesin, GPU HOLD korunsun."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",

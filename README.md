@@ -2,11 +2,11 @@
 
 Yerel modellerle bilgisayar ve web uygulaması kullanımı, doğrulanabilir görevler ve kontrollü öğrenme için deneysel bir ajan işletim sistemi.
 
-**Hedef kaynak/prototip sürümü: v0.1.0.** Paket metadata'sı `0.1.0`; son kaynak teslim kontrolleri ve sahibin lisans kararı tamamlanmadan public Git sürüm etiketi oluşturulmaz. Bu sürüm, altı ürün kabul aşamasının tamamlandığı anlamına gelmez. [Sürümleme koşulları](docs/DELIVERY_AND_CONTINUATION.md#requested-release-version), [sürüm notları](docs/releases/v0.1.0.md).
+**Hedef kaynak/prototip sürümü: v0.1.0.** Paket metadata'sı `0.1.0`; son kaynak teslim kontrolleri tamamlanmadan public Git sürüm etiketi oluşturulmaz. Apache-2.0 lisansı sahibin verdiği seçim yetkisiyle eklendi. Bu sürüm, altı ürün kabul aşamasının tamamlandığı anlamına gelmez. [Sürümleme koşulları](docs/DELIVERY_AND_CONTINUATION.md#requested-release-version), [sürüm notları](docs/releases/v0.1.0.md).
 
 **3 Ekim 2026 teslim kapsamı: test edilebilir kaynak/prototip. Tamamlanmış üretim ürünü değildir.** Mevcut pilot korunur; AI Scientist ile tek GPU otoritesi üzerinden tam ortak çalışma ve hedef uygulamaya özel gerçek-site kabulü sonraki aşamadır. Bu ayrım eksikleri gizlemek için değil, devralan kişinin neyi güvenle kullanabileceğini göstermek içindir.
 
-Kaynak deposu: [aserdargun/aos](https://github.com/aserdargun/aos). Tanıtım sitesi ayrı depodur. **Lisans seçimi bekliyor:** public kaynak bulunması açık kaynak lisansı veya yeniden kullanım hakkının tamamlandığı anlamına gelmez. Model/adapter ağırlıkları, özel veri ve çalışan ortam bu depoya dahil değildir.
+Kaynak deposu: [aserdargun/aos](https://github.com/aserdargun/aos). Tanıtım sitesi ayrı depodur. **Lisans: [Apache-2.0](LICENSE)** — AOS'un özgün kaynak kodu ve belgeleri için; [kapsam ve üçüncü taraf sınırları](docs/LICENSING.md). Model/adapter ağırlıkları, özel veri ve çalışan ortam bu depoya dahil değildir; kendi lisansları ve izinleri ayrıca geçerlidir.
 
 ## Hızlı yönlendirme
 
@@ -34,7 +34,7 @@ Kaynak deposu: [aserdargun/aos](https://github.com/aserdargun/aos). Tanıtım si
 | Eğitim | İzinli veri inceleme/export ve dar tarihli S1 deneyleri | Genel S2 LoRA/QLoRA, sürekli otomatik eğitim ve kalite garantisi yok |
 | AI Scientist | Typed Lab akışı; fixture onaylı gerçek CPU deneyi, pipeline sınırında iptal/tekrarlı stop ve bağımsız rapor kabulü | Aktif Scorer kesintisi, kullanıcı UI teslimi, ortak GPU ve aktif worker coexistence açık |
 | Orkestrasyon | Typed görev/policy ve opt-in uzman ajan temelleri | Genel kararlı plugin API ve sınırsız ajan çoğaltma teslim edilmedi |
-| Dağıtım | Allowlist + hash manifestli kaynak arşivi | Temiz makinede tek komut GPU kurulumu, üretim SLA'sı ve lisans açık |
+| Dağıtım | Apache-2.0 özgün kaynak, allowlist + hash manifestli kaynak arşivi | Temiz makinede tek komut GPU kurulumu, üretim SLA'sı ve üçüncü taraf hak incelemesi ayrı |
 
 Tam ürün kapanışı için tek aşama kaydı [RELEASE_ACCEPTANCE](docs/RELEASE_ACCEPTANCE.md) ve [canonical JSON](docs/release_acceptance.json) dosyalarıdır. Bu kaynak teslimi o aşamaları tamamlandı yapmaz; uydurulmuş bir toplam yüzde verilmez.
 
@@ -146,7 +146,7 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli teslim snapshot'ı: 3 Ekim 2026, 16:31:57 UTC / 19:31:57 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14538560`, `timeUsedSeconds=84525`: **23 saat 28 dakika 45 saniye / 23,4791667 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
+**Tarihli teslim snapshot'ı: 3 Ekim 2026, 16:42:48 UTC / 19:42:48 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14661148`, `timeUsedSeconds=85177`: **23 saat 39 dakika 37 saniye / 23,6602778 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 

@@ -5,6 +5,8 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aos-local"
 version = "0.1.0"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 description = "Local AOS acceptance-driven development harness"
 requires-python = ">=3.11"
 dependencies = ["pydantic==2.13.5"]

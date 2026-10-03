@@ -1,6 +1,6 @@
 # Contributing
 
-AOS is an experimental local agent system under active development. Contributions should keep its permission boundaries visible and make claims no stronger than the evidence. License selection is pending; do not assume that source availability grants reuse rights or add a `LICENSE` file without maintainer direction.
+AOS is an experimental local agent system under active development. Contributions should keep its permission boundaries visible and make claims no stronger than the evidence. AOS's original source and documentation use [Apache-2.0](LICENSE), selected with maintainer authorization. Submit only work you have the right to contribute and preserve applicable third-party notices. See [licensing scope](docs/LICENSING.md); do not change the license without explicit maintainer direction.
 
 ## Local setup
 

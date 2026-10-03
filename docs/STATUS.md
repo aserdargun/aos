@@ -1,3 +1,28 @@
+## 3 Ekim 2026, 16:42 UTC — ayrı Apache-2.0 lisans dilimi
+
+Kullanıcının lisans seçimini ajana devretmesi üzerine özgün AOS kaynağı ve
+belgeleri için Apache-2.0 seçildi. Resmî İngilizce metin `LICENSE` içine byte
+eşitliğiyle eklendi; SHA256
+`cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30`.
+Python, UI ve Cargo metadata'sı aynı SPDX kimliğini bildirir; Python dağıtımı
+LICENSE dosyasını açıkça içerir. Scope, kurumsal fork ve bağımlılık/model/veri
+haklarının ayrı kalması [LICENSING](LICENSING.md) içinde anlatılır.
+
+**17 PASS / 0,131 s:** lisans ve kaynak paketleme kontrolleri. `uv lock --check
+--offline` mevcut 28-paket lock'u değiştirmeden geçti. Ayrı disposable kaynakta
+`uv build --offline --wheel` başarılı; wheel METADATA'da `License-Expression:
+Apache-2.0`, `License-File: LICENSE` ve paketlenen lisansın resmî metne eşitliği
+bağımsız zip readback ile doğrulandı. İlk pip denemesi mevcut validation venv'de
+pip olmadığı için çalışmadı; ortama pip yüklenmedi, mevcut offline uv kullanıldı.
+Wheel tek başına tam AOS runtime dağıtımı değildir; model/runtime kabulü yoktur.
+
+Kanıtlar izole checkout'ta `data/license-20261003/`: `focused.log`, `uv-lock.log`,
+`wheel.log`, `wheel-uv.log`, `wheel-proof.private.json`. Bu dilim UI/runtime
+değiştirmez; önceki onaylı arayüz teslimi korunur. Lisans seçimi engeli kapandı;
+üçüncü taraf hak incelemesi, son v0.1.0 kaynak etiketi incelemesi ve bütün gerçek
+runtime/Scientist/GPU kabul kapıları ayrı kalır. Tarihsel pending-license
+kayıtları eski gözlemdir; güncel karar yerine kullanılmaz.
+
 ## 3 Ekim 2026, 16:31 UTC — onaylı UI-only canlı teslim
 
 Kullanıcı yalnız arayüz güncellemesine açık onay verdi. Default backend PID42513

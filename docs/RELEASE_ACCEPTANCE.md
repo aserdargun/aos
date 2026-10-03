@@ -1,5 +1,10 @@
 # Tek sürüm kabul kaydı
 
+**3 Ekim 2026, 16:42 UTC ek not:** sahibin verdiği seçim yetkisiyle Apache-2.0
+özgün kaynağa eklendi. Lisans seçimi engeli kapandı; üçüncü taraf hakları ve
+v0.1.0 son kaynak etiketi incelemesi ayrı kalır. Aşağıdaki eski lisans-bekliyor
+kayıtları tarihseldir. Runtime/GPU aşama bayrakları bu değişiklikle yükselmez.
+
 **Plan incelemesi: 3 Ekim 2026, 05:42:42 UTC.** Aşama sonuçlarının tek yetkili
 manuel kaydı [release_acceptance.json](release_acceptance.json) dosyasıdır.
 Development ekranı aynı dosyayı okur; bu plan ikinci bir durum kaydı, ilerleme

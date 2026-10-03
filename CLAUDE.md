@@ -1,6 +1,6 @@
 # Claude Code Guide
 
-This repository is AOS (Agent Operating System), an experimental local agent project. It is intended to be forkable, but no license has been selected yet; do not add a license header, assume redistribution rights, or make licensing decisions for maintainers.
+This repository is AOS (Agent Operating System), an experimental local agent project. Its original source and documentation use Apache-2.0 under `LICENSE`, selected with maintainer authorization on 3 October 2026. Preserve that license and applicable third-party notices; see `docs/LICENSING.md`. Do not add license headers or change licensing terms without maintainer direction, and do not infer rights to redistribute weights, private data or separately licensed dependencies.
 
 ## Start here
 

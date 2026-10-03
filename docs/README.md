@@ -2,6 +2,7 @@
 
 ## Teslimden başla
 
+- [LICENSING — Apache-2.0 seçimi, kurumsal fork ve üçüncü taraf hak sınırları](LICENSING.md)
 - [DELIVERY_AND_CONTINUATION — test edilmiş kaynak teslimi, açık eksikler ve AI Scientist/web uygulaması için devam ölçütleri](DELIVERY_AND_CONTINUATION.md)
 - [STATUS — tarihli gerçek test sonuçları; mock/native ayrımı](STATUS.md)
 - [LOCAL_SETUP — yeni ortam ve canlıya dokunmadan UI staging](LOCAL_SETUP.md)
