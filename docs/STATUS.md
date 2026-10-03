@@ -1,3 +1,24 @@
+## 3 Ekim 2026, 19:18 UTC — kaynak yayını ve ilk publisher readback
+
+İncelenmiş kaynak `e90e7558f822eb7624552acd826a17b98f7f4ab3` olarak doğru
+GitHub origin/main'e normal push ile çıktı; remote HEAD bağımsız okundu.
+v0.1.0 etiketi aynı hedefte kaldı. Tam index, 1.683 dosyalık allowlist arşivinin
+byte/mode envanteriyle birebir karşılaştırıldı. Checkout ve çıkarılmış arşivde
+**5.787 paket kontrolü PASS**; arşivde model/recipe/summary/publisher için
+**14 CPU test PASS / 0,285 s**. Kaynak arşivi SHA256
+`7ff730bf3f4688625fac2f65819b65bc03f7253a1926467513fdc7004241f1a0`;
+manifest `50ef379193b2261adbd7afbbe90cb2310688666b37627de4191d41823ecead6b`.
+Bu paragrafı ekleyen sonraki doküman commit'i aynı arşiv kimliği değildir.
+
+19:17:55 UTC gerçek `aos-usage-publish.service` manuel ilk koşusu hash kontrolü,
+remote fetch ve mevcut aggregate karşılaştırmasını başarıyla bitirdi:
+`Result=success`, `ExecMainStatus=0`, `status=unchanged`, `pushed=false`.
+19:00 UTC snapshot'ı bootstrap commit'inde zaten vardı; gereksiz commit/push
+üretilmedi. Yeni veriyle otomatik gerçek push henüz gözlenmedi; sentetik Git
+testindeki push başarısı bunun yerine sunulmaz. Timer enabled/active/waiting,
+ilk planlı yayın 20:05 UTC / 23:05 İstanbul. Ana geliştirme worktree'si veya
+AOS/Scientist/GPU süreçleri bu servis tarafından değiştirilmedi.
+
 ## 3 Ekim 2026, 19:15 UTC — UMAY temaları ve saatlik kullanım yayını
 
 umayos.org'un gerçek public CSS'i ve açık/koyu ekranları incelendi. Aynı
