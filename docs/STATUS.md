@@ -1,3 +1,30 @@
+## 3 Ekim 2026, 20:58 UTC — güncel başlatma ilerlemesi arayüze teslim edildi
+
+Development kaydı20:56UTC olarak yenilendi: `e3ab1c9` tek-kullanım claim/
+kaynak-kökü ilerlemesi,101 CPU kontrolü, kapanan CPU kapsamı ve20,25GiB
+RAM kapısı açık gösteriliyor. Altı geniş kabul aşaması değişmedi;
+`product_complete=false`. Bilinmeyen canlı işçi yüzdesi veya gerçek GPU
+başarısı üretilmedi. Yeni12. kayıt nedeniyle yalnız testin beklenen kayıt
+listesi güncellendi; schema/validator sınırları gevşetilmedi.
+
+`npm run build` geçti; mevcut500kB bundle uyarısı sürüyor.14 odaklı UI/journal/
+release testinden **13 PASS,1 private-evidence SKIP / 2,370s**. Browser plugin
+olmadığından kurulu Python Playwright/CPU Chromium kullanıldı. Aday ve teslim
+sonrası gerçek backend ile1440x1000EN/390x844TR, açık/koyu tema ve kalıcılık,
+Models/topology/Scientist geçişleri geçti.29'ar istek; API mock yok, görev veya
+deney etkisi yok; yalnız GET ve boş local-login POST. Sayfa kimliği, dolu içerik,
+framework overlay yokluğu, console sağlığı ve ekran görüntüleri doğrulandı.
+
+Önceden verilen yalnız UI yetkisiyle assetler atomik aktarıldı. Backend
+PID42513/startticks344916 değişmedi. Canlı index SHA256
+`34eb1c9c6cb495b69e0c90e59990162c4e77dad8c521021d3a8e9da37d21ada1`,
+ana JS `index-GHaTm8SD.js` SHA256
+`abcfc8decae83014cbd547f577c892c5836daeff0d6338e4f37c3bda0779fe99`.
+Private kanıt/rollback: `/tmp/aos-shared-progress-ui-20261003-pT08TT/`;
+`candidate.private.json`, `promotion.private.json`, `delivered.private.json`
+ve viewport görüntüleri repoya alınmadı. Eski assetler korundu. Gerçek Mac
+tarayıcısı ve tam Scientist/GPU kabulü bu UI teslimiyle doğrulanmış sayılmaz.
+
 ## 3 Ekim 2026, 20:51 UTC — açık Scientist kaynak kökü uygulanmış
 
 Önceki tur95 CPU testli tek-kullanım claim adımını `50dc072` ile yayımladı;

@@ -5,25 +5,43 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T20:08:02Z",
+    "recorded_at": "2026-10-03T20:56:00Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
       "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
     },
     "blocker": {
-      "en": "Source/prototype v0.1.0 is published; full product acceptance remains open. Live Scientist is unconfigured. The portable CPU panel launcher is ready, but real panel acceptance needs fresh scope and separate start authorization. Shared GPU also needs an agreed finite launch authority producer and production verifier; this is missing runtime code, not only a permission wait. GPU HOLD remains.",
-      "tr": "Kaynak/prototip v0.1.0 yayımlandı; tam ürün kabulü açık. Canlı Scientist yapılandırılmamış. Taşınabilir CPU paneli başlatıcısı hazır; gerçek panel kabulü için taze kapsam ve ayrı başlatma onayı gerekiyor. Ortak GPU ayrıca üzerinde uzlaşılmış sonlu başlatma yetkisi üreticisi ve üretim doğrulayıcısı gerektiriyor; yalnız izin beklenmiyor, runtime kodu da eksik. GPU HOLD sürüyor."
+      "en": "Source/prototype v0.1.0 is published; full product acceptance remains open. Live Scientist is unconfigured. The separate CPU window closed without an experiment: complete RAM admission needs 20.25 GiB including the desktop. Shared-launch claim and reviewed source-root hooks are implemented; authenticated socket, production authority verifier and in-unit claim guard are still missing runtime code. GPU HOLD remains.",
+      "tr": "Kaynak/prototip v0.1.0 yayımlandı; tam ürün kabulü açık. Canlı Scientist yapılandırılmamış. Ayrı CPU penceresi deney yapılmadan kapandı: masaüstü dahil toplam RAM kabulü 20,25 GiB gerektiriyor. Tek kullanımlık başlatma ve incelenmiş kaynak kökü bağlantıları uygulandı; kimlik doğrulamalı soket, üretim yetki doğrulayıcısı ve süreç içi claim kontrolü hâlâ eksik runtime kodu. GPU HOLD sürüyor."
     },
     "next_action": {
-      "en": "Review the fresh isolated Scientist CPU scope and explicit start permission for actual panel acceptance. In parallel, obtain the peer decision on the shared-launch issuer, single-use/revocation and cleanup contract, then implement the production composition. Keep the current pilot and default models unchanged.",
-      "tr": "Gerçek panel kabulü için taze izole Scientist CPU kapsamını ve açık başlatma onayını incele. Paralel olarak ortak başlatmanın yetki üreticisi, tek kullanım/iptal ve cleanup sözleşmesi için karşı incelemeyi al; ardından üretim bileşimini uygula. Mevcut pilot ve varsayılan modeller değişmesin."
+      "en": "Complete the agreed authenticated launch protocol with Scientist and connect the AOS consumer without enabling runtime. For actual CPU panel acceptance, obtain a fresh finite scope, full RAM admission and separate start authorization; retired credentials cannot be reused. Keep both active pilots unchanged.",
+      "tr": "Scientist ile üzerinde uzlaşılan kimlik doğrulamalı başlatma protokolünü tamamla; runtime açmadan AOS tüketicisini bağla. Gerçek CPU panel kabulü için yeni süreli kapsam, tam RAM kabulü ve ayrı başlatma onayı gerekiyor; kapanmış kapsamın bilgileri yeniden kullanılamaz. İki aktif pilotu koru."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",
       "tr": "Tarihli kaynak kaydıdır; canlı worker telemetrisi veya teslim edilmiş UI değildir. Bu JSON güncellemesi mevcut UI dosyalarını yeniden derlemez. CPU kontrolleri ve kaynak readback'i runtime/GPU yetkisi veya aşama tamamlanması vermez. SWAPP intranet testi en sondadır."
     },
     "updates": [
+      {
+        "id": "shared_launch_source",
+        "state": "verified_cpu",
+        "recorded_at": "2026-10-03T20:51:04Z",
+        "title": {
+          "en": "Single-use launch and reviewed Scientist source root implemented",
+          "tr": "Tek kullanımlık başlatma ve incelenmiş Scientist kaynak kökü uygulandı"
+        },
+        "detail": {
+          "en": "Source e3ab1c9 separates launch consumption from read-only checks and pins the reviewed Scientist checkout. Unknown broker generations, lost replies and source drift fail closed. 101 CPU/synthetic checks pass; the authenticated socket and in-unit claim guard are still missing. No live runtime or GPU changes.",
+          "tr": "e3ab1c9 kaynağı başlatma hakkı tüketimini salt okunur kontrollerden ayırıyor ve incelenmiş Scientist checkout’unu pinliyor. Bilinmeyen broker, kayıp cevap ve kaynak değişikliği güvenle reddediliyor. 101 CPU/sentetik kontrol geçti; kimlik doğrulamalı soket ve süreç içi claim kontrolü henüz eksik. Canlı runtime veya GPU değişmedi."
+        },
+        "evidence": [
+          "docs/SCIENTIST_HANDOFF.md",
+          "docs/SHARED_DESKTOP_MANAGER.md",
+          "tests/test_shared_desktop_host.py"
+        ]
+      },
       {
         "id": "hourly_usage_published",
         "state": "verified_cpu",
@@ -36,7 +54,11 @@
           "en": "The scheduled service published the 20:00 UTC model/token/cost aggregate to GitHub main as a6e6c42. Remote readback and all 1,691 source-file hashes match. Only README, usage_latest.json and MANIFEST changed; no raw sessions, development worktree or runtime changes. Estimates remain separate from actual bills and subscriptions.",
           "tr": "Zamanlanmış servis 20:00 UTC model/token/maliyet özetini a6e6c42 ile GitHub main'e gönderdi. Uzak kayıt ve 1.691 kaynak dosyasının hashleri doğrulandı. Yalnız README, usage_latest.json ve MANIFEST değişti; ham oturumlar, geliştirme çalışma ağacı ve runtime değişmedi. Tahminler gerçek fatura ve abonelikten ayrı tutuluyor."
         },
-        "evidence": ["docs/USAGE_PUBLICATION.md", "docs/STATUS.md", "tests/test_publish_usage.py"]
+        "evidence": [
+          "docs/USAGE_PUBLICATION.md",
+          "docs/STATUS.md",
+          "tests/test_publish_usage.py"
+        ]
       },
       {
         "id": "portable_cpu_panel",
@@ -47,10 +69,14 @@
           "tr": "Taşınabilir, incelenmiş Scientist CPU paneli başlatıcısı"
         },
         "detail": {
-          "en": "Source 540fc95 adds check-only by default, explicit start, pinned configuration and separate project UI/cookies/data. 78 CPU/synthetic checks passed; no real Scientist or Docker launch ran. The finite shared-launch proposal is published, but the production authority composition is not implemented or agreed. Existing pilot unchanged.",
-          "tr": "540fc95 kaynağı: varsayılan yalnız kontrol, açık başlatma, pinli yapılandırma ve ayrı proje UI/cookie/veri alanları. 78 CPU/sentetik kontrol geçti; gerçek Scientist veya Docker başlatılmadı. Sonlu ortak başlatma önerisi yayımlandı; üretim yetki bileşimi uygulanmadı veya karşılıklı onaylanmadı. Mevcut pilot değişmedi."
+          "en": "Source 540fc95 provides default check-only, explicit start, pinned inputs and private project stores. 78 CPU/synthetic checks passed. Later AOS readback verified the real Scientist descriptor: 384 synthetic rows, one configuration. No experiment ran; the scope closed after the complete 20.25 GiB RAM gate failed. Real panel acceptance remains open.",
+          "tr": "540fc95 kaynağı varsayılan yalnız kontrol, açık başlatma, pinli girdiler ve özel proje depolarını sunuyor. 78 CPU/sentetik kontrol geçti. Sonraki AOS readback gerçek Scientist tanımını doğruladı: 384 sentetik satır, tek configuration. Deney yapılmadı; toplam 20,25 GiB RAM kabulü başarısız olduktan sonra kapsam kapandı. Gerçek panel kabulü açık."
         },
-        "evidence": ["docs/SCIENTIST_CPU_PANEL.md", "tests/test_scientist_cpu_panel.py", "docs/SCIENTIST_SHARED_LAUNCH_PROPOSAL.md"]
+        "evidence": [
+          "docs/SCIENTIST_CPU_PANEL.md",
+          "tests/test_scientist_cpu_panel.py",
+          "docs/SCIENTIST_SHARED_LAUNCH_PROPOSAL.md"
+        ]
       },
       {
         "id": "candidate_message_conversion",

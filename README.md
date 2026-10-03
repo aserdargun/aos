@@ -172,7 +172,7 @@ ya da önceden dondurulmuş CPU workspace'ini değiştirmez.
 
 ## Geliştirme süresi, token ve maliyet
 
-**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 20:51:04 UTC / 23:51:04 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16540117`, `timeUsedSeconds=100072`: **27 saat 47 dakika 52 saniye / 27,7977778 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 20:58:05 UTC / 23:58:05 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16581340`, `timeUsedSeconds=100493`: **27 saat 54 dakika 53 saniye / 27,9147222 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 
