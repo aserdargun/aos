@@ -83,6 +83,22 @@ observer namespaces. This is an in-process observation record, not a new public
 wire schema or durable release authority. Existing lifecycle/state schemas and
 migrations remain unchanged.
 
+## Historical closure is not current admission
+
+`SharedDesktopHost.clean_shutdown` now re-runs the trusted `after_stop` prover
+before declaring a stored stopped session clean. It strictly validates the
+typed proof, exact current state/generation, native exclusion, closed admission,
+container/runtime removal and token removal. It rechecks pinned inputs and
+independent unit/process/token observations after the prover returns.
+
+The stored `cleanup_verified` flag and original evidence digest remain audit
+history, not a reusable authorization. Missing/revoked/timed-out proof, changed
+pins, a foreign generation or reappearing resources makes status
+`needs_inspection` and blocks shared successor admission. History is not rewritten,
+no stop/claim is repeated and no cleanup rights are renewed. The prover must
+support this read-only `after_stop` use; it must not turn status polling into a
+destructive cleanup action or a new closure consumption.
+
 ## Still required for actual integration
 
 Scientist must independently verify its authoritative original-generation

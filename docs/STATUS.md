@@ -1,3 +1,33 @@
+## 3 Ekim 2026,22:09 UTC — eski cleanup kaydı güncel kabul sayılmıyor
+
+Gerçek kaynak hatası CPU fixture ile tekrarlandı: `clean_shutdown` saklanan
+`cleanup_verified` bayrağına güveniyor, güncel cleanup prover'ını çağırmadan
+status ve sonraki shared oturum için temiz predecessor kabul ediyordu. Önce
+iki regresyon testi yazıldı; dört proof alanı ve manager successor kontrolü
+olmak üzere **beş alt durum başarısız** oldu. Üretim kaynağı düzeltildikten sonra
+**188 CPU/sentetik PASS /5,014s**, ResourceWarning hata modu ile geçti.
+
+Artık current `after_stop` proof; exact state/generation, native exclusion,
+closed admission ve fiziksel runtime/token yokluğu tekrar doğrulanıyor. Pinned
+input ile unit/process/token okumaları prover sonrasında da yenileniyor. Booleana
+benzeyen string/integer proof değerleri serialization/strict validation ile ret.
+İlk passing koşunun kasıtlı bozuk fixture alanlarına ait serializer uyarıları
+strict serialization hatasına dönüştürüldü; son koşuda bu uyarılar yok.
+History değişmedi, stop/claim tekrarlanmadı. CPU/mock sonuçları gerçek release
+veya runtime kabulü sayılmıyor; [semantik ve açık kapılar](SHARED_DESKTOP_CLEANUP.md).
+
+Yerel kanıt `data/shared-cleanup-readback-20261003/before.log`, SHA256
+`03b98a65dd1d67ac62469913c5461c42771335b341c98f725bf159509f73e1a6`;
+`after-strict.log`, SHA256
+`9a8c41152cf6888cf78f2a6041b14b2f59cadf9ac27782efaca8daacd709765a`.
+
+22:05 saatlik publisher başarıyla `4aa1553` yayımladı:22:00 UTC sanitize edilmiş
+model/token/maliyet özeti. Yalnız README aggregate bloğu,usage_latest,MANIFEST
+farkı incelendi ve temiz kaynak checkout'u fast-forward alındı. Tahmini API
+karşılığı fatura değildir; goal sayacı ayrı güncellendi. Bu tur backend/GPU/UI
+runtime değişikliği yapılmadı; önceki21:59 Development kaydı canlıda korunuyor.
+Entegrasyon **kısmi**, GPU HOLD ve Scientist'in tek test yürütücüsü olması sürüyor.
+
 ## 3 Ekim 2026,22:01 UTC — original cleanup ortamı launch zincirine bağlandı
 
 [Pre-launch environment hazırlığı ve tüketicisi](SHARED_DESKTOP_CLEANUP.md)

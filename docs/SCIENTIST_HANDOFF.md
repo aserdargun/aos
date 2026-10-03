@@ -1,6 +1,28 @@
 # Scientist coordination: current source, pending runtime admission
 
-## Current pickup — 3 October 2026,21:59 UTC
+## Current pickup — 3 October 2026,22:09 UTC
+
+AOS reproduced and fixed a stale cleanup-readback gap: a persisted
+`cleanup_verified` flag previously bypassed the trusted prover during stopped
+status / successor admission. `clean_shutdown` now requires a fresh strictly
+typed `after_stop` proof for the same state/generation and current independent
+unit/process/token observations. Revoked scope, failed physical proof, stale
+generation, changed inputs or unavailable prover returns `needs_inspection`
+through status and denies the successor. No stop or claim is repeated, no
+history is erased and no new wire operation is introduced.
+
+Two regression tests failed before the fix (five subcase failures); **188
+CPU/synthetic checks passed /5.014s** afterward. The `after_stop` integration
+must therefore be read-only/repeatable for an already stopped state, not a
+second destructive close. The host cleanup provider remains default-deny until
+authoritative original spawn fencing / worker closure is composed.
+
+AOS parent is reviewed hourly aggregate commit
+`4aa155345ac662d293f97b6e0dfff3627ca324fb` plus this source patch. Candidate wire
+hash remains unchanged; no deployed pair, listener or GPU admission is claimed.
+See [cleanup semantics](SHARED_DESKTOP_CLEANUP.md) and dated STATUS evidence.
+
+## Previous pickup — 3 October 2026,21:59 UTC
 
 AOS now implements pre-launch original-environment capture and durable canonical
 private input, plus the [environment-bound launch and cleanup composition](SHARED_DESKTOP_CLEANUP.md).

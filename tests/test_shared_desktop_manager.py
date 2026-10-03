@@ -11,7 +11,7 @@ from aos import local_app
 from aos.contracts import canonical, digest
 from aos.lifecycle import process_identity
 from aos.shared_desktop_manager import prepare_shared, provision_shared, shared_host_scope, start_shared, verify_predecessor
-from aos.shared_desktop_plan import SharedDesktopLimits, SharedDesktopTemplate, load_plan
+from aos.shared_desktop_plan import SharedDesktopLimits, SharedDesktopTemplate, load_plan, prepare_plan
 from test_shared_desktop_host import SyntheticSharedHostFixture
 
 
@@ -344,6 +344,23 @@ class SharedDesktopManagerHostIntegrationTests(unittest.TestCase):
                     effect.assert_not_called()
             self.fixture.transport.start.assert_called_once()
             self.fixture.transport.stop.assert_not_called()
+
+    def test_historical_cleanup_cannot_admit_a_successor_after_current_proof_is_lost(self):
+        with shared_host_scope(lambda: self.fixture.host):
+            self.start(self.prepare())
+            state = local_app.read_state()
+            self.cli(['stop', '--expected-session', state.session])
+            stopped = local_app.read_state()
+            predecessor = stopped.model_dump(mode='json')
+            successor = prepare_plan(self.fixture.template, predecessor=predecessor, new_session='app-' + '7' * 32)
+            self.fixture.host.cleanup_prover = lambda current, stage: self.fixture.cleanup(current, stage).model_copy(
+                update={'owned_runtime_removed': False})
+            with self.assertRaisesRegex(ValueError, 'cleanup remains unproven'):
+                verify_predecessor(successor, predecessor)
+            self.assertEqual(local_app.read_state(), stopped)
+            self.assertFalse(Path(successor.workspace).exists())
+            self.fixture.transport.start.assert_called_once()
+            self.fixture.transport.stop.assert_called_once()
 
 
 if __name__ == '__main__':

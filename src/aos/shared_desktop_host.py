@@ -647,7 +647,10 @@ class SharedDesktopHost:
 
     def _cleanup(self, state, stage):
         proof = self.cleanup_prover(state.model_copy(deep=True), stage)
-        if (not isinstance(proof, SharedCleanupProof) or proof.state_sha256 != digest(state.model_dump(mode='json'))
+        if not isinstance(proof, SharedCleanupProof):
+            raise ValueError('Trusted cleanup provider must return its typed original-state proof')
+        proof = SharedCleanupProof.model_validate(proof.model_dump(mode='json', warnings='error'), strict=True)
+        if (proof.state_sha256 != digest(state.model_dump(mode='json'))
                 or proof.service_binding != state.service_binding or not proof.native_gpu_excluded):
             raise ValueError('Trusted cleanup proof does not bind exact shared state/generation and native GPU exclusion')
         if not proof.admission_closed:
@@ -685,7 +688,11 @@ class SharedDesktopHost:
 
     def clean_shutdown(self, state):
         self._inputs(state)
-        return (state.phase == 'stopped' and state.cleanup_verified and state.cleanup_evidence_sha256 is not None
-            and state.service_binding is not None and self.transport.stopped(state.service_binding)
+        if (state.phase != 'stopped' or not state.cleanup_verified or state.cleanup_evidence_sha256 is None
+                or state.service_binding is None or state.token_name is None):
+            return False
+        self._cleanup(state, 'after_stop')
+        self._inputs(state)
+        return (self.transport.stopped(state.service_binding)
             and self.process_observer(state.service_binding.process) == 'not_observed'
-            and state.token_name is not None and not os.path.lexists(REPO_ROOT / 'runs' / state.token_name))
+            and not os.path.lexists(REPO_ROOT / 'runs' / state.token_name))

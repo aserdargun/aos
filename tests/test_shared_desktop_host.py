@@ -487,6 +487,85 @@ class SharedDesktopHostTests(unittest.TestCase):
             self.fixture.host.stop(result, persist_state=self.fixture.states.append)
         self.fixture.transport.stop.assert_called_once()
 
+    def test_historical_cleanup_flag_does_not_bypass_current_original_scope_and_physical_proof(self):
+        stopped = self.fixture.host.stop(self.fixture.start(), persist_state=self.fixture.states.append)
+        original = stopped.model_dump(mode='json')
+        for field in ('native_gpu_excluded', 'admission_closed', 'owned_runtime_removed', 'tokens_removed'):
+            self.fixture.host.cleanup_prover = lambda current, stage, field=field: self.fixture.cleanup(current, stage).model_copy(
+                update={field: False})
+            with self.subTest(field=field):
+                status = self.fixture.host.status(stopped)
+                self.assertEqual(status['phase'], 'needs_inspection')
+                self.assertFalse(status['cleanup_verified'])
+                self.assertFalse(status['task_admission_enabled'])
+                self.assertEqual(stopped.model_dump(mode='json'), original)
+        self.fixture.transport.stop.assert_called_once()
+
+    def test_clean_shutdown_revalidates_after_stop_proof_without_consuming_or_repeating_stop(self):
+        stopped = self.fixture.host.stop(self.fixture.start(), persist_state=self.fixture.states.append)
+        proof = Mock(side_effect=self.fixture.cleanup)
+        self.fixture.host.cleanup_prover = proof
+        self.assertTrue(self.fixture.host.clean_shutdown(stopped))
+        self.assertTrue(self.fixture.host.clean_shutdown(stopped))
+        self.assertEqual(proof.call_count, 2)
+        for call in proof.call_args_list:
+            self.assertEqual(call.args, (stopped, 'after_stop'))
+        self.assertEqual(len(self.fixture.authority_claims), 1)
+        self.fixture.transport.start.assert_called_once()
+        self.fixture.transport.stop.assert_called_once()
+
+    def test_reappearing_token_during_cleanup_readback_denies_cached_clean_state(self):
+        stopped = self.fixture.host.stop(self.fixture.start(), persist_state=self.fixture.states.append)
+
+        def reappear(current, stage):
+            proof = self.fixture.cleanup(current, stage)
+            self.fixture.file('runs/' + current.token_name, b'SYNTHETIC_REAPPEARANCE')
+            return proof
+
+        self.fixture.host.cleanup_prover = reappear
+        self.assertFalse(self.fixture.host.clean_shutdown(stopped))
+        self.fixture.transport.stop.assert_called_once()
+
+    def test_missing_stale_or_failed_cleanup_provider_denies_without_mutating_history(self):
+        stopped = self.fixture.host.stop(self.fixture.start(), persist_state=self.fixture.states.append)
+        for prover in (None, Mock(side_effect=ValueError('Synthetic scope revoked')),
+                       Mock(side_effect=TimeoutError('Synthetic cleanup readback expired')),
+                       lambda current, stage: self.fixture.cleanup(current, stage).model_copy(update={'state_sha256': 'f' * 64}),
+                       lambda current, stage: self.fixture.cleanup(current, stage).model_copy(update={
+                           'service_binding': self.fixture.service.model_copy(update={'invocation_id': 'f' * 32})})):
+            self.fixture.host.cleanup_prover = prover
+            with self.subTest(prover=type(prover).__name__):
+                status = self.fixture.host.status(stopped)
+                self.assertEqual(status['phase'], 'needs_inspection')
+                self.assertFalse(status['cleanup_verified'])
+                self.assertTrue(stopped.cleanup_verified)
+        self.fixture.transport.stop.assert_called_once()
+
+    def test_cleanup_readback_rejects_truthy_non_boolean_proof_fields(self):
+        stopped = self.fixture.host.stop(self.fixture.start(), persist_state=self.fixture.states.append)
+        for field in ('native_gpu_excluded', 'admission_closed', 'owned_runtime_removed', 'tokens_removed'):
+            for value in (1, 'true', 'false'):
+                self.fixture.host.cleanup_prover = lambda current, stage, field=field, value=value: self.fixture.cleanup(
+                    current, stage).model_copy(update={field: value})
+                with self.subTest(field=field, value=value):
+                    status = self.fixture.host.status(stopped)
+                    self.assertEqual(status['phase'], 'needs_inspection')
+                    self.assertFalse(status['cleanup_verified'])
+
+    def test_cleanup_readback_rechecks_pinned_inputs_after_provider_returns(self):
+        stopped = self.fixture.host.stop(self.fixture.start(), persist_state=self.fixture.states.append)
+
+        def changed_inputs(current, stage):
+            proof = self.fixture.cleanup(current, stage)
+            self.fixture.activation_path.write_bytes(b'{}')
+            return proof
+
+        self.fixture.host.cleanup_prover = changed_inputs
+        status = self.fixture.host.status(stopped)
+        self.assertEqual(status['phase'], 'needs_inspection')
+        self.assertFalse(status['cleanup_verified'])
+        self.fixture.transport.stop.assert_called_once()
+
     def test_completed_history_and_terminal_autoapproval_are_not_active_work(self):
         state = self.fixture.start()
         actual = self.fixture.readback(state, self.fixture.plan)
