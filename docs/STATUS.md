@@ -1,3 +1,66 @@
+## 3 Ekim 2026, 16:31 UTC — onaylı UI-only canlı teslim
+
+Kullanıcı yalnız arayüz güncellemesine açık onay verdi. Default backend PID42513
+ve başlangıç kimliği korunarak yeni content-hash assetleri eklendi, index atomik
+değiştirildi; eski index özel yedeğe alındı ve eski assetler silinmedi. HTTP ile
+index ve bütün yeni asset byte hash'leri bağımsız doğrulandı. Backend/source,
+GPU, model, Scientist runtime veya kullanıcı görevi yeniden başlatılmadı.
+
+Uyumluluk kontrolünde yeni optional context alanlarının eski backend'de
+desteklenmediği dikkate alındı: yeni backend inventory'si desteğini açıkça
+bildirir; UI yalnız bu bildirim varsa alanları sunar. Eski/eksik bildirimde
+alanlar gönderilmez; destek kaybolursa doldurulmuş context önerisi kapalı kalır.
+Default canlı Scientist hâlâ yapılandırılmamıştır; UI teslimi CPU backend/grant
+deployment'ı veya deney kabulü değildir.
+
+**35 PASS / 9,636 s:** 16 UI/dil/topoloji, 19 CPU session/startup/context
+kontrolü. TypeScript/Vite geçti, mevcut chunk boyutu uyarısı sürer. Ayrı gerçek
+backend uyum probu önce aday assetleriyle, sonra doğrudan canlı HTTP assetleriyle
+geçti: EN desktop/TR mobile topoloji, yedi adım, Development başlangıcı,
+Scientist'in yapılandırılmamış durumu, sıfır JS/HTTP hatası. Her probda 14 istek;
+tek izinli POST yerel cookie oturum açmadır. Görev/control POST'ları engellenir.
+İlk iki prob doğru UI etiketini/details durumunu beklemiyordu; test sürücüsü
+düzeltildi, ilk loglar korundu. Gerçek Mac üzerinden pozitif erişim hâlâ açık.
+
+Özel kanıt: izole checkout'ta `data/ui-delivery-20261003/`; `tests.log`,
+`preflight-verified.log`, `delivered.log`, `promotion.private.json`,
+`delivered-live-backend.private.json` ve özel EN/TR görseller. Mevcut Tailscale
+bridge aktif gözlendi; IP allowlist veya Host/Origin denetimi değiştirilmedi.
+Lisans seçimi kullanıcı tarafından ajana devredildi; ayrı lisans/release işi
+bu runtime/UI tesliminden ayrıdır. Ortak GPU, gerçek optional-context deneyi ve
+tam ürün kapanışı iddia edilmez.
+
+## 3 Ekim 2026, 16:21 UTC — Scientist paneli CPU profil sınırlarını gösteriyor
+
+CPU service inventory'si artık yalnız incelenmiş yapılandırmadan alınan exact
+paket/dal, deney/süre üst sınırı ve sıfır model token bilgisini döndürür. Bu
+okuma uzak API çağırmaz ve `joint_runtime_admitted` false kalır. Yeni alan
+runtime yetkisi veya yeni Scientist wire sözleşmesi değildir. Genel servis
+inventory'si ve önceki protokol alanları değişmedi.
+
+EN/TR paneli CPU için yalnız `mode` dalını sunar; kullanıcı bütçeyi açıkça
+girer. Fazla deney/süre veya sıfırdan büyük token öneriyi engeller. Yenilenen
+daha düşük sınır eski yüksek bütçeyi geçersiz kılar. Bozuk, başka pakete ait
+veya bilinmeyen profil metadata'sı geniş fallback yerine yeni öneriyi kapatır.
+Eski metadata'sız backend protokol-aralık formunu korur; onay/sonuç kontrolleri
+ayrıdır. Backend kontrolleri UI atlandığında da geçersiz bütçeleri reddeder.
+
+**24 PASS / 0,394 s:** CPU session/startup/capability. **16 PASS / 8,995 s:**
+13 Scientist paneli, iki topoloji navigasyonu ve bir dil sözleşmesi kontrolü.
+Gerçek Chromium render, EN desktop/TR 390px mobile, yenilenen limit, 13 bozuk
+metadata varyantı, sıfır otomatik POST, taşma/console kontrolleri doğrulandı.
+API yanıtları sentetiktir; canlı Scientist veya Mac/browser kabulü değildir.
+İlk UI testi mevcut placeholder çevirisini yanlış bekliyordu; test düzeltildi,
+uygulama davranışı bu nedenle değiştirilmedi. TypeScript/Vite derlemesi geçti;
+1,066 MB ana chunk uyarısı sürer. Tarayıcı/sunucular kapandı, geçici dependency
+symlink'i kaldırıldı. TR görseli incelendi.
+
+Özel kanıtlar izole checkout'ta `data/cpu-panel-limits-20261003/` içinde
+`backend.log`, `build.log`, `ui.log`, `ui-final.log`; ekran görüntüleri
+`data/scientist-ui-qa-h8qxjkxw/cpu-limits-en.png` ve `cpu-limits-tr-mobile.png`.
+Default arayüze deployment, model/GPU koşusu veya yeni ortak kabul yapılmadı.
+Scientist thread haberleşme aracı transport hatası vermeye devam ediyor.
+
 ## 3 Ekim 2026, 16:12 UTC — ayrı CPU Scientist konsol başlangıcı bağlandı
 
 İzole publication checkout'unda `serve_desktop.main` artık explicit typed

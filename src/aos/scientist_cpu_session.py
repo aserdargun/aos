@@ -6,6 +6,16 @@ from .scientist_transport import ScientistAdmissionError
 from .storage import TrajectoryStore
 
 
+class ScientistCpuLabService(ScientistLabService):
+    def inventory(self):
+        capability = self.capability.grant.capability
+        return {**super().inventory(), 'request_limits': {
+            'profile': self.capability.grant.profile, 'source': 'reviewed_configuration',
+            'suite': capability.suite_id, 'track': capability.track,
+            'max_experiments': capability.max_experiments,
+            'max_wall_seconds': capability.max_wall_seconds, 'model_tokens': capability.model_tokens}}
+
+
 def prepare_scientist_cpu_startup(config, grant: ScientistCpuReviewedGrant):
     """Validate an explicit trusted CPU composition before desktop creation; no remote requests."""
     if not isinstance(grant, ScientistCpuReviewedGrant):
@@ -37,6 +47,6 @@ def create_scientist_cpu_service(controller: DesktopController, client: Scientis
             or current['status'] != 'running'):
         raise ScientistAdmissionError('CPU composition controller is not the exact current running session')
     verifier = ScientistCpuCapabilityVerifier(client, grant)
-    return ScientistLabService(controller, client,
+    return ScientistCpuLabService(controller, client,
         authorization_context_sha256=verifier.grant.authorization_context_sha256,
         program_version=verifier.grant.capability.program_version, verify_capability=verifier)

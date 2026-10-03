@@ -74,6 +74,7 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
         page.on('pageerror', lambda error: errors.append(str(error)))
         page.on('console', lambda message: errors.append(message.text) if message.type in {'error', 'warning'} else None)
         inventory = {'configured': True, 'joint_runtime_admitted': False, 'jobs': [],
+                     'supported_context_fields': ['field_intent', 'prior_experience'],
                      'allowed_suites': ['synthetic.allowed.v1'], 'program_version': 'synthetic.v1'}
 
         def endpoint(route):
@@ -132,11 +133,112 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
         finally:
             page.close()
 
+    def test_cpu_reviewed_limits_enforced_and_translated_without_automatic_proposal(self):
+        from playwright.sync_api import expect
+        page = self.browser.new_page(viewport={'width': 1280, 'height': 800})
+        errors, posts = [], []
+        page.on('pageerror', lambda error: errors.append(str(error)))
+        page.on('console', lambda message: errors.append(message.text) if message.type in {'error', 'warning'} else None)
+        inventory = {'configured': True, 'joint_runtime_admitted': False, 'jobs': [],
+                     'allowed_suites': ['synthetic.cpu.v1'], 'program_version': 'mode-grid.v1',
+                     'request_limits': {'profile': 'scientist-cpu-mode-grid.v1', 'source': 'reviewed_configuration',
+                         'suite': 'synthetic.cpu.v1', 'track': 'mode', 'max_experiments': 2,
+                         'max_wall_seconds': 60, 'model_tokens': 0}}
+
+        def endpoint(route):
+            if route.request.method == 'POST':
+                posts.append(route.request.post_data_json)
+                route.fulfill(json={'state': 'pending'})
+            else:
+                route.fulfill(json=inventory)
+
+        page.route('**/api/scientist/**', endpoint)
+        try:
+            page.goto(f'http://127.0.0.1:{self.server.server_port}/')
+            page.get_by_text('Scientist experiments', exact=True).click()
+            expect(page.get_by_test_id('scientist-cpu-limits')).to_contain_text('CPU only · synthetic mode-grid')
+            self.assertEqual(page.locator('#scientist-request-track option').all_text_contents(), ['Select an experiment track', 'mode'])
+            create = page.get_by_role('button', name='Create experiment proposal', exact=True)
+            expect(create).to_be_disabled()
+            self.enter_requested_budget(page, track='mode', experiments='2', wall_seconds='60', model_tokens='0')
+            expect(create).to_be_enabled()
+            for label, invalid, restored in [('Requested experiment count', '3', '2'),
+                                             ('Requested duration (seconds)', '61', '60'),
+                                             ('Requested model token limit', '1', '0')]:
+                page.get_by_label(label, exact=True).fill(invalid)
+                expect(create).to_be_disabled()
+                expect(page.get_by_test_id('scientist-proposal-preview')).to_have_count(0)
+                page.get_by_label(label, exact=True).fill(restored)
+                expect(create).to_be_enabled()
+            self.assertEqual(posts, [])
+            page.screenshot(path=str(self.root / 'cpu-limits-en.png'), full_page=True)
+            create.click()
+            expect(create).to_be_enabled()
+            self.assertEqual(posts, [{'suite': 'synthetic.cpu.v1', 'track': 'mode', 'program_version': 'mode-grid.v1',
+                                     'budget': {'experiments': 2, 'wall_seconds': 60, 'model_tokens': 0}}])
+            inventory['request_limits']['max_experiments'] = 1
+            page.get_by_role('button', name='Refresh', exact=True).click()
+            expect(create).to_be_disabled()
+            expect(page.get_by_label('Requested experiment count', exact=True)).to_have_attribute('max', '1')
+            page.get_by_role('button', name='TR', exact=True).click()
+            page.set_viewport_size({'width': 390, 'height': 844})
+            expect(page.get_by_test_id('scientist-cpu-limits')).to_contain_text('Yalnız CPU · sentetik mode-grid')
+            expect(page.get_by_test_id('scientist-cpu-limits')).to_contain_text('En fazla deney: 1')
+            page.screenshot(path=str(self.root / 'cpu-limits-tr-mobile.png'), full_page=True)
+            self.assertFalse(page.evaluate('document.documentElement.scrollWidth > window.innerWidth'))
+            self.assertEqual(errors, [])
+            self.assertEqual(len(posts), 1)
+        finally:
+            page.close()
+
+    def test_unknown_malformed_or_cross_suite_limits_disable_new_proposals(self):
+        from playwright.sync_api import expect
+        page = self.browser.new_page()
+        posts = []
+        valid = {'profile': 'scientist-cpu-mode-grid.v1', 'source': 'reviewed_configuration',
+                 'suite': 'synthetic.cpu.v1', 'track': 'mode', 'max_experiments': 2,
+                 'max_wall_seconds': 60, 'model_tokens': 0}
+        inventory = {'configured': True, 'joint_runtime_admitted': False, 'jobs': [],
+                     'allowed_suites': ['synthetic.cpu.v1'], 'program_version': 'mode-grid.v1', 'request_limits': valid}
+
+        def endpoint(route):
+            if route.request.method == 'POST':
+                posts.append(route.request.post_data_json)
+                route.fulfill(status=500)
+            else:
+                route.fulfill(json=inventory)
+
+        page.route('**/api/scientist/**', endpoint)
+        try:
+            page.goto(f'http://127.0.0.1:{self.server.server_port}/')
+            page.get_by_text('Scientist experiments', exact=True).click()
+            self.enter_requested_budget(page, track='mode', model_tokens='0')
+            create = page.get_by_role('button', name='Create experiment proposal', exact=True)
+            expect(create).to_be_enabled()
+            cases = [None, [], {}, valid | {'profile': 'unknown.v2'}, valid | {'source': 'live'},
+                     valid | {'suite': 'other'}, valid | {'track': 'anomaly'}, valid | {'model_tokens': False},
+                     valid | {'max_experiments': True}, valid | {'max_experiments': 36},
+                     valid | {'max_wall_seconds': 1.5}, valid | {'max_wall_seconds': 14401}, valid | {'extra': True}]
+            for value in cases:
+                with self.subTest(value=value):
+                    inventory['request_limits'] = value
+                    page.get_by_role('button', name='Refresh', exact=True).click()
+                    expect(page.get_by_role('alert')).to_have_text('Experiment scope metadata is invalid or unsupported; new proposals are disabled.')
+                    expect(create).to_be_disabled()
+                    expect(page.get_by_test_id('scientist-proposal-preview')).to_have_count(0)
+                    inventory['request_limits'] = valid
+                    page.get_by_role('button', name='Refresh', exact=True).click()
+                    expect(create).to_be_enabled()
+            self.assertEqual(posts, [])
+        finally:
+            page.close()
+
     def test_prior_experience_manual_refs_validate_uniqueness_and_clear_on_track_change(self):
         from playwright.sync_api import expect
         page = self.browser.new_page()
         posts = []
         inventory = {'configured': True, 'joint_runtime_admitted': False, 'jobs': [],
+                     'supported_context_fields': ['field_intent', 'prior_experience'],
                      'allowed_suites': ['synthetic.allowed.v1'], 'program_version': 'synthetic.v1'}
 
         def endpoint(route):
@@ -254,6 +356,9 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
             expect(page.get_by_test_id('scientist-proposal-preview')).to_have_count(0)
             expect(page.get_by_text('The server reports allowed suites; it does not report track permissions or effective budget caps. The requested scope is checked separately by the server.')).to_be_visible()
             self.enter_requested_budget(page, track='mode', experiments='2', wall_seconds='900', model_tokens='12000')
+            expect(page.get_by_test_id('scientist-field-intent')).to_have_count(0)
+            expect(page.get_by_test_id('scientist-prior-experience')).to_have_count(0)
+            expect(page.get_by_text('This backend does not advertise optional intent/history forwarding; these fields are not sent.')).to_be_visible()
             page.get_by_label('Allowed experiment suite', exact=True).select_option('synthetic.second.v1')
             expected = {'suite': 'synthetic.second.v1', 'track': 'mode', 'program_version': 'synthetic.v1',
                         'budget': {'experiments': 2, 'wall_seconds': 900, 'model_tokens': 12000}}

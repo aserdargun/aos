@@ -1,4 +1,11 @@
 export const translationsTasks: Record<string, string> = {
+  'Bu backend isteğe bağlı amaç/geçmiş aktarımı desteği bildirmiyor; bu alanlar gönderilmez.': 'This backend does not advertise optional intent/history forwarding; these fields are not sent.',
+  'Deney kapsamı bilgisi geçersiz veya desteklenmiyor; yeni öneri oluşturma kapalı.': 'Experiment scope metadata is invalid or unsupported; new proposals are disabled.',
+  'Yalnız CPU · sentetik mode-grid': 'CPU only · synthetic mode-grid',
+  'İncelenmiş yapılandırma sınırları; canlı yetki veya GPU kabulü değildir. Her işlemde sunucu tekrar doğrular.': 'Reviewed configuration limits, not live authority or GPU acceptance. The server revalidates every operation.',
+  'En fazla deney': 'Maximum experiments',
+  'En fazla saniye': 'Maximum seconds',
+  'Model token': 'Model tokens',
   'Kaydedilmiş doğrulanmış raporlar': 'Saved verified reports',
   'Rapor içeriği yalnız ayrı kayıt isteğiyle saklanır. Geçmiş kayıt güncel durum, yeni yetki veya GPU bırakımı kanıtı değildir.': 'Report content is retained only through a separate save request. History does not prove current status, new authority, or GPU release.',
   'Bu veritabanında rapor geçmişi desteklenmiyor; otomatik benimseme yapılmaz.': 'This database does not support report history; no automatic adoption occurs.',

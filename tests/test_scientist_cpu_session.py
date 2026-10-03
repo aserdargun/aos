@@ -76,6 +76,26 @@ class ScientistCpuSessionTests(unittest.IsolatedAsyncioTestCase):
         result = await self.client.post('/api/login', headers=self.headers, json={'token': 'synthetic-console-token'})
         self.assertEqual(result.status_code, 200)
 
+    async def test_inventory_exposes_only_reviewed_cpu_limits_without_remote_read_or_admission(self):
+        await self.login()
+        response = await self.client.get('/api/scientist/jobs')
+        self.assertEqual(response.status_code, 200)
+        inventory = response.json()
+        self.assertEqual(inventory['request_limits'], {
+            'profile': 'scientist-cpu-mode-grid.v1', 'source': 'reviewed_configuration',
+            'suite': 'synthetic.cpu.v1', 'track': 'mode', 'max_experiments': 2,
+            'max_wall_seconds': 60, 'model_tokens': 0})
+        self.assertFalse(inventory['joint_runtime_admitted'])
+        self.assertEqual(inventory['supported_context_fields'], ['field_intent', 'prior_experience'])
+        self.assertEqual(inventory['jobs'], [])
+        self.assertEqual(self.requests, [])
+        for budget in ({'experiments': 3, 'wall_seconds': 30, 'model_tokens': 0},
+                       {'experiments': 1, 'wall_seconds': 61, 'model_tokens': 0},
+                       {'experiments': 1, 'wall_seconds': 30, 'model_tokens': 1}):
+            result = await self.post('propose', self.proposal | {'budget': budget})
+            self.assertEqual(result.status_code, 409)
+        self.assertEqual(self.requests, [])
+
     async def test_actual_asgi_login_approval_intent_status_and_independent_report(self):
         self.assertEqual(self.requests, [])
         self.assertEqual((await self.post('propose', self.proposal)).status_code, 401)

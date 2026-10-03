@@ -22,6 +22,8 @@ interface Inventory {
   joint_runtime_admitted: boolean;
   allowed_suites?: string[];
   program_version?: string;
+  request_limits?: unknown;
+  supported_context_fields?: unknown;
   inference?: {configured: boolean; admission_blocked: boolean; unresolved_count: number;
     resolved_count?: number;
     unresolved_lab_effect_count?: number;
@@ -56,6 +58,20 @@ function requestedInteger(value: string, minimum: number, maximum: number): numb
   if (!/^(0|[1-9][0-9]*)$/.test(value)) return null;
   const parsed = Number(value);
   return Number.isSafeInteger(parsed) && parsed >= minimum && parsed <= maximum ? parsed : null;
+}
+
+function cpuRequestLimits(value: unknown, suites: string[], program: unknown) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const limits = value as Record<string, unknown>;
+  if (Object.keys(limits).sort().join(',') !== 'max_experiments,max_wall_seconds,model_tokens,profile,source,suite,track'
+      || limits.profile !== 'scientist-cpu-mode-grid.v1' || limits.source !== 'reviewed_configuration'
+      || limits.track !== 'mode' || limits.model_tokens !== 0 || program !== 'mode-grid.v1'
+      || suites.length !== 1 || limits.suite !== suites[0]
+      || typeof limits.max_experiments !== 'number' || !Number.isSafeInteger(limits.max_experiments)
+      || limits.max_experiments < 1 || limits.max_experiments > 35
+      || typeof limits.max_wall_seconds !== 'number' || !Number.isSafeInteger(limits.max_wall_seconds)
+      || limits.max_wall_seconds < 1 || limits.max_wall_seconds > 14400) return null;
+  return {maxExperiments: limits.max_experiments, maxWallSeconds: limits.max_wall_seconds};
 }
 
 export function ScientistLab() {
@@ -161,9 +177,18 @@ export function ScientistLab() {
     && new Set(inventory.allowed_suites).size === inventory.allowed_suites.length
     ? inventory.allowed_suites : [];
   const selected = suite || allowedSuites[0] || '';
-  const requestedExperiments = requestedInteger(experiments, 1, 35);
-  const requestedWallSeconds = requestedInteger(wallSeconds, 1, 14400);
-  const requestedModelTokens = requestedInteger(modelTokens, 0, 350000);
+  const contextFields = inventory?.supported_context_fields;
+  const contextSupported = Array.isArray(contextFields) && contextFields.length === 2
+    && contextFields.includes('field_intent') && contextFields.includes('prior_experience');
+  const hasRequestLimits = inventory !== null && Object.hasOwn(inventory, 'request_limits');
+  const cpuLimits = cpuRequestLimits(inventory?.request_limits, allowedSuites, inventory?.program_version);
+  const invalidRequestLimits = hasRequestLimits && cpuLimits === null;
+  const maximumExperiments = cpuLimits?.maxExperiments ?? 35;
+  const maximumWallSeconds = cpuLimits?.maxWallSeconds ?? 14400;
+  const maximumModelTokens = cpuLimits ? 0 : 350000;
+  const requestedExperiments = requestedInteger(experiments, 1, maximumExperiments);
+  const requestedWallSeconds = requestedInteger(wallSeconds, 1, maximumWallSeconds);
+  const requestedModelTokens = requestedInteger(modelTokens, 0, maximumModelTokens);
   const requestedAssetId = advisoryText(assetId, 128);
   const requestedObjective = advisoryText(objective, 600);
   const fieldIntent = track === 'mode' && requestedAssetId !== null && requestedObjective !== null
@@ -190,6 +215,8 @@ export function ScientistLab() {
     setExperienceRecords(records => records.map((record, position) => position === index ? {...record, [field]: value} : record));
   };
   const proposal = inventory?.configured === true && !inventoryError && allowedSuites.includes(selected)
+    && (contextSupported || (!fieldIntentEnabled && !experienceEnabled))
+    && !invalidRequestLimits && (!cpuLimits || track === 'mode')
     && typeof inventory.program_version === 'string' && inventory.program_version.length > 0
     && inventory.program_version.length <= 64 && (track === 'anomaly' || track === 'mode')
     && requestedExperiments !== null && requestedWallSeconds !== null && requestedModelTokens !== null
@@ -257,6 +284,12 @@ export function ScientistLab() {
       {inventory.inference.truncated ? <p>{t('Son 20 çıkarım gösteriliyor.')}</p> : null}
     </section> : null}
     {!inventory?.configured ? <p>{t('Scientist bağlantısı yapılandırılmadı; gerçek deney başlatma kapalı.')}</p> : <>
+      {invalidRequestLimits ? <p role="alert">{t('Deney kapsamı bilgisi geçersiz veya desteklenmiyor; yeni öneri oluşturma kapalı.')}</p> : null}
+      {cpuLimits ? <section data-testid="scientist-cpu-limits">
+        <h3>{t('Yalnız CPU · sentetik mode-grid')}</h3>
+        <p>{t('İncelenmiş yapılandırma sınırları; canlı yetki veya GPU kabulü değildir. Her işlemde sunucu tekrar doğrular.')}</p>
+        <p>{t('En fazla deney')}: {cpuLimits.maxExperiments} · {t('En fazla saniye')}: {cpuLimits.maxWallSeconds} · {t('Model token')}: 0</p>
+      </section> : null}
       <form data-testid="scientist-proposal-form" onSubmit={event => {
         event.preventDefault();
         if (proposal && !busy) void perform('propose', proposal);
@@ -270,22 +303,23 @@ export function ScientistLab() {
           <label htmlFor="scientist-request-track">{t('İstenen deney dalı')}</label>
           <select id="scientist-request-track" value={track} required onChange={event => changeTrack(event.target.value)}>
             <option value="">{t('Deney dalını seçin')}</option>
-            <option value="anomaly">anomaly</option>
+            {!cpuLimits && !invalidRequestLimits ? <option value="anomaly">anomaly</option> : null}
             <option value="mode">mode</option>
           </select>
           <p>{t('Sunucunun bildirdiği program sürümü')}: <code>{typeof inventory.program_version === 'string'
             && inventory.program_version.length > 0 && inventory.program_version.length <= 64
             ? inventory.program_version : t('Kullanılamıyor')}</code></p>
-          <p>{t('Sunucu izinli paketleri bildirir; dal iznini ve etkin bütçe sınırlarını bildirmez. İstenen kapsam sunucuda ayrıca denetlenir.')}</p>
-          <label style={{display: 'grid'}}>{t('İstenen deney sayısı')} <input type="number" min="1" max="35" step="1" required
+          {!hasRequestLimits ? <p>{t('Sunucu izinli paketleri bildirir; dal iznini ve etkin bütçe sınırlarını bildirmez. İstenen kapsam sunucuda ayrıca denetlenir.')}</p> : null}
+          <label style={{display: 'grid'}}>{t('İstenen deney sayısı')} <input type="number" min="1" max={maximumExperiments} step="1" required
             value={experiments} onChange={event => setExperiments(event.target.value)}/></label>
-          <label style={{display: 'grid'}}>{t('İstenen süre (saniye)')} <input type="number" min="1" max="14400" step="1" required
+          <label style={{display: 'grid'}}>{t('İstenen süre (saniye)')} <input type="number" min="1" max={maximumWallSeconds} step="1" required
             value={wallSeconds} onChange={event => setWallSeconds(event.target.value)}/></label>
-          <label style={{display: 'grid'}}>{t('İstenen model token sınırı')} <input type="number" min="0" max="350000" step="1" required
+          <label style={{display: 'grid'}}>{t('İstenen model token sınırı')} <input type="number" min="0" max={maximumModelTokens} step="1" required
             value={modelTokens} onChange={event => setModelTokens(event.target.value)}/></label>
-          <p>{t('Protokol aralığı: 1–35 deney, 1–14400 saniye, 0–350000 model token. Bunlar etkin sunucu bütçesi değildir.')}</p>
+          {!hasRequestLimits ? <p>{t('Protokol aralığı: 1–35 deney, 1–14400 saniye, 0–350000 model token. Bunlar etkin sunucu bütçesi değildir.')}</p> : null}
           <p>{t('Bütçeyi açıkça girin. Öneri çalıştırma izni vermez; exact kapsam için ayrı insan onayı gerekir.')}</p>
-          {track === 'mode' ? <section data-testid="scientist-field-intent">
+          {!contextSupported ? <p>{t('Bu backend isteğe bağlı amaç/geçmiş aktarımı desteği bildirmiyor; bu alanlar gönderilmez.')}</p> : null}
+          {contextSupported && track === 'mode' ? <section data-testid="scientist-field-intent">
             <label><input type="checkbox" checked={fieldIntentEnabled}
               onChange={event => setFieldIntentEnabled(event.target.checked)}/>{' '}{t('İsteğe bağlı saha amacını ekle')}</label>
             <p>{t('Saha amacı kullanıcı beyanıdır; veri, algoritma veya puanlama yetkisi vermez.')}</p>
@@ -305,7 +339,7 @@ export function ScientistLab() {
               {!fieldIntent ? <p role="alert">{t('Varlık ve hedefi boş olmayan düz metinle girin; kontrol karakterleri kabul edilmez.')}</p> : null}
             </div> : null}
           </section> : null}
-          <details data-testid="scientist-prior-experience">
+          {contextSupported ? <details data-testid="scientist-prior-experience">
             <summary>{t('İsteğe bağlı önceki deneyim referansları · gelişmiş')}</summary>
             <label><input type="checkbox" checked={experienceEnabled}
               onChange={event => setExperienceEnabled(event.target.checked)}/>{' '}{t('Açıkça seçilmiş deneyim referanslarını ekle')}</label>
@@ -332,7 +366,7 @@ export function ScientistLab() {
                 onClick={() => setExperienceRecords(records => [...records, emptyExperienceRecord()])}>{t('Deney referansı ekle')}</button>
               {!priorExperience ? <p role="alert">{t('Küçük harfli UUID ve SHA-256 ile 1–8 benzersiz deney referansı gerekir.')}</p> : null}
             </div> : null}
-          </details>
+          </details> : null}
           <p>{t('Deney dalı değişirse isteğe bağlı bağlam temizlenir; göndermek için yeniden açıkça seçin.')}</p>
           {proposal ? <section data-testid="scientist-proposal-preview">
             <h4>{t('İstenen önerinin önizlemesi')}</h4>

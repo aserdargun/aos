@@ -2,11 +2,12 @@
 
 Varsayılan açılış ekranı **Development / Geliştirme** içinde kontrol merkezidir.
 Çalışan yerel oturum: `http://127.0.0.1:8765/ui/`. Yeni arayüzü görmek için
-yalnız daha önce teslim edilmiş assetleri sayfayı yenileyerek yükleyebilirsiniz;
-kaynak değişikliği otomatik canlı teslim değildir. Aşağıdaki yeni topoloji bölümü
-izole kaynakta hazırlanır; varsayılan oturuma deployment kanıtı STATUS'ta ayrıca
-aranmalıdır. Backend veya çalışan kullanıcı görevi bu kaynak çalışması için
-yeniden başlatılmaz.
+sayfayı yenileyin. **3 Ekim 2026, 16:31 UTC:** kullanıcının yalnız UI güncelleme
+onayıyla yeni topoloji ve uyumlu Scientist panel assetleri bu hosta aktarıldı.
+Backend yeniden başlatılmadı; mevcut Scientist bağlantısı yapılandırılmamış
+olarak kalır. Yeni CPU backend kodu/grant deploy edilmedi. Host üzerinde gerçek
+backend + Chromium EN/TR read-only kontrolü geçti; gerçek Mac erişimi ayrıdır.
+Başka checkout'larda kaynak değişikliği otomatik canlı teslim değildir.
 
 ## Sistem ve topoloji
 
@@ -55,6 +56,18 @@ için STATUS ve canonical release kaydını kullanın.
 Manuel geliştirme kaydını yeniden yazmaz. **Görevleri aç**, **Scientist Lab aç**
 ve **Bilgisayarı aç** ilgili mevcut paneli açar; yürütme veya onay vermez.
 Kalıcı kontrol çubuğu ve English / Türkçe seçimi korunur.
+
+## Scientist CPU kapsamı
+
+Ayrı ve açıkça yapılandırılmış CPU Scientist oturumunda panel **CPU only ·
+synthetic mode-grid / Yalnız CPU · sentetik mode-grid** etiketiyle incelenmiş
+deney/süre sınırlarını ve sıfır model token şartını gösterir. Yalnız `mode`
+seçilebilir; bütçeyi yine kullanıcı girer. Yenilenen daha dar sınıra sığmayan
+eski öneri devre dışı kalır. Geçersiz/bilinmeyen kapsam metadata'sında yeni
+öneri kapalıdır; kapsam otomatik genişletilmez. Bu bilgi canlı yetki veya GPU
+kabulü değildir; her işlem sunucuda yeniden denetlenir. Eski metadata'sız
+backend'de genel protokol aralığı uyarısı korunur. Bu kaynak değişikliği mevcut
+default oturuma CPU grant yüklemez veya kendiliğinden deploy olmaz.
 
 ## Kaynağı güncelleme
 

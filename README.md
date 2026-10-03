@@ -132,7 +132,7 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 [Runtime sözleşmesi](docs/SCIENTIST_RUNTIME_INTEGRATION.md), [native handover](docs/NATIVE_HANDOVER.md), [shared-only aday](scripts/shared-only-runtime-v1/README.md), [yeni ajan ekleme](docs/EXTENDING_AOS.md). Sonraki aşama için bunlar çalışma planıdır; endpoint, ortak dosya yolu veya desteklenmeyen adapter uydurulmaz.
 
-İzole kaynak sürümünde [isteğe bağlı amaç ve geçmiş deneyim aktarımı](docs/SCIENTIST_TASK_CONTEXT.md) typed görev, onay hash'i ve EN/TR paneline eklendi. Geçmiş referansları açıkça elle seçilir; veri/algoritma izni veya otomatik öğrenme vermez. Kaynak/fixture doğrulaması, canlı arayüze deployment ya da yeni alanlarla gerçek Scientist kabulü değildir.
+İzole kaynak sürümünde [isteğe bağlı amaç ve geçmiş deneyim aktarımı](docs/SCIENTIST_TASK_CONTEXT.md) typed görev, onay hash'i ve EN/TR paneline eklendi. Geçmiş referansları açıkça elle seçilir; veri/algoritma izni veya otomatik öğrenme vermez. 3 Ekim 16:31 UTC'de yalnız uyumlu UI assetleri onayla teslim edildi; canlı backend bu alanları desteklediğini bildirmediğinde UI bunları sunmaz. CPU backend/grant ve yeni alanlarla gerçek Scientist kabulü ayrı kapılardır.
 
 ## Güvenlik, özel veri ve teslim paketi
 
@@ -146,7 +146,7 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli teslim snapshot'ı: 3 Ekim 2026, 16:12:10 UTC / 19:12:10 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14446942`, `timeUsedSeconds=83339`: **23 saat 8 dakika 59 saniye / 23,1497222 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
+**Tarihli teslim snapshot'ı: 3 Ekim 2026, 16:31:57 UTC / 19:31:57 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14538560`, `timeUsedSeconds=84525`: **23 saat 28 dakika 45 saniye / 23,4791667 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 

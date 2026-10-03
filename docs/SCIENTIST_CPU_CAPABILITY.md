@@ -90,7 +90,33 @@ rebased for this addition, not applied to the live source. No source check gives
 the default service this new configuration. Actual remote/UI acceptance is still
 separate from the synthetic desktop startup and ASGI tests.
 
+## Console request limits
+
+The CPU service adds `request_limits` to its authenticated inventory response:
+`profile: scientist-cpu-mode-grid.v1`, `source: reviewed_configuration`, exact
+`suite`, `track: mode`, `max_experiments`, `max_wall_seconds` and `model_tokens: 0`.
+These are local reviewed configuration values, not a fresh capability observation,
+experiment admission, GPU reservation or a new Scientist wire contract. Reading
+inventory makes no remote request and still reports joint admission as false.
+
+The EN/TR panel offers only the CPU track and validates explicit budgets against
+these limits before enabling a proposal. A refreshed lower limit invalidates an
+already entered oversized budget. Unknown profiles, malformed limits and suite or
+program mismatches disable new proposals instead of falling back to wider limits.
+Existing approvals/results remain separately visible. Older non-CPU inventory
+without this optional metadata keeps the existing protocol-range form and warning;
+it is not inferred to be a CPU grant. The server remains authoritative and rejects
+invalid budgets even when a caller bypasses the UI.
+
 ## Contract identities
+
+Optional context controls additionally require the local backend inventory to
+advertise `supported_context_fields: [field_intent, prior_experience]`. This is
+local DTO/UI compatibility metadata, not remote eligibility or execution authority.
+An older backend omits it: the new UI hides those inputs and sends the legacy
+request shape. If support disappears while a context draft is selected, the draft
+cannot be submitted silently without its context. UI-only promotion does not
+upgrade the running backend or install a CPU grant.
 
 The reviewed Scientist wire schema SHA-256 is
 `44c142fa51200e846971df8e57d6c83b0fe18bf1694eb8c4835471cc521b750e`.

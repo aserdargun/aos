@@ -310,4 +310,5 @@ class ScientistLabService:
             jobs.append({'run_id': row['run_id'], 'lab_run_id': row['lab_run_id'], 'actions': actions,
                          'readbacks': self.readbacks.inventory(self.controller.session_id, row['run_id'])})
         return {'configured': True, 'joint_runtime_admitted': False, 'jobs': jobs,
+                'supported_context_fields': ['field_intent', 'prior_experience'],
                 'allowed_suites': sorted(self.client.allowed_suites), 'program_version': self.program_version}

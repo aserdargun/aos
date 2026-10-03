@@ -5,19 +5,19 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T16:12:10Z",
+    "recorded_at": "2026-10-03T16:31:57Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
       "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
     },
     "blocker": {
-      "en": "Optional field intent and selected-history forwarding is implemented in isolated source through typed approval/intent and EN/TR controls. 27 focused and 71 broader Lab tests pass (three broader finalizer warnings); 11 synthetic-API Chromium checks and four source DTO comparisons pass. Actual new-context admission, default UI delivery and native/GPU acceptance remain open; v0.1.0 still awaits license decision.",
-      "tr": "Optional amaç ve seçilmiş geçmiş aktarımı izole kaynakta typed onay/intent ve EN/TR kontrollere eklendi. 27 odaklı ve 71 geniş Lab testi geçti (geniş koşuda üç finalizer uyarısı); 11 sentetik API Chromium kontrolü ve dört source DTO karşılaştırması geçti. Yeni context ile gerçek kabul, default UI teslimi ve native/GPU kapıları açık; v0.1.0 lisans kararı bekler."
+      "en": "UI-only promotion is user-authorized and verified against the running backend; backend and GPU were not restarted. Scientist remains unconfigured in the live session. CPU startup/context/limits exist in source, not deployed backend admission. Peer coordination transport is unavailable; shared GPU acceptance remains open. License choice was delegated to the agent and remains a separate release task.",
+      "tr": "Yalnız UI aktarımı kullanıcı onayıyla yapıldı ve çalışan backend ile doğrulandı; backend/GPU yeniden başlamadı. Canlı Scientist bağlantısı yapılandırılmamış durumda. CPU startup/context/sınırlar kaynakta; backend kabulü deploy edilmedi. Karşı oturum haberleşmesi erişilemiyor; ortak GPU kabulü açık. Lisans seçimi ajana devredildi, ayrı sürüm işi olarak kaldı."
     },
     "next_action": {
-      "en": "Source publication and explicit CPU-fixture console startup composition are implemented; 38 startup/session/context and 20 capability/shared-only checks pass. Obtain a fresh source/config/runtime review before an actual separate-console task with optional intent and selected history. Prior CPU acceptance does not certify changed bytes. Keep GPU HOLD and no automatic deployment; peer coordination transport is currently unavailable.",
-      "tr": "Kaynak yayını ve explicit CPU-fixture konsol başlangıcı uygulandı; 38 startup/session/context ve 20 capability/shared-only kontrol geçti. Optional amaç ve seçilmiş geçmişle ayrı konsolda gerçek görev öncesi yeni source/config/runtime incelemesi yap. Önceki CPU kabulü değişen dosyaları doğrulamaz. GPU HOLD ve otomatik deployment yasağı korunsun; karşı oturum haberleşme aracı şu an erişilemiyor."
+      "en": "Verify the updated UI from the authorized Mac, then review a separate CPU console/runtime pair for an actual optional-context experiment. Publish the selected license separately and finish source-release checks. Keep default backend unchanged and GPU HOLD until coordinated admission.",
+      "tr": "Yetkili Mac üzerinden güncellenen UI erişimini doğrula; ardından gerçek optional-context deneyi için ayrı CPU console/runtime çiftini incele. Seçilen lisansı ayrı yayımla ve kaynak sürüm kontrollerini kapat. Koordineli kabul öncesi default backend değişmesin, GPU HOLD korunsun."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",
@@ -28,7 +28,10 @@
         "id": "durable_agent_orchestration",
         "state": "verified_cpu",
         "recorded_at": "2026-10-03T07:39:51Z",
-        "title": {"en": "Durable agent orchestration", "tr": "Kalıcı ajan orkestrasyonu"},
+        "title": {
+          "en": "Durable agent orchestration",
+          "tr": "Kalıcı ajan orkestrasyonu"
+        },
         "detail": {
           "en": "49 focused CPU checks and four fixed, isolated CPU workers verify delegation, cancellation, quotas and dependencies. Store reopen is not a full host restart; no native or GPU acceptance is claimed.",
           "tr": "49 odaklı CPU kontrolü ve dört sabit, izole CPU worker; görev devri, iptal, kota ve bağımlılıkları doğrular. Store yeniden açılması tam host restart değildir; native veya GPU kabulü iddia edilmez."
@@ -42,7 +45,10 @@
         "id": "managed_shared_runtime",
         "state": "in_progress",
         "recorded_at": "2026-10-03T11:32:12Z",
-        "title": {"en": "Managed AOS / Scientist runtime", "tr": "Yönetilen AOS / Scientist runtime"},
+        "title": {
+          "en": "Managed AOS / Scientist runtime",
+          "tr": "Yönetilen AOS / Scientist runtime"
+        },
         "detail": {
           "en": "Inert workspace and drain/seal preparation remain available. The new shared-only candidate covers 41 source files and 86 entry policies; six CPU tests pass using a disposable patched copy, native denial checks and a fake-model broker flow. CPU tokenizer/data preparation stays available. No patch, shared service, model or GPU run was activated.",
           "tr": "Inert workspace ve drain/seal hazırlığı korunuyor. Yeni shared-only aday 41 kaynak dosyası ve 86 giriş politikasını kapsıyor; disposable yamalı kopya, native ret ve sahte model broker akışıyla altı CPU testi geçti. CPU tokenizer/veri hazırlığı açık kalıyor. Yama, ortak servis, model veya GPU koşusu etkinleştirilmedi."
@@ -61,34 +67,57 @@
         "id": "shared_source_readback",
         "state": "in_progress",
         "recorded_at": "2026-10-03T13:39:24Z",
-        "title": {"en": "Shared source and launcher review", "tr": "Ortak kaynak ve launcher incelemesi"},
+        "title": {
+          "en": "Shared source and launcher review",
+          "tr": "Ortak kaynak ve launcher incelemesi"
+        },
         "detail": {
           "en": "Concrete NativeExclusionReader and the separate CPU capability verifier are source/CPU verified. Native schema and hash canonicalization remain unchanged. Fresh source/config checks do not prove imported code or authorize GPU use; active broker model-interpreter coexistence remains unsupported.",
           "tr": "Somut NativeExclusionReader ve ayrı CPU capability doğrulayıcısı kaynak/CPU düzeyinde doğrulandı. Native schema ve canonical hash davranışı değişmedi. Fresh source/config kontrolü imported code veya GPU yetkisi kanıtı değildir; aktif broker model-interpreter coexistence henüz desteklenmez."
         },
-        "evidence": ["tests/test_native_exclusion.py", "tests/test_scientist_cpu_capability.py", "docs/NATIVE_HANDOVER.md", "docs/SCIENTIST_CPU_CAPABILITY.md", "data/native-exclusion-20261003/focused-combined-final.log"]
+        "evidence": [
+          "tests/test_native_exclusion.py",
+          "tests/test_scientist_cpu_capability.py",
+          "docs/NATIVE_HANDOVER.md",
+          "docs/SCIENTIST_CPU_CAPABILITY.md",
+          "data/native-exclusion-20261003/focused-combined-final.log"
+        ]
       },
       {
         "id": "shared_ui_preparation",
         "state": "in_progress",
-        "recorded_at": "2026-10-03T15:53:00Z",
-        "title": {"en": "Source handoff and separate UI preparation", "tr": "Kaynak teslimi ve ayrı UI hazırlığı"},
-        "detail": {
-          "en": "Isolated source adds structured Scientist intent/history controls and an EN/TR System & topology guide. Eleven Scientist panel tests, two main-UI topology navigation tests and one language contract pass; APIs are synthetic. Development stays default. No default-session redeployment or live topology/worker claims.",
-          "tr": "İzole kaynağa Scientist amaç/geçmiş kontrolleri ve EN/TR Sistem ve topoloji rehberi eklendi. On bir Scientist panel testi, iki main-UI topoloji navigasyon testi ve bir dil sözleşmesi geçti; API'ler sentetiktir. Varsayılan Development korundu. Default oturum yeniden deploy edilmedi; canlı topoloji/worker iddiası yok."
+        "recorded_at": "2026-10-03T16:31:57Z",
+        "title": {
+          "en": "Source handoff and separate UI preparation",
+          "tr": "Kaynak teslimi ve ayrı UI hazırlığı"
         },
-        "evidence": ["docs/STATUS.md", "docs/CONTROL_CENTER.md", "docs/DELIVERY_AND_CONTINUATION.md", "data/delivery-20261003/ui-isolated.log"]
+        "detail": {
+          "en": "User-approved static UI promotion adds the topology guide and backend-compatible Scientist controls without restarting PID42513. Host Chromium verifies EN desktop/TR mobile against actual backend; old-backend unsupported context stays hidden. Mac access and actual Scientist task acceptance remain separate.",
+          "tr": "Onaylı statik UI aktarımı topoloji rehberini ve backend ile uyumlu Scientist kontrollerini PID42513 yeniden başlamadan ekledi. Host Chromium gerçek backend ile EN desktop/TR mobile doğruladı; eski backend desteklemeyen context alanları gizli. Mac erişimi ve gerçek Scientist görev kabulü ayrı."
+        },
+        "evidence": [
+          "docs/STATUS.md",
+          "docs/CONTROL_CENTER.md",
+          "data/ui-delivery-20261003/promotion.private.json",
+          "data/ui-delivery-20261003/delivered-live-backend.private.json"
+        ]
       },
       {
         "id": "coordinated_acceptance",
         "state": "next",
         "recorded_at": "2026-10-03T09:26:56Z",
-        "title": {"en": "One coordinated acceptance run", "tr": "Tek koordineli kabul koşusu"},
+        "title": {
+          "en": "One coordinated acceptance run",
+          "tr": "Tek koordineli kabul koşusu"
+        },
         "detail": {
           "en": "Scientist alone executes the shared GPU run after current source, caller and capability gates close. AOS independently reads results and cleanup evidence; no run starts from this development record.",
           "tr": "Güncel kaynak, caller ve yetki kapıları kapandıktan sonra ortak GPU koşusunu yalnız Scientist yürütür. AOS sonuç ve kapanış kanıtını bağımsız okur; bu geliştirme kaydı koşu başlatmaz."
         },
-        "evidence": ["docs/SCIENTIST_HANDOFF.md", "docs/RELEASE_ACCEPTANCE.md"]
+        "evidence": [
+          "docs/SCIENTIST_HANDOFF.md",
+          "docs/RELEASE_ACCEPTANCE.md"
+        ]
       }
     ]
   },
