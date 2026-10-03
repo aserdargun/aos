@@ -632,6 +632,35 @@ class LocalAppProjectTests(unittest.TestCase):
         record = json.loads((self.project.base / ('.recovery-' + self.session + '.json')).read_text())
         self.assertEqual(record['previous_state'], state.model_dump())
 
+    def ui_dependencies(self, missing=None, escaped=False):
+        executable = REPO_ROOT / 'ui/node_modules/vite/bin/vite.js'
+        dependencies = {Path('/usr/bin/node'), executable}
+        original_is_file = Path.is_file
+        original_resolve = Path.resolve
+        def is_file(path, *arguments, **options):
+            if path in dependencies:
+                return path != missing
+            return original_is_file(path, *arguments, **options)
+        def resolve(path, *arguments, **options):
+            if path == executable:
+                return Path('/synthetic-foreign/vite.js') if escaped else executable
+            return original_resolve(path, *arguments, **options)
+        stack = ExitStack()
+        stack.enter_context(patch.object(Path, 'is_file', is_file))
+        stack.enter_context(patch.object(Path, 'resolve', resolve))
+        return stack
+
+    def test_prepare_ui_missing_or_escaped_dependencies_cannot_build(self):
+        executable = REPO_ROOT / 'ui/node_modules/vite/bin/vite.js'
+        for missing, escaped in ((Path('/usr/bin/node'), False), (executable, False), (None, True)):
+            with (self.subTest(missing=missing, escaped=escaped), self.ui_dependencies(missing, escaped),
+                  local_app.instance_scope(self.project), patch('aos.local_app.run_bounded') as builder,
+                  self.assertRaisesRegex(ValueError, 'Installed local Node/Vite')):
+                local_app.prepare_ui()
+            builder.assert_not_called()
+            self.assertFalse((self.project.base / 'ui').exists())
+            self.assertEqual(list(self.project.base.glob('.prepare-ui-*')), [])
+
     def ui_builder(self, arguments, **options):
         self.assertEqual(arguments[:2], ['/usr/bin/node', str(REPO_ROOT / 'ui/node_modules/vite/bin/vite.js')])
         self.assertNotIn('--emptyOutDir', arguments)
@@ -654,7 +683,7 @@ class LocalAppProjectTests(unittest.TestCase):
         return subprocess.CompletedProcess(arguments, 0, b'synthetic build output', b'')
 
     def test_prepare_ui_public_command_publishes_fresh_private_assets_without_starting(self):
-        with (patch('aos.local_app.run_bounded', side_effect=self.ui_builder) as builder,
+        with (self.ui_dependencies(), patch('aos.local_app.run_bounded', side_effect=self.ui_builder) as builder,
               patch('aos.local_app.start') as start, patch('aos.local_app.signal_owned') as signal,
               patch('aos.local_app.httpx.Client') as client):
             result = json.loads(self.cli('prepare-ui'))
@@ -711,13 +740,13 @@ class LocalAppProjectTests(unittest.TestCase):
               patch('aos.local_app.run_bounded') as builder, self.assertRaisesRegex(ValueError, 'both processes absent')):
             local_app.prepare_ui()
         builder.assert_not_called()
-        with (local_app.instance_scope(self.project), patch('aos.local_app.observe_process', return_value='not_observed'),
+        with (self.ui_dependencies(), local_app.instance_scope(self.project), patch('aos.local_app.observe_process', return_value='not_observed'),
               patch('aos.local_app.run_bounded', side_effect=self.ui_builder)):
             self.assertEqual(local_app.prepare_ui()['status'], 'prepared')
         self.assertEqual((self.project.base / 'current.json').read_bytes(), before)
 
     def test_prepare_ui_source_drift_leaves_unpublished_private_staging(self):
-        with (local_app.instance_scope(self.project), patch('aos.local_app.run_bounded', side_effect=self.ui_builder),
+        with (self.ui_dependencies(), local_app.instance_scope(self.project), patch('aos.local_app.run_bounded', side_effect=self.ui_builder),
               patch('aos.local_app._frontend_source_snapshot', side_effect=[{'synthetic': 'a' * 64}, {'synthetic': 'b' * 64}]),
               self.assertRaisesRegex(ValueError, 'sources changed')):
             local_app.prepare_ui()
@@ -734,7 +763,7 @@ class LocalAppProjectTests(unittest.TestCase):
                 result = self.ui_builder(arguments, **options)
                 local_app.write_state(self.state())
                 return result
-            with (self.subTest(scenario=scenario), local_app.instance_scope(self.project),
+            with (self.subTest(scenario=scenario), self.ui_dependencies(), local_app.instance_scope(self.project),
                   patch('aos.local_app.run_bounded', side_effect=builder),
                   self.assertRaises((ValueError, subprocess.TimeoutExpired))):
                 local_app.prepare_ui()
@@ -746,7 +775,7 @@ class LocalAppProjectTests(unittest.TestCase):
             result = self.ui_builder(arguments, **options)
             (self.project.base / 'ui').mkdir(mode=0o700)
             return result
-        with (local_app.instance_scope(self.project), patch('aos.local_app.run_bounded', side_effect=builder),
+        with (self.ui_dependencies(), local_app.instance_scope(self.project), patch('aos.local_app.run_bounded', side_effect=builder),
               self.assertRaises(FileExistsError)):
             local_app.prepare_ui()
         self.assertEqual(list((self.project.base / 'ui').iterdir()), [])

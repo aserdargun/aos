@@ -302,27 +302,28 @@ corpora, trajectories or adapters.
 
 ### Requested release version
 
-The requested first release is **v0.1.0**, a **source/prototype delivery** to be
-versioned after the source-delivery checks below finish. It is not conditional
+The first source/prototype release is **v0.1.0**, with dated test evidence in
+[the release record](releases/v0.1.0.md) and exact source identity in its Git tag.
+It is not conditional
 on completing all six future runtime/product stages: those remain open in the
 canonical acceptance record, including the explicitly deferred SWAPP stage.
 This distinction neither redefines the full goal nor promotes runtime authority.
 Python, web UI, Cargo and Tauri package metadata
 already declare `0.1.0`; this does not mean a Git release exists or acceptance
-has passed. At the 3 October review no `v0.1.0` Git tag existed. Do not tag the
+has passed. At the initial 3 October review no `v0.1.0` Git tag existed. Do not tag the
 old HEAD while the tested implementation remains in uncommitted/untracked files.
 First freeze and review the exact source set, rerun the required checks, record
 known limitations and usage, refresh the manifest, and commit that coherent
 reviewed tree. Only then create the requested version tag and publish within
 the separately authorized remote/branch scope, without force push. Do not call
 this a completed production/GPU release; the source license is a separate matter.
-The [planned release note](releases/v0.1.0.md) records the bounded source scope;
-it is not evidence that the tag has been created.
+The [release note](releases/v0.1.0.md) records the bounded source scope;
+only Git remote/tag readback establishes publication.
 The maintainer delegated license selection on 3 October 2026; Apache-2.0 is now
 included for the original source and documentation. This closes the project
 license-choice gate in [SOURCE_HANDOFF](SOURCE_HANDOFF.md), not third-party
-rights review or final source-release acceptance. The v0.1.0 tag still requires
-that final review; source-checkpoint publication is not itself a release/tag.
+rights review or runtime acceptance. Every tag requires that final source
+review; source-checkpoint publication is not itself a release/tag.
 
 **Acceptable source handoff:** reviewed source and exact manifest; validation and
 focused/core test evidence with skips/environment; checked archive membership;
@@ -335,8 +336,9 @@ archive SHA256 `2901f91c33e9f8c9bcd22821ce5cf9b93984926d0b9df822ba2c0cf508653bb2
 manifest SHA256 `ccdb87273df8a0c8e6d0db7a41aea81c503aa908353486d71b2a9f1c4e12b153`.
 Root validation passed 5,642 package checks and 99 focused tests/3.227 seconds;
 extracted source passed 5,642 checks and 98 tests/1 private-evidence skip/3.263
-seconds. These are exact baseline results; this documentation update still
-requires final review and a refreshed manifest before the planned tag.
+seconds. These are historical baseline results, not the later release's exact
+bytes. The final source audit reran 3497 core tests: 3181 passed, 316 skipped,
+zero failed/errors, with five known SQLite finalizer warnings. See dated STATUS.
 
 **Still blocks the corresponding runtime/product release:** real joint
 Scientist/native handover and producer/consumer acceptance; fresh current-source

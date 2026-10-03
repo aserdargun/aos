@@ -2,7 +2,7 @@
 
 Yerel modellerle bilgisayar ve web uygulaması kullanımı, doğrulanabilir görevler ve kontrollü öğrenme için deneysel bir ajan işletim sistemi.
 
-**Hedef kaynak/prototip sürümü: v0.1.0.** Paket metadata'sı `0.1.0`; son kaynak teslim kontrolleri tamamlanmadan public Git sürüm etiketi oluşturulmaz. Apache-2.0 lisansı sahibin verdiği seçim yetkisiyle eklendi. Bu sürüm, altı ürün kabul aşamasının tamamlandığı anlamına gelmez. [Sürümleme koşulları](docs/DELIVERY_AND_CONTINUATION.md#requested-release-version), [sürüm notları](docs/releases/v0.1.0.md).
+**Kaynak/prototip sürümü: v0.1.0.** Apache-2.0 lisanslı, test edilebilir kaynak teslimidir; altı ürün kabul aşamasının tamamlandığı anlamına gelmez. Kesin kaynak kimliği public Git etiketinden, test kapsamı tarihli [sürüm notlarından](docs/releases/v0.1.0.md) okunur. [Sürümleme koşulları](docs/DELIVERY_AND_CONTINUATION.md#requested-release-version).
 
 **3 Ekim 2026 teslim kapsamı: test edilebilir kaynak/prototip. Tamamlanmış üretim ürünü değildir.** Mevcut pilot korunur; AI Scientist ile tek GPU otoritesi üzerinden tam ortak çalışma ve hedef uygulamaya özel gerçek-site kabulü sonraki aşamadır. Bu ayrım eksikleri gizlemek için değil, devralan kişinin neyi güvenle kullanabileceğini göstermek içindir.
 
@@ -38,7 +38,7 @@ Kaynak deposu: [aserdargun/aos](https://github.com/aserdargun/aos). Tanıtım si
 
 Tam ürün kapanışı için tek aşama kaydı [RELEASE_ACCEPTANCE](docs/RELEASE_ACCEPTANCE.md) ve [canonical JSON](docs/release_acceptance.json) dosyalarıdır. Bu kaynak teslimi o aşamaları tamamlandı yapmaz; uydurulmuş bir toplam yüzde verilmez.
 
-**Son kaynak doğrulaması:** önceki yedi regresyon ve socket testindeki takılma düzeltildi. 3426 testlik core koşusunda **3122 PASS, 304 SKIP, 0 FAIL/ERROR**; atlanan gerçek GPU/UI kontrolleri nedeniyle rapor `partial` kalır. Schema-28 yedek manifesti artık canonical schema ile doğrulanıyor. Beş SQLite finalizer uyarısı ayrıca kaydedildi; warning-clean veya genel runtime kabulü iddia edilmez. [Kanıt ve sınırlar](docs/STATUS.md).
+**Son kaynak doğrulaması, 3 Ekim 2026:** temiz kaynak checkout'undaki kurulum varsayımları test fixture'larında düzeltildi; üretim güvenlik kontrolleri değiştirilmedi. 3497 testlik core koşusunda **3181 PASS, 316 SKIP, 0 FAIL/ERROR** (510,531 saniye); atlanan gerçek GPU/UI kontrolleri nedeniyle rapor `partial` kalır. Beş SQLite finalizer uyarısı ayrıca kaydedildi; warning-clean veya genel runtime kabulü iddia edilmez. [Kanıt ve sınırlar](docs/STATUS.md).
 
 ## Mimari ve donanım
 
@@ -146,7 +146,7 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli teslim snapshot'ı: 3 Ekim 2026, 16:42:48 UTC / 19:42:48 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14661148`, `timeUsedSeconds=85177`: **23 saat 39 dakika 37 saniye / 23,6602778 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
+**Tarihli sürüm snapshot'ı: 3 Ekim 2026, 17:14:43 UTC / 20:14:43 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14803599`, `timeUsedSeconds=87091`: **24 saat 11 dakika 31 saniye / 24,1919444 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 

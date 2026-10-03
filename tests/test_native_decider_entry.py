@@ -98,6 +98,7 @@ class NativeDeciderEntryTests(unittest.TestCase):
         stack.enter_context(patch.object(entry, 'ENTRY_CONFIG_PATH', self.path))
         stack.enter_context(patch.object(entry, 'ORIGINAL_WORKER_PATH', self.worker))
         stack.enter_context(patch.object(entry, 'ORIGINAL_MANIFEST_PATH', self.manifest))
+        stack.enter_context(patch.object(entry, 'AOS_PYTHON_PATH', Path(sys.executable)))
         return stack
 
     def write_config(self):
@@ -112,6 +113,7 @@ from aos import native_decider_entry as entry
 entry.ENTRY_CONFIG_PATH=Path(sys.argv[1])
 entry.ORIGINAL_WORKER_PATH=Path(sys.argv[2])
 entry.ORIGINAL_MANIFEST_PATH=Path(sys.argv[3])
+entry.AOS_PYTHON_PATH=Path(sys.executable)
 entry.exec_native_decider_entry(sys.argv[4],sys.argv[5:])
 '''
 
@@ -186,6 +188,16 @@ entry.exec_native_decider_entry(sys.argv[4],sys.argv[5:])
                 with self.assertRaises(ValueError):
                     entry.worker_argv(self.config, arguments)
 
+    def test_wrong_caller_or_missing_descriptor_exec_reject_before_loading(self):
+        for wrong_caller in (True, False):
+            with (self.subTest(wrong_caller=wrong_caller), self.scope(),
+                  patch.object(entry, 'AOS_PYTHON_PATH', Path('/synthetic-other/python') if wrong_caller else Path(sys.executable)),
+                  patch.object(entry.os, 'supports_fd', {os.execve} if wrong_caller else set()),
+                  patch.object(entry, 'load_native_decider_entry') as load,
+                  self.assertRaisesRegex(ValueError, 'fixed AOS Python')):
+                entry.exec_native_decider_entry(self.checksum, [str(self.manifest)])
+            load.assert_not_called()
+
     def test_exec_failure_closes_lease_resources_once(self):
         acquired = []
         original = inhibit.acquire_native_lease
@@ -225,18 +237,25 @@ assert ctypes.CDLL(None).prctl(36,1,0,0,0)==0
 store=NativeInhibitStore.model_validate_json(sys.argv[1])
 request=NativeInhibitRequest.model_validate_json(sys.argv[2])
 process=subprocess.Popen(json.loads(sys.argv[3]),stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-record=json.loads(process.stdout.readline())
-assert process.wait(timeout=5)==19
-assert record['pid']!=process.pid
+record=None
 try:
-    publish_native_inhibit(store,request)
-except ValueError as error:
-    assert 'contention' in str(error)
-else:
-    raise AssertionError('Inherited native lease missing')
-process.stdin.write(b'x');process.stdin.flush();process.stdin.close()
-assert os.waitpid(record['pid'],0)[1]==0
-process.stdout.close();process.stderr.close()
+    record=json.loads(process.stdout.readline())
+    assert process.wait(timeout=5)==19
+    assert record['pid']!=process.pid
+    try:
+        publish_native_inhibit(store,request)
+    except ValueError as error:
+        assert 'contention' in str(error)
+    else:
+        raise AssertionError('Inherited native lease missing')
+finally:
+    process.stdin.close()
+    if process.poll() is None:
+        process.kill()
+    process.wait(timeout=5)
+    if record is not None and record['pid']!=process.pid:
+        assert os.waitpid(record['pid'],0)[1]==0
+    process.stdout.close();process.stderr.close()
 publish_native_inhibit(store,request)
 print('exec-grandchild-native-lease-ok')
 '''

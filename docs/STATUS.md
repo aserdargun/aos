@@ -1,3 +1,42 @@
+## 3 Ekim 2026, 17:14 UTC — v0.1.0 kaynak sürüm denetimi
+
+İzole kaynak checkout'u `627d410` üzerinden denetlendi; çalışan kullanıcı
+backend'i, GPU süreçleri ve Scientist deposu değiştirilmedi. İlk core koşusunda
+3495 test / 511,347 s: 3171 PASS, 316 SKIP, 3 FAIL, 5 ERROR. Sekiz hata iki test
+modülünün ortam varsayımlarındaydı: mock UI builder kurulu Node/Vite bekliyordu;
+sentetik native-entry testleri çağıran Python'ı sabit `.venv` varsayıyordu.
+Üretim guard'ları değiştirilmedi. Fixture bağımlılıkları açıkça sınırlandı;
+eksik/kaçan dependency ve yanlış interpreter/descriptor-exec reddi eklendi.
+Sentetik crash monitor'ünün hata yolunda sahip olduğu subprocess/pipe cleanup'ı
+düzeltildi. İlk logdaki PID554770 inceleme sırasında artık yoktu; canlı
+kullanıcı süreçlerine sinyal gönderilmedi.
+
+**42 PASS / 1,034 s:** iki hedef modül, `-W error::ResourceWarning` ile.
+Tam core tekrarı **3497 test / 510,531 s: 3181 PASS, 316 SKIP, 0 FAIL/ERROR**.
+Rapor `partial`: gerçek GPU/UI kabulleri opt-in ve atlandı. Beş ignored SQLite
+finalizer ResourceWarning kaldı; warning-clean kabulü değildir. Yeni kaynakta
+gerçek model/GPU çalıştırılmadı. Core sırasında kaynak değiştirilmedi.
+
+Gerçek `scripts.setup_local --install --offline` komutu ayrı fresh environment
+kurdu; mevcut cache kullanıldı. Fixture Hello sonucu bağımsız olarak tam
+`Hello from the local agent.\n` byte'larıyla okundu; `real_model=false`.
+Lisans checkpoint'i ve test düzeltmeli manifest **5692 paket kontrolünü** geçti.
+Final belge sonrası paket/arşiv/extraction readback'i özel release receipt'inde
+tutulur. Önceki onaylı UI-only teslim ve backend kimliği korundu; yetkili Mac
+tarayıcı erişimi bu hosttan doğrulanmış sayılmaz.
+
+Özel kanıt yolları izole kaynak checkout'u içindedir:
+`data/v0.1.0-audit-20261003/{core.log,core-corrected.log,portable-tests.log,fresh-install.log,fresh-hello.log,package-pre-docs.log}`;
+ilk detay `data/capability-check-8asmksle/`, başarılı tekrar
+`data/capability-check-clznphe9/{contracts.log,contracts.json,report.json}`.
+12 commit / 1834 blob'luk bounded yaygın-token/private-key pattern taramasında
+eşleşme yok; kapsamlı secret veya hak denetimi değildir. Ham kayıtlar dağıtılmaz.
+
+Lisans Apache-2.0; v0.1.0 yalnız kaynak/prototip teslimidir. Altı ürün aşaması,
+ortak Scientist/GPU, canlı Scientist console, aktif Scorer iptali ve gerçek
+hedef-site/öğrenme kabulü açık kalır. Saatlik özel kullanım kaydı ayrı çalışır;
+otomatik Git yayınlayıcısı hâlâ kurulu değildir. Tam goal tamamlandı sayılmaz.
+
 ## 3 Ekim 2026, 16:42 UTC — ayrı Apache-2.0 lisans dilimi
 
 Kullanıcının lisans seçimini ajana devretmesi üzerine özgün AOS kaynağı ve

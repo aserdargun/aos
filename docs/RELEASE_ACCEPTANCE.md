@@ -1,5 +1,12 @@
 # Tek sürüm kabul kaydı
 
+**3 Ekim 2026, 17:14 UTC kaynak sürümü:** v0.1.0 kaynak/prototip incelemesinde
+3497 testin 3181'i geçti, 316'sı atlandı; hata yok. Apache-2.0 özgün kaynak
+lisansıdır. Kesin sürüm kaynak kimliği Git etiketinden, kapsam ve sınırlar
+[sürüm notlarından](releases/v0.1.0.md) okunur. Bu teslim altı ürün aşamasını,
+ortak GPU kabulünü veya canlı Scientist bağlantısını tamamlamaz. Aşağıdaki
+eski etiket/lisans bekleme kayıtları kendi gözlem zamanları için geçerlidir.
+
 **3 Ekim 2026, 16:42 UTC ek not:** sahibin verdiği seçim yetkisiyle Apache-2.0
 özgün kaynağa eklendi. Lisans seçimi engeli kapandı; üçüncü taraf hakları ve
 v0.1.0 son kaynak etiketi incelemesi ayrı kalır. Aşağıdaki eski lisans-bekliyor

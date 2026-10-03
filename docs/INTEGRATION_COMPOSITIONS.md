@@ -4,7 +4,7 @@
 
 AOS is the reusable core, not a product tied to a particular company application or agent framework. One intended private fork combines **SWAPP**, a company-specific web application on a private intranet, with **AI-Scientist**. Other adopters may combine different applications, models and specialist agents.
 
-This document is a target integration contract. It does not claim those integrations, a stable plugin SDK or a multi-agent execution service already exist. The exact AI-Scientist implementation/version/API has not been selected here; do not infer a particular upstream repository, license, execution model or network service from the name.
+This document describes the general target composition, not a stable plugin SDK or arbitrary multi-agent execution service. A bounded typed Lab adapter and [CPU capability](SCIENTIST_CPU_CAPABILITY.md) now exist for the reviewed sibling AI-Scientist implementation; [runtime integration](SCIENTIST_RUNTIME_INTEGRATION.md) defines that specific boundary. Dated real CPU/API/Scorer evidence in [STATUS](STATUS.md) is fixture-controller driven, not current user-console or shared GPU acceptance. Do not infer an upstream repository, license, compatible API or execution authority merely from the name; every deployment needs its own reviewed source/configuration pair.
 
 | Public AOS core | Private deployment/fork |
 |---|---|
