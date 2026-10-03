@@ -40,7 +40,8 @@
         "lab.start",
         "lab.status",
         "lab.stop",
-        "lab.report"
+        "lab.report",
+        "lab.experience"
       ],
       "title": "Tool",
       "type": "string"

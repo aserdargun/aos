@@ -3226,7 +3226,7 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
                 return await scientist_lab.execute_async(value['action_id'])
             if operation == 'stop' and set(value) == {'run_id'}:
                 return scientist_lab.propose_stop(value['run_id'])
-            if operation in {'status', 'report'} and set(value) == {'run_id'}:
+            if operation in {'status', 'report', 'experience'} and set(value) == {'run_id'}:
                 return await scientist_lab.read_async(value['run_id'], 'lab.' + operation)
             if operation == 'save_report' and set(value) == {'run_id', 'expected_report_sha256'}:
                 if (type(value['expected_report_sha256']) is not str

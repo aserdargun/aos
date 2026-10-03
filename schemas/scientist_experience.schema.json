@@ -1,0 +1,526 @@
+{
+  "$defs": {
+    "ScientistExperienceEligibility": {
+      "additionalProperties": false,
+      "properties": {
+        "eligible": {
+          "title": "Eligible",
+          "type": "boolean"
+        },
+        "reasons": {
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[a-z0-9_-]+$",
+            "type": "string"
+          },
+          "maxItems": 32,
+          "title": "Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "eligible",
+        "reasons"
+      ],
+      "title": "ScientistExperienceEligibility",
+      "type": "object"
+    },
+    "ScientistExperienceFeedback": {
+      "additionalProperties": false,
+      "properties": {
+        "same_run_recent_limit": {
+          "const": 30,
+          "title": "Same Run Recent Limit",
+          "type": "integer"
+        },
+        "cross_run_reuse": {
+          "const": false,
+          "title": "Cross Run Reuse",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "same_run_recent_limit",
+        "cross_run_reuse"
+      ],
+      "title": "ScientistExperienceFeedback",
+      "type": "object"
+    },
+    "ScientistExperienceProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "source_count": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Source Count",
+          "type": "integer"
+        },
+        "manifest_sha256s": {
+          "items": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "title": "Manifest Sha256S",
+          "type": "array"
+        },
+        "usage_profile": {
+          "const": "noncommercial_research",
+          "title": "Usage Profile",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_count",
+        "manifest_sha256s",
+        "usage_profile"
+      ],
+      "title": "ScientistExperienceProvenance",
+      "type": "object"
+    },
+    "ScientistExperienceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Record Id",
+          "type": "string"
+        },
+        "experiment_id": {
+          "anyOf": [
+            {
+              "pattern": "^exp_[a-f0-9]{32}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Experiment Id"
+        },
+        "sequence": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "kind": {
+          "enum": [
+            "baseline",
+            "proposal",
+            "cpu-mode-stream"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "status": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Status",
+          "type": "string"
+        },
+        "method": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Method"
+        },
+        "move": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Move"
+        },
+        "decision": {
+          "anyOf": [
+            {
+              "enum": [
+                "KEEP",
+                "KEEP_SIMPLER",
+                "DISCARD",
+                "REJECT"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Decision"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[a-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reason"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "maximum": 3,
+              "minimum": -1,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score"
+        },
+        "score_kind": {
+          "enum": [
+            "dev-suite",
+            "not-scored"
+          ],
+          "title": "Score Kind",
+          "type": "string"
+        },
+        "model_id": {
+          "anyOf": [
+            {
+              "maxLength": 256,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Model Id"
+        },
+        "model_receipt_status": {
+          "enum": [
+            "not-applicable-cpu",
+            "fixture-or-unverified",
+            "absent",
+            "invalid",
+            "identity-mismatch",
+            "reported-local-identity-matched"
+          ],
+          "title": "Model Receipt Status",
+          "type": "string"
+        },
+        "experiment_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Experiment Sha256"
+        },
+        "trajectory_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trajectory Sha256"
+        },
+        "provenance_summary": {
+          "$ref": "#/$defs/ScientistExperienceProvenance"
+        },
+        "training_eligibility": {
+          "$ref": "#/$defs/ScientistExperienceEligibility"
+        },
+        "history_eligibility": {
+          "$ref": "#/$defs/ScientistExperienceEligibility"
+        }
+      },
+      "required": [
+        "record_id",
+        "sequence",
+        "kind",
+        "status",
+        "method",
+        "move",
+        "decision",
+        "reason",
+        "score",
+        "score_kind",
+        "model_id",
+        "model_receipt_status",
+        "provenance_summary",
+        "training_eligibility",
+        "history_eligibility"
+      ],
+      "title": "ScientistExperienceRecord",
+      "type": "object"
+    },
+    "ScientistFieldContextUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "admitted-only",
+            "context-bound"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "context_bound_proposal_count": {
+          "maximum": 200,
+          "minimum": 0,
+          "title": "Context Bound Proposal Count",
+          "type": "integer"
+        },
+        "field_context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Context Sha256",
+          "type": "string"
+        },
+        "snapshot_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Snapshot Sha256",
+          "type": "string"
+        },
+        "intent": {
+          "$ref": "#/$defs/ScientistFieldIntent"
+        },
+        "asset_identity": {
+          "const": "user_supplied",
+          "title": "Asset Identity",
+          "type": "string"
+        },
+        "use": {
+          "const": "advisory-only",
+          "title": "Use",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "context_bound_proposal_count",
+        "field_context_sha256",
+        "snapshot_sha256",
+        "intent",
+        "asset_identity",
+        "use"
+      ],
+      "title": "ScientistFieldContextUsage",
+      "type": "object"
+    },
+    "ScientistFieldIntent": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[^\\x00-\\x1f\\x7f]*$",
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "goal_kind": {
+          "enum": [
+            "digital_twin",
+            "predictive_maintenance"
+          ],
+          "title": "Goal Kind",
+          "type": "string"
+        },
+        "objective": {
+          "maxLength": 600,
+          "minLength": 1,
+          "pattern": "^[^\\x00-\\x1f\\x7f]*$",
+          "title": "Objective",
+          "type": "string"
+        }
+      },
+      "required": [
+        "asset_id",
+        "goal_kind",
+        "objective"
+      ],
+      "title": "ScientistFieldIntent",
+      "type": "object"
+    },
+    "ScientistPriorFindingsUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "admitted-only",
+            "context-bound"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "context_bound_proposal_count": {
+          "maximum": 200,
+          "minimum": 0,
+          "title": "Context Bound Proposal Count",
+          "type": "integer"
+        },
+        "snapshot_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Snapshot Sha256",
+          "type": "string"
+        },
+        "source_run_id": {
+          "pattern": "^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Source Run Id",
+          "type": "string"
+        },
+        "source_report_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Report Sha256",
+          "type": "string"
+        },
+        "record_count": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Record Count",
+          "type": "integer"
+        },
+        "scope": {
+          "const": "historical-advisory-only",
+          "title": "Scope",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "context_bound_proposal_count",
+        "snapshot_sha256",
+        "source_run_id",
+        "source_report_sha256",
+        "record_count",
+        "scope"
+      ],
+      "title": "ScientistPriorFindingsUsage",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "run-experience.v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "run_id": {
+      "pattern": "^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "report_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Sha256",
+      "type": "string"
+    },
+    "purpose": {
+      "enum": [
+        "mode-grid",
+        "mode-stream",
+        "baseline",
+        "research"
+      ],
+      "title": "Purpose",
+      "type": "string"
+    },
+    "verification": {
+      "const": "report-and-ledger-hash-verified",
+      "title": "Verification",
+      "type": "string"
+    },
+    "record_limit": {
+      "const": 200,
+      "title": "Record Limit",
+      "type": "integer"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/ScientistExperienceRecord"
+      },
+      "maxItems": 200,
+      "title": "Records",
+      "type": "array"
+    },
+    "feedback": {
+      "$ref": "#/$defs/ScientistExperienceFeedback"
+    },
+    "training_started": {
+      "const": false,
+      "title": "Training Started",
+      "type": "boolean"
+    },
+    "holdout_included": {
+      "const": false,
+      "title": "Holdout Included",
+      "type": "boolean"
+    },
+    "protected_records_excluded": {
+      "title": "Protected Records Excluded",
+      "type": "boolean"
+    },
+    "field_context_usage": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScientistFieldContextUsage"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "prior_findings_usage": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScientistPriorFindingsUsage"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "schema",
+    "run_id",
+    "report_sha256",
+    "purpose",
+    "verification",
+    "record_limit",
+    "records",
+    "feedback",
+    "training_started",
+    "holdout_included",
+    "protected_records_excluded"
+  ],
+  "title": "ScientistExperience",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

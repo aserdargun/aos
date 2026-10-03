@@ -222,7 +222,7 @@ class ScientistLabService:
             self._shared_start_admission(task, action)
             self._active_controls.add(pending)
         try:
-            return (await self.journal.execute_async(self.client, task, action)).model_dump(mode='json')
+            return (await self.journal.execute_async(self.client, task, action)).model_dump(mode='json', by_alias=True)
         finally:
             self._active_controls.discard(pending)
 
@@ -277,14 +277,14 @@ class ScientistLabService:
                         ('stale_controller' if stale else 'approval_expired', row['action_id']))
 
     def read(self, run_id, tool):
-        if tool not in {'lab.status', 'lab.report'}:
-            raise ScientistAdmissionError('Only independent Lab status or report readback is allowed')
+        if tool not in {'lab.status', 'lab.report', 'lab.experience'}:
+            raise ScientistAdmissionError('Only independent Lab status, report or experience readback is allowed')
         task = self._load_task(run_id)
-        return self.journal.execute(self.client, task, self._action(task, tool)).model_dump(mode='json')
+        return self.journal.execute(self.client, task, self._action(task, tool)).model_dump(mode='json', by_alias=True)
 
     async def read_async(self, run_id, tool):
-        if tool not in {'lab.status', 'lab.report'}:
-            raise ScientistAdmissionError('Only independent Lab status or report readback is allowed')
+        if tool not in {'lab.status', 'lab.report', 'lab.experience'}:
+            raise ScientistAdmissionError('Only independent Lab status, report or experience readback is allowed')
         task = self._load_task(run_id)
         return await self._execute_async(task, self._action(task, tool))
 
@@ -310,5 +310,6 @@ class ScientistLabService:
             jobs.append({'run_id': row['run_id'], 'lab_run_id': row['lab_run_id'], 'actions': actions,
                          'readbacks': self.readbacks.inventory(self.controller.session_id, row['run_id'])})
         return {'configured': True, 'joint_runtime_admitted': False, 'jobs': jobs,
+                'experience_readback_supported': True,
                 'supported_context_fields': ['field_intent', 'prior_experience'],
                 'allowed_suites': sorted(self.client.allowed_suites), 'program_version': self.program_version}

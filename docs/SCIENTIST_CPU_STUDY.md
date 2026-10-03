@@ -73,5 +73,7 @@ the approved intent before any experiment effect. A changed grant fails closed.
 
 CPU/mock and real Chromium-with-mocked-API evidence are in dated [STATUS](STATUS.md).
 The prepared source needs separate deployment and actual authenticated remote
-readback before claiming user-console integration. `/experience` readback,
-optional-context real acceptance and active-Scorer cancellation remain open.
+readback before claiming user-console integration. Owner-bound
+[`/experience` readback](SCIENTIST_EXPERIENCE.md) is now implemented in source;
+its real acceptance, optional-context real acceptance and active-Scorer
+cancellation remain open.

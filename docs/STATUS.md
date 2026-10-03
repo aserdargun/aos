@@ -1,3 +1,41 @@
+## 3 Ekim 2026, 18:07 UTC — Scientist bağlı deney geçmişi kaynak dilimi
+
+Kaynak parent `a3b1a7304676bd4d38d2d15dbdd6b42a858a442b`; Apache-2.0 ve
+public v0.1.0 etiketi korunur. Yalnız izole publication checkout değiştirildi.
+Scientist checkout HEAD `55c5300600112ab823f76ec434029d6dc23e513c`; ayrı hazırlanmış
+runtime producer kaynakları salt okunur incelendi. Tam dosya hash'leri ve kaynak
+ile deployment ayrımı [SCIENTIST_EXPERIENCE](SCIENTIST_EXPERIENCE.md) içinde.
+Peer thread transport okuması yine başarısız; reciprocal ACK veya yeni grant yok.
+
+Typed `lab.experience`, authenticated local POST ve yalnız uzak GET akışı eklendi:
+mevcut session/job/owner/nesil → terminal status → bağımsız report hash → bounded
+experience → tekrar status/authority. Ledger ve bağlam kullanımı açıkça Scientist
+bildirimi; AOS bütün trajectory'yi yeniden doğrulamış sayılmaz. EN/TR paneli
+açıkça seçilen en fazla sekiz referansı yalnız öneri taslağına taşır; otomatik
+proposal, onay, deney, eğitim veya GPU işi başlatmaz. Yeni migration yok.
+
+**158 CPU/mock PASS / 60,449 s:** experience, Lab, CPU capability/session/startup/
+study, context, console, readback, shared drain, start/stop, journal ve agent adaptörü.
+Üç ignored SQLite finalizer ResourceWarning kaldı; warning-clean iddiası yok.
+İlk ek cancellation testi beklenen cleanup ret exception sınıfını yanlış seçti;
+test beklentisi düzeltildi, üretim kapanış kontrolü gevşetilmedi. İptalde HTTP worker
+gerçekten bitene kadar cleanup handle korunur; inventory bloklanmaz, nesil/owner
+değişimi reddedilir. Başarısız loglar silinmedi.
+
+**15 Chromium/mock-API PASS / 8,962 s**, TypeScript ve izole Vite build geçti.
+Mevcut büyük chunk uyarısı sürer. EN/TR ve mobil görünüm, yetkisiz/malformed
+sonuç reddi, yeni readback'te seçim sıfırlama ve taslak aktarımının ayrı proposal/
+approval yerine geçmemesi kontrol edildi. UI kanıtı GPU-disabled Chromium ve
+sentetik API kullanır; gerçek Scientist veya kullanıcı Mac kabulü değildir.
+Özel loglar `data/scientist-experience-20261003/` altında; görseller
+`data/scientist-ui-qa-u4agpj3i/` altında. Ham kanıt repoya alınmaz.
+
+Canlı backend PID42513/start zamanı, UI index hash'i ve operational tracked diff
+değişmedi; Scientist dosya/süreçlerine müdahale edilmedi. Bu kaynak dilimi deploy
+edilmedi. Tam core yeniden çalıştırılmadı. Gerçek UI/bağlam kabulü, aktif Scorer
+kesintisi ve ortak GPU/coexistence açık; GPU HOLD, tek yürütücü Scientist.
+Entegrasyon **kısmi**, altı ürün kabul aşaması tamamlanmış sayılmaz.
+
 ## 3 Ekim 2026, 17:35 UTC — Scientist CPU veri/yöntem readback kaynağı
 
 Önceki goal turu gerçek ilerlemeydi: public main ve annotated v0.1.0 etiketi

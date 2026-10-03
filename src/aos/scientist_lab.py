@@ -16,6 +16,7 @@ from pydantic import Field, model_serializer, model_validator
 
 from .contracts import Action, TypedModel, canonical, digest
 from .scientist_intents import ScientistIntentBinding
+from .scientist_experience import EXPERIENCE_BOUND, ScientistExperienceReadback, verify_scientist_experience
 from .scientist_protocol import (
     ScientistReport, ScientistRunStatus, _reject_constant, _unique_object, verify_scientist_report,
 )
@@ -77,7 +78,7 @@ class ScientistLabTask(TypedModel):
 
 
 class ScientistLabAction(Action):
-    tool: Literal['lab.start', 'lab.status', 'lab.stop', 'lab.report']
+    tool: Literal['lab.start', 'lab.status', 'lab.stop', 'lab.report', 'lab.experience']
 
 
 class ScientistLabPolicy:
@@ -226,7 +227,7 @@ class ScientistLabClient:
         finally:
             connection.close()
 
-    def execute(self, task: ScientistLabTask, action: ScientistLabAction) -> ScientistLabHandle | ScientistRunStatus | ScientistReport:
+    def execute(self, task: ScientistLabTask, action: ScientistLabAction) -> ScientistLabHandle | ScientistRunStatus | ScientistReport | ScientistExperienceReadback:
         if self._closed:
             raise ScientistAdmissionError('Lab client is closed; no new controls are admitted')
         if self._async_active is not None:
@@ -290,6 +291,10 @@ class ScientistLabClient:
                 self._verify(task, action)
                 raw = self._request('GET', f'/v1/runs/{remote}/report', b'', deadline, bound=262144)
                 result = verify_scientist_report(raw, status=status, expected_run_id=remote)
+                if action.tool == 'lab.experience':
+                    self._verify(task, action)
+                    raw = self._request('GET', f'/v1/runs/{remote}/experience', b'', deadline, bound=EXPERIENCE_BOUND)
+                    result = verify_scientist_experience(raw, report=result, request=task.request)
                 self._verify(task, action)
                 after = self._request('GET', f'/v1/runs/{remote}', b'', deadline, bound=65536)
                 if ScientistRunStatus.model_validate(_object(after), strict=True) != status:
@@ -305,6 +310,8 @@ class ScientistLabClient:
                 self._uncertain_action_id = action.action_id
                 if isinstance(error, Exception):
                     raise ScientistLabUncertain('Lab effect outcome is uncertain; do not repeat with a new action or key') from error
+            if action.tool == 'lab.experience' and isinstance(error, (OSError, ValueError, http.client.HTTPException)):
+                raise ScientistAdmissionError('Scientist experience readback failed closed') from None
             raise
         finally:
             self._lock.release()

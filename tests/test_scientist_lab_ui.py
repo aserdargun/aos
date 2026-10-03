@@ -67,6 +67,73 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
         page.get_by_label('Requested duration (seconds)', exact=True).fill(wall_seconds)
         page.get_by_label('Requested model token limit', exact=True).fill(model_tokens)
 
+    def test_experience_readback_selects_only_explicit_refs_without_starting_or_auto_proposal(self):
+        from playwright.sync_api import expect
+        page = self.browser.new_page(viewport={'width': 1280, 'height': 1000})
+        errors, effects = [], []
+        page.on('pageerror', lambda error: errors.append(str(error)))
+        experience = json.loads((REPO_ROOT / 'examples/scientist_experience.json').read_text())
+        result = {'schema_version': 'aos.scientist-experience-readback.v1', 'run_id': experience['run_id'],
+            'report_sha256': experience['report_sha256'], 'experience': experience, 'independent_report_verified': True,
+            'ledger_verification': 'scientist-reported-not-independently-replayed', 'execution_authorized': False}
+        experience['field_context_usage'] = {'status': 'admitted-only', 'context_bound_proposal_count': 0}
+        experience['prior_findings_usage'] = {'status': 'context-bound', 'context_bound_proposal_count': 1}
+        eligible = experience['records'][0]
+        experience['records'].append({**eligible, 'record_id': 'trj_' + '4' * 32, 'experiment_id': 'exp_' + '5' * 32,
+            'kind': 'baseline', 'history_eligibility': {'eligible': False, 'reasons': ['not-measured-guarded-dev-proposal']}})
+        inventory = {'configured': True, 'joint_runtime_admitted': False,
+            'jobs': [{'run_id': 'synthetic-local-run', 'lab_run_id': experience['run_id'], 'actions': []}],
+            'allowed_suites': ['synthetic.allowed.v1'], 'program_version': 'synthetic.v1',
+            'supported_context_fields': ['field_intent', 'prior_experience'], 'experience_readback_supported': True}
+        def endpoint(route):
+            if route.request.method == 'POST':
+                effects.append((route.request.url.rsplit('/', 1)[-1], route.request.post_data_json))
+                route.fulfill(json=result if route.request.url.endswith('/experience') else {'state': 'pending'})
+            else:
+                route.fulfill(json=inventory)
+        page.route('**/api/scientist/**', endpoint)
+        try:
+            page.goto(f'http://127.0.0.1:{self.server.server_port}/')
+            page.get_by_text('Scientist experiments', exact=True).click()
+            self.enter_requested_budget(page, track='mode', model_tokens='0')
+            self.assertEqual(effects, [])
+            read = page.get_by_role('button', name='Verify experiment history', exact=True)
+            read.click()
+            history = page.get_by_test_id('scientist-experience')
+            expect(history).to_contain_text('AOS did not replay trajectory records')
+            expect(history).to_contain_text('Admitted only; no proposal context')
+            expect(history).to_contain_text('Bound to proposal context')
+            select = history.get_by_role('button', name='Use selected references in a new proposal draft', exact=True)
+            expect(select).to_be_disabled()
+            expect(history.get_by_role('checkbox').nth(1)).to_be_disabled()
+            history.get_by_role('checkbox').first.check()
+            select.click()
+            preview = json.loads(page.get_by_test_id('scientist-proposal-preview').locator('pre').inner_text())
+            self.assertEqual(preview['prior_experience'], {'source_run_id': experience['run_id'],
+                'source_report_sha256': experience['report_sha256'], 'records': [{key: eligible[key]
+                    for key in ('experiment_id', 'experiment_sha256', 'trajectory_sha256')}]})
+            self.assertEqual(effects, [('experience', {'run_id': 'synthetic-local-run'})])
+            page.screenshot(path=str(self.root / 'experience-en.png'), full_page=True)
+            page.get_by_role('button', name='Create experiment proposal', exact=True).click()
+            expect(page.get_by_role('button', name='Create experiment proposal', exact=True)).to_be_enabled()
+            self.assertEqual(effects[-1], ('propose', preview))
+            read.click()
+            expect(history.get_by_role('checkbox').first).not_to_be_checked()
+            page.get_by_role('button', name='TR', exact=True).click()
+            page.set_viewport_size({'width': 390, 'height': 844})
+            expect(history).to_contain_text('Yalnız kabul edildi; öneri bağlamı yok')
+            expect(history).to_contain_text('Öneri bağlamına bağlandı')
+            self.assertFalse(page.evaluate('document.documentElement.scrollWidth > window.innerWidth'))
+            page.screenshot(path=str(self.root / 'experience-tr-mobile.png'), full_page=True)
+            result['execution_authorized'] = True
+            page.get_by_role('button', name='Deney geçmişini doğrula', exact=True).click()
+            expect(history).to_have_count(0)
+            expect(page.get_by_role('alert')).to_contain_text('Deney geçmişi doğrulanamadı; kayıt seçilemez.')
+            self.assertFalse(any(operation in {'execute', 'approve', 'stop'} for operation, _body in effects))
+            self.assertEqual(errors, [])
+        finally:
+            page.close()
+
     def test_cpu_study_explicit_read_translated_prefix_and_fail_closed_without_post(self):
         from playwright.sync_api import expect
         page = self.browser.new_page(viewport={'width': 1280, 'height': 900})

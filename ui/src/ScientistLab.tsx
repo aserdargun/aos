@@ -2,6 +2,7 @@ import {useCallback, useEffect, useRef, useState} from 'react';
 import {api} from './api';
 import {t} from './i18n';
 import {ScientistCpuStudy} from './ScientistCpuStudy';
+import {ScientistExperience, ScientistHistorySelection} from './ScientistExperience';
 
 interface Approval {
   action_id: string;
@@ -26,6 +27,7 @@ interface Inventory {
   request_limits?: unknown;
   supported_context_fields?: unknown;
   cpu_study_supported?: unknown;
+  experience_readback_supported?: unknown;
   inference?: {configured: boolean; admission_blocked: boolean; unresolved_count: number;
     resolved_count?: number;
     unresolved_lab_effect_count?: number;
@@ -216,6 +218,13 @@ export function ScientistLab() {
   const updateExperienceRecord = (index: number, field: keyof ExperienceRecord, value: string) => {
     setExperienceRecords(records => records.map((record, position) => position === index ? {...record, [field]: value} : record));
   };
+  const selectHistory = (selection: ScientistHistorySelection) => {
+    if (busy || !contextSupported) return;
+    setExperienceEnabled(true);
+    setSourceRunId(selection.source_run_id);
+    setSourceReportSha(selection.source_report_sha256);
+    setExperienceRecords(selection.records);
+  };
   const proposal = inventory?.configured === true && !inventoryError && allowedSuites.includes(selected)
     && (contextSupported || (!fieldIntentEnabled && !experienceEnabled))
     && !invalidRequestLimits && (!cpuLimits || track === 'mode')
@@ -401,6 +410,8 @@ export function ScientistLab() {
         {job.lab_run_id ? <>
           <button disabled={busy} onClick={() => void perform('status', {run_id: job.run_id})}>{t('Durumu oku')}</button>
           <button disabled={busy} onClick={() => void perform('report', {run_id: job.run_id})}>{t('Raporu bağımsız doğrula')}</button>
+          {inventory.experience_readback_supported === true ? <button disabled={busy}
+            onClick={() => void perform('experience', {run_id: job.run_id})}>{t('Deney geçmişini doğrula')}</button> : null}
           <button disabled={busy} onClick={() => void perform('stop', {run_id: job.run_id})}>{t('Durdurma onayı iste')}</button>
         </> : null}
         {job.readbacks ? <section data-testid="scientist-saved-reports">
@@ -433,6 +444,8 @@ export function ScientistLab() {
     {resultOperation === 'read_saved_report' ? <p data-testid="scientist-historical-report">
       {t('Kaydedilmiş tarihsel rapor; uzaktan yeni rapor alınmadı. Güncel durum veya GPU bırakımı değildir.')}</p> : null}
     {resultOperation === 'save_report' ? <p>{t('Doğrulanmış rapor özel geçmişe kaydedildi; görev başlatılmadı ve GPU yetkisi verilmedi.')}</p> : null}
+    {resultOperation === 'experience' && result ? <ScientistExperience value={result}
+      disabled={busy || !contextSupported || !!inventoryError} onSelect={selectHistory}/> : null}
     {result ? <pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(result, null, 2)}</pre> : null}
   </details>;
 }

@@ -18,8 +18,9 @@ approval hash cannot authorize different context.
   a user declaration, not verified equipment identity or operational permission.
 - **Selected experience:** opt in and supply one source run ID, its independently
   verified report hash, and one to eight experiment/trajectory hash references.
-  These are explicit advanced references, not an automatic history browser or
-  evidence that every entered record is eligible.
+  These are explicit advanced references, not evidence that every entered record
+  is eligible. The source panel also supports an explicit owner-bound
+  [history readback and selector](SCIENTIST_EXPERIENCE.md); it only fills this draft.
 - Inspect the exact proposal before approval. Submitting a proposal is not
   starting a run. Existing authority, current controller generation, fresh
   approval and durable intent checks remain in force before any remote effect.
@@ -97,5 +98,5 @@ This source slice is prepared in the isolated AOS publication checkout. The
 running default AOS and its pinned source set are not changed. A later explicit
 deployment and fresh source/config/runtime review are required before actual
 use. No new study-description endpoint is assumed available or agreed by this
-extension. The current manual-reference UI can later gain an independently
-reviewed owner-bound history selector without broadening task authority.
+extension. The owner-bound history selector is now implemented in source and
+mock-tested without broadening task authority; actual runtime acceptance remains open.

@@ -1,0 +1,41 @@
+{
+  "schema": "run-experience.v1",
+  "run_id": "11111111-1111-1111-1111-111111111111",
+  "report_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "purpose": "research",
+  "verification": "report-and-ledger-hash-verified",
+  "record_limit": 200,
+  "records": [
+    {
+      "record_id": "trj_22222222222222222222222222222222",
+      "experiment_id": "exp_33333333333333333333333333333333",
+      "sequence": 1,
+      "kind": "proposal",
+      "status": "scored",
+      "method": "optics",
+      "move": "hparam",
+      "decision": "DISCARD",
+      "reason": "referee-discard",
+      "score": 0.25,
+      "score_kind": "dev-suite",
+      "model_id": null,
+      "model_receipt_status": "not-applicable-cpu",
+      "experiment_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "trajectory_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "provenance_summary": {
+        "source_count": 1,
+        "manifest_sha256s": ["dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"],
+        "usage_profile": "noncommercial_research"
+      },
+      "training_eligibility": {
+        "eligible": false,
+        "reasons": ["synthetic-example-not-real-evidence", "cpu-not-local-llm", "not_confirmed_positive_candidate", "export-permission-not-checked", "clean-runtime-review-not-checked"]
+      },
+      "history_eligibility": {"eligible": true, "reasons": []}
+    }
+  ],
+  "feedback": {"same_run_recent_limit": 30, "cross_run_reuse": false},
+  "training_started": false,
+  "holdout_included": false,
+  "protected_records_excluded": false
+}

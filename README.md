@@ -134,6 +134,12 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 İzole kaynak sürümünde [isteğe bağlı amaç ve geçmiş deneyim aktarımı](docs/SCIENTIST_TASK_CONTEXT.md) typed görev, onay hash'i ve EN/TR paneline eklendi. Geçmiş referansları açıkça elle seçilir; veri/algoritma izni veya otomatik öğrenme vermez. 3 Ekim 16:31 UTC'de yalnız uyumlu UI assetleri onayla teslim edildi; canlı backend bu alanları desteklediğini bildirmediğinde UI bunları sunmaz. CPU backend/grant ve yeni alanlarla gerçek Scientist kabulü ayrı kapılardır.
 
+Kaynakta [bağlı deney geçmişi ve açık seçim](docs/SCIENTIST_EXPERIENCE.md) de hazır:
+bağımsız rapor doğrulaması ile Scientist'in bildirdiği ledger/bağlam ayrılır;
+seçim yalnız yeni öneri taslağını doldurur. **158 CPU/mock ve 15 Chromium/mock-API
+testi geçti**; üç SQLite finalizer uyarısı kaydedildi. Bu yeni dilim canlıya
+aktarılmadı; tam core veya gerçek Scientist kabulü yerine geçmez.
+
 ## Güvenlik, özel veri ve teslim paketi
 
 - Model çıktısı izin kapsamını genişletemez. Approval, request ID, owner/generation ve deployment kimlikleri korunur.
@@ -146,7 +152,7 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 17:35:48 UTC / 20:35:48 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14927099`, `timeUsedSeconds=88357`: **24 saat 32 dakika 37 saniye / 24,5436111 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 18:07:12 UTC / 21:07:12 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=15211517`, `timeUsedSeconds=90240`: **25 saat 4 dakika / 25,0666667 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 
