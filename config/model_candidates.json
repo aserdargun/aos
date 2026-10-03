@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-10-03",
+  "scope": "research_candidates_not_runtime_configuration",
+  "runtime_authority": false,
+  "candidates": [
+    {
+      "id": "qwen35_4b_s1",
+      "role": "system1",
+      "name": "Qwen3.5-4B",
+      "repository": "Qwen/Qwen3.5-4B",
+      "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "source_url": "https://huggingface.co/Qwen/Qwen3.5-4B",
+      "license_reported": "apache-2.0",
+      "status": "research_candidate",
+      "runtime_selectable": false,
+      "aos_adapter_verified": false,
+      "measured_vram_bytes": null,
+      "measured_latency_ms": null,
+      "rationale": {
+        "en": "Compact tool-use candidate with a non-thinking mode. Evaluate only bounded typed option selection, not an unrestricted chat agent.",
+        "tr": "Düşünme modu kapatılabilen küçük araç-kullanım adayı. Serbest sohbet ajanı değil, yalnız sınırlı typed seçenek seçimi için değerlendirilecek."
+      },
+      "evaluation_plan": {
+        "en": "Text-only, non-thinking, short context; compare decision correctness and p50/p95 against Decider. Quantized artifact and backend pins are not yet selected.",
+        "tr": "Yalnız metin, düşünme kapalı, kısa bağlam; karar doğruluğu ve p50/p95 Decider ile kıyaslanacak. Quantized artifact ve backend pinleri henüz seçilmedi."
+      },
+      "quantization_reference": null,
+      "capacity_tier": "local_16gb_candidate",
+      "execution_kind": "bounded_generation"
+    },
+    {
+      "id": "gemma4_12b_s2",
+      "role": "system2",
+      "name": "Gemma 4 12B IT · QAT Q4_0",
+      "repository": "google/gemma-4-12B-it",
+      "revision": "707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7",
+      "source_url": "https://huggingface.co/google/gemma-4-12B-it",
+      "license_reported": "apache-2.0",
+      "status": "research_candidate",
+      "runtime_selectable": false,
+      "aos_adapter_verified": false,
+      "measured_vram_bytes": null,
+      "measured_latency_ms": null,
+      "rationale": {
+        "en": "Multimodal planning and recovery candidate with an official quantized release. A 16 GB sequential-loading target, not demonstrated fit or superiority.",
+        "tr": "Resmî quantized sürümü bulunan çok-modlu planlama ve toparlanma adayı. 16 GB üzerinde sırayla yükleme hedefidir; sığma veya üstünlük kanıtı değildir."
+      },
+      "evaluation_plan": {
+        "en": "Start with 4K context and bounded images; compare structured recovery, visual readback, peak VRAM and cleanup against Bonsai. Current PrismML compatibility is unverified.",
+        "tr": "4K bağlam ve sınırlı görselle başlayıp structured recovery, görsel readback, VRAM tepesi ve cleanup Bonsai ile kıyaslanacak. Mevcut PrismML uyumluluğu doğrulanmadı."
+      },
+      "quantization_reference": {
+        "repository": "google/gemma-4-12B-it-qat-q4_0-gguf",
+        "revision": "29d097773436b69ff9feafd636ab4cf873786537",
+        "source_url": "https://huggingface.co/google/gemma-4-12B-it-qat-q4_0-gguf",
+        "artifacts": [
+          {
+            "filename": "gemma-4-12b-it-qat-q4_0.gguf",
+            "bytes": 6975879296,
+            "upstream_lfs_sha256": "93567e57a8fe10b23569b9d9ec38cd005deedf71e29477c421a4b83f418a538b"
+          },
+          {
+            "filename": "mmproj-gemma-4-12b-it-qat-q4_0.gguf",
+            "bytes": 175115616,
+            "upstream_lfs_sha256": "cb018338a7538a9814d994bfe54644c71eb7ed54e31eae2f721e45fd3c260da7"
+          }
+        ]
+      },
+      "capacity_tier": "local_16gb_candidate",
+      "execution_kind": "bounded_generation"
+    },
+    {
+      "id": "qwen38_27b_s2",
+      "role": "system2",
+      "name": "Qwen3.8-27B",
+      "repository": "Qwen/Qwen3.8-27B",
+      "revision": "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0",
+      "source_url": "https://huggingface.co/Qwen/Qwen3.8-27B",
+      "license_reported": "apache-2.0",
+      "status": "research_candidate",
+      "runtime_selectable": false,
+      "aos_adapter_verified": false,
+      "measured_vram_bytes": null,
+      "measured_latency_ms": null,
+      "capacity_tier": "larger_gpu_reserve",
+      "execution_kind": "bounded_generation",
+      "rationale": {
+        "en": "Larger-GPU reserve for multimodal planning and recovery; keep its generative role separate from finite-choice decision models.",
+        "tr": "Daha büyük GPU için çok-modlu planlama ve toparlanma adayı; üretici rolü sonlu-seçenek karar modellerinden ayrı tutulur."
+      },
+      "evaluation_plan": {
+        "en": "Review a separate quantized artifact/backend and context budget after hardware is known. Measure memory and admission through the existing Scientist authority; no assumed 16 GB fit.",
+        "tr": "Donanım netleşince ayrı quantized artifact/backend ve bağlam bütçesi incelenecek. Bellek ve tahsis mevcut Scientist otoritesiyle ölçülecek; 16 GB uyumu varsayılmaz."
+      },
+      "quantization_reference": null
+    },
+    {
+      "id": "cloudflare_clef_s1",
+      "role": "system1",
+      "name": "Cloudflare Clef · 27B",
+      "repository": "Cloudflare/clef",
+      "revision": "2f3de3dd85f379784083b0814d997ab627200f0c",
+      "source_url": "https://huggingface.co/Cloudflare/clef",
+      "license_reported": "apache-2.0",
+      "status": "research_candidate",
+      "runtime_selectable": false,
+      "aos_adapter_verified": false,
+      "measured_vram_bytes": null,
+      "measured_latency_ms": null,
+      "capacity_tier": "larger_gpu_reserve",
+      "execution_kind": "typed_choice_probabilities",
+      "rationale": {
+        "en": "Jev-compatible typed decision model based on Qwen3.8-27B. Open weights for local review, distinct from TypeSafe Jev and from the hosted Cloudflare service.",
+        "tr": "Qwen3.8-27B tabanlı Jev-uyumlu typed karar modeli. Yerel inceleme için açık ağırlıkları bulunur; TypeSafe Jev ve barındırılan Cloudflare servisiyle aynı değildir."
+      },
+      "evaluation_plan": {
+        "en": "Audit the custom joint schema head and loader before execution. Bind exact options, probability validation, tokenizer and code pins to the existing DecisionEngine and policy; no remote calls or uploaded trajectories.",
+        "tr": "Çalıştırmadan önce özel joint schema head ve loader incelenecek. Exact seçenekler, olasılık doğrulaması, tokenizer ve kod pinleri mevcut DecisionEngine/policy yoluna bağlanacak; uzak çağrı veya trajectory yüklemesi yok."
+      },
+      "quantization_reference": null
+    }
+  ]
+}

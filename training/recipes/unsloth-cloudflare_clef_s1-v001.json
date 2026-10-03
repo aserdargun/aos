@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "recipe_id": "unsloth-cloudflare_clef_s1-v001",
+  "candidate_id": "cloudflare_clef_s1",
+  "role": "system1",
+  "status": "design_recipe_not_executable",
+  "trainer": "unsloth",
+  "methods": [
+    "lora",
+    "qlora"
+  ],
+  "base": {
+    "repository": "Cloudflare/clef",
+    "revision": "2f3de3dd85f379784083b0814d997ab627200f0c",
+    "format": "safetensors",
+    "artifact_manifest_sha256": null
+  },
+  "dataset": {
+    "canonical_schema": "schemas/system1_choice.schema.json",
+    "manifest_sha256": null,
+    "rights_review_required": true,
+    "redaction_required": true,
+    "group_split_required": true,
+    "held_out_required": true,
+    "hidden_reasoning_allowed": false
+  },
+  "compatibility": {
+    "unsloth_revision": null,
+    "dependency_lock_sha256": null,
+    "converter_id": null,
+    "aos_training_verified": false,
+    "upstream_reference": "https://huggingface.co/Cloudflare/clef",
+    "custom_joint_head_required": true
+  },
+  "adapter": {
+    "target_modules": null,
+    "rank_proposal": 8,
+    "alpha_proposal": 16,
+    "stacking_allowed": false,
+    "cross_base_reuse_allowed": false
+  },
+  "blocked_until": [
+    "base_artifact_review",
+    "unsloth_backend_probe",
+    "dataset_rights_and_split_review",
+    "role_converter_probe",
+    "target_modules_probe",
+    "measured_training_memory",
+    "scientist_gpu_reservation",
+    "explicit_training_authorization",
+    "adapter_reload_and_rollback",
+    "joint_head_loss_and_serialization_probe"
+  ],
+  "promotion": "explicit_after_held_out_evaluation_and_rollback_review"
+}

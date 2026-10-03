@@ -66,6 +66,13 @@ Kullanıcı / AOS kontrol paneli
 
 [Mimari](docs/ARCHITECTURE.md), [runtime](docs/RUNTIME.md), [model pinleri](docs/MODELS.md), [güvenlik](docs/SECURITY.md).
 
+**Alternatifler:** Modeller ekranı S1 için Qwen3.5-4B, S2 için Gemma 4 12B QAT;
+büyük GPU rezervi olarak Qwen3.8-27B ve Cloudflare Clef adaylarını ayrı gösterir.
+[Aday kataloğu ve kabul sınırları](docs/MODEL_CANDIDATES.md),
+[model başına Unsloth LoRA/QLoRA taslakları](docs/UNSLOTH_CANDIDATES.md).
+Bu profiller indirilmiş/etkin modeller, executable trainer veya öğrenilmiş
+adaptör değildir; mevcut Decider/Bonsai ve tek Scientist GPU otoritesi korunur.
+
 ## Mevcut arayüzü açma
 
 Hazırlanmış AOS hostunda:
@@ -154,13 +161,13 @@ adımı gösterir. Bu teslim tam core veya gerçek Scientist kabulü yerine geç
 
 ## Geliştirme süresi, token ve maliyet
 
-**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 18:42:07 UTC / 21:42:07 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=15554954`, `timeUsedSeconds=92335`: **25 saat 38 dakika 55 saniye / 25,6486111 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 19:15:35 UTC / 22:15:35 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=15936668`, `timeUsedSeconds=94310`: **26 saat 11 dakika 50 saniye / 26,1972222 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 
 Yerel geliştirme session kayıtları sağlayıcı/model/effort/zaman kırılımı için ayrı kapsamdır. Gerçek faturalar, abonelik bedeli ve tahmini API maliyeti birbirinin yerine kullanılmaz; bilinmeyen ücret sıfır sayılmaz. Uygulama `model_calls` kayıtları da geliştirme JSONL tüketimine eklenmez. [Muhasebe yöntemi ve düzenli kayıt](docs/USAGE_ACCOUNTING.md).
 
-Bu hostta [saatlik özel kullanım kaydı](docs/USAGE_TIMER.md) etkinleştirildi ve servis ilk kez başarıyla çalıştı. Saatlik Git commit/push otomasyonu bundan ayrıdır ve henüz etkin değildir; özel kayıtlar otomatik yayımlanmaz.
+Bu hostta [saatlik özel kullanım kaydı](docs/USAGE_TIMER.md) etkinleştirildi ve servis ilk kez başarıyla çalıştı. Ayrı [saatlik aggregate publisher](docs/USAGE_PUBLICATION.md) yalnız incelenmiş README kullanım bloğu, public özet ve manifesti normal commit/push ile günceller; ham özel kayıtları veya geliştirme worktree değişikliklerini yayımlamaz. Etkinleştirme kanıtı STATUS içindedir.
 
 Önceki README, bütün tarihli sayaç gözlemleri ve atıflı model rol geçmişi [historical archive](docs/README_HISTORY_20261003.md) içinde korunur; güncel kabul kaydı değildir. Yeni geliştirici/Claude oturumunda uyumlu sayaç yoksa son doğrulanmış değer historical tutulmalı, proje toplamı uydurulmamalıdır.
 
@@ -181,12 +188,12 @@ Geliştirmeye başlamadan [AGENTS.md](AGENTS.md), [CODEX_KICKOFF.md](CODEX_KICKO
 ### Sağlayıcı/model ve maliyet kırılımı
 
 <!-- aos-usage:start -->
-Kayıt kesimi: **2026-10-03T18:34:08.162946Z**; **95 AOS oturumu**; durum: `observed`.
-Token olayı kapsamı: `2026-09-19T18:08:27.410000Z` → `2026-10-03T18:33:27.325000Z`. Tüm proje/fatura kapsamı değildir.
+Kayıt kesimi: **2026-10-03T19:00:01.020094Z**; **95 AOS oturumu**; durum: `observed`.
+Token olayı kapsamı: `2026-09-19T18:08:27.410000Z` → `2026-10-03T18:59:48.928000Z`. Tüm proje/fatura kapsamı değildir.
 
 | Sağlayıcı | Model | Effort | Input | Cached input¹ | Output | Toplam token | API karşılığı² (USD) |
 |---|---|---|---:|---:|---:|---:|---:|
-| openai | gpt-6-astra | high | 752,820,222 | 732,542,976 | 3,247,241 | 756,067,463 | 1,097.68 |
+| openai | gpt-6-astra | high | 761,165,124 | 740,569,088 | 3,300,644 | 764,465,768 | 1,111.56 |
 | openai | gpt-6-astra | max | 71,984,493 | 69,604,736 | 377,444 | 72,361,937 | 112.27 |
 | openai | gpt-6-luna | high | 418,381,260 | 411,382,400 | 1,373,702 | 419,754,962 | 5.50 |
 | openai | gpt-6-luna | medium | 10,560,748 | 10,264,576 | 36,211 | 10,596,959 | 0.15 |
@@ -194,7 +201,7 @@ Token olayı kapsamı: `2026-09-19T18:08:27.410000Z` → `2026-10-03T18:33:27.32
 | openai | gpt-6.1-sol | high | 177,753,582 | 172,769,536 | 909,016 | 178,662,598 | 36.34 |
 | openai | gpt-6.1-sol | medium | 686,338,266 | 671,100,160 | 3,062,913 | 689,401,179 | 128.22 |
 
-**Kaydedilmiş token: 4,367,291,356.** Fiyatlanabilen alt kümenin varsayımsal API karşılığı: **1,954.71 USD**; fiyatlanamayan token: **0**.
+**Kaydedilmiş token: 4,375,689,661.** Fiyatlanabilen alt kümenin varsayımsal API karşılığı: **1,968.59 USD**; fiyatlanamayan token: **0**.
 
 ¹ Cached input, input toplamının alt kümesidir. Reasoning output da output içine dahildir; tekrar toplanmaz.
 ² Standard / kısa bağlam tarifesiyle karşılaştırma senaryosu; gerçek ücret, abonelik bedeli veya tarihsel fatura değildir.
@@ -216,11 +223,11 @@ Goal token/süre sayacı ve yerel runtime tüketimi bu toplama eklenmez.
 | 2026-09-30 | 540,176,965 |
 | 2026-10-01 | 306,293,248 |
 | 2026-10-02 | 67,777,780 |
-| 2026-10-03 | 391,187,366 |
+| 2026-10-03 | 399,585,671 |
 <!-- aos-usage:end -->
 
-Tarifeler 3 Ekim 2026 tarihinde [resmî OpenAI fiyat sayfası](https://developers.openai.com/api/docs/pricing) ve [GPT-6 Sol model sayfası](https://developers.openai.com/api/docs/models/gpt-6-sol) üzerinden doğrulandı. [Tarihli tarife girdisi](docs/usage_prices_20261003.json), [sanitize edilmiş sayaç kaydı](docs/usage_snapshot_20261003.json), [hesaplama yöntemi](docs/USAGE_ACCOUNTING.md).
+Tarifeler 3 Ekim 2026 tarihinde [resmî OpenAI fiyat sayfası](https://developers.openai.com/api/docs/pricing) ve [GPT-6 Sol model sayfası](https://developers.openai.com/api/docs/models/gpt-6-sol) üzerinden doğrulandı. [Tarihli tarife girdisi](docs/usage_prices_20261003.json), [güncel sanitize edilmiş sayaç kaydı](docs/usage_latest.json), [hesaplama yöntemi](docs/USAGE_ACCOUNTING.md).
 
 **Uygulama tüketimi ayrı:** bu kesimde yalnız mevcut varsayılan oturum DB’si salt okunur incelendi: `model_calls=0`. Bu, tarihsel Decider/Bonsai tüketiminin veya tüm uygulama maliyetinin sıfır olduğu anlamına gelmez. Tarihsel runtime toplamı, elektrik/donanım maliyeti ve harici sağlayıcı faturası **bilinmiyor**. Geliştirme model tablosuna yerel runtime tokenı eklenmedi.
 
-Saatlik özel collector mevcut timer ile sürer. Her teslimde README özeti son incelenmiş snapshot ile yenilenir; ham oturumlar yayımlanmaz. Yeniden üretim: `python -m scripts.summarize_usage data/accounting/YYYY-MM-DDTHH0000Z.json`; yalnız stdout üretir, README’yi veya Git’i kendiliğinden değiştirmez. Yeni tarife kullanılacaksa önce kaynağı/tarihi doğrulayın; tarihli fiyat dosyası otomatik güncel sayılmaz.
+Saatlik özel collector mevcut timer ile sürer. Ayrı publisher her saatin beşinci dakikasında güncel kullanım/model/maliyet özetini README ile birlikte yayımlar; değişmeyen sayaç için commit atmaz. Goal snapshot’ı bu otomasyonda tarihsel son doğrulanmış gözlemdir, canlı sayaç gibi sunulmaz. Ham oturumlar yayımlanmaz. Yeniden üretim: `python -m scripts.summarize_usage data/accounting/YYYY-MM-DDTHH0000Z.json`; yalnız stdout üretir, README’yi veya Git’i kendiliğinden değiştirmez. Yeni tarife kullanılacaksa önce kaynağı/tarihi doğrulayın; tarihli fiyat dosyası otomatik güncel sayılmaz.

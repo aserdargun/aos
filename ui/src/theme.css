@@ -1,0 +1,52 @@
+:root {
+  --surface: #0b1f3a;
+  --panel: #142c4a;
+  --core: #061528;
+  --text: #eef4fb;
+  --muted: #b8c7d9;
+  --line: #425a73;
+  --teal: #20b8be;
+  --accent: #20b8be;
+  --accent-surface: #103b4b;
+  --warning: #f0cc88;
+  --warning-surface: #352f24;
+  --danger: #ffb6bd;
+  --danger-surface: #492e39;
+  --font: "Inter Variable", Inter, system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+:root[data-theme=light] {
+  --surface: #fff;
+  --panel: #fff;
+  --core: #0b1f3a;
+  --text: #0b1f3a;
+  --muted: #46566b;
+  --line: #cbd5df;
+  --accent: #087b80;
+  --accent-surface: #edf8f8;
+  --warning: #80560c;
+  --warning-surface: #fff6df;
+  --danger: #ad3145;
+  --danger-surface: #ffedf0;
+  color-scheme: light;
+}
+
+html { scrollbar-gutter: stable; }
+body { -webkit-font-smoothing: antialiased; }
+::selection { background: var(--teal); color: var(--core); }
+a { color: var(--accent); text-underline-offset: 4px; }
+button, input, select, textarea { accent-color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.page-heading.control-center-page-heading { display: none; }
+.theme-switch { display: flex; gap: 5px; flex-shrink: 0; }
+.theme-switch button { padding: 6px 9px; font-size: 12px; }
+.theme-switch button[aria-pressed=true] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-surface);
+}

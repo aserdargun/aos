@@ -62,7 +62,7 @@ export function DevelopmentJournal({checkpoint, language}: {checkpoint: Developm
   return <section className="development-journal" data-testid="development-journal" aria-labelledby={heading}>
     <header><h2 id={heading}>{labels.title}</h2><p className="development-journal-source">{labels.source}</p></header>
     <ol className="development-journal-list">
-      {checkpoint.updates.map(update => <li key={update.id} className="development-journal-row"
+      {[...checkpoint.updates].sort((first, second) => second.recorded_at.localeCompare(first.recorded_at)).map(update => <li key={update.id} className="development-journal-row"
         data-state={update.state} data-testid={'development-update-' + update.id}>
         <span className="development-journal-dot" aria-hidden="true"/>
         <div className="development-journal-copy">

@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "recipe_id": "unsloth-qwen35_4b_s1-v001",
+  "candidate_id": "qwen35_4b_s1",
+  "role": "system1",
+  "status": "design_recipe_not_executable",
+  "trainer": "unsloth",
+  "methods": [
+    "lora",
+    "qlora"
+  ],
+  "base": {
+    "repository": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "format": "safetensors",
+    "artifact_manifest_sha256": null
+  },
+  "dataset": {
+    "canonical_schema": "schemas/system1_choice.schema.json",
+    "manifest_sha256": null,
+    "rights_review_required": true,
+    "redaction_required": true,
+    "group_split_required": true,
+    "held_out_required": true,
+    "hidden_reasoning_allowed": false
+  },
+  "compatibility": {
+    "unsloth_revision": null,
+    "dependency_lock_sha256": null,
+    "converter_id": null,
+    "aos_training_verified": false,
+    "upstream_reference": "https://unsloth.ai/docs/models/qwen3.5/fine-tune",
+    "custom_joint_head_required": false
+  },
+  "adapter": {
+    "target_modules": null,
+    "rank_proposal": 8,
+    "alpha_proposal": 16,
+    "stacking_allowed": false,
+    "cross_base_reuse_allowed": false
+  },
+  "blocked_until": [
+    "base_artifact_review",
+    "unsloth_backend_probe",
+    "dataset_rights_and_split_review",
+    "role_converter_probe",
+    "target_modules_probe",
+    "measured_training_memory",
+    "scientist_gpu_reservation",
+    "explicit_training_authorization",
+    "adapter_reload_and_rollback"
+  ],
+  "promotion": "explicit_after_held_out_evaluation_and_rollback_review"
+}

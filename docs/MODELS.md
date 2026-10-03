@@ -2,6 +2,11 @@
 
 ## Başlangıç seçimi
 
+3 Ekim 2026: [alternatif model kataloğu](MODEL_CANDIDATES.md) Qwen3.5-4B (S1),
+Gemma 4 12B QAT (S2), büyük GPU rezervi olarak Qwen3.8-27B (S2) ve Cloudflare
+Clef (S1) içerir. Bunlar pinli upstream metadata ile araştırma adaylarıdır;
+indirilmiş, AOS adaptörü doğrulanmış veya etkin runtime modelleri değildir.
+
 Decider/Bonsai başlangıç implementasyonlarıdır; iki mantıksal rol ayrı değiştirilebilir olmalıdır. Yeni model için typed adapter, immutable pin, model-özel tokenizer/adapter uyumu ve çift-rol regresyonu gerekir; config'te ad değiştirmek yeterli değildir. Sürekli öğrenme, taşınabilir veri ve kontrollü model geçişi hedefi [CONTINUOUS_IMPROVEMENT](CONTINUOUS_IMPROVEMENT.md) içindedir. Genel model değiştirme/promotion servisi henüz uygulanmış değildir.
 
 System-1 `Mapika/decider-2b`: finite option routing ve action selection. System-2 `prism-ml/Ternary-Bonsai-2-27B-gguf`: reasoning, planning, vision, recovery. Ajan mantığı bu adlara değil deployment/capability sözleşmesine bağlıdır. Bonsai her küçük action için çağrılmaz; Operator ayrı generative LLM kullanmaz.

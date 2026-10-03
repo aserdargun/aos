@@ -1,3 +1,121 @@
+## 3 Ekim 2026, 19:15 UTC — UMAY temaları ve saatlik kullanım yayını
+
+umayos.org'un gerçek public CSS'i ve açık/koyu ekranları incelendi. Aynı
+lacivert/turkuaz, açık tema metin vurgusu, panel/çizgi renkleri ortak tokenlara
+taşındı. AOS adı korunuyor; pazarlama hero/görselleri kopyalanmadı, harici
+font/CDN isteği yok. İlk tercih işletim sisteminden, açık seçim localStorage'dan
+gelir; dil ve tema bağımsız, sayfa yenilemesi seçimi korur.
+
+Sekme geçişindeki hata yeniden üretildi: Development header'ı 56 px, diğer
+sekmeler 82 px; sidebar 176/212 px ve ayrı beyaz/koyu temalardı. Sekmeye bağlı
+kabuk sınıfı/override'ları kaldırıldı. Ortak header/sidebar/içerik boyutları ve
+scrollbar alanı sabit; çift Development başlığı gizlendi. UI build geçti,
+mevcut >500 kB bundle uyarısı sürer. **36 test / 6,215 s: 35 PASS, 1 private
+evidence SKIP**. İki temada masaüstü/mobil sekme geometrisi, 320/390 px taşma,
+EN/TR, kalıcılık ve açık tercihin OS temasına üstünlüğü doğrulandı. Log:
+`/tmp/aos-umayos-tests.log`. Browser plugin olmadığı için kurulu GPU-disabled
+Python Playwright kullanıldı. Referans/site ve yerel ekranlar görsel incelendi.
+
+Yetkili **UI-only** teslim öncesi/sonrası gerçek backend ile iki ayrı Chromium
+koşusu geçti: her biri 29 istek, sadece boş local-login POST ve GET. Açık/koyu,
+refresh, Development/Models/topology/Scientist akışı, console/HTTP temizliği
+doğrulandı; bağımsız gerçek Mac kabulü değildir. Index SHA256
+`2395b07989532df6b2c229bfd20f4fbf4bcee30dfc63b81803f7ca86c3cf761f`.
+PID42513/start344916/komut hash'i aynı; backend/GPU yeniden başlatılmadı.
+Özel screenshot/probe/rollback: `/tmp/aos-dual-theme-20261003-wgW8he/`.
+Scientist hâlâ unconfigured, yeni model inference/training ve ortak GPU kabulü
+yapılmadı. v0.1.0 kaynak etiketi değiştirilmedi.
+
+[Saatlik publisher](USAGE_PUBLICATION.md) current-hour collector girdisinden
+yalnız README kullanım bloğu, public aggregate ve manifesti günceller. Ham
+oturum alanları kopyalanmaz; sabit remote/main/tarife hash'i, ayrı bare Git,
+local lock, normal push ve remote readback kullanır. Çalışma ağacını stage etmez.
+Yeni/sentetik yerel Git testleri yanlış remote/tarife, yarışan remote commit,
+eksik/eski snapshot, gizli nested alanlar ve değişikliksiz retry'ı doğruladı.
+Collector/summary/timer/publisher havuzu: **37 test / 0,266 s: 36 PASS, 1 opt-in
+systemd SKIP**; gerçek yeni unit dosyaları ayrıca `systemd-analyze --user verify`
+ile geçti. Log `/tmp/aos-hourly-publication-tests.log`.
+
+Gerçek `aos-usage-publish.timer` enabled/active/waiting, drop-in yok; ilk planlı
+tetik 20:05 UTC / 23:05 İstanbul. Collector 20:00 UTC'de ayrı çalışır. Kod ayrı
+private frozen kopyada, ExecStartPre hash kontrolüne bağlı. İlk manuel servis
+readback'i bootstrap kaynak yayını sonrasındadır; burada otomatik gerçek push
+ve fatura doğrulaması iddia edilmez. Fiyatlar 3 Ekim tarihli counterfactual,
+runtime ve son authoritative goal snapshot'ı ayrı/tarihsel kalır.
+
+## 3 Ekim 2026, 18:58 UTC — UI tutarlılığı, model ve eğitim adayları
+
+Modeller paneli mevcut registry/oturum yapılandırmasını araştırma adaylarından
+ayırıyor. Qwen3.5-4B (S1), Gemma 4 12B QAT (S2), büyük GPU rezervi Qwen3.8-27B
+(S2) ve Cloudflare Clef (S1) resmî kaynaklardan metadata/revision pinleriyle
+eklendi. Cloudflare'ın modeli Clef'tir, TypeSafe Jev değildir. Boyut/metadata
+incelemesi AOS hız, VRAM, API veya backend uyumluluk kabulü sayılmadı.
+
+Her adayın ayrı Unsloth LoRA/QLoRA design recipe'si, canonical şeması ve salt
+okunur inspector'ı var. Sekiz model/method namespace'i ayrı; base/rol değişimi,
+yanlış yöntem, GGUF training base'i varsayımı ve Clef joint-head kapısını atlama
+reddediliyor. Trainable artifact, converter, trainer/dependency pinleri ve
+gerçek GPU/eğitim kabulü eksik. Yeni executable trainer, model indirme, ağırlık
+üretimi, eğitim, API ücretli çağrısı veya otomatik promotion yapılmadı.
+
+Development'ta UI paketinden gelen v0.1.0 prototip etiketi tam ürün kabulünden
+ayrıldı; tarihli gelişim günlüğü yeniden eskiye sıralanıyor, 1 Ekim kayıtları
+"son" değil arşiv olarak etiketleniyor. Manuel zamanlar UTC ile tutarlı.
+Header artık ağ izolasyonunu gözlemsiz iddia etmiyor; polling hatasında eski
+owner yeşil/güncel gibi gösterilmiyor. Canonical stage kabul bayrakları değişmedi.
+
+TypeScript/Vite build geçti; mevcut 500 kB chunk uyarısı sürüyor. **27 test /
+5,625 s: 26 PASS, 1 private-evidence SKIP**. Model/recipe negatifleri, EN/TR
+kontrol merkezi/topoloji, dört adayın salt okunur kartları, 390 px taşma,
+başarısız polling ve tarihsel kabul ayrımı doğrulandı. Source UI testi kurulu
+Chromium yolunu artık explicit test ortam değişkeninden alabiliyor. İlk koşuda
+eksik yerel browser yolu, ardından eski başlık assertion'ı yakalandı; son tekrar
+temiz geçti. Test logu `/tmp/aos-candidates-all-tests.log`.
+
+Browser plugin yoktu; kurulu GPU-disabled Python Playwright kullanıldı. Gerçek
+backend ile aday ve teslim sonrası ayrı EN1440×1000/TR390×844 gözlemleri geçti;
+her biri 17 istek, yalnız boş local-login POST ve salt okunur GET. Modeller →
+topoloji → yapılandırılmamış Scientist → Development akışı, dört aday ve eğitim
+taslakları doğrulandı; console/page/HTTP hatası yok. Gerçek Mac kabulü değildir.
+
+Yalnız UI onayıyla assetler ve index aktarıldı. Index SHA256
+`06af37062f4a02d7f1abbb941045389147605cd7ba1d5e70bc3e2ebc3a805383`.
+PID42513/start344916/komut hash'i değişmedi; eski asset ve rollback korundu.
+Özel görseller, probe ve promotion kanıtları `/tmp/aos-models-ui-20261003-L4QxuP/`.
+Mevcut Scientist bağlantısı hâlâ unconfigured; gerçek inference/training/shared
+GPU kabulü açık. v0.1.0 etiketi değişmedi; bunlar etiket sonrası kaynak/UI işleridir.
+
+## 3 Ekim 2026, 18:45 UTC — izole CPU panel hazırlığının somut devri
+
+Önceki tur gerçek ilerlemeydi: muhasebe özeti `4a2b9c0` ile public main'e
+çıktı; v0.1.0 etiketi korunuyor. Bu tur mevcut planın ayrı CPU console
+hazırlığı kapatıldı. [Workspace, servis ve manifest teslimi](SCIENTIST_CPU_PANEL_HANDOFF.md).
+
+Scientist'in 18:19 tarihli karşılıklı kaynak kaydı salt okunur alındı; sekiz
+AOS consumer hash'i frozen `a892a89` kaynakla bağımsız eşleşti. Peer-reported
+Scientist `bdad5b2` kaynak kimliği operational checkout HEAD'i veya runtime
+ACK'i sayılmadı. `scientist.lab-cpu-study.v1` / `run-experience.v1` korunur.
+
+Özel `data/scientist-cpu-panel-20261003/preparation.private.json` exact
+workspace/source/launcher/unit kimliklerini ve eksik startup/grant girdilerini
+kaydeder; SHA256 `f07e2ff8f1a73aa8d845c4f1bb11193f022f1d9ded8111d2015eb5a1707f48e9`.
+Önceki offline hazırlıkta 5729 package kontrolü ve 15 CPU testi geçti.
+Bu tur eksik reviewed hash'lerle check-only tekrar reddedildi, DB oluşmadı;
+unit `not-found`/inactive/PID0, önerilen port 8771 boş. Port rezervasyonu,
+servis kurulumu, yeni CPU koşusu veya canlı config kabulü yok.
+
+Peer mesaj aracı yine transport hatası verdi; iletildiği iddia edilmez.
+Karşı oturum belgeyi ve private manifesti salt okunur alabilir. Sıradaki gerçek
+kabul için taze principal/owner/API/PG/grant ve ayrı CPU backend başlatma onayı
+gereklidir. UI-only onayı genişletilmedi; aktif AOS/Scientist oturumları ve
+GPU HOLD korunur. Gerçek browser/deney/cleanup ve GPU kabulü hâlâ açık.
+
+Kota gözlemi: 18:43:35 UTC tarihli bu oturumun Codex `rate_limits` olayı,
+10080 dakikalık primary pencerede yüzde 70 kullanım / yüzde 30 kalan bildiriyor.
+Goal sayacından türetilmedi; sonraki tüketimi veya farklı pencereyi kapsamaz.
+Kullanıcının yüzde 10 kalanda durma sınırı korunur; ücret/credit kayıtları
+yayımlanmadı. Authoritative README goal gözlemi ayrıca yenilendi.
+
 ## 3 Ekim 2026, 18:38 UTC — README model ve maliyet kırılımı
 
 Kullanıcının Scientist README'sine benzer özet isteği uygulandı. Kardeş depo

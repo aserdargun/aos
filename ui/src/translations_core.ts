@@ -32,6 +32,12 @@ export const releaseAcceptanceLabels: Record<string, string> = {
 };
 
 export const translationsCore: Record<string, string> = {
+  'Görünüm teması': 'Appearance theme',
+  'Açık tema': 'Light',
+  'Koyu tema': 'Dark',
+  "Yerel · yetkili çalışma alanı": "Local · authorized workspace",
+  "Tam ürün kabulü": "Full product acceptance",
+  "Arşivlenmiş kaynak geliştirmeleri · 1 Ekim 2026": "Archived source development · 1 October 2026",
   "Sıradaki geliştirme adımı": "Next development step",
   "Sistem ve topoloji": "System & topology",
   "Son gözlemlenen görev": "Last observed task",

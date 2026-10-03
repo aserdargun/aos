@@ -52,7 +52,7 @@ class UsageSummaryTests(unittest.TestCase):
             render(self.snapshot, self.prices)
 
     def test_public_snapshot_matches_readme_block(self):
-        snapshot = json.loads((REPO_ROOT / 'docs/usage_snapshot_20261003.json').read_text())
+        snapshot = json.loads((REPO_ROOT / 'docs/usage_latest.json').read_text())
         prices = json.loads((REPO_ROOT / 'docs/usage_prices_20261003.json').read_text())
         readme = (REPO_ROOT / 'README.md').read_text()
         block = readme.split('<!-- aos-usage:start -->\n', 1)[1].split('<!-- aos-usage:end -->', 1)[0]

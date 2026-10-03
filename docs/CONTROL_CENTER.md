@@ -1,5 +1,23 @@
 # AOS kontrol merkezi
 
+## Ortak açık / koyu tema
+
+[umayos.org](https://umayos.org/) renk sistemi kullanılır: lacivert `#0b1f3a`,
+turkuaz `#20b8be`, açık temada okunaklı vurgu `#087b80`; ortak panel, metin ve
+çizgi tokenları `ui/src/theme.css` içindedir. Üst çubuktaki **Light / Dark**
+(Türkçe: **Açık tema / Koyu tema**) seçimi tarayıcıda saklanır. İlk açılışta
+işletim sistemi tercihi izlenir; açık seçim sistem tercihini geçersiz kılar.
+Dil ve tema birbirinden bağımsızdır. Depolama engellenirse seçim o sayfada
+çalışır, sonraki açılışta sistem tercihi kullanılır.
+
+Development dahil bütün sekmeler aynı header, sidebar, içerik genişliği ve
+renk tokenlarını paylaşır; sekmeye göre kabuk/tema değişmez. Scrollbar alanı
+sabit ayrılır. Font ailesi Inter/system-ui'dır; arayüz harici font/CDN çağrısı
+yapmaz, Inter yoksa sistem fontunu kullanır. AOS ürün adı korunur; pazarlama
+sitesinin görselleri veya hero yerleşimi kontrol paneline kopyalanmaz.
+
+## Mevcut teslim
+
 Varsayılan açılış ekranı **Development / Geliştirme** içinde kontrol merkezidir.
 Çalışan yerel oturum: `http://127.0.0.1:8765/ui/`. Yeni arayüzü görmek için
 sayfayı yenileyin. **3 Ekim 2026, 16:31 UTC:** kullanıcının yalnız UI güncelleme

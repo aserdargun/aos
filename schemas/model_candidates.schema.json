@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AOS research model candidates, not runtime configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "observed_at", "scope", "runtime_authority", "candidates"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "observed_at": {"type": "string", "format": "date"},
+    "scope": {"const": "research_candidates_not_runtime_configuration"},
+    "runtime_authority": {"const": false},
+    "candidates": {"type": "array", "minItems": 1, "maxItems": 32, "items": {"$ref": "#/$defs/candidate"}}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1, "maxLength": 1200},
+    "copy": {
+      "type": "object", "additionalProperties": false, "required": ["en", "tr"],
+      "properties": {"en": {"$ref": "#/$defs/text"}, "tr": {"$ref": "#/$defs/text"}}
+    },
+    "repository": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+    "revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "source_url": {"type": "string", "pattern": "^https://huggingface[.]co/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+    "artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["filename", "bytes", "upstream_lfs_sha256"],
+      "properties": {
+        "filename": {"type": "string", "pattern": "^[A-Za-z0-9_-]+[.]gguf$"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "upstream_lfs_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "quantization": {
+      "type": "object", "additionalProperties": false,
+      "required": ["repository", "revision", "source_url", "artifacts"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/repository"},
+        "revision": {"$ref": "#/$defs/revision"},
+        "source_url": {"$ref": "#/$defs/source_url"},
+        "artifacts": {"type": "array", "minItems": 1, "maxItems": 8, "items": {"$ref": "#/$defs/artifact"}}
+      }
+    },
+    "candidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "role", "name", "repository", "revision", "source_url", "license_reported", "status", "runtime_selectable", "aos_adapter_verified", "measured_vram_bytes", "measured_latency_ms", "rationale", "evaluation_plan", "quantization_reference", "capacity_tier", "execution_kind"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]{1,95}$"},
+        "role": {"enum": ["system1", "system2"]},
+        "name": {"$ref": "#/$defs/text"},
+        "repository": {"$ref": "#/$defs/repository"},
+        "revision": {"$ref": "#/$defs/revision"},
+        "source_url": {"$ref": "#/$defs/source_url"},
+        "license_reported": {"$ref": "#/$defs/text"},
+        "status": {"const": "research_candidate"},
+        "runtime_selectable": {"const": false},
+        "aos_adapter_verified": {"const": false},
+        "measured_vram_bytes": {"type": "null"},
+        "measured_latency_ms": {"type": "null"},
+        "rationale": {"$ref": "#/$defs/copy"},
+        "evaluation_plan": {"$ref": "#/$defs/copy"},
+        "quantization_reference": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/quantization"}]},
+        "capacity_tier": {"enum": ["local_16gb_candidate", "larger_gpu_reserve"]},
+        "execution_kind": {"enum": ["bounded_generation", "typed_choice_probabilities"]}
+      }
+    }
+  }
+}

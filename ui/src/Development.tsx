@@ -6,6 +6,7 @@ import {DevelopmentJournal, validDevelopmentCheckpoint, type DevelopmentCheckpoi
 import releaseAcceptanceSnapshot from '../../docs/release_acceptance.json';
 import {releaseAcceptanceLabels} from './translations_core';
 import './development.css';
+import {SourceRelease} from './SourceRelease';
 
 const acceptanceStageIds = ['candidate', 'scientist', 'native_workflow', 'user_delivery', 'learning', 'swapp'] as const;
 type AcceptanceStage = {id: typeof acceptanceStageIds[number]; title_key: string;
@@ -447,6 +448,7 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
     <header className="development-heading development-intro"><div><h1>{t('Kontrol merkezi')}</h1>
       <p>{t('Ne çalışıyor, ne değişti, sırada ne var?')}</p></div>
       {onRefresh ? <button type="button" disabled={refreshing} onClick={onRefresh}>{t('Durumu yenile')}</button> : null}</header>
+      <SourceRelease/>
       <section className="development-runtime" data-testid="development-runtime" aria-busy={refreshing}>
         <div className="development-heading"><div><h3>{t('Canlı oturum')}</h3>
           <p role="status" data-testid="development-runtime-status" className={runtimeFresh ? 'runtime-fresh' : 'runtime-unknown'}>{t(runtimeStatus)}</p></div>
@@ -516,7 +518,7 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
       </>}
     </section>
     </div><aside className="development-rail">
-      <section><h3>{t('Sürüm hazırlığı')}</h3><strong>{t('Ürün kabulü açık')}</strong>
+      <section><h3>{t('Tam ürün kabulü')}</h3><strong>{t('Ürün kabulü açık')}</strong>
         <p>{t('Altı aşama; kaynak, doğrulama ve teslim ayrı izlenir.')}</p>
         <button type="button" onClick={() => setView('release')}>{t('Sürüm kontrol listesini aç')}</button>
         <p className="caption">{t('Durum yenileme yalnız oturumu okur. Geliştirme kaydı bu UI derlemesine aittir.')}</p></section>
@@ -525,7 +527,7 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
         <small>{t('Tarihli manuel kayıt; canlı ajan sağlığı değildir.')}</small></section> : null}
       <section data-testid="development-blocker"><h3>{t('Kayıtlı engel')}</h3>
         <p>{checkpoint?.blocker[language] ?? t('Kabul kaydını inceleyin; tamamlanma varsayılmaz.')}</p>
-        {checkpoint ? <small><time dateTime={checkpoint.recorded_at}>{new Date(checkpoint.recorded_at).toLocaleString(locale())}</time></small> : null}</section>
+        {checkpoint ? <small><time dateTime={checkpoint.recorded_at}>{new Date(checkpoint.recorded_at).toLocaleString(locale(), {timeZone: 'UTC'})} UTC</time></small> : null}</section>
       <section><h3>{t('Çalışma alanı ve ajanlar')}</h3>
         <button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button>
         <button type="button" onClick={() => onNavigate('Scientist')}>{t('Scientist Lab aç')}</button>
@@ -539,7 +541,7 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
     </p>
     <CapabilityEvidence refreshKey={refreshKey}/>
     <div className="development-card" data-testid="development-source-delivery">
-      <h3>{t('Son kaynak geliştirmeleri · 1 Ekim 2026')}</h3>
+      <h3>{t('Arşivlenmiş kaynak geliştirmeleri · 1 Ekim 2026')}</h3>
       <p className="caption">{t('Kaynakta uygulandı ve CPU/mock ile doğrulandı. Bu tarihsel kayıt çalışan oturumun build kimliğini veya sürüm kabulünü kanıtlamaz.')}</p>
       <ul>
         <li>{t('Serbest hedef zinciri: scoped catalog → öneri → ayrı onay → sonlu görev → bağımsız sonuç; belirsiz başlangıç yalnız mevcut işten kurtarılır, tekrar yürütülmez.')}</li>

@@ -9,12 +9,16 @@
 - [CONTROL_CENTER — paneli okuma, Mac bridge ve SSH erişimi](CONTROL_CENTER.md)
 - [USAGE_ACCOUNTING — geliştirme/runtime tüketimi, kapsam ve bilinmeyen ücretler](USAGE_ACCOUNTING.md)
 - [USAGE_TIMER — saatlik özel kayıt, açık kurulum/etkinleştirme ve sınırlar](USAGE_TIMER.md)
+- [USAGE_PUBLICATION — saatlik model/maliyet özeti ve allowlist normal commit/push](USAGE_PUBLICATION.md)
 - [README_HISTORY_20261003 — önceki README ve korunmuş tarihsel sayaç/model kayıtları](README_HISTORY_20261003.md)
 
 ## Ayrıntılı sözleşmeler
 
 - [SCIENTIST_CPU_STUDY — yetkili salt okunur veri/yöntem tanımı ve peer wire incelemesi](SCIENTIST_CPU_STUDY.md)
 - [SCIENTIST_EXPERIENCE — bağlı deney geçmişini doğrulama ve açık referans seçimi](SCIENTIST_EXPERIENCE.md)
+- [SCIENTIST_CPU_PANEL_HANDOFF — ayrı CPU panelinin workspace, servis taslağı ve kalan yetki girdileri](SCIENTIST_CPU_PANEL_HANDOFF.md)
+- [MODEL_CANDIDATES — S1/S2 alternatifleri, büyük GPU rezervleri ve aktivasyon sınırları](MODEL_CANDIDATES.md)
+- [UNSLOTH_CANDIDATES — model başına LoRA/QLoRA taslakları, veri ve adaptör ayrımı](UNSLOTH_CANDIDATES.md)
 
 - [FAILURE_FOLLOWUP — incelenmiş başarısızlıktan ayrı izinli yeni görev ve sonuç denetimi](FAILURE_FOLLOWUP.md)
 - [FAILURE_IMPROVEMENT — başarısız görevden ayrı, izinli metadata incelemesi ve düzeltme önerisi](FAILURE_IMPROVEMENT.md)

@@ -51,8 +51,10 @@ model invocation, runtime DB query or application lifecycle operation is added.
 An unsuccessful systemd reload/enable may leave staged units; it is reported as
 incomplete rather than treated as active. Review actual state with
 `systemctl --user status aos-usage-record.timer` after explicit activation.
-Automatic commit/push is **not implemented or installed** by this helper;
-public aggregate publication and Git automation require separate review.
+Automatic commit/push is **not implemented by this collector helper**.
+The separately reviewed [aggregate publisher](USAGE_PUBLICATION.md) uses its own
+timer and private bare repository; it never publishes private collector files.
+See STATUS for its actual activation evidence.
 
 Validation uses synthetic temporary paths and mocked systemctl only:
 `.venv/bin/python -W error::ResourceWarning -m unittest tests.test_install_usage_timer -v`.

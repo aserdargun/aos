@@ -1,5 +1,17 @@
 # Güvenli geliştirme kullanım kaydı
 
+## Saatlik güncel yayın
+
+[Güncel aggregate](usage_latest.json) README kullanım bloğuyla aynı snapshot'tır.
+Kapsam ve kesim zamanı her yayında birlikte güncellenir. Ayrı
+[saatlik publisher](USAGE_PUBLICATION.md), mevcut collector kaydını allowlist
+ile küçültür ve sadece README, public aggregate ve manifesti normal push ile
+yayımlar. Önceki tarihli gözlemler aşağıda ve Git geçmişinde korunur; sonraki
+güncellemeler bu tarihsel sayıları güncelmiş gibi yeniden etiketlemez.
+Fiyat referansı 3 Ekim 2026 incelemesine pinlidir, gerçek fatura veya abonelik
+ücreti değildir. Otomatik işlem runtime DB'sini veya goal API'sini sorgulamaz;
+runtime toplamı bilinmiyor, son goal snapshot'ı tarihsel kalır.
+
 ## README model/maliyet özeti — 3 Ekim 2026, 18:34 UTC
 
 AI Scientist README'si biçim örneği olarak salt okunur incelendi; onun sayaçları

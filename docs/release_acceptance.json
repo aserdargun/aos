@@ -5,25 +5,44 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T18:07:12Z",
+    "recorded_at": "2026-10-03T18:56:07Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
       "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
     },
     "blocker": {
-      "en": "Apache-2.0 source/prototype v0.1.0 is published; full product stages remain open. Live Scientist is unconfigured. CPU startup/context/limits and explicit dataset/method description exist in source, not deployed admission. Peer messaging is unavailable; the descriptor wire review is recorded for read-only pickup, not a reciprocal runtime ACK. Shared GPU remains on HOLD.",
-      "tr": "Apache-2.0 kaynak/prototip v0.1.0 yayımlandı; ürün aşamaları açık. Canlı Scientist bağlantısı yapılandırılmamış. CPU startup/bağlam/sınırlar ve açık veri/yöntem tanımı kaynakta; canlı kabul değil. Peer mesajlaşması erişilemiyor; descriptor wire incelemesi salt okunur aktarım için kaydedildi, karşılıklı runtime ACK değil. Ortak GPU HOLD sürüyor."
+      "en": "Source/prototype v0.1.0 is published; full product acceptance remains open. Live Scientist is unconfigured. The separate CPU panel is prepared but not started; fresh scope and start authorization are missing. Four alternative models and per-model Unsloth designs are research candidates, not enabled inference or training. Shared GPU remains on HOLD.",
+      "tr": "Kaynak/prototip v0.1.0 yayımlandı; tam ürün kabulü açık. Canlı Scientist yapılandırılmamış. Ayrı CPU paneli hazırlandı ama başlamadı; taze kapsam ve başlatma onayı eksik. Dört alternatif model ve model başına Unsloth taslakları araştırma adayıdır; etkin çıkarım veya eğitim değildir. Ortak GPU HOLD sürüyor."
     },
     "next_action": {
-      "en": "Owner-bound experience readback and explicit history-to-draft selection now pass CPU/mock and Chromium checks in source. Confirm the descriptor/experience source pair and a new isolated CPU scope for actual UI/context acceptance. Keep the default backend unchanged and GPU HOLD until coordinated admission.",
-      "tr": "Bağlı deney geçmişi ve açık geçmiş-taslak seçimi kaynakta CPU/mock ve Chromium kontrollerini geçti. Descriptor/experience kaynak çiftini ve gerçek UI/bağlam kabulü için yeni izole CPU kapsamını teyit et. Koordineli kabul öncesi default backend değişmesin, GPU HOLD korunsun."
+      "en": "Review the fresh isolated Scientist CPU scope and explicit start permission for actual panel acceptance. For model alternatives, pin and verify adapters, training converters and GPU budgets before activation; keep the current pilot and default models unchanged.",
+      "tr": "Gerçek panel kabulü için taze izole Scientist CPU kapsamını ve açık başlatma onayını incele. Model alternatiflerinde aktivasyondan önce adaptör, eğitim converter ve GPU bütçelerini pinleyip doğrula; mevcut pilot ve varsayılan modeller değişmesin."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",
       "tr": "Tarihli kaynak kaydıdır; canlı worker telemetrisi veya teslim edilmiş UI değildir. Bu JSON güncellemesi mevcut UI dosyalarını yeniden derlemez. CPU kontrolleri ve kaynak readback'i runtime/GPU yetkisi veya aşama tamamlanması vermez. SWAPP intranet testi en sondadır."
     },
     "updates": [
+      {
+        "id": "model_training_preparation",
+        "state": "in_progress",
+        "recorded_at": "2026-10-03T18:56:07Z",
+        "title": {
+          "en": "Model alternatives and separate adapter designs",
+          "tr": "Model alternatifleri ve ayrı adaptör taslakları"
+        },
+        "detail": {
+          "en": "Qwen3.5-4B and Gemma 4 12B are 16 GB evaluation candidates; Qwen3.8-27B and Cloudflare Clef are larger-GPU reserves. Separate LoRA/QLoRA recipes and an offline inspector preserve exact base/role boundaries. No new model, trainer or GPU job is running. The isolated Scientist CPU panel is prepared, not authorized or started.",
+          "tr": "Qwen3.5-4B ve Gemma 4 12B, 16 GB değerlendirme adayları; Qwen3.8-27B ve Cloudflare Clef büyük GPU rezervleridir. Ayrı LoRA/QLoRA reçeteleri ve offline inspector exact base/rol sınırlarını korur. Yeni model, trainer veya GPU işi çalışmıyor. İzole Scientist CPU paneli hazırlandı; yetkilendirilmedi veya başlatılmadı."
+        },
+        "evidence": [
+          "docs/MODEL_CANDIDATES.md",
+          "docs/UNSLOTH_CANDIDATES.md",
+          "docs/SCIENTIST_CPU_PANEL_HANDOFF.md",
+          "tests/test_model_candidates.py"
+        ]
+      },
       {
         "id": "scientist_experience_source",
         "state": "verified_cpu",
@@ -36,7 +55,12 @@
           "en": "Source main ed20949 adds owner-bound history readback and selection of up to eight references into a new proposal draft. 158 CPU/mock and 15 Chromium/mock-API tests pass. No automatic experiment, approval or training; real runtime acceptance remains open. These controls stay hidden on the current unconfigured backend.",
           "tr": "Kaynak main ed20949: bağlı deney geçmişi okunabilir ve en fazla sekiz referans yeni öneri taslağına seçilebilir. 158 CPU/mock ve 15 Chromium/mock-API testi geçti. Otomatik deney, onay veya eğitim yok; gerçek runtime kabulü açık. Bu kontroller mevcut yapılandırılmamış backend'de gizli kalır."
         },
-        "evidence": ["docs/SCIENTIST_EXPERIENCE.md", "tests/test_scientist_experience.py", "tests/test_scientist_lab_ui.py", "docs/STATUS.md"]
+        "evidence": [
+          "docs/SCIENTIST_EXPERIENCE.md",
+          "tests/test_scientist_experience.py",
+          "tests/test_scientist_lab_ui.py",
+          "docs/STATUS.md"
+        ]
       },
       {
         "id": "durable_agent_orchestration",

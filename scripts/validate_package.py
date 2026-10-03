@@ -15,8 +15,10 @@ import yaml
 
 if __package__:
     from .package_handoff import validate_source_manifest
+    from .inspect_unsloth_candidate import validate_recipe
 else:
     from package_handoff import validate_source_manifest
+    from inspect_unsloth_candidate import validate_recipe
 
 ROOT = Path(__file__).resolve().parents[1]
 CHECKS = []
@@ -1374,6 +1376,16 @@ def validate_files():
     validators['registry.schema.json'].validate(registry)
     validate_registry(registry)
     CHECKS.append('Registry schema, hashes and disabled unresolved models')
+    model_candidates = read_json('config/model_candidates.json')
+    validators['model_candidates.schema.json'].validate(model_candidates)
+    candidate_ids = [candidate['id'] for candidate in model_candidates['candidates']]
+    check(len(candidate_ids) == len(set(candidate_ids)), 'Unique research model candidate IDs')
+    check(all(candidate['source_url'] == 'https://huggingface.co/' + candidate['repository']
+              for candidate in model_candidates['candidates']), 'Research candidate sources match repositories')
+    for candidate in model_candidates['candidates']:
+        recipe = read_json('training/recipes/unsloth-' + candidate['id'] + '-v001.json')
+        validate_recipe(recipe, candidate)
+        CHECKS.append('Model-specific Unsloth design remains non-executable: ' + candidate['id'])
     recovery = read_json('examples/supervisor_plan.json')
     validators['supervisor_plan.schema.json'].validate(recovery['plan'])
     check(recovery['synthetic'] is True, 'Recovery plan fixture is synthetic')

@@ -82,8 +82,8 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
         from playwright.sync_api import sync_playwright
         cls.playwright = sync_playwright().start()
         try:
-            cls.browser = cls.playwright.chromium.launch(executable_path=str(
-                REPO_ROOT / 'models/playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell'),
+            cls.browser = cls.playwright.chromium.launch(executable_path=os.environ.get('AOS_TEST_CHROMIUM_PATH', str(
+                REPO_ROOT / 'models/playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell')),
                 args=['--disable-gpu'])
         except BaseException:
             cls.playwright.stop()
@@ -134,7 +134,7 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
         expect(page.get_by_test_id('capability-evidence-state')).to_contain_text(
             'The test evidence source is unavailable; success is not assumed.')
         source = page.get_by_test_id('development-source-delivery')
-        for text in ('Recent source development · 1 October 2026',
+        for text in ('Archived source development · 1 October 2026',
                      'Implemented in source and CPU/mock verified. This historical record does not prove the running session',
                      'Free-goal chain:', 'Knowledge usage report:', 'Setup:',
                      'Scientist single startup connection:',
