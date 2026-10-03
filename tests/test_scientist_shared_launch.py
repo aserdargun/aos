@@ -10,7 +10,8 @@ from aos.contracts import REPO_ROOT, digest
 from aos.lifecycle import ProcessIdentity
 from aos.scientist_admission_history import ScientistServerGeneration
 from aos.scientist_shared_launch import (
-    TRANSPORT_SCHEMA_SHA256, ScientistSharedLaunchAdapter, ScientistSharedLaunchReview,
+    TRANSPORT_SCHEMA_SHA256, TRANSPORT_V2_SCHEMA_SHA256, ScientistSharedLaunchAdapter,
+    ScientistSharedLaunchReview, ScientistSharedLaunchReviewV2,
 )
 from aos.scientist_transport import BROKER_UNIT
 from test_shared_desktop_host import SyntheticSharedHostFixture
@@ -72,6 +73,49 @@ class ScientistSharedLaunchTests(unittest.TestCase):
         self.assertEqual(operations.count('claim'), 1)
         self.assertGreater(operations.count('verify'), 1)
         self.fixture.transport.start.assert_called_once()
+
+    def test_explicit_v2_review_preserves_manager_verify_and_single_claim_flow(self):
+        self.review = ScientistSharedLaunchReviewV2.model_validate(self.review.model_dump() | {
+            'schema_version': '2.0', 'transport_schema_sha256': TRANSPORT_V2_SCHEMA_SHA256})
+        self.adapter = self.make_adapter(transport_schema_sha256=TRANSPORT_V2_SCHEMA_SHA256)
+        self.fixture.host.activation_verifier = self.adapter.verify
+        self.fixture.host.activation_claimer = self.adapter.claim
+        state = self.fixture.start()
+        self.assertEqual(state.phase, 'running', state.last_error)
+        operations = [call.args[0] for call in self.client.request.call_args_list]
+        self.assertEqual(operations.count('claim'), 1)
+        self.assertTrue(set(operations) <= {'verify', 'claim'})
+        self.fixture.transport.start.assert_called_once()
+
+    def test_review_versions_never_silently_upgrade_downgrade_or_accept_unknown_wire(self):
+        with self.assertRaisesRegex(ValueError, 'transport differs'):
+            self.make_adapter(transport_schema_sha256=TRANSPORT_V2_SCHEMA_SHA256)
+        self.review = ScientistSharedLaunchReviewV2.model_validate(self.review.model_dump() | {
+            'schema_version': '2.0', 'transport_schema_sha256': TRANSPORT_V2_SCHEMA_SHA256})
+        with self.assertRaisesRegex(ValueError, 'transport differs'):
+            self.make_adapter(transport_schema_sha256=TRANSPORT_SCHEMA_SHA256)
+        with self.assertRaisesRegex(ValueError, 'transport differs'):
+            self.make_adapter(transport_schema_sha256='f' * 64)
+        self.review = self.review.model_copy(update={'schema_version': '3.0'})
+        with self.assertRaisesRegex(ValueError, 'Unsupported explicitly reviewed'):
+            self.make_adapter(transport_schema_sha256=TRANSPORT_V2_SCHEMA_SHA256)
+        self.client.request.assert_not_called()
+
+    def test_v2_review_cannot_smuggle_v1_wire_or_be_parsed_as_v1(self):
+        with self.assertRaises(ValueError):
+            ScientistSharedLaunchReviewV2.model_validate(self.review.model_dump())
+        value = self.review.model_dump() | {'transport_schema_sha256': TRANSPORT_V2_SCHEMA_SHA256}
+        with self.assertRaises(ValueError):
+            ScientistSharedLaunchReview.model_validate(value)
+
+    def test_v2_review_schema_and_synthetic_example_are_separate_from_v1(self):
+        schema = json.loads((REPO_ROOT / 'schemas/scientist_shared_launch_review_v2.schema.json').read_text())
+        self.assertEqual(schema, ScientistSharedLaunchReviewV2.model_json_schema())
+        value = json.loads((REPO_ROOT / 'examples/scientist_shared_launch_review_v2.json').read_text())
+        review = ScientistSharedLaunchReviewV2.model_validate(value)
+        self.assertEqual(review.transport_schema_sha256, TRANSPORT_V2_SCHEMA_SHA256)
+        with self.assertRaises(ValueError):
+            ScientistSharedLaunchReview.model_validate(value)
 
     def test_lost_ack_consumes_once_and_never_retries(self):
         def lost(*args, **kwargs):

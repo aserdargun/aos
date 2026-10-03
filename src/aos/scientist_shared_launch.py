@@ -18,6 +18,7 @@ from .shared_desktop_provision import verify_launch_intent
 
 
 TRANSPORT_SCHEMA_SHA256 = '842fe08b2f7f7dbb1f0d0bcf000a5d3029eb4335114da800324d0e34952478f6'
+TRANSPORT_V2_SCHEMA_SHA256 = '53844d314db2080cea681745e95179730b5083ba9e98b33528f1d7995bdeab3f'
 
 
 class ScientistSharedLaunchReview(TypedModel):
@@ -48,6 +49,11 @@ class ScientistSharedLaunchReview(TypedModel):
         return self
 
 
+class ScientistSharedLaunchReviewV2(ScientistSharedLaunchReview):
+    schema_version: Literal['2.0'] = '2.0'
+    transport_schema_sha256: Literal['53844d314db2080cea681745e95179730b5083ba9e98b33528f1d7995bdeab3f']
+
+
 def _boottime():
     return time.clock_gettime(time.CLOCK_BOOTTIME)
 
@@ -61,7 +67,10 @@ class ScientistSharedLaunchAdapter:
 
     def __init__(self, client, review, *, transport_schema_sha256, clock=_boottime,
                  identity_reader=process_identity):
-        self.review = ScientistSharedLaunchReview.model_validate(review.model_dump(), strict=True)
+        review_type = {'1.0': ScientistSharedLaunchReview, '2.0': ScientistSharedLaunchReviewV2}.get(review.schema_version)
+        if review_type is None:
+            raise ValueError('Unsupported explicitly reviewed Scientist launch version')
+        self.review = review_type.model_validate(review.model_dump(), strict=True)
         if transport_schema_sha256 != self.review.transport_schema_sha256:
             raise ValueError('Scientist launch transport differs from the reviewed candidate wire')
         self.client = client

@@ -1,3 +1,29 @@
+## 3 Ekim 2026,22:20 UTC — explicit shared-launch v2 aday uyumu
+
+Scientist çalışma ağacında `enter`/`verify_runtime` ekleyen ayrı v2 descriptor
+salt okunur gözlendi. AOS manager tüketicisine ayrı local review2.0/schema/example
+eklendi; v1 değiştirilmedi. Bilinmeyen/mixed sürümler istemci çağrısından önce
+ret; otomatik upgrade/downgrade yok. Manager yalnız verify/claim yapıyor,
+Scientist MainPID adına runtime entry yapmıyor. Original environment wrapper
+ile v2 birlikte kontrol edildi. **193 CPU/sentetik PASS /5,068s**.
+
+Gerçek Scientist v2 client/server Unix çerçevesi ve Linux credentials ile
+fresh/duplicate/lost-ACK **3 PASS /0,050s**; systemd/policy/yetki fixture.
+Bytecode yazma/okuma cache'i önlendi; dört import edilen dependency hash'i koşu
+öncesi/sonrası aynı. Gerçek issuer, listener, servis, model veya GPU çalıştırılmadı.
+Kanıt `/tmp/aos-shared-launch-v2-20261003-BS2GI6/cross-wire.private.json`, SHA256
+`21b7c36eb9af090654e17dd32a801f2b3c7056b5d2d214d948b4cbb5ca35c980`;
+`data/shared-launch-v2-20261003/focused-composition.log`, SHA256
+`7d70b140d874f56e3cb0ae1bcc8cbd3d71bbfdb8ff54c1cc0f6ecb8c8fba4537`.
+
+Candidate wire SHA `53844d314db2080cea681745e95179730b5083ba9e98b33528f1d7995bdeab3f`;
+[exact kaynak gözlemleri ve sınırlar](SCIENTIST_SHARED_LAUNCH_ADAPTER.md).
+Scientist runtime entrypoint değişiklikleri hâlâ sürüyor; reciprocal final
+source/policy/wire freeze veya gerçek runtime kabulü yapılmış sayılmadı.
+Doğrudan list/send thread RPC localhost MCP transport hatası verdi; teslim
+teyidi yok, handoff dosyası read-only paylaşım yolu olarak korundu.
+Entegrasyon **kısmi**, GPU HOLD; backend/UI/native pilot değişmedi.
+
 ## 3 Ekim 2026,22:09 UTC — eski cleanup kaydı güncel kabul sayılmıyor
 
 Gerçek kaynak hatası CPU fixture ile tekrarlandı: `clean_shutdown` saklanan

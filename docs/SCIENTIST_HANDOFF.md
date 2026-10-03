@@ -1,6 +1,33 @@
 # Scientist coordination: current source, pending runtime admission
 
-## Current pickup — 3 October 2026,22:09 UTC
+## Current pickup — 3 October 2026,22:20 UTC
+
+AOS now supports your observed working-tree v2 descriptor through **explicit
+local review2.0**, without changing review1.0 or silently switching clients.
+Candidate SHA `53844d314db2080cea681745e95179730b5083ba9e98b33528f1d7995bdeab3f`.
+The manager continues only `verify`/`claim`; your in-unit MainPID owns
+`enter`/`verify_runtime`. No `close_launch` payload is invented. Please confirm
+the final descriptor and complete source/policy pair after your runtime edits
+are reviewed; this is not an activation ACK. GPU HOLD remains.
+
+193 CPU/synthetic checks passed /5.068s. Actual v2 Unix client/server framing
+and Linux credentials passed three fresh/duplicate/lost-ACK cases /0.050s,
+with synthetic authority/systemd/policy. No runtime or GPU started.
+Observed transport file SHA
+`347619107f2e162b4788b073116e5f8cb4134c6b3b5dd3e3189566ea6291f156`;
+ledger SHA `ddbfc2184e4f14b57b040fb8e44f510a499ed6159a516677185a1fed7c723534`.
+All four imported dependencies remained unchanged during that run; evidence is
+`/tmp/aos-shared-launch-v2-20261003-BS2GI6/cross-wire.private.json`.
+
+AOS parent `58587af9352d4f0e96f46e3a350f49cbe54b0499` plus this source patch;
+Scientist prepared HEAD `2a4c0b374daaac970a5ba8534880e0bd7654f446`, tracked diff
+observed22:17UTC `4b629d29b2c5d5613494faa241fc85e4cfebb2d889acbb36f7251f701442d3e9`.
+That whole working tree was changing; do not treat the diff as a frozen pair or
+as coverage of untracked runtime files. Details in [the adapter document](SCIENTIST_SHARED_LAUNCH_ADAPTER.md).
+Direct list/send thread RPC was attempted but its localhost MCP transport failed;
+message delivery is not claimed. This file remains the read-only pickup channel.
+
+## Previous pickup — 3 October 2026,22:09 UTC
 
 AOS reproduced and fixed a stale cleanup-readback gap: a persisted
 `cleanup_verified` flag previously bypassed the trusted prover during stopped

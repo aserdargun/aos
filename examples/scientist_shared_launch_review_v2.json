@@ -1,0 +1,29 @@
+{
+  "schema_version": "2.0",
+  "request_id": "11111111111111111111111111111111",
+  "binding_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "transport_schema_sha256": "53844d314db2080cea681745e95179730b5083ba9e98b33528f1d7995bdeab3f",
+  "plan_path": "/synthetic/aos/plan.json",
+  "plan_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+  "activation_path": "/synthetic/aos/activation.json",
+  "activation_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+  "provision_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+  "manager": {
+    "boot_id": "00000000-0000-0000-0000-000000000001",
+    "pid": 1234,
+    "start_ticks": 100,
+    "pid_namespace": 42,
+    "uid": 1000
+  },
+  "broker": {
+    "uid": 1000,
+    "pid": 5678,
+    "start_ticks": 200,
+    "boot_id": "00000000-0000-0000-0000-000000000001",
+    "unit": "swapp-lab-gpu-broker.service",
+    "invocation_id": "66666666666666666666666666666666",
+    "control_group": "/synthetic/swapp-lab-gpu-broker.service"
+  },
+  "issued_boottime": 100.0,
+  "expires_boottime": 200.0
+}

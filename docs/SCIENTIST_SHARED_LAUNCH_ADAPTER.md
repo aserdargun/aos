@@ -8,6 +8,37 @@ starting a service. No CLI/UI route enables it automatically.
 
 ## Exact candidate boundary
 
+**22:20 UTC source update:** an explicit, separate `ScientistSharedLaunchReviewV2`
+now selects the observed Scientist
+`aos-scientist.shared-launch.transport.v2-proposal2.draft`, descriptor SHA256
+`53844d314db2080cea681745e95179730b5083ba9e98b33528f1d7995bdeab3f`.
+Canonical AOS-local review2.0 is
+`schemas/scientist_shared_launch_review_v2.schema.json`, with a separate
+synthetic example. Review1.0 and its descriptor remain unchanged; mismatched
+review/transport, unknown versions and silent downgrade/upgrade fail before
+any client request. A v1 review does not authorize use of the new v2 client.
+
+The manager adapter still performs only `verify` and `claim`. New `enter` and
+`verify_runtime` belong to Scientist's actual in-unit MainPID/runtime path;
+the manager must not impersonate that process. This AOS slice neither calls
+those operations nor invents `close_launch`. The original-environment wrapper
+also works with explicit review2.0 and retains its drift/single-claim guards.
+
+193 AOS CPU/synthetic checks pass. Three cross-checks using the actual observed
+Scientist v2 Unix client/server and real kernel credentials pass: fresh claim,
+duplicate denial and consumed-but-lost-ACK/no spawn. Authority, policy and
+systemd identity checks in these cross-checks are fixtures, not production.
+The four imported source files were byte-identical before/after the test;
+`/tmp/aos-shared-launch-v2-20261003-BS2GI6/cross-wire.private.json` records them.
+No socket listener path, service or GPU was created; only isolated socket pairs.
+
+This is compatibility with a **working-tree candidate**, not reciprocal final
+wire/source/policy freeze or actual entered-service acceptance. Scientist's
+runtime edits were still in progress at observation. Await its reviewed source
+handoff before activating any composition; the live UI/backend remains unchanged.
+
+### Preserved v1 candidate
+
 Observed wire: `aos-scientist.shared-launch.transport.v1-proposal2.draft`,
 descriptor SHA256
 `842fe08b2f7f7dbb1f0d0bcf000a5d3029eb4335114da800324d0e34952478f6`.

@@ -14,7 +14,10 @@ from unittest.mock import Mock, patch
 from aos import shared_cleanup_environment as environment
 from aos.contracts import REPO_ROOT, canonical, digest
 from aos.scientist_admission_history import ScientistServerGeneration
-from aos.scientist_shared_launch import ScientistSharedLaunchAdapter, ScientistSharedLaunchReview, TRANSPORT_SCHEMA_SHA256
+from aos.scientist_shared_launch import (
+    ScientistSharedLaunchAdapter, ScientistSharedLaunchReview, ScientistSharedLaunchReviewV2,
+    TRANSPORT_SCHEMA_SHA256, TRANSPORT_V2_SCHEMA_SHA256,
+)
 from aos.scientist_transport import BROKER_UNIT
 from aos.shared_desktop_provision import LAUNCH_INTENT_NAME
 from test_shared_desktop_host import SyntheticSharedHostFixture
@@ -201,11 +204,13 @@ class SharedCleanupEnvironmentTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 environment.SharedCleanupEnvironment.model_validate(candidate.model_dump() | {field: True})
 
-    def bound_adapter(self, *, change_after_claim=False):
+    def bound_adapter(self, *, change_after_claim=False, version_two=False):
         self.prepare()
         self.clock = 150.0
-        review = ScientistSharedLaunchReview(request_id='1' * 32, binding_sha256='2' * 64,
-            transport_schema_sha256=TRANSPORT_SCHEMA_SHA256,
+        review_type = ScientistSharedLaunchReviewV2 if version_two else ScientistSharedLaunchReview
+        wire_sha = TRANSPORT_V2_SCHEMA_SHA256 if version_two else TRANSPORT_SCHEMA_SHA256
+        review = review_type(request_id='1' * 32, binding_sha256='2' * 64,
+            transport_schema_sha256=wire_sha,
             plan_path=str(self.fixture.plan_path), plan_sha256=self.fixture.plan.plan_sha256(),
             activation_path=str(self.fixture.activation_path), activation_sha256=self.fixture.activation_sha,
             provision_sha256=self.fixture.provision_sha, manager=self.fixture.process, broker=self.broker,
@@ -224,7 +229,7 @@ class SharedCleanupEnvironmentTests(unittest.TestCase):
 
         client = SimpleNamespace(expected_broker=self.broker,
             broker_hash=digest(self.broker.model_dump(mode='json')), request=Mock(side_effect=respond))
-        adapter = ScientistSharedLaunchAdapter(client, review, transport_schema_sha256=TRANSPORT_SCHEMA_SHA256,
+        adapter = ScientistSharedLaunchAdapter(client, review, transport_schema_sha256=wire_sha,
             clock=lambda: self.clock, identity_reader=lambda pid: self.fixture.process)
         bound = environment.EnvironmentBoundSharedLaunchAdapter(adapter, self.path, self.sha, runner=self.runner)
         self.fixture.host.activation_verifier = bound.verify
@@ -248,3 +253,14 @@ class SharedCleanupEnvironmentTests(unittest.TestCase):
         self.assertEqual(sum(call.args[0] == 'claim' for call in client.request.call_args_list), 1)
         self.assertTrue((Path(self.fixture.plan.session_directory) / LAUNCH_INTENT_NAME).is_file())
         self.fixture.transport.start.assert_not_called()
+
+    def test_v2_manager_composition_still_enforces_original_environment_and_single_claim(self):
+        bound, client = self.bound_adapter(version_two=True)
+        state = self.fixture.start()
+        self.assertEqual(state.phase, 'running', state.last_error)
+        self.assertEqual(bound.adapter.review.schema_version, '2.0')
+        self.assertEqual(sum(call.args[0] == 'claim' for call in client.request.call_args_list), 1)
+        self.socket.st_ino += 1
+        with self.assertRaisesRegex(ValueError, 'no longer matches'):
+            bound.verify(self.fixture.plan, self.fixture.activation)
+        self.fixture.transport.start.assert_called_once()
