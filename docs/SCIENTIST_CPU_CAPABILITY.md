@@ -93,9 +93,13 @@ completion before both the trigger and stop event: active-Scorer interruption
 is **unproven**, despite the private helper's earlier overbroad success flag.
 The original evidence is preserved; the corrected classification and exact-owned
 remote cleanup evidence are recorded separately in [STATUS](STATUS.md).
-Optional `field_intent` and `prior_experience` forwarding, web specialization and
-control-panel deployment are subsequent integration work, not completed by
-installing the factory. Synthetic ASGI tests exercise the real console routes
+Optional `field_intent` and `prior_experience` forwarding is now implemented in
+the isolated source checkout through typed DTOs, service, approval-bound request
+and EN/TR proposal controls. [Task context](SCIENTIST_TASK_CONTEXT.md) documents
+the strict contract and manual-reference limits. This does not deploy the panel
+or verify a real run with selected history; the earlier CPU acceptance exercised
+neither new optional field. Web specialization and control-panel deployment
+remain subsequent integration work. Synthetic ASGI tests exercise the real console routes
 with a fixture controller and mocked Scientist responses; they are not a real
 user, model or Scientist experiment acceptance. The native/GPU acceptance remains
 a separate gate.

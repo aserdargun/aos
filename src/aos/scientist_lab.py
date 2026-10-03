@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Callable, Literal
 from urllib.parse import urlsplit
 
-from pydantic import Field
+from pydantic import Field, model_serializer, model_validator
 
 from .contracts import Action, TypedModel, canonical, digest
 from .scientist_intents import ScientistIntentBinding
@@ -21,6 +21,7 @@ from .scientist_protocol import (
 )
 from .scientist_transport import ScientistAdmissionError
 from .scientist_async import ScientistHostBridge
+from .scientist_lab_context import ScientistFieldIntent, ScientistPriorExperienceSelection
 
 
 class ScientistLabBudget(TypedModel):
@@ -38,6 +39,23 @@ class ScientistLabStart(TypedModel):
     external_task_id: str = Field(pattern=r'^task-[a-f0-9]{32}$')
     external_run_id: str = Field(pattern=r'^run-[a-f0-9]{32}$')
     external_action_id: str = Field(pattern=r'^action-[a-f0-9]{32}$')
+    field_intent: ScientistFieldIntent | None = None
+    prior_experience: ScientistPriorExperienceSelection | None = None
+
+    @model_validator(mode='after')
+    def mode_field_intent(self):
+        if self.field_intent is not None and self.track != 'mode':
+            raise ValueError('Field intent requires a registered mode suite')
+        return self
+
+    @model_serializer(mode='wrap')
+    def preserve_request_bytes(self, handler):
+        value = handler(self)
+        if self.field_intent is None:
+            value.pop('field_intent', None)
+        if self.prior_experience is None:
+            value.pop('prior_experience', None)
+        return value
 
 
 class ScientistLabHandle(TypedModel):

@@ -2,7 +2,36 @@
 
 Varsayılan açılış ekranı **Development / Geliştirme** içinde kontrol merkezidir.
 Çalışan yerel oturum: `http://127.0.0.1:8765/ui/`. Yeni arayüzü görmek için
-sayfayı yenileyin; backend veya kullanıcı görevini yeniden başlatmak gerekmez.
+yalnız daha önce teslim edilmiş assetleri sayfayı yenileyerek yükleyebilirsiniz;
+kaynak değişikliği otomatik canlı teslim değildir. Aşağıdaki yeni topoloji bölümü
+izole kaynakta hazırlanır; varsayılan oturuma deployment kanıtı STATUS'ta ayrıca
+aranmalıdır. Backend veya çalışan kullanıcı görevi bu kaynak çalışması için
+yeniden başlatılmaz.
+
+## Sistem ve topoloji
+
+Yeni **System & topology / Sistem ve topoloji** paneli, uygulamanın nasıl
+çalıştığını kaynakta açıklayan salt okunur bir mimari görünümüdür. Development
+varsayılan açılış ekranı olarak kalır; yeni bölüm yan menüden seçilir.
+
+- Kullanıcı hedefinden typed göreve, policy/onaya, durable intent'e, yürütmeye
+  ve bağımsız sonuç doğrulamasına giden akışı gösterir.
+- System-1 Decider'ın sonlu eylem seçimini ve gerektiğinde System-2 Bonsai'nin
+  planlama/vision/recovery desteğini ayırır. Her adımda S2 çağrısı gerekmez.
+- İzole Ubuntu masaüstü, Chromium/Playwright MCP ve yetkili web uygulaması
+  sınırını açıklar; model çıktısı host veya site yetkisini genişletmez.
+- AOS orkestrasyonu, ilk harici ajan Scientist ve gelecekteki ajanlar arasındaki
+  görev/yetki sınırlarını gösterir. Paylaşılan GPU için tek tahsis otoritesi
+  Scientist'tir; genel ortak GPU kabulü hâlâ ayrıdır.
+- 16 GB VRAM hedefinde kontrollü ardışık kullanım ve gerçek kaynak bırakımını,
+  ayrıca ayrı review/veri/eğitim/promotion aşamalarını açıklar.
+
+Şema canlı process haritası veya health telemetrisi değildir. Oklar mevcut
+bağlantı/çalışan worker kanıtı, mimari kartlar tamamlanma yüzdesi veya çalışma
+izni sayılmaz. Uygulanmış kaynak ile kısmi/gelecek hedefler açıkça ayrılır.
+Bu panel görev, API etkisi, model yükleme, eğitim veya servis başlatmaz.
+Güncel runtime gözlemi için Development'ın canlı oturum bölümünü, tarihli kabul
+için STATUS ve canonical release kaydını kullanın.
 
 ## Ekran nasıl okunur?
 

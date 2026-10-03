@@ -32,6 +32,7 @@ export const releaseAcceptanceLabels: Record<string, string> = {
 };
 
 export const translationsCore: Record<string, string> = {
+  "Sistem ve topoloji": "System & topology",
   "Son gözlemlenen görev": "Last observed task",
   "Son gözlemlenen oturum kanıtı": "Last observed session evidence",
   "Oturum kayıtları son gözlemdir; canlı iş veya geliştirme ajanı etkinliği sayılmaz.": "Session records are last observations, not proof of live work or development agent activity.",

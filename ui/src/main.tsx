@@ -12,6 +12,7 @@ import {WorkflowNotice} from './WorkflowNotice';
 import {Development} from './Development';
 import {hasCurrentSessionStatus, hasCurrentTaskStatus, hasOverviewTelemetry, hasResourceTelemetry} from './controlCenterStatus';
 import {ScientistLab} from './ScientistLab';
+import {SystemTopology} from './SystemTopology';
 import {WebApplicationDrafts} from './WebApplicationDrafts';
 import {Knowledge} from './Knowledge';
 import {locale, setLanguage, t, useLanguage} from './i18n';
@@ -19,7 +20,7 @@ import './style.css';
 import './language.css';
 
 const controls: [Control, string][] = [['pause', 'Duraklat'], ['stop', 'Durdur'], ['take-control', 'Kontrolü al'], ['return-control', 'Ajana geri ver'], ['resume', 'Devam et'], ['restart', 'Yeniden başlat']];
-const tabs = ['Geliştirme', 'Bilgisayar', 'Görevler', 'Scientist', 'Plan', 'Çalışmalar', 'Web uygulamaları', 'Bilgi', 'Kurtarma', 'Modeller', 'Kaynaklar'] as const;
+const tabs = ['Geliştirme', 'Sistem ve topoloji', 'Bilgisayar', 'Görevler', 'Scientist', 'Plan', 'Çalışmalar', 'Web uygulamaları', 'Bilgi', 'Kurtarma', 'Modeller', 'Kaynaklar'] as const;
 type Tab = typeof tabs[number];
 const defaultTab: Tab = 'Geliştirme';
 
@@ -280,6 +281,7 @@ function App() {
           snapshot={snapshot} runtimeObservedAt={runtimeObservedAt} runtimeError={runtimeError} refreshing={busy || runtimeRefreshing}
           onRefresh={() => { setReload(value => value + 1); setError(''); }}/>: null}
         {tab === 'Scientist' ? <ScientistLab/> : null}
+        {tab === 'Sistem ve topoloji' ? <SystemTopology onNavigate={setTab}/> : null}
         {tab === 'Web uygulamaları' ? <WebApplicationDrafts inventory={webApplications} managerScope={tasks?.manager_scope} imageDraftCapability={imageDraftCapability} staticQueryCapability={staticQueryCapability} onRegistered={() => setReload(value => value + 1)} onError={failed}/> : null}
         {tab === 'Bilgi' ? <Knowledge tasks={tasks} snapshot={snapshot} busy={busy} refreshKey={reload}/> : null}
         {tab === 'Modeller' && overview?.trajectory.available && !overview.trajectory.models?.length && !overview.trajectory.deployments?.length ? <p>{t("Henüz model/deployment kaydı yok.")}</p> : null}

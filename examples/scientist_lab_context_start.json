@@ -1,0 +1,24 @@
+{
+  "idempotency_key": "synthetic-context-request-0001",
+  "track": "mode",
+  "suite": "synthetic.allowed.v1",
+  "budget": {"experiments": 1, "wall_seconds": 30, "model_tokens": 0},
+  "program_version": "mode-grid.v1",
+  "external_task_id": "task-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "external_run_id": "run-bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "external_action_id": "action-cccccccccccccccccccccccccccccccc",
+  "field_intent": {
+    "asset_id": "synthetic-pump-01",
+    "goal_kind": "predictive_maintenance",
+    "objective": "Inspect the synthetic operating-mode fixture; no equipment action."
+  },
+  "prior_experience": {
+    "source_run_id": "11111111-1111-1111-1111-111111111111",
+    "source_report_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "records": [{
+      "experiment_id": "exp_22222222222222222222222222222222",
+      "experiment_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "trajectory_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }]
+  }
+}

@@ -17,5 +17,6 @@ Tüm JSON/JSONL kayıtları elle oluşturulmuş **sentetik fixture**'dır. Runti
 - browser_export.json: pre-action observation ve structured verification içeren elle yazılmış export örneği.
 - vision_canvas.html: semantik DOM button içermeyen, dış etkisiz sentetik görsel görev.
 - vision_scene.json: capture-bound scene sözleşmesi için elle yazılmış kutular; gerçek Bonsai çıktısı değildir.
+- scientist_lab_context_start.json: uydurulmuş asset/run/experiment/hash değerleriyle Scientist amaç ve geçmiş referans isteği; gerçek deney veya kullanılabilir geçmiş kaydı değildir.
 
 JSON Schema formatı doğrular. Probability sum, option membership, referans bütünlüğü ve sentetik işareti scripts/validate_package.py tarafından ek olarak denetlenir. Raw production veriyle bu fixture'ları karıştırma.

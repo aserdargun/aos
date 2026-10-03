@@ -36,6 +36,22 @@ interface Inventory {
     readbacks?: {supported: boolean; available: boolean; items: SavedReadback[]; truncated: boolean}}[];
 }
 
+interface ExperienceRecord {
+  experiment_id: string;
+  experiment_sha256: string;
+  trajectory_sha256: string;
+}
+
+function emptyExperienceRecord(): ExperienceRecord {
+  return {experiment_id: '', experiment_sha256: '', trajectory_sha256: ''};
+}
+
+function advisoryText(value: string, maximum: number): string | null {
+  const trimmed = value.trim();
+  return !/[\u0000-\u001f\u007f]/.test(value) && Array.from(trimmed).length >= 1
+    && Array.from(trimmed).length <= maximum ? trimmed : null;
+}
+
 function requestedInteger(value: string, minimum: number, maximum: number): number | null {
   if (!/^(0|[1-9][0-9]*)$/.test(value)) return null;
   const parsed = Number(value);
@@ -49,6 +65,14 @@ export function ScientistLab() {
   const [experiments, setExperiments] = useState('');
   const [wallSeconds, setWallSeconds] = useState('');
   const [modelTokens, setModelTokens] = useState('');
+  const [fieldIntentEnabled, setFieldIntentEnabled] = useState(false);
+  const [assetId, setAssetId] = useState('');
+  const [goalKind, setGoalKind] = useState('');
+  const [objective, setObjective] = useState('');
+  const [experienceEnabled, setExperienceEnabled] = useState(false);
+  const [sourceRunId, setSourceRunId] = useState('');
+  const [sourceReportSha, setSourceReportSha] = useState('');
+  const [experienceRecords, setExperienceRecords] = useState<ExperienceRecord[]>(() => [emptyExperienceRecord()]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<unknown>(null);
@@ -140,12 +164,40 @@ export function ScientistLab() {
   const requestedExperiments = requestedInteger(experiments, 1, 35);
   const requestedWallSeconds = requestedInteger(wallSeconds, 1, 14400);
   const requestedModelTokens = requestedInteger(modelTokens, 0, 350000);
+  const requestedAssetId = advisoryText(assetId, 128);
+  const requestedObjective = advisoryText(objective, 600);
+  const fieldIntent = track === 'mode' && requestedAssetId !== null && requestedObjective !== null
+    && (goalKind === 'digital_twin' || goalKind === 'predictive_maintenance')
+    ? {asset_id: requestedAssetId, goal_kind: goalKind, objective: requestedObjective} : null;
+  const priorExperience = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(sourceRunId)
+    && /^[a-f0-9]{64}$/.test(sourceReportSha) && experienceRecords.length >= 1 && experienceRecords.length <= 8
+    && new Set(experienceRecords.map(record => record.experiment_id)).size === experienceRecords.length
+    && experienceRecords.every(record => /^exp_[a-f0-9]{32}$/.test(record.experiment_id)
+      && /^[a-f0-9]{64}$/.test(record.experiment_sha256) && /^[a-f0-9]{64}$/.test(record.trajectory_sha256))
+    ? {source_run_id: sourceRunId, source_report_sha256: sourceReportSha, records: experienceRecords} : null;
+  const changeTrack = (value: string) => {
+    setTrack(value);
+    setFieldIntentEnabled(false);
+    setAssetId('');
+    setGoalKind('');
+    setObjective('');
+    setExperienceEnabled(false);
+    setSourceRunId('');
+    setSourceReportSha('');
+    setExperienceRecords([emptyExperienceRecord()]);
+  };
+  const updateExperienceRecord = (index: number, field: keyof ExperienceRecord, value: string) => {
+    setExperienceRecords(records => records.map((record, position) => position === index ? {...record, [field]: value} : record));
+  };
   const proposal = inventory?.configured === true && !inventoryError && allowedSuites.includes(selected)
     && typeof inventory.program_version === 'string' && inventory.program_version.length > 0
     && inventory.program_version.length <= 64 && (track === 'anomaly' || track === 'mode')
     && requestedExperiments !== null && requestedWallSeconds !== null && requestedModelTokens !== null
+    && (!fieldIntentEnabled || fieldIntent !== null) && (!experienceEnabled || priorExperience !== null)
     ? {suite: selected, track, program_version: inventory.program_version,
-      budget: {experiments: requestedExperiments, wall_seconds: requestedWallSeconds, model_tokens: requestedModelTokens}}
+      budget: {experiments: requestedExperiments, wall_seconds: requestedWallSeconds, model_tokens: requestedModelTokens},
+      ...(fieldIntentEnabled && fieldIntent ? {field_intent: fieldIntent} : {}),
+      ...(experienceEnabled && priorExperience ? {prior_experience: priorExperience} : {})}
     : null;
   return <details data-testid="scientist-lab" style={{overflowWrap: 'anywhere'}} onToggle={event => {
     if (event.target !== event.currentTarget) return;
@@ -216,7 +268,7 @@ export function ScientistLab() {
             {allowedSuites.map(value => <option key={value} value={value}>{value}</option>)}
           </select>
           <label htmlFor="scientist-request-track">{t('İstenen deney dalı')}</label>
-          <select id="scientist-request-track" value={track} required onChange={event => setTrack(event.target.value)}>
+          <select id="scientist-request-track" value={track} required onChange={event => changeTrack(event.target.value)}>
             <option value="">{t('Deney dalını seçin')}</option>
             <option value="anomaly">anomaly</option>
             <option value="mode">mode</option>
@@ -233,6 +285,55 @@ export function ScientistLab() {
             value={modelTokens} onChange={event => setModelTokens(event.target.value)}/></label>
           <p>{t('Protokol aralığı: 1–35 deney, 1–14400 saniye, 0–350000 model token. Bunlar etkin sunucu bütçesi değildir.')}</p>
           <p>{t('Bütçeyi açıkça girin. Öneri çalıştırma izni vermez; exact kapsam için ayrı insan onayı gerekir.')}</p>
+          {track === 'mode' ? <section data-testid="scientist-field-intent">
+            <label><input type="checkbox" checked={fieldIntentEnabled}
+              onChange={event => setFieldIntentEnabled(event.target.checked)}/>{' '}{t('İsteğe bağlı saha amacını ekle')}</label>
+            <p>{t('Saha amacı kullanıcı beyanıdır; veri, algoritma veya puanlama yetkisi vermez.')}</p>
+            {fieldIntentEnabled ? <div style={{display: 'grid', gap: 12}}>
+              <label style={{display: 'grid'}}>{t('Varlık referansı')}<input value={assetId} maxLength={128}
+                onChange={event => setAssetId(event.target.value)}/></label>
+              <div style={{display: 'grid'}}><label htmlFor="scientist-field-goal-kind">{t('Saha amacı türü')}</label>
+                <select id="scientist-field-goal-kind" value={goalKind}
+                onChange={event => setGoalKind(event.target.value)}>
+                <option value="">{t('Saha amacı türünü seçin')}</option>
+                <option value="digital_twin">{t('Dijital ikiz')}</option>
+                <option value="predictive_maintenance">{t('Öngörülü bakım')}</option>
+              </select></div>
+              <div style={{display: 'grid'}}><label htmlFor="scientist-field-objective">{t('Saha hedefi')}</label>
+                <textarea id="scientist-field-objective" value={objective} maxLength={600} rows={3}
+                  onChange={event => setObjective(event.target.value)}/></div>
+              {!fieldIntent ? <p role="alert">{t('Varlık ve hedefi boş olmayan düz metinle girin; kontrol karakterleri kabul edilmez.')}</p> : null}
+            </div> : null}
+          </section> : null}
+          <details data-testid="scientist-prior-experience">
+            <summary>{t('İsteğe bağlı önceki deneyim referansları · gelişmiş')}</summary>
+            <label><input type="checkbox" checked={experienceEnabled}
+              onChange={event => setExperienceEnabled(event.target.checked)}/>{' '}{t('Açıkça seçilmiş deneyim referanslarını ekle')}</label>
+            <p>{t('Referansları elle seçin; otomatik geçmiş araması yoktur. Sunucu sahipliği, terminal raporu ve uygun deney kayıtlarını doğrular.')}</p>
+            <p>{t('Geçmiş bağlam yalnız danışma amaçlıdır; grid algoritmasını uyarlamaz veya öğrenilmiş iyileşme kanıtlamaz.')}</p>
+            {experienceEnabled ? <div style={{display: 'grid', gap: 12}}>
+              <label style={{display: 'grid'}}>{t('Kaynak koşu kimliği (UUID)')}<input value={sourceRunId} maxLength={36}
+                onChange={event => setSourceRunId(event.target.value)}/></label>
+              <label style={{display: 'grid'}}>{t('Kaynak rapor SHA-256')}<input value={sourceReportSha} maxLength={64}
+                onChange={event => setSourceReportSha(event.target.value)}/></label>
+              {experienceRecords.map((record, index) => <fieldset key={index} style={{minWidth: 0, display: 'grid', gap: 8}}>
+                <legend>{t('Seçilmiş deney kaydı')} {index + 1}</legend>
+                <label style={{display: 'grid'}}>{t('Deney kimliği')}<input value={record.experiment_id} maxLength={36}
+                  onChange={event => updateExperienceRecord(index, 'experiment_id', event.target.value)}/></label>
+                <label style={{display: 'grid'}}>{t('Deney SHA-256')}<input value={record.experiment_sha256} maxLength={64}
+                  onChange={event => updateExperienceRecord(index, 'experiment_sha256', event.target.value)}/></label>
+                <label style={{display: 'grid'}}>{t('Trajectory SHA-256')}<input value={record.trajectory_sha256} maxLength={64}
+                  onChange={event => updateExperienceRecord(index, 'trajectory_sha256', event.target.value)}/></label>
+                <button type="button" disabled={experienceRecords.length <= 1}
+                  onClick={() => setExperienceRecords(records => records.filter((_record, position) => position !== index))}>
+                  {t('Bu referansı kaldır')}</button>
+              </fieldset>)}
+              <button type="button" disabled={experienceRecords.length >= 8}
+                onClick={() => setExperienceRecords(records => [...records, emptyExperienceRecord()])}>{t('Deney referansı ekle')}</button>
+              {!priorExperience ? <p role="alert">{t('Küçük harfli UUID ve SHA-256 ile 1–8 benzersiz deney referansı gerekir.')}</p> : null}
+            </div> : null}
+          </details>
+          <p>{t('Deney dalı değişirse isteğe bağlı bağlam temizlenir; göndermek için yeniden açıkça seçin.')}</p>
           {proposal ? <section data-testid="scientist-proposal-preview">
             <h4>{t('İstenen önerinin önizlemesi')}</h4>
             <pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(proposal, null, 2)}</pre>

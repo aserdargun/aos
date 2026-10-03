@@ -28,7 +28,7 @@ Kaynak deposu: [aserdargun/aos](https://github.com/aserdargun/aos). Tanıtım si
 | Alan | Mevcut kapsam | Açık sınır |
 |---|---|---|
 | Yerel pilot | Hello dosyası, sınırlı DOM/form/vision görevleri; geçmiş gerçek Decider/Bonsai kabulleri | Herhangi bir uygulamayı sınırsız kullanma garantisi yok |
-| Kontrol paneli | Development, Tasks, Computer, bilgi/skill ve Scientist panelleri; EN/TR | Kaynak derlemesi canlı backend/UI promotion değildir |
+| Kontrol paneli | Development, System & topology, Tasks, Computer, bilgi/skill ve Scientist panelleri; EN/TR | Kaynak derlemesi canlı backend/UI promotion değildir; topoloji canlı telemetri değildir |
 | Web kontrolü | Ubuntu Chromium, Playwright MCP, yetkili profiller ve bounded form akışları | Genel login/SSO/MFA, dinamik CSRF ve şirket uygulaması kabulü tamamlanmadı |
 | Skill ve bilgi | İncelenen adaylar, açık seçim/revoke, sınırlı retrieval ve görev bağlamı | Genel RAG kalitesi, otomatik ustalaşma ve sınırsız skill aktarımı yok |
 | Eğitim | İzinli veri inceleme/export ve dar tarihli S1 deneyleri | Genel S2 LoRA/QLoRA, sürekli otomatik eğitim ve kalite garantisi yok |
@@ -132,6 +132,8 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 [Runtime sözleşmesi](docs/SCIENTIST_RUNTIME_INTEGRATION.md), [native handover](docs/NATIVE_HANDOVER.md), [shared-only aday](scripts/shared-only-runtime-v1/README.md), [yeni ajan ekleme](docs/EXTENDING_AOS.md). Sonraki aşama için bunlar çalışma planıdır; endpoint, ortak dosya yolu veya desteklenmeyen adapter uydurulmaz.
 
+İzole kaynak sürümünde [isteğe bağlı amaç ve geçmiş deneyim aktarımı](docs/SCIENTIST_TASK_CONTEXT.md) typed görev, onay hash'i ve EN/TR paneline eklendi. Geçmiş referansları açıkça elle seçilir; veri/algoritma izni veya otomatik öğrenme vermez. Kaynak/fixture doğrulaması, canlı arayüze deployment ya da yeni alanlarla gerçek Scientist kabulü değildir.
+
 ## Güvenlik, özel veri ve teslim paketi
 
 - Model çıktısı izin kapsamını genişletemez. Approval, request ID, owner/generation ve deployment kimlikleri korunur.
@@ -144,9 +146,9 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli teslim snapshot'ı: 3 Ekim 2026, 15:09:42 UTC / 18:09:42 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=13778692`, `timeUsedSeconds=79590`: **22 saat 6 dakika 30 saniye / 22,1083333 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
+**Tarihli teslim snapshot'ı: 3 Ekim 2026, 15:53:57 UTC / 18:53:57 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=14320209`, `timeUsedSeconds=82245`: **22 saat 50 dakika 45 saniye / 22,8458333 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
 
-Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
+Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 
 Yerel geliştirme session kayıtları sağlayıcı/model/effort/zaman kırılımı için ayrı kapsamdır. Gerçek faturalar, abonelik bedeli ve tahmini API maliyeti birbirinin yerine kullanılmaz; bilinmeyen ücret sıfır sayılmaz. Uygulama `model_calls` kayıtları da geliştirme JSONL tüketimine eklenmez. [Muhasebe yöntemi ve düzenli kayıt](docs/USAGE_ACCOUNTING.md).
 

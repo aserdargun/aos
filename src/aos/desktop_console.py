@@ -3178,6 +3178,7 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
     @app.post('/api/scientist/{operation}')
     async def scientist_operation(operation: str, request: Request):
         from .scientist_lab import ScientistLabBudget, ScientistLabUncertain
+        from .scientist_lab_context import ScientistFieldIntent, ScientistPriorExperienceSelection
         from .scientist_transport import ScientistAdmissionError
 
         if scientist_lab is None or control_lock.locked():
@@ -3193,8 +3194,14 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
                     raise ValueError('Invalid Scientist identifier')
             if 'accept' in value and type(value['accept']) is not bool:
                 raise ValueError('Invalid Scientist approval decision')
-            if operation == 'propose' and set(value) == {'suite', 'track', 'budget', 'program_version'}:
+            proposal_fields = {'suite', 'track', 'budget', 'program_version'}
+            if (operation == 'propose' and proposal_fields <= set(value)
+                    and set(value) <= proposal_fields | {'field_intent', 'prior_experience'}):
                 value['budget'] = ScientistLabBudget.model_validate(value['budget'], strict=True)
+                for key, model in (('field_intent', ScientistFieldIntent),
+                                   ('prior_experience', ScientistPriorExperienceSelection)):
+                    if value.get(key) is not None:
+                        value[key] = model.model_validate(value[key], strict=True)
                 return scientist_lab.propose(**value)
             if operation == 'approve' and set(value) == {'action_id', 'envelope_sha256', 'accept'}:
                 return scientist_lab.respond(value['action_id'], envelope_sha256=value['envelope_sha256'], accept=value['accept'])

@@ -42,7 +42,8 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
         cls.playwright = sync_playwright().start()
         try:
             cls.browser = cls.playwright.chromium.launch(args=['--disable-gpu'], executable_path=str(
-                REPO_ROOT / 'models/playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell'))
+                Path(os.environ.get('AOS_SCIENTIST_UI_CHROMIUM', str(
+                    REPO_ROOT / 'models/playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell')))))
         except BaseException:
             cls.playwright.stop()
             cls.server.shutdown()
@@ -65,6 +66,162 @@ createRoot(document.getElementById('root')!).render(<Harness/>);
         page.get_by_label('Requested experiment count', exact=True).fill(experiments)
         page.get_by_label('Requested duration (seconds)', exact=True).fill(wall_seconds)
         page.get_by_label('Requested model token limit', exact=True).fill(model_tokens)
+
+    def test_optional_field_intent_is_validated_trimmed_and_omitted_when_disabled(self):
+        from playwright.sync_api import expect
+        page = self.browser.new_page(viewport={'width': 1280, 'height': 800})
+        errors, posts = [], []
+        page.on('pageerror', lambda error: errors.append(str(error)))
+        page.on('console', lambda message: errors.append(message.text) if message.type in {'error', 'warning'} else None)
+        inventory = {'configured': True, 'joint_runtime_admitted': False, 'jobs': [],
+                     'allowed_suites': ['synthetic.allowed.v1'], 'program_version': 'synthetic.v1'}
+
+        def endpoint(route):
+            if route.request.method == 'POST':
+                posts.append(route.request.post_data_json)
+                route.fulfill(json={'state': 'pending'})
+            else:
+                route.fulfill(json=inventory)
+
+        page.route('**/api/scientist/**', endpoint)
+        try:
+            page.goto(f'http://127.0.0.1:{self.server.server_port}/')
+            expect(page).to_have_title('AOS · Control center')
+            page.get_by_text('Scientist experiments', exact=True).click()
+            self.enter_requested_budget(page, track='mode', model_tokens='0')
+            create = page.get_by_role('button', name='Create experiment proposal', exact=True)
+            preview = page.get_by_test_id('scientist-proposal-preview')
+            base = json.loads(preview.locator('pre').inner_text())
+            self.assertEqual(set(base), {'suite', 'track', 'budget', 'program_version'})
+            enabled = page.get_by_label('Include optional field intent', exact=True)
+            enabled.check()
+            expect(create).to_be_disabled()
+            page.get_by_label('Asset reference', exact=True).fill('  synthetic-pump  ')
+            page.get_by_label('Field goal kind', exact=True).select_option('predictive_maintenance')
+            page.get_by_label('Field objective', exact=True).fill('  Review synthetic drift  ')
+            expect(create).to_be_enabled()
+            expected = base | {'field_intent': {'asset_id': 'synthetic-pump', 'goal_kind': 'predictive_maintenance',
+                                               'objective': 'Review synthetic drift'}}
+            self.assertEqual(json.loads(preview.locator('pre').inner_text()), expected)
+            for invalid in (' ', 'line\nline', 'unsafe\x7f'):
+                page.get_by_label('Field objective', exact=True).fill(invalid)
+                expect(create).to_be_disabled()
+                expect(preview).to_have_count(0)
+            page.get_by_label('Field objective', exact=True).fill('Review synthetic drift')
+            page.screenshot(path='/tmp/aos-scientist-optional-context-en.png', full_page=True)
+            create.click()
+            expect(create).to_be_enabled()
+            self.assertEqual(posts, [expected])
+            enabled.uncheck()
+            self.assertEqual(json.loads(preview.locator('pre').inner_text()), base)
+            page.get_by_label('Requested experiment track', exact=True).select_option('anomaly')
+            expect(page.get_by_test_id('scientist-field-intent')).to_have_count(0)
+            page.get_by_label('Requested experiment track', exact=True).select_option('mode')
+            expect(enabled).not_to_be_checked()
+            enabled.check()
+            expect(page.get_by_label('Asset reference', exact=True)).to_have_value('')
+            expect(create).to_be_disabled()
+            page.get_by_role('button', name='TR', exact=True).click()
+            page.set_viewport_size({'width': 390, 'height': 844})
+            expect(page.get_by_label('İsteğe bağlı saha amacını ekle', exact=True)).to_be_checked()
+            expect(page.get_by_label('Varlık referansı', exact=True)).to_be_visible()
+            page.screenshot(path='/tmp/aos-scientist-optional-context-tr-mobile.png', full_page=True)
+            self.assertFalse(page.evaluate('document.documentElement.scrollWidth > window.innerWidth'))
+            self.assertEqual(errors, [])
+            self.assertEqual(page.locator('vite-error-overlay').count(), 0)
+        finally:
+            page.close()
+
+    def test_prior_experience_manual_refs_validate_uniqueness_and_clear_on_track_change(self):
+        from playwright.sync_api import expect
+        page = self.browser.new_page()
+        posts = []
+        inventory = {'configured': True, 'joint_runtime_admitted': False, 'jobs': [],
+                     'allowed_suites': ['synthetic.allowed.v1'], 'program_version': 'synthetic.v1'}
+
+        def endpoint(route):
+            if route.request.method == 'POST':
+                posts.append(route.request.post_data_json)
+                route.fulfill(json={'state': 'pending'})
+            else:
+                route.fulfill(json=inventory)
+
+        page.route('**/api/scientist/**', endpoint)
+        try:
+            page.goto(f'http://127.0.0.1:{self.server.server_port}/')
+            page.get_by_text('Scientist experiments', exact=True).click()
+            self.enter_requested_budget(page, track='mode', model_tokens='0')
+            page.get_by_text('Optional prior-experience references · advanced', exact=True).click()
+            enabled = page.get_by_label('Include explicitly selected experience references', exact=True)
+            enabled.check()
+            create = page.get_by_role('button', name='Create experiment proposal', exact=True)
+            expect(create).to_be_disabled()
+            source = 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee'
+            page.get_by_label('Source run ID (UUID)', exact=True).fill(source)
+            page.get_by_label('Source report SHA-256', exact=True).fill('a' * 64)
+            page.get_by_label('Experiment ID', exact=True).fill('exp_' + 'b' * 32)
+            page.get_by_label('Experiment SHA-256', exact=True).fill('c' * 64)
+            page.get_by_label('Trajectory SHA-256', exact=True).fill('d' * 64)
+            expect(create).to_be_enabled()
+            preview = page.get_by_test_id('scientist-proposal-preview')
+            first = json.loads(preview.locator('pre').inner_text())
+            self.assertEqual(first['prior_experience'], {'source_run_id': source, 'source_report_sha256': 'a' * 64,
+                'records': [{'experiment_id': 'exp_' + 'b' * 32, 'experiment_sha256': 'c' * 64,
+                             'trajectory_sha256': 'd' * 64}]})
+            page.get_by_role('button', name='TR', exact=True).click()
+            page.set_viewport_size({'width': 390, 'height': 844})
+            expect(page.get_by_label('Kaynak koşu kimliği (UUID)', exact=True)).to_have_value(source)
+            expect(page.get_by_text('Geçmiş bağlam yalnız danışma amaçlıdır; grid algoritmasını uyarlamaz veya öğrenilmiş iyileşme kanıtlamaz.')).to_be_visible()
+            self.assertFalse(page.evaluate('document.documentElement.scrollWidth > window.innerWidth'))
+            page.screenshot(path='/tmp/aos-scientist-prior-context-tr-mobile.png', full_page=True)
+            page.get_by_role('button', name='EN', exact=True).click()
+            page.set_viewport_size({'width': 1280, 'height': 800})
+            page.get_by_label('Source run ID (UUID)', exact=True).fill(source.upper())
+            expect(create).to_be_disabled()
+            page.get_by_label('Source run ID (UUID)', exact=True).fill(source)
+            page.get_by_label('Source report SHA-256', exact=True).fill('a' * 63)
+            expect(create).to_be_disabled()
+            page.get_by_label('Source report SHA-256', exact=True).fill('a' * 64)
+            page.get_by_role('button', name='Add experiment reference', exact=True).click()
+            expect(create).to_be_disabled()
+            page.get_by_label('Experiment ID', exact=True).nth(1).fill('exp_' + 'b' * 32)
+            page.get_by_label('Experiment SHA-256', exact=True).nth(1).fill('c' * 64)
+            page.get_by_label('Trajectory SHA-256', exact=True).nth(1).fill('d' * 64)
+            expect(create).to_be_disabled()
+            page.get_by_label('Experiment ID', exact=True).nth(1).fill('exp_' + 'e' * 32)
+            expect(create).to_be_enabled()
+            page.get_by_role('button', name='Remove this reference', exact=True).nth(1).click()
+            self.assertEqual(json.loads(preview.locator('pre').inner_text()), first)
+            for index in range(1, 8):
+                page.get_by_role('button', name='Add experiment reference', exact=True).click()
+                page.get_by_label('Experiment ID', exact=True).nth(index).fill('exp_' + str(index) * 32)
+                page.get_by_label('Experiment SHA-256', exact=True).nth(index).fill('c' * 64)
+                page.get_by_label('Trajectory SHA-256', exact=True).nth(index).fill('d' * 64)
+            expect(page.get_by_role('button', name='Add experiment reference', exact=True)).to_be_disabled()
+            expect(create).to_be_enabled()
+            enabled.uncheck()
+            self.assertNotIn('prior_experience', json.loads(preview.locator('pre').inner_text()))
+            enabled.check()
+            page.get_by_label('Requested experiment track', exact=True).select_option('anomaly')
+            expect(enabled).not_to_be_checked()
+            self.assertNotIn('prior_experience', json.loads(preview.locator('pre').inner_text()))
+            enabled.check()
+            expect(page.get_by_label('Source run ID (UUID)', exact=True)).to_have_value('')
+            expect(create).to_be_disabled()
+            page.get_by_label('Source run ID (UUID)', exact=True).fill(source)
+            page.get_by_label('Source report SHA-256', exact=True).fill('a' * 64)
+            page.get_by_label('Experiment ID', exact=True).fill('exp_' + 'b' * 32)
+            page.get_by_label('Experiment SHA-256', exact=True).fill('c' * 64)
+            page.get_by_label('Trajectory SHA-256', exact=True).fill('d' * 64)
+            expect(create).to_be_enabled()
+            create.click()
+            expect(create).to_be_enabled()
+            self.assertEqual(len(posts), 1)
+            self.assertEqual(posts[0]['track'], 'anomaly')
+            self.assertEqual(posts[0]['prior_experience'], first['prior_experience'])
+            self.assertNotIn('field_intent', posts[0])
+        finally:
+            page.close()
 
     def test_requested_budget_is_explicit_bounded_previewed_and_not_host_caps(self):
         from playwright.sync_api import expect

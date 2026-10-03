@@ -8,6 +8,19 @@ yükseltmez; yeni runtime, kullanıcı teslimi veya ürün tamamlanması değild
 
 ## Kontrol panelinin güncel okuma biçimi
 
+15:53 kaynak checkpoint'i: EN/TR System & topology paneli; görev yolu, S1/S2,
+Scientist ve tek GPU otoritesi hedefi, öğrenme ve gelecek ajan sınırlarını
+açıklıyor. Gerçek main UI navigasyonunda iki sentetik-API Chromium testi ve bir
+dil sözleşmesi kontrolü geçti; default Development korunur. Bu izole source UI
+doğrulamasıdır; canlı oturum deployment'ı veya runtime/topoloji keşfi değildir.
+
+15:36 kaynak checkpoint'i: optional amaç/geçmiş referansları typed service,
+onay/intent ve EN/TR paneline eklendi. 27 odaklı ve 71 geniş Lab kontrolü geçti;
+geniş koşuda üç SQLite finalizer uyarısı var. Sentetik API ile 11 Chromium testi
+geçti; dört source DTO karşılaştırması Scientist ile uyumlu. Bunlar izole
+checkout kaynak doğrulamalarıdır; yeni gerçek koşu veya default UI deployment
+yapılmadı. Stage kabul bayrakları ve GPU HOLD korunur.
+
 15:09 kaynak checkpoint'i: iki CPU koşusunun exact-owned uzak cleanup kapanışı
 Scientist tarafından yapıldı. AOS API unit/PID/cgroup yokluğunu, pinli daemon'da
 PG container exited/PID0, kapalı portlar ve korunan volume'u bağımsız doğruladı.

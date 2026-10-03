@@ -8,6 +8,7 @@ from pydantic import ConfigDict, Field
 from .contracts import TypedModel, digest, identifier
 from .scientist_intents import ScientistIntentBinding
 from .scientist_lab import ScientistLabAction, ScientistLabBudget, ScientistLabClient, ScientistLabPolicy, ScientistLabStart, ScientistLabTask
+from .scientist_lab_context import ScientistFieldIntent, ScientistPriorExperienceSelection
 from .scientist_lab_journal import ScientistLabJournal, _deny_capability
 from .scientist_lab_readbacks import ScientistLabReadbacks
 from .scientist_transport import ScientistAdmissionError
@@ -150,7 +151,9 @@ class ScientistLabService:
                        else {'lab_run_id': task.lab_run_id},
             expected_effect='Bounded Scientist Lab control; no GPU release assertion', deadline=time.time() + 60)
 
-    def propose(self, *, suite: str, track: str, budget: ScientistLabBudget, program_version: str):
+    def propose(self, *, suite: str, track: str, budget: ScientistLabBudget, program_version: str,
+                field_intent: ScientistFieldIntent | None = None,
+                prior_experience: ScientistPriorExperienceSelection | None = None):
         with self.controller.lock:
             if self._shared_drain_latched:
                 raise ScientistAdmissionError('Lab start admission is irreversibly closed by shared drain')
@@ -161,6 +164,7 @@ class ScientistLabService:
                 owner=current['owner'], lease_id=current['lease_id'], generation=current['generation'],
                 authorization_context_sha256=self.context_sha256)
             request = ScientistLabStart(suite=suite, track=track, budget=budget, program_version=program_version,
+                field_intent=field_intent, prior_experience=prior_experience,
                 idempotency_key=identifier('scientist-request'), external_task_id=identifier('task'),
                 external_run_id=identifier('run'), external_action_id=identifier('action'))
             task = ScientistLabTask(binding=binding, authority_url=self.client.authority_url,

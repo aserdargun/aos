@@ -150,6 +150,27 @@ def validate_files():
         CHECKS.append('Valid JSON Schema: ' + p.name)
     validators['release_acceptance_snapshot.schema.json'].validate(read_json('docs/release_acceptance.json'))
     check(True, 'Manual release acceptance is versioned, read-only and not product completion')
+    scientist_context = read_json('examples/scientist_lab_context_start.json')
+    scientist_start_validator = validators['scientist_lab_start.schema.json']
+    scientist_start_validator.validate(scientist_context)
+    check(scientist_context['field_intent']['asset_id'].startswith('synthetic')
+          and scientist_context['budget']['model_tokens'] == 0,
+          'Scientist context fixture uses synthetic references and no model tokens')
+    for field in ('field_context', 'prior_findings', 'scores', 'dataset', 'algorithms'):
+        rejected(lambda: scientist_start_validator.validate(scientist_context | {field: {}}),
+                 'Scientist context cannot supply server state or overrides: ' + field)
+    empty_history = copy.deepcopy(scientist_context)
+    empty_history['prior_experience']['records'] = []
+    rejected(lambda: scientist_start_validator.validate(empty_history),
+             'Scientist selected history requires at least one reference')
+    scored_history = copy.deepcopy(scientist_context)
+    scored_history['prior_experience']['records'][0]['score'] = 1.0
+    rejected(lambda: scientist_start_validator.validate(scored_history),
+             'Scientist selected history cannot supply a score')
+    control_intent = copy.deepcopy(scientist_context)
+    control_intent['field_intent']['objective'] = 'synthetic\ncontrol'
+    rejected(lambda: scientist_start_validator.validate(control_intent),
+             'Scientist field intent rejects control characters')
     web_goals = read_json('examples/web_goal_planning.json')
     check(web_goals['synthetic'] is True, 'Generic web goal examples are explicitly synthetic proposals')
     for name, catalog in web_goals['catalogs'].items():

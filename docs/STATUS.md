@@ -1,3 +1,82 @@
+## 3 Ekim 2026, 15:53 UTC — System & topology paneli ve gerçek rendered navigasyon
+
+Yan menüye **System & topology / Sistem ve topoloji** eklendi; Development
+varsayılan ekran olarak kaldı. Yedi numaralı akış, hedef → orkestrasyon → S1 →
+policy/onay/intent → izole araçlar → bağımsız doğrulama → trajectory kaydını
+gösterir. S2'nin isteğe bağlı desteği, Scientist deney/rapor yolu, tek paylaşılan
+GPU otoritesi hedefi, 16 GB VRAM'de ardışık kullanım, incelenmiş öğrenme ve
+gelecek ajan sınırları ayrı kartlardadır. Mimari, canlı telemetri veya çalışan
+bağlantı haritası olarak sunulmaz; kısmi/gelecek işler açıkça etiketlidir.
+
+Sadece izole source checkout UI'si TypeScript/Vite ile derlendi. Gerçek main
+uygulaması, owned geçici loopback static server ve tamamen sentetik API yanıtları
+ile Chromium'da test edildi: **iki rendered test + bir dil sözleşmesi testi,
+3 PASS / 1,225 s**. EN 1440px desktop ve TR 390px mobile, sidebar geçişi,
+Scientist ve Development'a dönüş, yedi adım, dil/başlık, sıfır effect isteği,
+console/overlay ve yatay taşma kontrolleri geçti. Görseller incelendi.
+İlk test görünür olmayan eski Development başlığını arıyordu; kabul doğru
+`aria-current=page` navigasyon durumunu kontrol edecek şekilde düzeltildi.
+
+Browser plugin bulunmadığı için mevcut Playwright ve `--disable-gpu` Chromium
+kullanıldı; yeni model/GPU, gerçek backend/Scientist çağrısı veya default UI
+deployment yapılmadı. Test sunucusu ve tarayıcı kapandı; yalnız test için kurulan
+dependency-cache symlink'i kaldırıldı. Vite'ın 1,06 MB ana chunk uyarısı sürer.
+Özel loglar izole checkout'ta `data/context-forwarding-20261003/topology-build.log`,
+`topology-ui.log`, `topology-ui-final.log`; görüntüler
+`data/topology-ui-p40t4xt1/en-desktop.png` ve `tr-mobile.png`. Kaynağa alınmazlar.
+[Panel açıklaması](CONTROL_CENTER.md#sistem-ve-topoloji).
+
+## 3 Ekim 2026, 15:36 UTC — Scientist amaç/geçmiş aktarımı kaynak ve arayüzde uygulandı
+
+Yeni dilim yalnız izole AOS publication checkout'unda, `dfd0632` tabanı üzerinde
+uygulandı. Varsayılan çalışan checkout'un üç pinli Lab/console dosyası ve eski
+frozen161 seti değiştirilmedi. Bu yeni kaynak, önceki gerçek CPU kabulünün kaynak
+kimliği değildir; eski source/config onayını devralmaz ve canlıya deploy edilmedi.
+
+`ScientistLabStart` ve iç içe Task schema'sına strict `field_intent` ve
+`prior_experience` eklendi; service/console bunları mevcut onay hash'i ve durable
+intent üzerinden exact request'e taşır. Yok/null yeni alanlar serialization'dan
+çıkarılır; eski `lab_run_id:null`, task JSON, body ve hash davranışı korunur.
+Geçmiş referansları 1–8 unique deney kimliği ile sınırlıdır; skor, server context,
+veri/algoritma override'ı kabul edilmez. Metadata izin genişletmez; Scientist
+owner/snapshot/report/eligibility kontrolünün otoritesidir. Migration değişmedi.
+
+EN/TR paneline açık opt-in amaç alanları ve elle seçilen structured geçmiş
+referansları eklendi. Mode dışı amaç, eksik/bozuk alanlar, duplicate referanslar
+ve kontrol karakterleri reddedilir. Track değişimi eski optional seçimleri
+temizler. Otomatik deneyim tarayıcısı veya deployed panel kabulü iddia edilmez.
+[Kullanım ve sözleşme](SCIENTIST_TASK_CONTEXT.md).
+
+**Doğrulama:** yeni context + mevcut CPU/service havuzu **27 PASS / 0,488 s**,
+ResourceWarning error modunda temiz. Daha geniş Lab/journal/readback havuzu
+**71 PASS / 22,972 s**, ancak üç SQLite finalizer ResourceWarning içerir;
+warning-clean sayılmaz. İlk koşudaki testin immutable SQL trigger'ını aşmaya
+çalışması ve canonical schema patch'inin yanlış nested bloğa yerleşmesi
+düzeltildi; ilk log korundu, production immutable trigger gevşetilmedi.
+Eski pending envelope ve retained readback uyumluluğu, değiştirilmiş context
+hash'inin reddi ve onaydan önce sıfır POST doğrulandı.
+
+Gerçek Chromium'da, sentetik panel API'siyle **11 PASS / 6,295 s**; iki yeni
+context akışı ve önceki dokuz panel testi. TypeScript/Vite build geçti; bilinen
+yaklaşık 1,05 MB chunk uyarısı devam eder. EN desktop ve TR 390px mobile görselleri
+incelendi; overflow, overlay ve ilgili console hatası yok. Browser plugin
+bulunmadığı için mevcut Playwright/Chromium, `--disable-gpu` ve geçici owned
+loopback sunucu kullanıldı; sunucu kapandı. Dependency cache yeniden kullanıldı,
+temiz makine kurulumu değildir; sadece clone UI derlendi.
+
+Ayrıca AOS ve Scientist'in mevcut izole kaynak DTO'larıyla dört gerçek Python
+validation karşılaştırması (iki alan, yalnız amaç, yalnız geçmiş, legacy) aynı
+normalize JSON'u üretti. Bu source sözleşme uyumudur; uzak API/owner/history
+kabulü değildir. Scientist kaynak dosyaları yalnız okundu, yeni run açılmadı.
+
+Özel kanıtlar **izole publication checkout'unda** `data/context-forwarding-20261003/`
+altında `context-focused.log`, `backend.log`, `backend-final.log`, `ui-final.log`,
+`peer-dto-compatibility.private.json` ve üç sentetik ekran görüntüsüdür. Bunlar
+source arşivine alınmaz. Sıradaki gerçek kabul yeni kaynak/config çifti, açık
+runtime kapsamı ve uygun owner-bound geçmiş gerektirir. Native start authority,
+aktif Scorer kesintisi, ortak GPU ve tam ürün aşamaları açık; v0.1.0 etiketi ve
+lisans kararı hâlâ bekler.
+
 ## 3 Ekim 2026, 15:09 UTC — iki CPU koşusunun izole cleanup kapanışı doğrulandı
 
 Scientist oturumu yalnız incelenmiş API/PG kimliklerini son boş kuyruk ve kaynak

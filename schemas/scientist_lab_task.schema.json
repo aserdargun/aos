@@ -1,5 +1,39 @@
 {
   "$defs": {
+    "ScientistFieldIntent": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[^\\x00-\\x1f\\x7f]*$",
+          "title": "Asset Id",
+          "type": "string"
+        },
+        "goal_kind": {
+          "enum": [
+            "digital_twin",
+            "predictive_maintenance"
+          ],
+          "title": "Goal Kind",
+          "type": "string"
+        },
+        "objective": {
+          "maxLength": 600,
+          "minLength": 1,
+          "pattern": "^[^\\x00-\\x1f\\x7f]*$",
+          "title": "Objective",
+          "type": "string"
+        }
+      },
+      "required": [
+        "asset_id",
+        "goal_kind",
+        "objective"
+      ],
+      "title": "ScientistFieldIntent",
+      "type": "object"
+    },
     "ScientistIntentBinding": {
       "additionalProperties": false,
       "properties": {
@@ -128,6 +162,28 @@
           "pattern": "^action-[a-f0-9]{32}$",
           "title": "External Action Id",
           "type": "string"
+        },
+        "field_intent": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ScientistFieldIntent"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "prior_experience": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ScientistPriorExperienceSelection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [
@@ -141,6 +197,64 @@
         "external_action_id"
       ],
       "title": "ScientistLabStart",
+      "type": "object"
+    },
+    "ScientistPriorExperienceSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "source_run_id": {
+          "pattern": "^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Source Run Id",
+          "type": "string"
+        },
+        "source_report_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Report Sha256",
+          "type": "string"
+        },
+        "records": {
+          "items": {
+            "$ref": "#/$defs/ScientistPriorRecordRef"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Records",
+          "type": "array"
+        }
+      },
+      "required": [
+        "source_run_id",
+        "source_report_sha256",
+        "records"
+      ],
+      "title": "ScientistPriorExperienceSelection",
+      "type": "object"
+    },
+    "ScientistPriorRecordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "experiment_id": {
+          "pattern": "^exp_[a-f0-9]{32}$",
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "experiment_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Experiment Sha256",
+          "type": "string"
+        },
+        "trajectory_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Trajectory Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "experiment_sha256",
+        "trajectory_sha256"
+      ],
+      "title": "ScientistPriorRecordRef",
       "type": "object"
     }
   },

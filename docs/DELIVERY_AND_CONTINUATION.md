@@ -185,6 +185,12 @@ PID zero, closed ports and the retained volume. Worker absence was checked for
 both runs. SQL queue and sandbox observations remain peer evidence. This is CPU
 cleanup, not physical GPU-release proof, and no additional run is implied.
 
+The isolated source now forwards optional [field intent and selected experience](SCIENTIST_TASK_CONTEXT.md)
+through the typed proposal, exact approval/intent body and structured EN/TR UI.
+Absent new fields retain legacy serialization. References are manually selected;
+the server still owns dataset/provider authorization and history eligibility.
+This is not deployed default-UI support or a new actual Scientist acceptance.
+
 ## 4. Specialize for a particular web application
 
 Specialization is not a single training button. Use the smallest reviewed
