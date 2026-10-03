@@ -1,3 +1,79 @@
+## 3 Ekim 2026, 15:09 UTC — iki CPU koşusunun izole cleanup kapanışı doğrulandı
+
+Scientist oturumu yalnız incelenmiş API/PG kimliklerini son boş kuyruk ve kaynak
+kontrolünden sonra kapattı. AOS bağımsız salt okunur readback ile exact API unit
+`not-found/inactive/PID0`, eski PID ve cgroup yokluğu; pinli Docker daemon'daki
+exact PostgreSQL container `exited/PID0`; iki loopback portunda bağlantı reddi
+ve korunan özel volume adını doğruladı. Volume/config/kanıt silinmedi. Kuyruk
+`queued/running/stop_requested=0/0/0` ve sandbox temizliği Scientist SQL/worker
+kanıtıdır; AOS tarafından doğrudan DB/sandbox sorgusu gibi sunulmaz.
+
+Özel AOS kaydı `data/native-exclusion-20261003/cpu-final-cleanup.private.json`,
+SHA `c5170a3d61d305ffc2b17d64ee8f03346048efd55fa712fcb5e42a1ca6387569`;
+bağladığı Scientist receipt SHA
+`7c6f1a8f1091f0c52f697cc1ffbf8bd0ecfa9acd5f6ad7fcad57fa4517cbc694`.
+Bu yalnız iki kontrollü CPU kabulünün owned cleanup kapanışıdır; fiziksel GPU
+bırakımı, kullanıcı UI veya aktif Scorer kesintisi kabulü değildir. Yeni koşu
+yetkilendirilmedi. Varsayılan AOS ve frozen161 dosya eşliği korundu; ayrıca
+çalıştırılan AOS 700 dosyalık kaynak kapanışı tekrar hash ile eşleşti.
+
+Son kaynak devir kontrolünde **78 PASS / 1,973 s**, strict ResourceWarning:
+maintenance/exclusion, CPU capability/service, paketleme ve checkpoint/şema.
+Log `data/native-exclusion-20261003/handoff-focused.log`. Bu daha küçük odaklı
+tekrardır; önceki 99 testin veya full core havuzunun yeni koşusu değildir.
+Kaynak ve ayrı çıkarılmış paket **5647 paket kontrolünü** geçti; çıkarılan
+kaynakta aynı odaklı 78 kontrolden **77 PASS / 1 özel kanıt SKIP / 2,007 s**.
+Yeni ve izole kurulmuş interpreter kullanıldı; private kanıt arşive alınmadı.
+Loglar `handoff-package.log`, `handoff-extracted-package.log` ve
+`handoff-extracted-focused.log` aynı özel köktedir. Son belge/manifest farkı
+sonrası paket kimliği ve tekrar sonuçları ayrı publication receipt'te tutulur;
+kaynak arşivi çalışan kurulum veya runtime promotion değildir.
+`v0.1.0` public etiketi lisans kararı ve son kaynak teslim incelemesi bekler;
+mevcut source checkpoint yayını bu etiketi veya açık kaynak lisansını oluşturmaz.
+
+## 3 Ekim 2026, 15:06 UTC — kontrollü stop/toparlanma geçti; aktif Scorer kesintisi kanıtlanmadı
+
+Normal CPU koşusundan ayrı, güncel capability/source/process incelemesi ve sonlu
+onayla ikinci gerçek izole Scientist CPU koşusu başlatıldı. AOS typed akışında
+**bir start ve iki ayrı onaylı stop** acknowledged oldu; belirsiz etki tekrar
+edilmedi. Scientist automatic-stop recovery koşuyu `stopped` kapattı. AOS
+status/report/status, canonical rapor hash'i ve bağımsız retained readback'i
+doğruladı. Yerel DB salt okunur yeniden açıldığında üç acknowledged action ve
+bir retained report vardı. Çağırıcı exit 0; **115,2553 saniye**, koordinasyon
+kuyruğu dahil. Karar/controller/onay fixture; uzak API/deney/Scorer gerçekti.
+Rapor SHA-256:
+`25a95ef4d2fcb6c196408af51fc7ea8800b13b319d6d68e1952c613e0cbc58f7`.
+
+**Önemli düzeltme:** Scientist'in salt okunur SQL kanıtında score job terminal
+güncellemesi **14:52:36.404943 UTC**, gözlem trigger'ı **.408127**, stop olayı
+**.958495**. İşçi süreci gözlenmiş olsa da puanlama işi stop öncesinde bitmişti.
+Bu kabul **pipeline/baseline sınırında stop, tekrarlı stop ve terminal toparlanma**
+ile sınırlıdır; aktif Scorer işi veya Docker değerlendirmesi kesintisi değildir.
+Özel helper'ın `accepted_inflight_cpu_cancellation_integration=true` alanı bu
+daraltılmış sınıflandırmayla geçersiz kılındı; orijinal kayıt silinmedi veya
+yeniden yazılmadı. Yeni koşu yapılmadı; ileride ayrı bütçeli kabul gerekir.
+
+AOS, iptal koşusundaki üç exact Director/Scorer/finalizer unit'inin yokluğunu
+ve kayıtlı cgroup'larının yokluğunu bağımsız salt okunur doğruladı. Önceki normal
+koşuda 12 unit ayrıca doğrulanmıştı. API/PostgreSQL nihai kapanışı Scientist
+oturumunun sorumluluğunda ayrıca bekleniyor; yerel client kapanışı uzak cleanup
+veya GPU bırakımı sayılmaz. Kaynak çifti: yayımlanmış AOS `101f51a`, Scientist
+izole dirty adayı `384f052`; commit kimlikleri tek başına çalıştırılan tüm
+yerel ekleri temsil etmez. Scientist 258 dosya execution freeze SHA
+`e425b12881cc1c962abf4df7affba262ca8612277efed646e32f1004f663ddd8`,
+AOS 700 dosya freeze SHA
+`48fb8530307c5c0397d81c66f535c14a604ddda6ce3e989a913e79e0fa95a827`,
+iptal helper ek kaydı SHA
+`6ebad9cfa617bded4551043cb9cff80aef3635b6c3e1ca5837b7b5c9acbf211e`.
+Sözleşme `scientist.lab-cpu-capability.v1`; GPU/model/UI kabulü yok.
+
+Özel AOS kanıtları `data/native-exclusion-20261003/` altında
+`cpu-cancel-first/journal.private.jsonl`, `cpu-cancel-correction.private.json`
+(SHA `d33efc5840cd4d8c356e1959c3d1aee372d3f0c4026f0d8ed7cebb46c1768ab5`)
+ve `cpu-worker-absence.private.json` içindedir; public pakete alınmaz.
+Scientist SQL olay sırası peer kanıtıdır, AOS'un doğrudan DB sorgusu değildir.
+Native shared/GPU kabulü HOLD; altı ürün aşaması ve canlı varsayılan AOS korunur.
+
 ## 3 Ekim 2026, 14:27 UTC — ilk gerçek kontrollü Scientist CPU entegrasyonu geçti
 
 AOS ve Scientist oturumlarının ayrı source/config incelemesi ardından Scientist

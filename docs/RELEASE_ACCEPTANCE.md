@@ -8,6 +8,20 @@ yükseltmez; yeni runtime, kullanıcı teslimi veya ürün tamamlanması değild
 
 ## Kontrol panelinin güncel okuma biçimi
 
+15:09 kaynak checkpoint'i: iki CPU koşusunun exact-owned uzak cleanup kapanışı
+Scientist tarafından yapıldı. AOS API unit/PID/cgroup yokluğunu, pinli daemon'da
+PG container exited/PID0, kapalı portlar ve korunan volume'u bağımsız doğruladı.
+78 kontrolün odaklı tekrarında hata yok. Aktif Scorer kesintisi, kullanıcı UI,
+shared/GPU kabulü ve lisans ayrı açık; v0.1.0 etiketi oluşturulmadı.
+
+15:06 kaynak checkpoint'i: normal gerçek CPU/API/Scorer kabulüne ek olarak
+ayrı pipeline sınırında stop, ayrıca onaylı tekrar stop ve terminal `stopped`
+rapor/readback doğrulandı. SQL sırası Scorer işinin stop öncesinde bittiğini
+gösterdi; aktif Scorer kesintisi kanıtlanmadı. İki koşunun 12 + 3 exact worker
+unit/cgroup yokluğu AOS tarafından okundu; nihai API/PG cleanup ayrıca bekler.
+Yayımlanmış kaynak `101f51a`; v0.1.0 public etiketi lisans kararı ve son teslim
+incelemesi bekler. Altı ürün aşaması ve canlı UI deployment değiştirilmedi.
+
 14:29 kaynak checkpoint'i: ilk gerçek izole CPU/API/Scorer koşusu AOS typed
 LabService üzerinden tamamlandı; bağımsız terminal raporu hash ile doğrulandı
 ve kalıcı readback kaydedildi. Karar/controller/onay sürücüsü fixture idi;

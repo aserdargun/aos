@@ -23,7 +23,7 @@ document is not a second status database, percentage or replacement roadmap.
 | Source contracts | Typed schemas, migrations, fixtures, package integrity checks and source packaging | Production readiness, license clearance or absence of every secret in source/history |
 | Execution core | Finite Operator choices, deterministic authorized tools, trajectory storage, independent verification; dated narrow native-model results | Arbitrary-task reliability or fresh-host GPU acceptance |
 | Console | Authenticated control center, task/control surfaces and historical versus current evidence separation; dated local UI checks | Current remote-client acceptance or delivery of every later source change to the running UI |
-| Scientist integration | Typed Lab requests, durable intent/status/result paths, scoped host preparation and CPU/synthetic boundary tests; historical bounded real experiments | Current shared-runtime end-to-end success, second-task/fairness/cancellation acceptance or sustained native GPU exclusion |
+| Scientist integration | Typed Lab requests, durable intent/status/result paths, scoped host preparation, CPU-tested composition, real bounded CPU/API study, pipeline-boundary stop/repeat/terminal recovery and exact-owned CPU cleanup | Active-Scorer interruption, current shared GPU/fairness acceptance or sustained native GPU exclusion |
 | Shared runtime preparation | Explicit plan/provision, scoped paths, identity checks and no-replay launch intent; an inert private workspace was prepared | A running shared service, current broker generation, activation or GPU rights |
 | Native handover | Preview, inhibit primitive, staged entry, maintenance, concrete exclusion reader and prelaunch verifier source with bounded CPU tests; unapplied shared-only source candidate | Executed maintenance, integrated trusted activation driver, actual worker coexistence or verified physical handover |
 | Learning and specialization | Narrow reviewed knowledge/skill/episode paths, dataset tooling and dated experimental adapter evidence | General continuous learning, arbitrary-site specialization, accepted QLoRA or production model promotion |
@@ -173,6 +173,18 @@ contention, stale generation and uncertain outcomes without replay. Scientist
 alone performs authorized GPU acceptance. Historical experiments or a manual
 script demonstration do not close this gate.
 
+Separate real CPU/API acceptance now includes a completed study and a controlled
+one-start/two-approved-stop terminal recovery run. The latter exited zero in
+115.2553 seconds, but peer SQL places Scorer completion at 14:52:36.404943 UTC,
+before the trigger at .408127 and stop at .958495. Its scope is pipeline/baseline-
+boundary stop and repeated-stop recovery; active-Scorer interruption is unproven.
+The helper's broader success flag is not authoritative. Scientist subsequently
+closed the exact-owned isolated API and PostgreSQL container; AOS independently
+read back API unit/PID/cgroup absence, the pinned database container exited with
+PID zero, closed ports and the retained volume. Worker absence was checked for
+both runs. SQL queue and sandbox observations remain peer evidence. This is CPU
+cleanup, not physical GPU-release proof, and no additional run is implied.
+
 ## 4. Specialize for a particular web application
 
 Specialization is not a single training button. Use the smallest reviewed
@@ -299,12 +311,25 @@ the separately authorized remote/branch scope, without force push. Do not call
 this a completed production/GPU release or an approved open-source license.
 The [planned release note](releases/v0.1.0.md) records the bounded source scope;
 it is not evidence that the tag has been created.
+License selection remains an explicit gate before public versioned release,
+as required by [SOURCE_HANDOFF](SOURCE_HANDOFF.md). The v0.1.0 tag is deferred
+pending the owner's license decision and final review. Previously authorized
+reviewed source-checkpoint publication is not a release/tag or license approval;
+no intentionally unlicensed release policy is inferred here.
 
 **Acceptable source handoff:** reviewed source and exact manifest; validation and
 focused/core test evidence with skips/environment; checked archive membership;
 documented reproducible setup tiers and known limitations; no secret/runtime
 artifacts; no implied live change. The recipient can inspect and develop the
 source without being told unperformed GPU tests passed.
+
+Published source baseline `101f51a` has a checked 1,634-member source archive:
+archive SHA256 `2901f91c33e9f8c9bcd22821ce5cf9b93984926d0b9df822ba2c0cf508653bb2`,
+manifest SHA256 `ccdb87273df8a0c8e6d0db7a41aea81c503aa908353486d71b2a9f1c4e12b153`.
+Root validation passed 5,642 package checks and 99 focused tests/3.227 seconds;
+extracted source passed 5,642 checks and 98 tests/1 private-evidence skip/3.263
+seconds. These are exact baseline results; this documentation update still
+requires final review and a refreshed manifest before the planned tag.
 
 **Still blocks the corresponding runtime/product release:** real joint
 Scientist/native handover and producer/consumer acceptance; fresh current-source

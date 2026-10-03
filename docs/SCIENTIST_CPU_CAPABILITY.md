@@ -86,8 +86,13 @@ report path. The controller/decision/approval driver was explicitly a fixture;
 the remote API, experiment and Scorer were real. The exact one-experiment,
 600-second, zero-token acceptance and private evidence references are recorded
 in [STATUS](STATUS.md). This does not establish deployed user-interface or model
-decision acceptance. Actual inflight cancellation, recovery and final owned
-remote cleanup remain separate checks.
+decision acceptance. A second controlled run verified a pipeline/baseline-boundary
+stop, a separately approved repeat stop, terminal recovery and independent retained
+`stopped` report. Durable Scientist SQL timestamps put the observed score job's
+completion before both the trigger and stop event: active-Scorer interruption
+is **unproven**, despite the private helper's earlier overbroad success flag.
+The original evidence is preserved; the corrected classification and exact-owned
+remote cleanup evidence are recorded separately in [STATUS](STATUS.md).
 Optional `field_intent` and `prior_experience` forwarding, web specialization and
 control-panel deployment are subsequent integration work, not completed by
 installing the factory. Synthetic ASGI tests exercise the real console routes
