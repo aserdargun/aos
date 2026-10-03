@@ -1,3 +1,52 @@
+## 3 Ekim 2026,22:39 UTC — karşılıklı v2 kaynak uyumu ve UI teslimi
+
+Scientist prepared checkout doküman135 ve makbuzu salt okunur incelendi.
+Makbuzdaki14 kaynak/test dosyasının SHA256'sı bağımsız okumayla eşleşti.
+Makbuz SHA256 `575984e9eacdb2904bb781158c78af5fe8f7a17287ed87a93e9c435c1482e1a1`;
+source-map `90a7698876f6e4e928aeae3fecee46f28815b65ab6b993909b112885fb26afca`.
+Scientist'in3954PASS/54SKIP kalite koşusu **karşı tarafın raporudur**.
+AOS actual Unix fresh/duplicate/lost-ACK kontrolü3PASS/0,050s tekrarlandı;
+yetki/systemd fixture'dır, gerçek ortak runtime veya GPU kabulü değildir.
+Kaynakta enter/per-inference verify artık uygulanmış; önkoşul sağlayıcısı,
+broker dinleyicisi, yetkili fiziksel cleanup ve never-entered reconciliation
+üretim bileşimi açık. Yeni endpoint veya close_launch payload'ı uydurulmadı.
+
+Kaynak gözlemi: AOS parent `a1868860ad24ae226a6d42ec9737720fb1fa0b0d`
++ yalnız bu belge/JSON farkı. Scientist22:39:59UTC HEAD
+`523d95caae892f3b395ac275a7b434f2a93e8d43`, tracked diff SHA256
+`201b53fc502b53a078c33596c20077a8a6628d651542520ff46f2aec696aefaa`
+(untracked içermez). Bu gözlem donmuş runtime/config çifti değildir.
+
+Development EN/TR kaydı güncellendi; yalnız UI build ve izinli statik asset
+promotion yapıldı. Candidate ve teslim edilmiş UI'de açık/karanlık,
+1440×1000/390×844, üç panelde12'şer kombinasyon geçti; kalıcılık/dil/geçiş
+kontrolleri geçti, console/page error yok. Release/journal13test:
+12PASS/1özel-kanıtSKIP. TypeScript/Vite build geçti; mevcut500kB uyarısı sürüyor.
+Browser plugin yok; kurulu Playwright kullanıldı. Mac/Safari ayrıca denenmedi.
+
+Özel kanıt `/tmp/aos-shared-v2-ui-20261003/`: candidate/delivered JSON,
+ekran görüntüleri, promotion makbuzu ve rollback index. Canlı index SHA256
+`594b3a564ead8cbf53822da51e746f127046fee22ba3318f70f70c58f022e074`.
+Backend PID42513/startticks344916 aynı; modeller/GPU/backend yeniden
+başlatılmadı. Operasyonel tracked diff aynı kaldı. Entegrasyon **kısmi**,
+altı ürün aşaması tamamlanmadı, GPU HOLD ve Scientist-only kabul kuralı sürüyor.
+
+## 3 Ekim 2026,22:31 UTC — teslim edilmiş açık/karanlık tema kontrolü
+
+Mevcut canlı UI üzerinde Chromium ile Development, Models ve System & topology
+panelleri; açık/karanlık ve 1440×1000 /390×844 boyutlarında **12 kombinasyon**
+doğrulandı. Tema, native color-scheme ve içerik genişliği sekmeler arasında
+korundu; yatay sayfa taşması, framework overlay veya console/page error yok.
+Sistem tercihini başlangıçta izleme, açık seçimin sistem tercihini geçersiz
+kılması, yenilemede kalıcılık ve EN/TR tema düğmeleri ayrıca geçti.
+Masaüstü açık ve mobil karanlık ekran görüntüleri görsel olarak incelendi.
+
+Tema zaten teslim edilmişti; bu adım yeni uygulama/deploy iddiası değildir.
+Browser plugin mevcut olmadığından kurulu Playwright kullanıldı. Yalnız yerel
+login ve GET istekleri; görev/deney başlatma, backend/GPU restart veya runtime
+değişikliği yok. Gerçek Mac/Safari kabulü yapılmadı. Özel kanıt:
+`/tmp/aos-theme-check-20261003/result.json`; ekran görüntüleri aynı dizinde.
+
 ## 3 Ekim 2026,22:20 UTC — explicit shared-launch v2 aday uyumu
 
 Scientist çalışma ağacında `enter`/`verify_runtime` ekleyen ayrı v2 descriptor

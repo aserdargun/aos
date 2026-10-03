@@ -1,5 +1,17 @@
 # Historical README and development observations — 2026-10-03
 
+## 3 Ekim 2026,22:31:44 UTC — önceki goal gözlemi
+
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026,22:31:44 UTC /4 Ekim 2026,01:31:44 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=17071065`, `timeUsedSeconds=106112`: **29 saat 28 dakika 32 saniye /29,4755556 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+
+Aynı goal kapsamındaki tarihsel sayaç; yeni snapshot ile toplanmaz.
+
+## 3 Ekim 2026,22:20:22 UTC — önceki goal gözlemi
+
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026,22:20:22 UTC /4 Ekim 2026,01:20:22 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=17016812`, `timeUsedSeconds=105430`: **29 saat 17 dakika 10 saniye /29,2861111 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+
+Aynı goal kapsamındaki tarihsel sayaç; yeni snapshot ile toplanmaz.
+
 Preserved dated records, not current acceptance. Cumulative counters overlap; do not add them. See [current README](../README.md) and [delivery guide](DELIVERY_AND_CONTINUATION.md).
 
 ## Superseded goal snapshot — 3 October 2026,20:58:05 UTC
