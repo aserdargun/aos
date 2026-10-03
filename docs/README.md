@@ -18,6 +18,7 @@
 - [SCIENTIST_EXPERIENCE — bağlı deney geçmişini doğrulama ve açık referans seçimi](SCIENTIST_EXPERIENCE.md)
 - [SCIENTIST_CPU_PANEL_HANDOFF — ayrı CPU panelinin workspace, servis taslağı ve kalan yetki girdileri](SCIENTIST_CPU_PANEL_HANDOFF.md)
 - [SCIENTIST_CPU_PANEL — incelenmiş CPU paneli için taşınabilir kontrol ve açık başlatma komutu](SCIENTIST_CPU_PANEL.md)
+- [SCIENTIST_SHARED_LAUNCH_PROPOSAL — tek otoriteye bağlı sonlu başlatma için karşı inceleme önerisi](SCIENTIST_SHARED_LAUNCH_PROPOSAL.md)
 - [MODEL_CANDIDATES — S1/S2 alternatifleri, büyük GPU rezervleri ve aktivasyon sınırları](MODEL_CANDIDATES.md)
 - [UNSLOTH_CANDIDATES — model başına LoRA/QLoRA taslakları, veri ve adaptör ayrımı](UNSLOTH_CANDIDATES.md)
 

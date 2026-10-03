@@ -58,6 +58,11 @@ somut, sabit systemd transport'u ve v2 manager durumunu bağlar.
 
 ## Gerçek activation neden henüz hazır değil?
 
+3 Ekim 19:57 UTC [sonlu başlatma sözleşmesi önerisi](SCIENTIST_SHARED_LAUNCH_PROPOSAL.md)
+eksik issuer/transport, tek-kullanım/revoke ve cleanup-only kararlarını mevcut
+kaynaklara bağlar. Bu karşılıklı ACK veya uygulanmış authority producer değildir;
+varsayılan ret kapısı değişmez. CPU paneli bu GPU anlaşmasından bağımsız ilerler.
+
 1. Scientist MAIN launcher'ın shared-unit ve iki pre-main guard değişikliği
    3 Ekim'de actual disk readback ile doğrulandı: SHA256
    `c18efb89584946975f3740b071d2c2a3eca106ea44ae07b6a83060a267a03495`.

@@ -1,3 +1,27 @@
+## 3 Ekim 2026, 19:57 UTC — ortak başlatma için somut karşı inceleme
+
+Önceki tur ilerlemeydi: CPU paneli başlatıcısı `540fc95` ile yayımlandı. Bu tur
+ortak GPU açığının yalnız yetki bekleme olmadığı doğrulandı: gerçek finite
+activation producer/verifier bileşimi eksik. Yeni sürümlü
+`aos-scientist.shared-launch.v1-proposal1` önerisi; mevcut authority, principal,
+single-use request, boot/deadline, source/config/provision, revoke ve ayrı
+cleanup-only haklarını birbirinden ayırır. Default-deny callback değiştirilmedi;
+bir approval dosyası, endpoint veya ikinci scheduler uydurulmadı.
+
+Scientist'in gerçek prepared checkout'u salt okunur bulundu:
+`24b387e6898f1af080913abfa0df785238673fad`; operational `55c5300` ile aynı kaynak
+değil. Seçili launcher/policy/inventory hashleri ve tracked-diff hash'i öneride
+kayıtlı; tam import closure veya deploy ACK'i değildir. Inventory'nin
+`authority=false` ve bilinmeyen provenance sınırları korunur. CurrentRuntimeRights
+post-spawn actual caller ister; prelaunch izni yerine geçirilmedi. Scientist
+policy'sinin closed keys sözleşmesi genişletilmedi.
+
+`SCIENTIST_HANDOFF.md` güncel pickup başlığı; mevcut CPU descriptor review,
+experience consumer ve taşınabilir paneli işaret eder. Bu kaynak işleri GPU
+anlaşmasını beklemek zorunda değil; fresh CPU scope/start onayı yine gerekir.
+Karşı mesaj/ACK doğrulanmadı. Bu tur runtime kodu, canlı UI, backend, GPU veya
+Scientist dosyası değişmedi; yeni gerçek entegrasyon testi iddia edilmez.
+
 ## 3 Ekim 2026, 19:49 UTC — taşınabilir incelenmiş Scientist CPU paneli
 
 Önceki tur mevcut tema kabulünü yeniden kontrol etti; geniş goal için yeni

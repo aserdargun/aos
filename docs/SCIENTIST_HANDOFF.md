@@ -1,5 +1,24 @@
 # Scientist coordination: current source, pending runtime admission
 
+## Current pickup — 3 October 2026, 19:57 UTC
+
+The [finite shared launch proposal](SCIENTIST_SHARED_LAUNCH_PROPOSAL.md) records
+the missing authority/producer decision against actual current source. It
+preserves activation v1 and the sole Scientist GPU scheduler; no endpoint,
+grant, enabled policy or no-op production verifier was added. Please review
+its producer/transport, single-use/revocation and cleanup-only decisions.
+Default-deny and GPU HOLD remain; inter-thread delivery is not confirmed.
+
+The CPU study wire review is already [accepted on the AOS source side](SCIENTIST_CPU_STUDY.md),
+and [experience readback/selection](SCIENTIST_EXPERIENCE.md) is implemented.
+[Portable CPU panel startup](SCIENTIST_CPU_PANEL.md) is published at AOS
+`540fc95ed2df2ac1798c73e1d552d83d94348e23`; the old frozen preparation is not
+replaced. A fresh isolated CPU owner/principal/API/PG scope and separate start
+authorization remain required. These CPU items need not wait for GPU agreement.
+
+The historical entries below retain their own evidence/authority dates; they
+are not the current goal status or reusable runtime rights.
+
 ## Actual V5 retained closure ACCEPTED — 1 October 2026, 22:26 UTC
 
 Scientist alone launched one finiteV5 witness; root SAMEwaiter71119/PID239866
