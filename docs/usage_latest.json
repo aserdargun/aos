@@ -1,6 +1,6 @@
 {
   "schema_version": "1",
-  "cutoff": "2026-10-03T20:00:02.271181Z",
+  "cutoff": "2026-10-03T21:00:01.019013Z",
   "scope": "available_AOS_Codex_session_usage_records",
   "status": "observed",
   "billing_verified": false,
@@ -14,17 +14,17 @@
     "provider_billing_tokens": false
   },
   "counts": {
-    "input_tokens": 4376065412,
-    "cached_input_tokens": 4292720000,
+    "input_tokens": 4391076470,
+    "cached_input_tokens": 4307500032,
     "cache_write_input_tokens": 0,
-    "output_tokens": 16105138,
-    "reasoning_output_tokens": 5452590,
-    "total_tokens": 4392170550
+    "output_tokens": 16181638,
+    "reasoning_output_tokens": 5477851,
+    "total_tokens": 4407258108
   },
   "coverage": {
     "sessions": 95,
     "first_usage_event": "2026-09-19T18:08:27.410000Z",
-    "last_usage_event": "2026-10-03T19:57:43.082000Z"
+    "last_usage_event": "2026-10-03T20:59:59.096000Z"
   },
   "models": [
     {
@@ -32,12 +32,12 @@
       "model": "gpt-6-astra",
       "effort": "high",
       "counts": {
-        "input_tokens": 777545446,
-        "cached_input_tokens": 756544128,
+        "input_tokens": 792556504,
+        "cached_input_tokens": 771324160,
         "cache_write_input_tokens": 0,
-        "output_tokens": 3401211,
-        "reasoning_output_tokens": 993909,
-        "total_tokens": 780946657
+        "output_tokens": 3477711,
+        "reasoning_output_tokens": 1019170,
+        "total_tokens": 796034215
       }
     },
     {
@@ -266,12 +266,12 @@
     {
       "day": "2026-10-03",
       "counts": {
-        "input_tokens": 414289516,
-        "cached_input_tokens": 404526336,
+        "input_tokens": 429300574,
+        "cached_input_tokens": 419306368,
         "cache_write_input_tokens": 0,
-        "output_tokens": 1777044,
-        "reasoning_output_tokens": 579724,
-        "total_tokens": 416066560
+        "output_tokens": 1853544,
+        "reasoning_output_tokens": 604985,
+        "total_tokens": 431154118
       }
     }
   ]
