@@ -1,0 +1,801 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ScientistAdmissionBindingV2": {
+      "additionalProperties": false,
+      "properties": {
+        "server_generation": {
+          "$ref": "#/$defs/ScientistServerGeneration"
+        },
+        "caller_generation": {
+          "$ref": "#/$defs/ScientistCallerGeneration"
+        },
+        "policy_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Policy Sha256",
+          "type": "string"
+        },
+        "source_fingerprints": {
+          "$ref": "#/$defs/ScientistSourceFingerprints"
+        },
+        "profile_id": {
+          "enum": [
+            "aos.decider.turn.v1",
+            "aos.bonsai.recovery.v1",
+            "aos.bonsai.vision.v1"
+          ],
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "profile_pin": {
+          "$ref": "#/$defs/ScientistProfilePinV2"
+        },
+        "infer_schema": {
+          "$ref": "#/$defs/ScientistInferSchemaPin"
+        },
+        "control_schema": {
+          "$ref": "#/$defs/ScientistControlSchemaPin"
+        },
+        "terminal_schema": {
+          "$ref": "#/$defs/ScientistTerminalSchemaPin"
+        }
+      },
+      "required": [
+        "server_generation",
+        "caller_generation",
+        "policy_sha256",
+        "source_fingerprints",
+        "profile_id",
+        "profile_pin",
+        "infer_schema",
+        "control_schema",
+        "terminal_schema"
+      ],
+      "title": "ScientistAdmissionBindingV2",
+      "type": "object"
+    },
+    "ScientistCallerGeneration": {
+      "additionalProperties": false,
+      "properties": {
+        "uid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Uid",
+          "type": "integer"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "unit": {
+          "maxLength": 255,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.@-]+\\.service$",
+          "title": "Unit",
+          "type": "string"
+        },
+        "invocation_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Invocation Id",
+          "type": "string"
+        },
+        "control_group": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "pattern": "^/",
+          "title": "Control Group",
+          "type": "string"
+        },
+        "parent_pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Parent Pid",
+          "type": "integer"
+        },
+        "parent_start_ticks": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Parent Start Ticks",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "uid",
+        "pid",
+        "start_ticks",
+        "boot_id",
+        "unit",
+        "invocation_id",
+        "control_group",
+        "parent_pid",
+        "parent_start_ticks"
+      ],
+      "title": "ScientistCallerGeneration",
+      "type": "object"
+    },
+    "ScientistControlSchemaPin": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "name": {
+          "const": "aos-scientist-control.v1",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "sha256",
+        "name"
+      ],
+      "title": "ScientistControlSchemaPin",
+      "type": "object"
+    },
+    "ScientistInferSchemaPin": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "name": {
+          "const": "aos-scientist-runtime.v1",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "sha256",
+        "name"
+      ],
+      "title": "ScientistInferSchemaPin",
+      "type": "object"
+    },
+    "ScientistOutputContractPin": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "const": "aos-scientist-profile-output.v2",
+          "title": "Name",
+          "type": "string"
+        },
+        "version": {
+          "const": 2,
+          "title": "Version",
+          "type": "integer"
+        },
+        "bundle_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Bundle Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version",
+        "bundle_sha256"
+      ],
+      "title": "ScientistOutputContractPin",
+      "type": "object"
+    },
+    "ScientistProfilePinV2": {
+      "additionalProperties": false,
+      "properties": {
+        "deployment_digest": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Deployment Digest",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "config_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Config Sha256",
+          "type": "string"
+        },
+        "response_schema_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Response Schema Sha256",
+          "type": "string"
+        },
+        "output_contract": {
+          "$ref": "#/$defs/ScientistOutputContractPin"
+        }
+      },
+      "required": [
+        "deployment_digest",
+        "manifest_sha256",
+        "config_sha256",
+        "response_schema_sha256",
+        "output_contract"
+      ],
+      "title": "ScientistProfilePinV2",
+      "type": "object"
+    },
+    "ScientistServerGeneration": {
+      "additionalProperties": false,
+      "properties": {
+        "uid": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Uid",
+          "type": "integer"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "unit": {
+          "maxLength": 255,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.@-]+\\.service$",
+          "title": "Unit",
+          "type": "string"
+        },
+        "invocation_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Invocation Id",
+          "type": "string"
+        },
+        "control_group": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "pattern": "^/",
+          "title": "Control Group",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uid",
+        "pid",
+        "start_ticks",
+        "boot_id",
+        "unit",
+        "invocation_id",
+        "control_group"
+      ],
+      "title": "ScientistServerGeneration",
+      "type": "object"
+    },
+    "ScientistSourceFingerprints": {
+      "additionalProperties": false,
+      "properties": {
+        "scientist": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Scientist",
+          "type": "string"
+        },
+        "aos": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Aos",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scientist",
+        "aos"
+      ],
+      "title": "ScientistSourceFingerprints",
+      "type": "object"
+    },
+    "ScientistTerminalBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "activation_seconds": {
+          "maximum": 600,
+          "minimum": 1,
+          "title": "Activation Seconds",
+          "type": "integer"
+        },
+        "inference_seconds": {
+          "maximum": 540,
+          "minimum": 1,
+          "title": "Inference Seconds",
+          "type": "integer"
+        },
+        "total_seconds": {
+          "maximum": 720,
+          "minimum": 1,
+          "title": "Total Seconds",
+          "type": "integer"
+        },
+        "queue_seconds": {
+          "maximum": 9007199254740991,
+          "minimum": 1,
+          "title": "Queue Seconds",
+          "type": "integer"
+        },
+        "max_output_tokens": {
+          "maximum": 512,
+          "minimum": 1,
+          "title": "Max Output Tokens",
+          "type": "integer"
+        },
+        "context_tokens": {
+          "maximum": 16384,
+          "minimum": 256,
+          "title": "Context Tokens",
+          "type": "integer"
+        },
+        "activation_deadline": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "ge": 0,
+              "le": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Activation Deadline"
+        },
+        "inference_deadline": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "ge": 0,
+              "le": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Inference Deadline"
+        },
+        "total_deadline": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "ge": 0,
+              "le": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Total Deadline"
+        },
+        "envelope_deadline": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "ge": 0,
+              "le": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Envelope Deadline"
+        },
+        "queue_deadline": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "ge": 0,
+              "le": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Queue Deadline"
+        },
+        "admitted_boottime": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "ge": 0,
+              "le": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Admitted Boottime"
+        },
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "activation_seconds",
+        "inference_seconds",
+        "total_seconds",
+        "queue_seconds",
+        "max_output_tokens",
+        "context_tokens",
+        "activation_deadline",
+        "inference_deadline",
+        "total_deadline",
+        "envelope_deadline",
+        "queue_deadline",
+        "admitted_boottime",
+        "boot_id"
+      ],
+      "title": "ScientistTerminalBudget",
+      "type": "object"
+    },
+    "ScientistTerminalChild": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "pattern": "^swapp-aos-gpu-turn-[a-f0-9]{32}\\.service$",
+          "title": "Unit",
+          "type": "string"
+        },
+        "invocation_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Invocation Id",
+          "type": "string"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 2,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "maximum": 9007199254740991,
+          "minimum": 0,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "control_group": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Control Group",
+          "type": "string"
+        }
+      },
+      "required": [
+        "unit",
+        "invocation_id",
+        "pid",
+        "start_ticks",
+        "boot_id",
+        "control_group"
+      ],
+      "title": "ScientistTerminalChild",
+      "type": "object"
+    },
+    "ScientistTerminalSchemaPin": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": 1,
+          "title": "Version",
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "name": {
+          "const": "aos-scientist-terminal.v1",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "sha256",
+        "name"
+      ],
+      "title": "ScientistTerminalSchemaPin",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "aos-scientist-terminal.v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "request_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Request Sha256",
+      "type": "string"
+    },
+    "original_principal": {
+      "$ref": "#/$defs/ScientistCallerGeneration"
+    },
+    "profile_id": {
+      "enum": [
+        "aos.decider.turn.v1",
+        "aos.bonsai.recovery.v1",
+        "aos.bonsai.vision.v1"
+      ],
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "deployment_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Digest",
+      "type": "string"
+    },
+    "profile_config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Config Sha256",
+      "type": "string"
+    },
+    "response_schema_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Schema Sha256",
+      "type": "string"
+    },
+    "admission_binding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScientistAdmissionBindingV2"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "admission_binding_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Admission Binding Sha256"
+    },
+    "original_budget": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScientistTerminalBudget"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "allocation_binding_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Allocation Binding Sha256"
+    },
+    "child_generation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScientistTerminalChild"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "drain_evidence_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Drain Evidence Sha256"
+    },
+    "no_admission_evidence_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "No Admission Evidence Sha256"
+    },
+    "release_outcome": {
+      "enum": [
+        "released",
+        "recovered_released",
+        "never_admitted"
+      ],
+      "title": "Release Outcome",
+      "type": "string"
+    },
+    "terminal_state": {
+      "enum": [
+        "completed",
+        "canceled",
+        "expired",
+        "failed"
+      ],
+      "title": "Terminal State",
+      "type": "string"
+    },
+    "reason_code": {
+      "enum": [
+        "success",
+        "caller_cancel",
+        "generation_lost",
+        "queue_timeout",
+        "turn_timeout",
+        "recovered_after_crash",
+        "execution_failed"
+      ],
+      "title": "Reason Code",
+      "type": "string"
+    },
+    "result_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Result Sha256"
+    },
+    "recorded_boot_id": {
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+      "title": "Recorded Boot Id",
+      "type": "string"
+    },
+    "recorded_boottime": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "ge": 0,
+      "le": 9007199254740991,
+      "title": "Recorded Boottime"
+    },
+    "receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Receipt Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "request_id",
+    "request_sha256",
+    "original_principal",
+    "profile_id",
+    "deployment_digest",
+    "profile_config_sha256",
+    "response_schema_sha256",
+    "admission_binding",
+    "admission_binding_sha256",
+    "original_budget",
+    "allocation_binding_sha256",
+    "child_generation",
+    "drain_evidence_sha256",
+    "no_admission_evidence_sha256",
+    "release_outcome",
+    "terminal_state",
+    "reason_code",
+    "result_sha256",
+    "recorded_boot_id",
+    "recorded_boottime",
+    "receipt_sha256"
+  ],
+  "title": "ScientistTerminalReceipt",
+  "type": "object"
+}

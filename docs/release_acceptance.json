@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.1",
+  "observed_at": "2026-10-03T05:50:46Z",
+  "scope": "manual_source_acceptance_snapshot",
+  "runtime_authority": false,
+  "product_complete": false,
+  "checkpoint": {
+    "recorded_at": "2026-10-03T12:50:21Z",
+    "scope": "manual_development_checkpoint",
+    "focus": {
+      "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
+      "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
+    },
+    "blocker": {
+      "en": "The new core run completed: 3122 passed, 304 skipped, no failures/errors; five SQLite finalizer warnings remain. Maintenance is source/CPU only. Native exclusion lacks the live producer/consumer; legacy cleanup, joint GPU and target-application acceptance remain open. The requested v0.1.0 tag awaits a reviewed source commit and delivery gates.",
+      "tr": "Yeni core koşusu tamamlandı: 3122 geçti, 304 atlandı, failure/error yok; beş SQLite finalizer uyarısı sürüyor. Bakım yalnız kaynak/CPU düzeyinde. Native dışlamada canlı producer/consumer yok; legacy cleanup, ortak GPU ve hedef uygulama kabulü açık. İstenen v0.1.0 etiketi incelenmiş kaynak commit'i ve teslim kapılarını bekliyor."
+    },
+    "next_action": {
+      "en": "Freeze the reviewed source handoff without promoting skipped checks. Next phase: complete the live exclusion producer/consumer, review the source/config pair and obtain separate maintenance consent before Scientist alone runs joint GPU acceptance through AOS.",
+      "tr": "Atlanan kontrolleri yükseltmeden incelenmiş kaynak teslimini dondur. Sonraki aşama: canlı dışlama producer/consumer bağlantısını tamamla; source/config çiftini incele ve Scientist AOS üzerinden tek ortak GPU kabulünü yürütmeden önce ayrı bakım onayı al."
+    },
+    "limits": {
+      "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",
+      "tr": "Tarihli kaynak kaydıdır; canlı worker telemetrisi veya teslim edilmiş UI değildir. Bu JSON güncellemesi mevcut UI dosyalarını yeniden derlemez. CPU kontrolleri ve kaynak readback'i runtime/GPU yetkisi veya aşama tamamlanması vermez. SWAPP intranet testi en sondadır."
+    },
+    "updates": [
+      {
+        "id": "durable_agent_orchestration",
+        "state": "verified_cpu",
+        "recorded_at": "2026-10-03T07:39:51Z",
+        "title": {"en": "Durable agent orchestration", "tr": "Kalıcı ajan orkestrasyonu"},
+        "detail": {
+          "en": "49 focused CPU checks and four fixed, isolated CPU workers verify delegation, cancellation, quotas and dependencies. Store reopen is not a full host restart; no native or GPU acceptance is claimed.",
+          "tr": "49 odaklı CPU kontrolü ve dört sabit, izole CPU worker; görev devri, iptal, kota ve bağımlılıkları doğrular. Store yeniden açılması tam host restart değildir; native veya GPU kabulü iddia edilmez."
+        },
+        "evidence": [
+          "data/agent-orchestration-focused-20261003-final.log",
+          "data/agent-orchestration-cpu-20261003-final/acceptance.private.json"
+        ]
+      },
+      {
+        "id": "managed_shared_runtime",
+        "state": "in_progress",
+        "recorded_at": "2026-10-03T11:32:12Z",
+        "title": {"en": "Managed AOS / Scientist runtime", "tr": "Yönetilen AOS / Scientist runtime"},
+        "detail": {
+          "en": "Inert workspace and drain/seal preparation remain available. The new shared-only candidate covers 41 source files and 86 entry policies; six CPU tests pass using a disposable patched copy, native denial checks and a fake-model broker flow. CPU tokenizer/data preparation stays available. No patch, shared service, model or GPU run was activated.",
+          "tr": "Inert workspace ve drain/seal hazırlığı korunuyor. Yeni shared-only aday 41 kaynak dosyası ve 86 giriş politikasını kapsıyor; disposable yamalı kopya, native ret ve sahte model broker akışıyla altı CPU testi geçti. CPU tokenizer/veri hazırlığı açık kalıyor. Yama, ortak servis, model veya GPU koşusu etkinleştirilmedi."
+        },
+        "evidence": [
+          "data/local-app-project-scientist-shared-v1/shared-template-20261003-v2.private.json",
+          "data/local-app-project-scientist-shared-v1/shared-plan-20261003-v2.private.json",
+          "data/local-app-project-scientist-shared-v1/app-0a5d1cfcebd44c6b9ede47b93755ea1c/shared-provision.json",
+          "docs/SHARED_ADMISSION_DRAIN.md",
+          "tests/test_shared_only_runtime_candidate.py",
+          "data/shared-only-candidate-20261003/cpu-tests.log",
+          "docs/STATUS.md"
+        ]
+      },
+      {
+        "id": "shared_source_readback",
+        "state": "in_progress",
+        "recorded_at": "2026-10-03T11:32:12Z",
+        "title": {"en": "Shared source and launcher review", "tr": "Ortak kaynak ve launcher incelemesi"},
+        "detail": {
+          "en": "Astra reviewed the final shared-only patch and its before/after hashes. The 161 selected live source pins remain unchanged; candidate promotion would require a new jointly reviewed source/config pair. Scientist confirms its exclusion consumer is not yet implemented. Legacy SSH process identity and the new dedicated caller service identity must remain separate.",
+          "tr": "Astra son shared-only yamayı ve önce/sonra hashlerini inceledi. Seçili 161 canlı kaynak pini değişmedi; adayın terfisi birlikte incelenmiş yeni kaynak/config çifti gerektirir. Scientist dışlama consumer'ının henüz uygulanmadığını teyit etti. Legacy SSH süreç kimliği ile yeni dedicated caller servis kimliği ayrı tutulmalı."
+        },
+        "evidence": ["tests/test_shared_only_runtime_candidate.py", "docs/NATIVE_HANDOVER.md", "docs/STATUS.md"]
+      },
+      {
+        "id": "shared_ui_preparation",
+        "state": "in_progress",
+        "recorded_at": "2026-10-03T12:39:49Z",
+        "title": {"en": "Source handoff and separate UI preparation", "tr": "Kaynak teslimi ve ayrı UI hazırlığı"},
+        "detail": {
+          "en": "README and the continuation guide distinguish tested source, historical runtime and open application-specific work. A separate staged UI passed EN/TR desktop/mobile checks with synthetic APIs; the default session was not redeployed. The shared workspace remains inert. This newer checkpoint is source only, not a live UI update.",
+          "tr": "README ve devam rehberi test edilmiş kaynak, tarihsel runtime ve açık uygulamaya özel işleri ayırıyor. Ayrı staged UI sentetik API ile EN/TR desktop/mobil kontrolünü geçti; varsayılan oturum yeniden deploy edilmedi. Ortak workspace inert kalıyor. Bu yeni checkpoint yalnız kaynak kaydıdır, canlı UI güncellemesi değildir."
+        },
+        "evidence": ["docs/STATUS.md", "docs/CONTROL_CENTER.md", "docs/DELIVERY_AND_CONTINUATION.md", "data/delivery-20261003/ui-isolated.log"]
+      },
+      {
+        "id": "coordinated_acceptance",
+        "state": "next",
+        "recorded_at": "2026-10-03T09:26:56Z",
+        "title": {"en": "One coordinated acceptance run", "tr": "Tek koordineli kabul koşusu"},
+        "detail": {
+          "en": "Scientist alone executes the shared GPU run after current source, caller and capability gates close. AOS independently reads results and cleanup evidence; no run starts from this development record.",
+          "tr": "Güncel kaynak, caller ve yetki kapıları kapandıktan sonra ortak GPU koşusunu yalnız Scientist yürütür. AOS sonuç ve kapanış kanıtını bağımsız okur; bu geliştirme kaydı koşu başlatmaz."
+        },
+        "evidence": ["docs/SCIENTIST_HANDOFF.md", "docs/RELEASE_ACCEPTANCE.md"]
+      }
+    ]
+  },
+  "stages": [
+    {
+      "id": "candidate",
+      "title_key": "release_acceptance.candidate.title",
+      "source": "partial",
+      "verification": "cpu_verified",
+      "delivery": "not_delivered",
+      "blockers": [
+        "release_acceptance.blocker.candidate_review_pending"
+      ],
+      "next_action_key": "release_acceptance.candidate.next",
+      "evidence": [
+        "docs/STATUS.md",
+        "docs/RELEASE_ACCEPTANCE.md",
+        "data/capability-check-14_exqgg/report.json"
+      ]
+    },
+    {
+      "id": "scientist",
+      "title_key": "release_acceptance.scientist.title",
+      "source": "partial",
+      "verification": "cpu_verified",
+      "delivery": "not_delivered",
+      "blockers": [
+        "release_acceptance.blocker.current_caller",
+        "release_acceptance.blocker.enabled_runtime_acceptance"
+      ],
+      "next_action_key": "release_acceptance.scientist.next",
+      "evidence": [
+        "docs/SCIENTIST_HANDOFF.md",
+        "docs/SCIENTIST_NO_ADMISSION_OBSERVATION.md",
+        "docs/STATUS.md",
+        "docs/SCIENTIST_BOOTSTRAP.md",
+        "docs/SCIENTIST_SOURCE_AUTHORITY.md",
+        "docs/SCIENTIST_RETAINED_PROVIDER.md",
+        "docs/SCIENTIST_RETAINED_RESOLUTION.md"
+      ]
+    },
+    {
+      "id": "native_workflow",
+      "title_key": "release_acceptance.native_workflow.title",
+      "source": "partial",
+      "verification": "historical_native",
+      "delivery": "historical",
+      "blockers": [
+        "release_acceptance.blocker.current_two_application_native",
+        "release_acceptance.blocker.independent_quality"
+      ],
+      "next_action_key": "release_acceptance.native_workflow.next",
+      "evidence": [
+        "docs/STATUS.md",
+        "docs/WEB_GOAL_PLANNING.md",
+        "data/named-parameter-public-cpu-browser-20261001.log"
+      ]
+    },
+    {
+      "id": "user_delivery",
+      "title_key": "release_acceptance.user_delivery.title",
+      "source": "partial",
+      "verification": "cpu_verified",
+      "delivery": "historical",
+      "blockers": [
+        "release_acceptance.blocker.latest_user_session",
+        "release_acceptance.blocker.real_mac_ssh",
+        "release_acceptance.blocker.clean_machine_release"
+      ],
+      "next_action_key": "release_acceptance.user_delivery.next",
+      "evidence": [
+        "docs/FIRST_RELEASE.md",
+        "data/project-prepare-ui-browser-final-20261001.log",
+        "data/project-mac-connector-actual-cpu-final-20261001.log"
+      ]
+    },
+    {
+      "id": "learning",
+      "title_key": "release_acceptance.learning.title",
+      "source": "partial",
+      "verification": "historical_native",
+      "delivery": "not_delivered",
+      "blockers": [
+        "release_acceptance.blocker.reviewed_data_rights",
+        "release_acceptance.blocker.s2_trainable_compatibility",
+        "release_acceptance.blocker.held_out_promotion"
+      ],
+      "next_action_key": "release_acceptance.learning.next",
+      "evidence": [
+        "docs/CONTINUOUS_IMPROVEMENT.md",
+        "docs/OWNED_EPISODE_ADAPTATION.md",
+        "docs/OWNED_ADAPTER_EVALUATION.md",
+        "docs/STATUS.md"
+      ]
+    },
+    {
+      "id": "swapp",
+      "title_key": "release_acceptance.swapp.title",
+      "source": "pending",
+      "verification": "pending",
+      "delivery": "pending",
+      "blockers": [
+        "release_acceptance.blocker.authorized_intranet_scope",
+        "release_acceptance.blocker.task_oracle",
+        "release_acceptance.blocker.real_site_w1_w6"
+      ],
+      "next_action_key": "release_acceptance.swapp.next",
+      "evidence": [
+        "docs/INTEGRATION_COMPOSITIONS.md",
+        "docs/ROADMAP.md"
+      ]
+    }
+  ]
+}

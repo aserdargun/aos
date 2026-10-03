@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "synthetic-agent",
+  "version": "1",
+  "adapter_kind": "synthetic",
+  "capabilities": [
+    "synthetic.work"
+  ],
+  "max_active_instances": 2,
+  "per_job_budget": {
+    "wall_seconds": 10,
+    "model_tokens": 0,
+    "experiments": 0
+  },
+  "aggregate_budget": {
+    "wall_seconds": 20,
+    "model_tokens": 0,
+    "experiments": 0
+  },
+  "cleanup_scope": "local_process"
+}

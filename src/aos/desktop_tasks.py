@@ -83,6 +83,8 @@ class LeasedGateway(ComputerGateway):
 
 
 class DesktopScheduler:
+    _shared_drain_latched = False
+
     def __init__(self, controller, settings: Settings, engine, approval_seconds: float = 60,
                  browser_manifest=None, vision_supervisor=None, desktop_browser: bool = False,
                  desktop_vision: bool = False, desktop_mcp_manifest=None,
@@ -423,11 +425,19 @@ class DesktopScheduler:
         self._owned_skill_reuse_admission_sha256 = None
         self._owned_skill_reuse_admission_file = None
         self.owned_skill_planning = None
+        self.web_goal_planning = None
+        self.parameter_web_goal_execution = None
+        self.owned_parameter_project_execution = None
+        self._parameter_skill_candidate_session = None
+        self._parameter_skill_review_session = None
+        self._parameter_skill_release_session = None
+        self._parameter_skill_reuse_execution = None
         self.knowledge_answer = None
         self._owned_planning_start = None
         self._owned_candidate_execution = None
         self._active_owned_candidate_execution = None
         self._owned_candidate_execution_history = {}
+        self._web_goal_start_attempts = {}
         self._owned_candidate_execution_consumed = set()
         self._owned_selected_candidate_execution_consumed = set()
         self._owned_candidate_execution_session_starts = 0
@@ -492,6 +502,7 @@ class DesktopScheduler:
         self.job_id: str | None = None
         self.answer: asyncio.Future | None = None
         self.closed = False
+        self._shared_drain_latched = False
         self.restart_quiesced = False
         self.operator = None
         self.pause_requested = False
@@ -500,8 +511,52 @@ class DesktopScheduler:
         self.sequences = TaskSequences(self)
 
     @property
+    def restart_quiesced(self):
+        return self._restart_quiesced or self._shared_drain_latched
+
+    @restart_quiesced.setter
+    def restart_quiesced(self, value):
+        self._restart_quiesced = value
+
+    def latch_shared_drain(self) -> None:
+        with self.controller.lock:
+            self._shared_drain_latched = True
+
+    def shared_drain_status(self) -> dict:
+        with self.controller.lock:
+            blockers = []
+            if self.closed:
+                blockers.append('scheduler_closed')
+            if self._approval_grant is not None:
+                blockers.append('approval_grant')
+            try:
+                if self.reserved:
+                    blockers.append('reserved')
+                queries = (
+                    ('pending_approvals', '''SELECT 1 FROM desktop_approvals
+                        JOIN desktop_tasks USING(job_id) WHERE session_id=?
+                        AND desktop_approvals.status IN ('pending','approved') LIMIT 1'''),
+                    ('unfinished_tasks', '''SELECT 1 FROM desktop_tasks
+                        WHERE session_id=? AND status NOT IN ('succeeded','failed','cancelled') LIMIT 1'''),
+                    ('pending_inputs', '''SELECT 1 FROM desktop_inputs
+                        WHERE session_id=? AND status IN ('queued','running','uncertain') LIMIT 1'''),
+                )
+                for blocker, query in queries:
+                    if self.store.connection.execute(query, (self.controller.session_id,)).fetchone():
+                        blockers.append(blocker)
+            except (sqlite3.Error, OSError, ValueError, TypeError, AttributeError, RuntimeError, AOSFault):
+                return {'admission_closed': False, 'blockers': [*blockers, 'status_unavailable']}
+            return {'admission_closed': self._shared_drain_latched, 'blockers': blockers}
+
+    @property
     def busy(self):
-        return self.task is not None and not self.task.done()
+        child = self.parameter_skill_reuse_child()
+        return (self.task is not None and not self.task.done()
+                or child is not None and child.busy)
+
+    def parameter_skill_reuse_child(self):
+        service = getattr(self, '_parameter_skill_reuse_execution', None)
+        return service.child_manager if service is not None else None
 
     @property
     def paused(self):
@@ -521,7 +576,126 @@ class DesktopScheduler:
     def planning_reserved(self):
         knowledge_answer = getattr(self, 'knowledge_answer', None)
         return (self.owned_skill_planning is not None and self.owned_skill_planning.reserved
+                or self.web_goal_planning is not None and self.web_goal_planning.reserved
+                or getattr(self, 'parameter_web_goal_execution', None) is not None
+                and self.parameter_web_goal_execution.reserved
+                or getattr(self, 'owned_parameter_project_execution', None) is not None
+                and self.owned_parameter_project_execution.reserved
+                or getattr(self, '_parameter_skill_reuse_execution', None) is not None
+                and self._parameter_skill_reuse_execution.reserved
                 or knowledge_answer is not None and knowledge_answer.reserved)
+
+    def configure_parameter_web_goal_execution(self, binding, journal, *, manager_session,
+                                               current_source, source_auditor):
+        from .web_goal_desktop_execution import DesktopParameterWebGoalExecution
+
+        if (self.parameter_web_goal_execution is not None
+                or getattr(self, 'owned_parameter_project_execution', None) is not None):
+            raise ValueError('parameter_web_goal_already_configured')
+        self.parameter_web_goal_execution = DesktopParameterWebGoalExecution(
+            self, binding, journal, manager_session=manager_session,
+            current_source=current_source, source_auditor=source_auditor)
+
+    def configure_owned_parameter_project_execution(self, project_bundle, journal_directory,
+                                                   *, current_source, source_auditor):
+        from .owned_parameter_project_execution import OwnedParameterProjectExecution
+
+        if (self.parameter_web_goal_execution is not None
+                or self.owned_parameter_project_execution is not None):
+            raise ValueError('owned_parameter_project_already_configured')
+        self.owned_parameter_project_execution = OwnedParameterProjectExecution(
+            self, project_bundle, journal_directory,
+            current_source=current_source, source_auditor=source_auditor)
+
+    def parameter_skill_candidate_session(self):
+        from .owned_parameter_skill_candidate import OwnedParameterSkillCandidateSession
+
+        service = getattr(self, 'owned_parameter_project_execution', None)
+        if service is None or self.closed:
+            raise ValueError('owned_parameter_skill_source_unavailable')
+        if self._parameter_skill_candidate_session is None:
+            bundle = service.loader()
+            self._parameter_skill_candidate_session = OwnedParameterSkillCandidateSession(
+                bundle['directory'], bundle['manifest_sha256'], self.settings.database,
+                service.journal.directory, bundle['directory'] / 'manual-skill-candidates')
+        return self._parameter_skill_candidate_session
+
+    def start_parameter_web_goal_execution(self, **arguments):
+        if self.parameter_web_goal_execution is None:
+            raise ValueError('parameter_web_goal_unavailable')
+        return self.parameter_web_goal_execution.start(**arguments)
+
+    def parameter_skill_review_session(self):
+        from .owned_parameter_skill_review import OwnedParameterSkillReviewSession
+
+        candidate_session = self.parameter_skill_candidate_session()
+        if self._parameter_skill_review_session is None:
+            self._parameter_skill_review_session = OwnedParameterSkillReviewSession(
+                candidate_session, candidate_session.directory / 'manual-skill-reviews')
+        return self._parameter_skill_review_session
+
+    def parameter_skill_release_session(self):
+        from .owned_parameter_skill_release import OwnedParameterSkillReleaseSession
+
+        review_session = self.parameter_skill_review_session()
+        if self._parameter_skill_release_session is None:
+            self._parameter_skill_release_session = OwnedParameterSkillReleaseSession(
+                review_session, review_session.candidate_session.directory.parent / 'manual-skill-release-catalog')
+        return self._parameter_skill_release_session
+
+    def parameter_skill_reuse_execution_session(self):
+        from .owned_parameter_skill_reuse import OwnedParameterSkillReuseSession
+        from .owned_parameter_skill_reuse_execution import OwnedParameterSkillReuseExecution
+        from .web_goal_execution_journal import WebGoalExecutionJournal
+
+        if self._parameter_skill_reuse_execution is None:
+            project = getattr(self, 'owned_parameter_project_execution', None)
+            if project is None or self.closed or self.restart_quiesced:
+                raise ValueError('owned_parameter_reuse_source_unavailable')
+            session = OwnedParameterSkillReuseSession(self.parameter_skill_release_session())
+            self._parameter_skill_reuse_execution = OwnedParameterSkillReuseExecution(
+                self, session, WebGoalExecutionJournal(project.journal.directory.parent / 'manual-skill-reuse'),
+                manager_session=self.controller.session_id,
+                prepare_manager=self._prepare_parameter_skill_reuse_manager)
+        return self._parameter_skill_reuse_execution
+
+    def _prepare_parameter_skill_reuse_manager(self, bundle):
+        service = self._parameter_skill_reuse_execution
+        project = self.owned_parameter_project_execution
+        if (service is None or not service.starting or service.intent_sha256 is None
+                or self.closed or self.restart_quiesced or self.busy or self.paused
+                or self._owned_form_lifecycle != 'completed'
+                or self.engine.identity['real_model'] is not False):
+            raise ValueError('owned_parameter_reuse_requires_completed_fixture_bootstrap')
+        startup = project.loader.__self__
+        fixture = startup.create_reuse_fixture(bundle)
+        try:
+            session = service.reuse_session
+            admission = bundle['admission']
+            manifest = dict(bundle['manifest']) | {
+                'mode': 'owned_parameter_skill_manual_reuse',
+                'invocation_sha256': bundle['invocation_sha256'],
+                'original_manifest_sha256': bundle['manifest_sha256'],
+            }
+            return DesktopScheduler(
+                self.controller, self.settings, self.engine, self.approval_seconds,
+                browser_manifest=self.browser_manifest, desktop_browser=self.desktop_browser,
+                remote_entry_mcp_manifest=self.remote_entry_mcp_manifest,
+                remote_entry_profiles=bundle['profiles'],
+                remote_entry_profile_sha256=bundle['profile_sha256'], remote_entry_task=bundle['task'],
+                remote_form_plan=bundle['form_plan'],
+                remote_form_fields=[{'name': name, 'value': value} for name, value in bundle['fields']],
+                remote_form_tls_context=fixture.target.tls_context,
+                remote_form_state_plan=bundle['state_plan'],
+                remote_form_skill_invocation=bundle['invocation'],
+                remote_form_skill_invocation_sha256=bundle['invocation_sha256'],
+                remote_form_skill_revalidator=lambda: session.revalidate(admission),
+                remote_form_owned_target=fixture.target, remote_form_owned_fixture=fixture,
+                remote_form_owned_manifest=manifest,
+                remote_form_owned_auditor=lambda run_id: session.audit(admission, self.settings.database, run_id))
+        except BaseException:
+            fixture.close()
+            raise
 
     def configure_knowledge_answer(self, knowledge, answerer, directory):
         from .knowledge_answer import KnowledgeAnswerService
@@ -859,8 +1033,266 @@ class DesktopScheduler:
                      'requested_value': development_value}]
         return authority, evidence
 
+    def configure_web_goal_planning(self, planner):
+        from .web_goal_planner import BonsaiWebGoalPlanner
+        from .web_goal_planning import WebGoalPlanning
+        from .scientist_decision import ScientistDecisionEngine
+
+        if (getattr(self, 'scientist_binding', None) is not None or isinstance(self.engine, ScientistDecisionEngine)
+                or self._owned_skill_reuse is None
+                or not isinstance(planner, BonsaiWebGoalPlanner) or self.web_goal_planning is not None
+                or self.closed or self.reserved):
+            raise ValueError('web_goal_planning_configuration_not_admitted')
+
+        async def yield_gpu():
+            if isinstance(self.engine, ReusableDeciderEngine):
+                await self.engine.close()
+
+        def prepare(lease_id, generation):
+            authority, _evidence = self._prepare_owned_skill_plan(None, None, lease_id, generation)
+            catalog = self.owned_web_goal_catalog(lease_id, generation, _planning=self.web_goal_planning)
+            return authority, catalog
+
+        self.web_goal_planning = WebGoalPlanning(
+            planner, self._owned_skill_reuse_admission_file.parent / 'web-goal-proposals', prepare, yield_gpu)
+
+    def begin_web_goal_plan(self, goal, lease_id, generation, *, confirm_catalog_sha256, inference_consent=False):
+        if self.web_goal_planning is None or self.closed or self.restart_quiesced or self.reserved:
+            raise ValueError('web_goal_planning_unavailable')
+        return self.web_goal_planning.begin(goal, lease_id, generation,
+            confirm_catalog_sha256=confirm_catalog_sha256, inference_consent=inference_consent)
+
+    def web_goal_plan_status(self):
+        return (self.web_goal_planning.status() | {
+                    'knowledge_available': getattr(self.web_goal_planning, 'knowledge_service', None) is not None}
+                if self.web_goal_planning is not None
+                else {'available': False, 'status': 'unavailable', 'execution_authorized': False})
+
+    def configure_web_goal_knowledge(self, knowledge):
+        from .web_goal_knowledge_service import WebGoalKnowledgeService
+
+        if (self.web_goal_planning is None or self.reserved or self.closed
+                or getattr(self.web_goal_planning, 'knowledge_service', None) is not None):
+            raise ValueError('web_goal_knowledge_configuration_invalid')
+        service = WebGoalKnowledgeService(self, knowledge)
+        self.web_goal_planning.knowledge_service = service
+        self.web_goal_planning.knowledge_current = service.check_current
+
+    def preview_web_goal_knowledge(self, **arguments):
+        service = getattr(self.web_goal_planning, 'knowledge_service', None)
+        if service is None:
+            raise ValueError('web_goal_knowledge_unavailable')
+        return {'schema_version': '1.0', 'review': service.preview(**arguments),
+                'execution_authorized': False, 'training_ready': False}
+
+    def begin_web_goal_knowledge(self, *, review, confirm_knowledge_sha256,
+                                 inference_consent, storage_consent, lease_id, generation):
+        if self.web_goal_planning is None or self.reserved:
+            raise ValueError('web_goal_knowledge_planning_unavailable')
+        return self.web_goal_planning.begin(review['goal'], lease_id, generation,
+            confirm_catalog_sha256=review['catalog_sha256'], inference_consent=inference_consent,
+            knowledge_review=review, confirm_knowledge_sha256=confirm_knowledge_sha256,
+            storage_consent=storage_consent)
+
+    def web_goal_knowledge_report(self, bundle_sha256):
+        service = getattr(self.web_goal_planning, 'knowledge_service', None)
+        if service is None:
+            raise ValueError('web_goal_knowledge_report_unavailable')
+        return service.report(bundle_sha256=bundle_sha256)
+
+    def preview_planned_web_goal(self, bundle_sha256, confirm_bundle_sha256, lease_id, generation):
+        if (self.web_goal_planning is None or self.reserved or bundle_sha256 != confirm_bundle_sha256):
+            raise ValueError('web_goal_proposal_requires_fresh_confirmation')
+        proposal = self.web_goal_planning.select(bundle_sha256, lease_id, generation)
+        result = self.preview_owned_web_goal(proposal, proposal.catalog_sha256, lease_id, generation)
+        return result | {'proposal_bundle_sha256': bundle_sha256,
+                         'proposal': proposal.model_dump(mode='json')}
+
+    def start_planned_web_goal(self, bundle_sha256, confirm_bundle_sha256,
+                               preview_sha256, confirm_preview_sha256, lease_id, generation):
+        preview = self.preview_planned_web_goal(bundle_sha256, confirm_bundle_sha256, lease_id, generation)
+        if preview_sha256 != preview['preview_sha256'] or confirm_preview_sha256 != preview_sha256:
+            raise ValueError('web_goal_execution_preview_changed')
+        value = next(iter(preview['proposal']['parameters'].values()))
+        review = self.web_goal_planning.record_execution_review(
+            bundle_sha256, preview_sha256, lease_id, generation)
+        self._web_goal_start_attempts[bundle_sha256] = {
+            'review_sha256': digest(review),
+            'previous_executions': frozenset(self._owned_candidate_execution_history)}
+        with self.web_goal_planning.admit_reviewed_start(review):
+            result = self.start_owned_form_candidate_execution(
+                candidate_sha256=preview['candidate_sha256'], source_run_ref=preview['source_run_ref'],
+                invocation_sha256=preview['source_invocation_sha256'], case_key=preview['case_key'],
+                development_value=value, preview_sha256=preview_sha256, confirm_sha256=confirm_preview_sha256,
+                lease_id=lease_id, generation=generation, review_sha256=preview['review_sha256'],
+                release_sha256=preview['release_sha256'], selection_sha256=preview['selection_sha256'],
+                reuse_admission_sha256=preview['reuse_admission_sha256'])
+        self.web_goal_planning.record_started_job(review, result['job_id'])
+        return result | {'proposal_bundle_sha256': bundle_sha256}
+
+    def recover_web_goal_start(self, bundle_sha256, job_id, confirm_job_id, lease_id, generation):
+        desktop = self.controller.state()
+        if (self.web_goal_planning is None or self.closed or self.restart_quiesced
+                or type(generation) is not int or job_id != confirm_job_id
+                or desktop['owner'] != 'AGENT' or desktop['status'] != 'running'
+                or desktop['lease_id'] != lease_id or desktop['generation'] != generation):
+            raise ValueError('web_goal_recovery_requires_current_confirmation')
+        review = self.web_goal_planning.pending_execution_review(bundle_sha256)
+        authority = review['authority']
+        if (authority.get('desktop_session_id') != self.controller.session_id
+                or authority.get('runtime_id') != desktop['runtime_id']
+                or authority.get('lease_id') != lease_id or authority.get('generation') != generation):
+            raise ValueError('web_goal_recovery_authority_changed')
+        job = self.store.connection.execute(
+            'SELECT kind FROM desktop_tasks WHERE job_id=? AND session_id=?',
+            (job_id, self.controller.session_id)).fetchone()
+        attempt = self._web_goal_start_attempts.get(bundle_sha256)
+        if attempt is None or attempt['review_sha256'] != digest(review):
+            raise ValueError('web_goal_recovery_start_attempt_unavailable')
+        executions = [item for key, item in self._owned_candidate_execution_history.items()
+                      if key not in attempt['previous_executions']
+                      and item.get('preview_sha256') == review['preview_sha256']]
+        if (job is None or job['kind'] != 'browser_remote_form' or len(executions) != 1
+                or executions[0].get('job_id') != job_id):
+            raise ValueError('web_goal_recovery_independent_job_binding_unavailable')
+        self.web_goal_planning.record_started_job(review, job_id)
+        return {'schema_version': '1.0', 'proposal_bundle_sha256': bundle_sha256,
+                'job_id': job_id, 'acknowledgement_recovered': True,
+                'execution_authorized': False, 'independently_verified': False,
+                'gpu_release_verified': False}
+
+    def web_goal_execution_report(self, bundle_sha256):
+        from .dataset import validator
+
+        if self.web_goal_planning is None:
+            raise ValueError('web_goal_planning_unavailable')
+        receipt = self.web_goal_planning.execution_receipt(bundle_sha256)
+        if receipt['authority'].get('desktop_session_id') != self.controller.session_id:
+            raise ValueError('web_goal_execution_belongs_to_another_session')
+        job = self.store.connection.execute(
+            'SELECT status,kind FROM desktop_tasks WHERE job_id=? AND session_id=?',
+            (receipt['job_id'], self.controller.session_id)).fetchone()
+        if job is None or job['kind'] != 'browser_remote_form':
+            raise ValueError('web_goal_execution_job_binding_changed')
+        response = {'schema_version': '1.0', 'proposal_bundle_sha256': bundle_sha256,
+                    'job_id': receipt['job_id'], 'job_status': job['status'],
+                    'status': 'pending_verification', 'independently_verified': False,
+                    'receipt_sha256': digest(receipt), 'report_sha256': None,
+                    'verification_scope': 'owned_synthetic_recipe',
+                    'execution_authorized': False, 'training_ready': False,
+                    'gpu_release_verified': False}
+        if job['status'] in {'failed', 'cancelled'}:
+            response['status'] = 'not_verified'
+        elif job['status'] == 'succeeded' and not self.reserved:
+            executions = [item for item in self._owned_candidate_execution_history.values()
+                          if item.get('job_id') == receipt['job_id']]
+            if len(executions) != 1 or executions[0].get('preview_sha256') != receipt['preview_sha256']:
+                raise ValueError('web_goal_execution_preview_binding_changed')
+            report = self.audit_owned_form_candidate_execution(executions[0]['candidate_execution_sha256'])
+            if (report.get('available') is True and report.get('status') == 'verified'
+                    and report.get('job_id') == receipt['job_id']
+                    and report.get('reuse_admission_verified') is True
+                    and report.get('release_admission_verified') is True
+                    and report.get('review_admission_verified') is True):
+                bundle = self.web_goal_planning.load(bundle_sha256)
+                from .owned_skill_planning import planning_case_key
+                from .site_skill_case_binding import parameter_variant_sha256
+
+                proposal = bundle['model_response']
+                skill = next((item for item in bundle['catalog']['skills']
+                              if item['skill_ref'] == proposal['skill_ref']), None)
+                if skill is None or len(proposal['parameters']) != 1:
+                    raise ValueError('web_goal_execution_skill_binding_changed')
+                value = next(iter(proposal['parameters'].values()))
+                if any(report.get(key) != expected for key, expected in (
+                        ('profile_sha256', bundle['catalog']['profile_sha256']),
+                        ('skill_sha256', skill['skill_sha256']),
+                        ('recipe_sha256', skill['recipe_sha256']),
+                        ('release_sha256', skill['release_sha256']),
+                        ('selection_sha256', skill['selection_sha256']),
+                        ('case_key', planning_case_key('Save message "' + value + '"')),
+                        ('parameter_variant_sha256', parameter_variant_sha256(proposal['parameters'])))):
+                    raise ValueError('web_goal_execution_report_source_changed')
+                response.update(status='verified', independently_verified=True,
+                                report_sha256=report['report_sha256'])
+            else:
+                response['status'] = 'not_verified'
+        if not validator('web_goal_execution_report').is_valid(response):
+            raise ValueError('web_goal_execution_report_invalid')
+        return response
+
+    def owned_web_goal_catalog(self, lease_id, generation, *, _planning=None):
+        from .owned_skill_planning import planning_case_key
+        from .web_goal_planner import WebGoalCatalog
+
+        if (type(lease_id) is not str or not lease_id or type(generation) is not int
+                or generation < 0 or self.reserved and not (
+                    _planning is not None and _planning is self.web_goal_planning and _planning.reserved)):
+            raise ValueError('owned_web_goal_requires_idle_source')
+        probe = 'Save message "catalog-probe"'
+        authority, evidence = self._prepare_owned_skill_plan(
+            planning_case_key(probe), 'catalog-probe', lease_id, generation)
+        reuse = self._owned_skill_reuse
+        session = reuse['context']['candidate_session']
+        candidate, source = session.execution_source(
+            reuse['context']['source_run_id'], authority['source_invocation_sha256'],
+            authority['candidate_sha256'])
+        skill = candidate['skill']
+        profile = source['profiles'].get(candidate['profile_sha256'])
+        if (len(evidence) != 1 or evidence[0]['skill_key'] != skill['skill_key']
+                or candidate['profile_sha256'] != skill['profile_sha256']
+                or source['task'].profile_sha256 != candidate['profile_sha256']):
+            raise ValueError('owned_web_goal_source_changed')
+        return WebGoalCatalog.model_validate({
+            'schema_version': '1.0', 'synthetic': True,
+            'application_key': profile.application_key, 'tenant_key': profile.tenant_key,
+            'account_role': profile.account_role, 'profile_sha256': candidate['profile_sha256'],
+            'skills': [{
+                'skill_ref': skill['skill_key'], 'skill_sha256': digest(skill),
+                'task_sha256': digest(source['task'].model_dump(mode='json')),
+                'recipe_sha256': authority['recipe_sha256'],
+                'release_sha256': authority['release_sha256'],
+                'selection_sha256': authority['selection_sha256'],
+                'description': 'Save one message in the selected owned synthetic form.',
+                'parameters': {evidence[0]['parameter_key']: {
+                    'description': 'Exact message text; ASCII letters, digits, spaces, underscore, dot or hyphen.',
+                    'min_chars': 1, 'max_chars': 128, 'allowed_values': None}},
+            }],
+            'execution_authorized': False, 'activation_authorized': False,
+            'training_ready': False, 'scope_authorization_verified': False,
+        })
+
+    def preview_owned_web_goal(self, proposal, confirm_catalog_sha256, lease_id, generation):
+        from .owned_skill_planning import planning_case_key
+        from .web_goal_planner import WebGoalPlan
+
+        if not isinstance(proposal, WebGoalPlan):
+            raise ValueError('owned_web_goal_requires_typed_proposal')
+        proposal = WebGoalPlan.model_validate(proposal.model_dump(mode='json'))
+        catalog = self.owned_web_goal_catalog(lease_id, generation)
+        if confirm_catalog_sha256 != digest(catalog.model_dump(mode='json')):
+            raise ValueError('owned_web_goal_catalog_changed')
+        proposal.validate_catalog(catalog)
+        if proposal.decision != 'propose_skill':
+            raise ValueError('owned_web_goal_requires_human')
+        parameter_key = next(iter(catalog.skills[0].parameters))
+        value = proposal.parameters[parameter_key]
+        goal = 'Save message "' + value + '"'
+        case_key = planning_case_key(goal)
+        authority, _evidence = self._prepare_owned_skill_plan(
+            case_key, value, lease_id, generation)
+        refreshed = self.owned_web_goal_catalog(lease_id, generation)
+        if digest(refreshed.model_dump(mode='json')) != confirm_catalog_sha256:
+            raise ValueError('owned_web_goal_catalog_changed')
+        arguments = {key: authority[key] for key in (
+            'candidate_sha256', 'source_run_ref', 'review_sha256',
+            'release_sha256', 'selection_sha256', 'reuse_admission_sha256')}
+        arguments.update(invocation_sha256=authority['source_invocation_sha256'],
+                         case_key=case_key, development_value=value)
+        return self.preview_owned_form_candidate_execution(**arguments)
+
     def begin_owned_skill_plan(self, goal, lease_id, generation, *, collect_learning=False):
-        if self.owned_skill_planning is None or self.reserved:
+        if self.owned_skill_planning is None or self.closed or self.restart_quiesced or self.reserved:
             raise ValueError('owned_skill_planning_unavailable')
         return self.owned_skill_planning.begin(goal, lease_id, generation, collect_learning=collect_learning)
 
@@ -911,6 +1343,8 @@ class DesktopScheduler:
             raise ValueError('owned_skill_plan_discard_required_for_manual_execution')
 
     async def cancel_owned_skill_plan(self):
+        if self.web_goal_planning is not None:
+            await self.web_goal_planning.cancel()
         if self.knowledge_answer is not None:
             await self.knowledge_answer.cancel()
         if self.owned_skill_planning is not None:
@@ -940,6 +1374,8 @@ class DesktopScheduler:
         return {'quiesced': True, 'session_id': self.controller.session_id}
 
     def release_restart_quiesce(self, expected_session_id: str):
+        if self._shared_drain_latched:
+            raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Shared drain admission cannot be reopened')
         if expected_session_id != self.controller.session_id or not self.restart_quiesced:
             raise AOSFault(ErrorCode.UNSAFE_ACTION, 'No restart admission quiesce is active')
         self.restart_quiesced = False
@@ -1148,6 +1584,15 @@ class DesktopScheduler:
                            'Static asset run cannot bind its live runtime')
 
     def check_remote_form_binding(self, job_id):
+        project_execution = getattr(self, 'owned_parameter_project_execution', None)
+        parameter_execution = getattr(self, 'parameter_web_goal_execution', None)
+        try:
+            if project_execution is not None:
+                project_execution.check_job(job_id)
+            if parameter_execution is not None:
+                parameter_execution.check_job(job_id)
+        except (AOSFault, OSError, sqlite3.Error, ValueError, TypeError, KeyError) as error:
+            raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Parameter form source or control changed') from error
         if self.remote_form_plan is None:
             return
         job = self.store.connection.execute(
@@ -1299,6 +1744,13 @@ class DesktopScheduler:
                                'HTTPS form state run plan changed') from error
 
     def status(self):
+        child = self.parameter_skill_reuse_child()
+        if child is not None and child.job_id is not None:
+            return child.status() | {
+                'owned_parameter_project_execution': self.owned_parameter_project_execution.status(),
+                'owned_parameter_skill_reuse_execution': self._parameter_skill_reuse_execution.status(),
+                'restart_quiesced': self.restart_quiesced,
+            }
         jobs = [dict(row) for row in self.store.connection.execute(
             'SELECT job_id,run_id,kind,status,real_model,created_at,runtime_id FROM desktop_tasks WHERE session_id=? ORDER BY rowid DESC LIMIT 20',
             (self.controller.session_id,))]
@@ -1358,9 +1810,11 @@ class DesktopScheduler:
             (self.controller.session_id,)).fetchone()
         manifest = self.remote_form_owned_manifest
         recipe_mode = (manifest is not None
-                       and manifest.get('mode') == 'owned_synthetic_form_recipe')
+                       and manifest.get('mode') in {'owned_synthetic_form_recipe',
+                                                    'owned_synthetic_parameter_project',
+                                                    'owned_parameter_skill_manual_reuse'})
         owned_form_invocation = ({
-            'mode': ('owned_synthetic_form_recipe' if recipe_mode
+            'mode': (manifest['mode'] if recipe_mode
                      else 'owned_synthetic_form_invocation'),
             'lifecycle': self._owned_form_lifecycle,
             'profile_sha256': manifest['profile_sha256'],
@@ -1383,6 +1837,7 @@ class DesktopScheduler:
                 'failure_guidance_available': True,
                 'hello_guidance_reuse_available': True,
                 'owned_skill_planning': self.owned_skill_plan_status(),
+                'owned_web_goal_planning': self.web_goal_plan_status(),
                 'owned_episode_learning': (self.owned_episode_learning.status()
                     if self.owned_episode_learning is not None else {'available': False}),
                 'restart_quiesced': self.restart_quiesced, 'real_model': self.engine.identity['real_model'],
@@ -1440,6 +1895,10 @@ class DesktopScheduler:
                 'supports_remote_learning_metadata': self.remote_learning_consents_dir is not None,
                 'owned_form_invocation': owned_form_invocation,
                 'owned_form_candidate_execution': self._owned_candidate_execution_status(),
+                'parameter_web_goal_execution': (self.parameter_web_goal_execution.status()
+                                                 if getattr(self, 'parameter_web_goal_execution', None) is not None else None),
+                'owned_parameter_project_execution': (self.owned_parameter_project_execution.status()
+                                                       if getattr(self, 'owned_parameter_project_execution', None) is not None else None),
                 'auto_approval': ({'job_id': self._approval_grant.job_id, 'kind': self._approval_grant.kind}
                                   if self.grant_current() else None),
                 'sequence': self.sequences.report.model_dump() if self.sequences.report else None,
@@ -1741,7 +2200,7 @@ class DesktopScheduler:
 
     def grant_current(self):
         grant = self._approval_grant
-        if (grant is None or self.closed or not self.busy or self.job_id != grant.job_id
+        if (grant is None or self.closed or self._shared_drain_latched or not self.busy or self.job_id != grant.job_id
                 or self.controller.session_id != grant.session_id
                 or time.time() >= grant.expires_at or time.monotonic() >= grant.monotonic_deadline):
             return False
@@ -1813,6 +2272,8 @@ class DesktopScheduler:
             raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Action exceeds the fixed task delegation scope or order')
 
     def kinds(self):
+        if getattr(self, 'owned_parameter_project_execution', None) is not None:
+            return ['browser_remote_form']
         return ['hello'] + (['browser_form'] if self.browser_manifest else []) + (
             ['vision_canvas'] if self.browser_manifest and self.vision_supervisor else []) + (
             ['browser_local_navigation'] if self.desktop_mcp_manifest is not None
@@ -1853,6 +2314,11 @@ class DesktopScheduler:
                learning_metadata: bool = False, failure_followup: str | None = None,
                failure_guidance: str | None = None, hello_guidance_reuse: str | None = None,
                task_knowledge: str | None = None):
+        parameter_execution = getattr(self, 'parameter_web_goal_execution', None)
+        if parameter_execution is not None and (parameter_execution.journal.reserved
+                and not parameter_execution.starting or kind == 'browser_remote_form'
+                and not parameter_execution.starting):
+            raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Parameter web goal requires its exact reviewed intent')
         if task_knowledge is not None and (self.task_knowledge is None or approve_all or learning_metadata
                 or failure_followup is not None or failure_guidance is not None or hello_guidance_reuse is not None
                 or self.remote_form_owned_fixture is not None or self._owned_skill_reuse is not None
@@ -1985,6 +2451,9 @@ class DesktopScheduler:
         if self.remote_form_owned_fixture is not None and not candidate_start:
             self._owned_form_lifecycle = 'running'
         self.job_id = identifier('job')
+        project_execution = getattr(self, 'owned_parameter_project_execution', None)
+        if project_execution is not None:
+            project_execution.reserve(self.job_id, lease_id, generation)
         grant = TaskApprovalGrant(identifier('grant'), self.job_id, kind, self.controller.session_id,
                                   lease_id, generation, desktop['runtime_id'], time.time() + 300,
                                   time.monotonic() + 300) if approve_all else None
@@ -2097,6 +2566,9 @@ class DesktopScheduler:
                                       created_at=now())
                     self.check_remote_static_assets_binding(job_id)
                 if kind == 'browser_remote_form':
+                    project_execution = getattr(self, 'owned_parameter_project_execution', None)
+                    if project_execution is not None:
+                        project_execution.bind_run(job_id, state)
                     self.check_remote_form_binding_preinsert(job_id, state)
                     draft = self._remote_form_draft
                     plan = self.remote_form_plan
@@ -2435,6 +2907,8 @@ class DesktopScheduler:
                                            'browser_remote_routes': 'routes',
                                            'browser_remote_static_assets': 'assets',
                                            'browser_remote_form': 'form'}[kind])
+            if kind == 'browser_remote_form' and getattr(self, 'parameter_web_goal_execution', None) is not None:
+                operation = self.parameter_web_goal_execution.operation(operator, job_id)
             context_arguments = {}
             if job_id in self._failure_guidance_jobs:
                 from .failure_guidance import FailureGuidanceContext
@@ -2445,6 +2919,10 @@ class DesktopScheduler:
                                      resume_state=resume_state, **context_arguments)
             self.update(job_id, result['status'])
             succeeded = result['status'] == 'succeeded'
+            if succeeded and kind == 'browser_remote_form' and getattr(self, 'owned_parameter_project_execution', None) is not None:
+                self.owned_parameter_project_execution.finish(job_id)
+            if succeeded and kind == 'browser_remote_form' and getattr(self, 'parameter_web_goal_execution', None) is not None:
+                self.parameter_web_goal_execution.finish(job_id)
             if kind == 'browser_remote_form' and self.remote_form_owned_fixture is not None:
                 if succeeded:
                     owned_row = self.store.connection.execute(
@@ -4262,13 +4740,13 @@ class DesktopScheduler:
     def audit_owned_form_invocation(self) -> dict:
         recipe_mode = (self.remote_form_owned_manifest is not None
                        and self.remote_form_owned_manifest.get('mode')
-                       == 'owned_synthetic_form_recipe')
+                       in {'owned_synthetic_form_recipe', 'owned_synthetic_parameter_project'})
 
         def unavailable(status='unavailable'):
             result = {'available': False, 'status': status,
                       'report': None, 'report_sha256': None}
             if recipe_mode:
-                result['mode'] = 'owned_synthetic_form_recipe'
+                result['mode'] = self.remote_form_owned_manifest['mode']
             return result
 
         if self.remote_form_owned_fixture is None or not callable(self.remote_form_owned_auditor):
@@ -4322,7 +4800,7 @@ class DesktopScheduler:
         result = {'available': True, 'status': 'verified', 'report': report,
                   'report_sha256': hashlib.sha256(canonical(report).encode()).hexdigest()}
         if recipe_mode:
-            result['mode'] = 'owned_synthetic_form_recipe'
+            result['mode'] = self.remote_form_owned_manifest['mode']
         return result
 
     def owned_form_candidate_context(self) -> dict:
@@ -4422,6 +4900,10 @@ class DesktopScheduler:
         return job
 
     async def pause(self):
+        child = self.parameter_skill_reuse_child()
+        if child is not None and child.busy:
+            await child.pause()
+            return
         try:
             self.clear_grant('pause')
         finally:
@@ -4538,13 +5020,22 @@ class DesktopScheduler:
         self.update(job_id, 'running')
 
     def respond(self, approval_id: str, action_sha256: str, accept: bool):
+        if self._shared_drain_latched:
+            raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Approval admission is closed for shared drain')
+        child = self.parameter_skill_reuse_child()
+        if child is not None and child.busy:
+            return child.respond(approval_id, action_sha256, accept)
         return self._respond(approval_id, action_sha256, accept)
 
     def _fail_closed_candidate_form_approval(self, job_id, approval_id,
                                             action_sha256):
         execution = self._active_owned_candidate_execution
-        if (execution is None or execution.get('job_id') != job_id
-                or execution.get('lifecycle') != 'running'):
+        parameter = getattr(self, 'parameter_web_goal_execution', None)
+        candidate_bound = (execution is not None and execution.get('job_id') == job_id
+                           and execution.get('lifecycle') == 'running')
+        parameter_bound = (parameter is not None and parameter.job_id == job_id
+                           and parameter.intent_sha256 is not None)
+        if not candidate_bound and not parameter_bound:
             return False
         with self.store.connection:
             changed = self.store.connection.execute(
@@ -4560,10 +5051,12 @@ class DesktopScheduler:
         if future is not None and not future.done():
             future.set_exception(AOSFault(
                 ErrorCode.UNSAFE_ACTION,
-                'Candidate form binding changed before approval consumption'))
+                'Reviewed form binding changed before approval consumption'))
         return True
 
     def _respond(self, approval_id: str, action_sha256: str, accept: bool, grant: TaskApprovalGrant | None = None):
+        if self._shared_drain_latched:
+            raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Approval admission is closed for shared drain')
         row = self.store.connection.execute('SELECT * FROM desktop_approvals WHERE approval_id=? AND job_id=?', (approval_id, self.job_id)).fetchone()
         if (not self.busy or not row or row['status'] != 'pending' or row['action_sha256'] != action_sha256
                 or row['expires_at'] <= time.time() or self.answer is None or self.answer.done()):
@@ -4859,6 +5352,10 @@ class DesktopScheduler:
         return {'schema_version': '1.0', 'available': True, 'families': result}
 
     async def cancel(self, reason: str = 'pause', actor: str = 'local_authenticated_user'):
+        child = self.parameter_skill_reuse_child()
+        reuse = getattr(self, '_parameter_skill_reuse_execution', None)
+        if child is not None and (reuse is None or reuse.cleanup_task is None):
+            await child.cancel(reason, actor)
         await self.cancel_owned_skill_plan()
         try:
             self.clear_grant(reason)
@@ -4919,6 +5416,23 @@ class DesktopScheduler:
 
     async def close(self):
         self.closed = True
-        await self.cancel('stop', actor='runtime_shutdown')
+        try:
+            await self.cancel('stop', actor='runtime_shutdown')
+        finally:
+            child = self.parameter_skill_reuse_child()
+            if child is not None:
+                reuse = getattr(self, '_parameter_skill_reuse_execution', None)
+                if reuse is not None and reuse.cleanup_task is not None:
+                    await reuse.wait_cleanup()
+                else:
+                    await child.close()
+            if getattr(self, '_parameter_skill_reuse_execution', None) is not None:
+                self._parameter_skill_reuse_execution.close()
+            if getattr(self, 'parameter_web_goal_execution', None) is not None:
+                self.parameter_web_goal_execution.close()
+            if getattr(self, 'owned_parameter_project_execution', None) is not None:
+                self.owned_parameter_project_execution.close()
+        if self.web_goal_planning is not None:
+            await self.web_goal_planning.close()
         if self.knowledge_answer is not None:
             await self.knowledge_answer.close()

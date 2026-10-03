@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_execution_review.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "stage", "proposal_bundle_sha256", "preview_sha256", "authority", "proposal_sha256", "human_confirmed", "job_id", "execution_authorized", "training_ready"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "stage": {"enum": ["intent", "accepted"]},
+    "proposal_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "preview_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "proposal_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "authority": {"type": "object", "minProperties": 1},
+    "human_confirmed": {"type": "boolean", "const": true},
+    "job_id": {"type": ["string", "null"], "minLength": 1, "maxLength": 128},
+    "execution_authorized": {"type": "boolean", "const": false},
+    "training_ready": {"type": "boolean", "const": false}
+  },
+  "allOf": [{"if": {"properties": {"stage": {"const": "intent"}}},
+    "then": {"properties": {"job_id": {"type": "null"}}},
+    "else": {"properties": {"job_id": {"type": "string"}}}}]
+}

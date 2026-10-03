@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "AgentAuthority": {
+      "additionalProperties": false,
+      "properties": {
+        "principal": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Principal",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "principal",
+        "runtime_id",
+        "lease_id",
+        "owner",
+        "generation"
+      ],
+      "title": "AgentAuthority",
+      "type": "object"
+    },
+    "AgentBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "wall_seconds": {
+          "description": "Reserved wall-clock seconds, not measured or billed usage",
+          "maximum": 86400,
+          "minimum": 1,
+          "title": "Wall Seconds",
+          "type": "integer"
+        },
+        "model_tokens": {
+          "description": "Reserved model tokens, not a runtime GPU grant",
+          "maximum": 10000000,
+          "minimum": 0,
+          "title": "Model Tokens",
+          "type": "integer"
+        },
+        "experiments": {
+          "description": "Reserved experiment count; zero for non-experiment operations",
+          "maximum": 10000,
+          "minimum": 0,
+          "title": "Experiments",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "wall_seconds",
+        "model_tokens",
+        "experiments"
+      ],
+      "title": "AgentBudget",
+      "type": "object"
+    },
+    "AgentJobRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "job_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "agent_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Agent Id",
+          "type": "string"
+        },
+        "agent_version": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Agent Version",
+          "type": "string"
+        },
+        "operation": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Operation",
+          "type": "string"
+        },
+        "authority": {
+          "$ref": "#/$defs/AgentAuthority"
+        },
+        "budget": {
+          "$ref": "#/$defs/AgentBudget"
+        },
+        "dependencies": {
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+            "type": "string"
+          },
+          "maxItems": 64,
+          "title": "Dependencies",
+          "type": "array"
+        },
+        "payload": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Payload",
+          "type": "object"
+        },
+        "delegated_by": {
+          "const": "supervisor",
+          "default": "supervisor",
+          "title": "Delegated By",
+          "type": "string"
+        },
+        "executed_by": {
+          "const": "operator",
+          "default": "operator",
+          "title": "Executed By",
+          "type": "string"
+        }
+      },
+      "required": [
+        "job_id",
+        "agent_id",
+        "agent_version",
+        "operation",
+        "authority",
+        "budget",
+        "payload"
+      ],
+      "title": "AgentJobRequest",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "ScientistIntentBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "authorization_context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Authorization Context Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "authorization_context_sha256"
+      ],
+      "title": "ScientistIntentBinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "request": {
+      "$ref": "#/$defs/AgentJobRequest"
+    },
+    "action_id": {
+      "pattern": "^action-[a-f0-9]{32}$",
+      "title": "Action Id",
+      "type": "string"
+    },
+    "envelope_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Envelope Sha256",
+      "type": "string"
+    },
+    "original_binding": {
+      "$ref": "#/$defs/ScientistIntentBinding"
+    },
+    "remote_run_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remote Run Id"
+    },
+    "stop_action_id": {
+      "anyOf": [
+        {
+          "pattern": "^action-[a-f0-9]{32}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Stop Action Id"
+    },
+    "stop_envelope_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Stop Envelope Sha256"
+    }
+  },
+  "required": [
+    "request",
+    "action_id",
+    "envelope_sha256",
+    "original_binding"
+  ],
+  "title": "ScientistAgentHandlePayload",
+  "type": "object"
+}

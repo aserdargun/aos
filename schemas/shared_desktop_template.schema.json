@@ -1,0 +1,224 @@
+{
+  "$defs": {
+    "SharedDesktopLimits": {
+      "additionalProperties": false,
+      "properties": {
+        "cpu_quota_percent": {
+          "maximum": 800,
+          "minimum": 1,
+          "title": "Cpu Quota Percent",
+          "type": "integer"
+        },
+        "memory_max_bytes": {
+          "maximum": 17179869184,
+          "minimum": 268435456,
+          "title": "Memory Max Bytes",
+          "type": "integer"
+        },
+        "tasks_max": {
+          "maximum": 512,
+          "minimum": 16,
+          "title": "Tasks Max",
+          "type": "integer"
+        },
+        "stop_timeout_seconds": {
+          "maximum": 30,
+          "minimum": 1,
+          "title": "Stop Timeout Seconds",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cpu_quota_percent",
+        "memory_max_bytes",
+        "tasks_max",
+        "stop_timeout_seconds"
+      ],
+      "title": "SharedDesktopLimits",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "launcher_profile": {
+      "const": "scientist-managed-shared-desktop-v1",
+      "default": "scientist-managed-shared-desktop-v1",
+      "title": "Launcher Profile",
+      "type": "string"
+    },
+    "caller_unit": {
+      "const": "swapp-aos-gpu-shared-desktop-default.service",
+      "default": "swapp-aos-gpu-shared-desktop-default.service",
+      "title": "Caller Unit",
+      "type": "string"
+    },
+    "origin": {
+      "pattern": "^http://127\\.0\\.0\\.1:[0-9]{4,5}$",
+      "title": "Origin",
+      "type": "string"
+    },
+    "manager_base": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Manager Base",
+      "type": "string"
+    },
+    "project": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z0-9][a-z0-9-]{0,47}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Project"
+    },
+    "session_root": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Session Root",
+      "type": "string"
+    },
+    "python_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Python Path",
+      "type": "string"
+    },
+    "python_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Python Sha256",
+      "type": "string"
+    },
+    "python_real_path": {
+      "anyOf": [
+        {
+          "maxLength": 4096,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Python Real Path"
+    },
+    "python_links": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "maxProperties": 8,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Python Links",
+      "type": "object"
+    },
+    "launcher_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Launcher Path",
+      "type": "string"
+    },
+    "launcher_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Launcher Sha256",
+      "type": "string"
+    },
+    "source_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 256,
+      "minProperties": 1,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Source Files",
+      "type": "object"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "config_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 256,
+      "minProperties": 1,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Config Files",
+      "type": "object"
+    },
+    "config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Config Sha256",
+      "type": "string"
+    },
+    "broker_socket": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Broker Socket",
+      "type": "string"
+    },
+    "broker_identity_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Observed canonical ScientistServerGeneration digest, or explicit null when unobserved; never a configuration hash or an authorization wildcard. Activation always requires fresh authenticated proof.",
+      "title": "Broker Identity Sha256"
+    },
+    "limits": {
+      "$ref": "#/$defs/SharedDesktopLimits"
+    },
+    "native_fallback": {
+      "const": false,
+      "default": false,
+      "title": "Native Fallback",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "origin",
+    "manager_base",
+    "session_root",
+    "python_path",
+    "python_sha256",
+    "launcher_path",
+    "launcher_sha256",
+    "source_files",
+    "source_sha256",
+    "config_files",
+    "config_sha256",
+    "broker_socket",
+    "broker_identity_sha256",
+    "limits"
+  ],
+  "title": "SharedDesktopTemplate",
+  "type": "object"
+}

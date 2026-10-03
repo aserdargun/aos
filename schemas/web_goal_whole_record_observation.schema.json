@@ -1,0 +1,79 @@
+{
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/KnowledgeScope"
+    },
+    "record": {
+      "maxProperties": 8,
+      "minProperties": 1,
+      "patternProperties": {
+        "^[A-Za-z_][A-Za-z0-9_]{0,63}$": {
+          "type": "string"
+        }
+      },
+      "title": "Record",
+      "type": "object"
+    },
+    "reported_post_count": {
+      "maximum": 2,
+      "minimum": 0,
+      "title": "Reported Post Count",
+      "type": "integer"
+    },
+    "effect_status": {
+      "enum": [
+        "committed",
+        "unknown",
+        "not_committed"
+      ],
+      "title": "Effect Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "scope",
+    "record",
+    "reported_post_count",
+    "effect_status"
+  ],
+  "title": "WebGoalWholeRecordObservation",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_whole_record_observation.schema.json"
+}

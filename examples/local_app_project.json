@@ -1,0 +1,20 @@
+{
+  "synthetic": true,
+  "note": "Named-project schema fixture only; these identities are not live processes or execution evidence.",
+  "state": {
+    "version": "1",
+    "session": "app-11111111111111111111111111111111",
+    "mode": "fixture",
+    "phase": "stopped",
+    "supervisor": {
+      "boot_id": "00000000-0000-0000-0000-000000000000",
+      "pid": 100,
+      "start_ticks": 1,
+      "pid_namespace": 1,
+      "uid": 1000
+    },
+    "started_at": "2026-10-01T00:00:00Z",
+    "project": "learning-demo",
+    "url": "http://127.0.0.1:18766/ui/"
+  }
+}

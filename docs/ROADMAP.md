@@ -1,5 +1,338 @@
 # Geliştirme yol haritası
 
+## Güncel kapanış — tek kabul kaydı
+
+**1 Ekim 2026:** aktif teslim sırası ve source/verification/delivery durumları
+yalnız [RELEASE_ACCEPTANCE](RELEASE_ACCEPTANCE.md) ve aynı ekranın okuduğu
+[release_acceptance.json](release_acceptance.json) dosyasındadır. Altı aşama
+candidate → Scientist → native workflow → user delivery → learning → SWAPP
+tam hedefi korur; bu belge ikinci bir aktif TODO/başarı yüzdesi değildir.
+
+## Tarihsel milestone ve tasarım kayıtları
+
+Aşağıdaki notlar ve eski “güncel/sıradaki/açık” ifadeleri yazıldıkları dilimin
+bağlamıdır. Tamamlanan işi tekrar açmaz; yeni source/CPU kabulünü native veya
+canlı kullanıcı teslimine dönüştürmez. Tarihli ölçüm [STATUS](STATUS.md), güncel
+engeller ve sıradaki kabul tek kapanış kaydındadır.
+
+**Named çok-alanlı public CPU akışı doğrulandı:** mevcut exact source/manifest/
+fixture-engine activation ayrı project/port altında çalışır; profile-root ve
+generic navigation-MCP composition hataları guard gevşetilmeden düzeltildi.
+Public plan/provision/prepare-ui/start → gerçek login/Tasks → iki ayrı sentetik
+uygulamada altışar manuel eylem onayı → tek POST ve bütün-alan makbuzu → temiz
+stop geçti:1 test/18,231s. Model kararı deterministik fixture'dır; native S1/S2,
+öğrenilmiş skill/held-out kalite ve Scientist/GPU kabulü açık kalır.
+
+**Named Mac bağlantısı kaynakta:** `AOS_PROJECT`/`AOS_PROJECT_PORT` ile exact
+aynı-port tünel, önceden açık projenin read-only status/app-session kontrolü ve
+manuel token girişi. Varsayılan start/tokenless mod değişmez; named owned-learning
+izinleri otomatik verilmez. Gerçek Mac/SSH kabulü ve native model/GPU kapıları
+ayrı açık maddelerdir; shell mock başarısı bunların yerine geçmez.
+
+**Tek komutla private UI hazırlama doğrulandı:** `prepare-ui --project NAME
+--project-port PORT` installed offline Node/Vite ile yeni private staging üretir;
+mevcut UI'yi değiştirmez, cleanup kanıtı olmadan eski oturumu benimsemez ve runtime
+başlatmaz. Gerçek public CLI +3 CPU fixture oturumu11,742s; ayrı gerçek tarayıcı
+giriş/varsayılan Development/EN-TR/mobile tekrarı12,562s geçti. Canlı8765 deploy,
+native model, öğrenme ve Scientist/GPU kabulü değildir. Scientist source63/caller
+uyumu ve yalnız Scientist'in yöneteceği gerçek ortak koşu sıradaki kapılardır.
+
+**Adlandırılmış restart/toparlanma kaynakta:** exact manager-session zorunlu;
+plain idle restart, scope-bound admission release ve ayrı explicit recovery
+existing physical proof kapılarını korur. Start kilidi original predecessor'ı
+yeniden kontrol eder; interrupted named oturum otomatik kurtarılmaz. Gerçek CPU
+fixture quiesce/release/restart/cleanup akışı geçti; reboot/crash ve gerçek
+model/GPU kabulü olarak sunulmaz. Named recovery desteği artık yalnız TODO değil;
+gerçek native koordinasyon/öğrenme kabulü ve unsupported remote modlar açıktır.
+
+**Public named-project CPU yaşam döngüsü doğrulandı:** project-private staged UI,
+scope-bound doctor/preflight/backend ile iki gerçek public CLI fixture oturumu
+başlatıldı, authenticated scope okundu ve exact-session cleanup doğrulandı:
+1 PASS/7,374s. Shared UI/default manager değişmedi.177 regresyon176 PASS/1 SKIP.
+Bu CPU lifecycle kabulüdür; native model, gerçek öğrenme veya Scientist/GPU
+kabulü değildir. Sonraki kapılar gerçek model/öğrenme koordinasyonu ve native
+cleanup/iptal kabulüdür; named recovery yukarıdaki dilimde uygulanmıştır.
+Mevcut canlı oturum değiştirilmez.
+
+**Adlandırılmış öğrenme projesi komutu uygulandı:** eşlenmiş `--project` ve
+`--project-port`, ayrı private manager/veri kökü, pinli kimlik/URL ve existing
+source lock/reuse yolu. Varsayılan8765 değişmez; Tasks reuse komutları kapsamı
+korur ve tarayıcı cookie'leri ayrılır. [Kapsam ve komutlar](ISOLATED_LEARNING_PROJECTS.md).
+CPU/mock ve izole UI doğrulaması gerçek çok-projeli model kabulü değildir;
+unsupported recovery/remote modları açıkça reddedilir.
+
+**Kalıcı rapor geçmişi kaynakta tamamlandı:** ayrı exact-hash kayıt isteği,
+fresh status/report/status doğrulaması, değişmez özel DB kaydı ve EN/TR geçmiş
+okuması uygulandı.77 CPU/sentetik kontrol, izole GPU-disabled Chromium ve
+TypeScript geçti. Normal okuma içerik saklamaz; geçmiş GPU veya eğitim yetkisi
+değildir. Bağımsız status geçmişi üretilmedi. Sıradaki ortak kabul kapısı:
+Scientist'in güncel source/config pair ve artifact closure teyidi, ardından
+yalnız Scientist tarafından gerçek koordineli GPU/cleanup/iptal kabulü.
+
+**Lab yaşam döngüsünde iki gerçek hata kapandı:** START bağımsız GET durumunu
+kalıcı acknowledged sonuçta korur ve terminal gerilemeyi reddeder; REPORT baseline
+amacını research olarak benimsemez. 212 CPU/sentetik ve son50 odaklı test geçti.
+Report-only bounded audit geçmişi yukarıdaki dilimde tamamlandı; ayrı status
+gözlemi saklanmış gibi sunulmaz ve yeni scheduler/yetki oluşturulmaz.
+
+**Actual caller/service kimliği kaynakta:** current AOS PID/UID, service MainPID
+(PPID değil), start/boot/exact cgroup/InvocationID ve private bus identity
+bounded readback ile bağımsız doğrulanabilir. 222 CPU/sentetik test geçti;
+gözlemler sentetiktir, identity tek başına runtime/GPU yetkisi vermez.
+
+**Concrete source/config gate kaynakta:** reviewed raw file maps ve canonical
+policy/source fingerprints, descriptor-safe fresh readback ve current runtime
+callback tek factory'ye bağlı. 208 CPU/sentetik test ve izole EN/TR Development
+Chromium kontrolü geçti. Runtime/dependency yetkisi defaultdeny; kaynak dosyaları
+ve mock callback gerçek GPU/deployment kabulü sayılmaz.
+
+**Tek typed bootstrap başlangıcı:** trusted host artık
+`serve_desktop.main(scientist_bootstrap_factory=factory)` ile exact aynı bileşenin
+confirm/admission/peer/output bağlantısını seçebilir. Karışık eski hook'lar ve
+uyumsuz outputcontract ret; CLI/servis/GPU otomatik etkinleştirilmez.
+
+**Trusted bootstrap factory kaynakta tamamlandı:** independent reviewed full
+bindings, actual controller/store/history2.0, durable before-send audit intent ve
+current generation kontrolleri artık tek bileşende. Bu kaynak uygulamasıdır;
+reviewed production source/config, inherited FD ve Scientist-only GPU kabulü açık.
+
+**Async bootstrap startup bağlandı:** exact same-store history.capture ve trusted
+expected-peer ile ağ okuması infer bağlantısından önce off-loop; SQL callbacks
+host thread'de, tek outer deadline ve iptal/worker tracking korunur. 138 CPU/sentetik
+test geçti; canlı factory/config/FD activation ve gerçek GPU kabulü açık.
+
+**Retained source AOS bağlantısı kaynakta:** explicit inherited packet client,
+actual kernel credentials ve same-store fullbudget/physical proof adaptörü.
+116 CPU/sentetik test geçti; iki tam kaynak zinciri sonrası tek resolution kaydı,
+negatiflerde original intent korunur. Production FD/current rights/config closure
+ve Scientist-only gerçek GPU kabulü hâlâ açık.
+
+**Bootstrap control reader kaynakta:** mevcut capability/targetnull üzerinden
+authenticated bounded UDS prefetch; exact fresh ACK original admission2.0 SQL'de
+tek kullanımlık tüketilir. 108 CPU/sentetik test geçti. Full wire schema teyidi ve
+inference bağlantısından önce async production staging hâlâ açık; GPU kabulü değil.
+
+**Original admission startup bağlandı:** actual console scheduler artık trusted
+factory ile exact aynı-store history2.0 ve frozen outputcontract alır; pair/type/
+version/store/context retleri kapalı. 53 CPU/fixture test geçti. Gerçek bootstrap
+capability reader, independent authenticated source transport ve GPU kabulü açık.
+
+**Shared-lane observer kaynakta:** explicit trusted policy ile diğer CUDA işi
+sürerken original child/drain PID'leri iki GPU readback ile dışlanır. Defaultquiet,
+current canonical arbiter/source/PID provenance ve immutable config kapıları korunur.
+144 CPU/sentetik test geçti; production provider ve gerçek GPU kabulü hâlâ açık.
+
+**Önceki concrete physical observer:** mevcut proof modülünde exact systemd unit/proc/
+cgroup2/GPU UUID readback; current source/fence/nonce/late-start ve host authority
+default deny. Actual collected-unit yolu ve kaynak limitleri CPU'da doğrulandı;
+gerçek GPU, diğer CUDA lane aktifken kabul ve provider/config closure açık.
+
+**Independent budget reader:** mevcut verifier complete source witness'i strict
+canonical karşılaştırır; reader tek başına yetki sağlamaz. Fresh source authority
+read öncesi/sonrası ve immutable history bağları korunur. Counterpart currentpeer/
+retainedcapability mapping ve authenticated cross-process provider hâlâ açıktır.
+
+**Bağımsız Lab stop readback:** durdurma POST'u ardından exact run için ayrı GET;
+fresh authority ve aynı deadline, ilerleyen terminal state kabulü, başarısız
+readback'te durable uncertainty/no replay. Bu gerçek deney-control adapter'ının
+kaynağındaki eksikliği kapatır; GPU release veya canlı deploy kabulü değildir.
+
+**Original client rearm:** durable çözüm sonrası açık kalan local uncertainty/
+cancellation kilidi explicit trusted rearm ile kapandı. Aynı original host/ACK,
+fresh full proof/current authority ve actual worker lock gerekir; replay/256
+limit/bütçe korunur. Yeni istek hâlâ fresh admission ister, otomatik retry yok.
+Production providers/config ve Scientist-only GPU kabulü ayrı kalır.
+
+**Explicit retained host:** discovery, stored-capability reconcile, immutable ACK
+inspection ve ayrı proof-backed resolution tek same-store adaptörde; desktop
+binding factory güncel controller alanlarını doğrular. Otomatik sıralama/retry,
+endpoint/default socket, GPU tahsisi veya provider yetkisi yaratmaz. Üretim
+provider/source/config teyidi ve Scientist-only gerçek kabul ayrı kalır.
+
+**Proof-backed original resolution:** additive26 append-only marker ve
+same-store transaction; fresh rights/fullproof append öncesi/sonrası, immutable
+original intent ve late-receipt/replay denial. Shared startup/inventory predicate
+historicalresolved kayıtları ayırır; pending control admission'ı kapalı tutar.
+Üretim provider/config ve Scientist-only GPU kabulü ayrı kalır.
+
+**Authenticated retained evidence-v3:** exact public schema/pin ve ayrıcodec
+same-client/journal→budget/proof verifier'a bağlı. Additive25 immutable24
+kayıtlarını ve cross-version pending fence'i korur. Production provider/config,
+durable inference resolution ve Scientist-only gerçek GPU kabulü ayrı kapılardır.
+
+**Retained budget ve release proof:** source-shaped bağımsız budget witness,
+exact allocation/drain preimage adapter ve ortak verifier bileşimi kaynakta.
+Callback'ler current source/physical readback gerektirir; hash veya idle yeterli
+değildir. Üretim provider/transport, inference resolution ve Scientist-only gerçek
+GPU kabulü açık. [Sözleşme ve sınırlar](SCIENTIST_RETAINED_TERMINAL.md).
+
+**Durable evidence journal:** additive0024 original store'a bağlı; immutable
+control/response, same-target restart fence ve fresh AGENT/HUMAN cleanup bağları
+actual owned UDS ile geçti. Client callbacks birlikte bağlı, default authority
+kapalı. 113 CPU +5 isolated Chromium test; infer resolution/GPU kabulü değildir.
+
+**Authenticated evidence client:** exact supplied socket/codec, current peer ve
+target authority, before-send durable control intent ve sticky ambiguity source'ta.
+83 CPU regresyonu geçti. Production providers/ledger, full source/config kabulü,
+physical proof ve resolution/GPU kabulü ayrı; otomatik etkinleşme/deploy yok.
+
+**Scientist görünürlüğü:** açık Tasks panelinde 5 saniyelik salt okunur local
+inventory yenilemesi, last-success/stale göstergesi ve single-flight/abort bağlı.
+4 isolated Chromium test geçti; otomatik effect/replay veya canlı deployment yok.
+Current evidence-transport bridge ve physical-proof acceptance ayrı kapılardır.
+
+**Scientist evidence codec:** exact public full transport schema ve iki explicit
+pin ile capability/reconcile wrapper source'ta; v1 authority/terminal bytes
+değişmez. Authenticated client, independent physical-proof provider ve durable
+resolution hâlâ açık; codec sonucu veya matching hash GPU bırakımı değildir.
+
+**Missing manual release/selection recovery kapandı:** original0022 anchor'dan
+exact missingfile explicit preview/hash/humanliteral ile restore edilir;
+fresh accepted source ve retained directory şartı, değişmez DB ve no-replay
+korunur. CLI ve ayrıca explicit authenticated Tasks/API recovery source'ta;
+lost-directory restoration yok. Model/öğrenme veya native kabul değildir.
+
+**Terminal evidence ve source preflight:** original2.0-bound terminal/result
+verifier, iki ayrı descriptor/full-schema pin ve mandatory default-denied
+resolver/physical-proof callbacks kaynakta. Intent çözülmez/fence açılmaz.
+Explicit admission_v2 observer33 hash'i karşı taraftaki observer ile eşleşti;
+actualScientist preflight dirty/untracked source nedeniyle exit2 verdi. Full
+proof provider/schema/config kabulü ve Scientist-only GPU koşusu açık.
+
+**Scientist note84 kayıt sürümü kaynakta:** yeni pinned factory yalnız explicit
+history2.0 kabul eder; ayrı closed binding/capture/record V2 ve canonical şemalar
+eklendi. Eski1.0 bytes/hash historicalread ile korunur; newcapture legacyfallback
+ve interim1.0/V2 adoption yapmaz. Full schema/config teyidi ve terminal/GPU kabulü açık.
+
+**1 Ekim output-v2 uyumu:** Scientist note82/83 artık aynı Bonsai outer shape'i
+kullanır. AOS explicit version2 profile-pin union ile exact bundle'ı original
+history'de korur; typed desktop factory yeni opt-in admission-bound guard'ı
+journal öncesine bağlar. Eski four-field hash değişmez; otomatik promotion/deploy
+yok. Full control/terminal resolution ve Scientist-only GPU kabulü hâlâ açık.
+
+**Original Scientist identity kaynakta:** additive0023, original0018 request ile
+aynı transaction'da stable nine-field binding ve ayrı capability observation;
+fresh owner/peer/deadline recheck, immutable history ve receipt öncesi doğrulama.
+Typed desktop factory opt-in history'yi actual göreve bağlar; default deny ve
+unresolved fence korunur. Read-only EN/TR Tasks yalnız presence/hash gösterir.
+Terminal resolution/cleanup rights ve ortak schema/GPU kabulü açık.
+[SCIENTIST_ADMISSION_HISTORY](SCIENTIST_ADMISSION_HISTORY.md).
+
+**Scientist output gate kaynakta:** ayrı pinli Bonsai native metadata projection
+ve journal öncesi three-profile receipt guard bağlandı; original request/evidence/
+capture, usage ve lexical integer denetlenir. Producer→synthetic socket→SQLite
+iki-profile path ve 133 focused CPU test geçti. Counterpart draft-v2 shape/pin
+teyidi, additive admission/resolution journal ve gerçek GPU kabulü sıradadır.
+[SCIENTIST_BONSAI_OUTPUT](SCIENTIST_BONSAI_OUTPUT.md).
+
+**Aynı managed oturumda yeni görevler:** exact accepted predecessor+newadmission
+hash commitment ile ayrı next-preview/next-start; completed child cleanup ve
+fresh authority/source recheck, oldreceipt historicalread, incomplete/failed
+cleanup latch. Actual CPU/TLS original+A+B ve 15 backend testi geçti. Native
+multi-app, restart continuation ve Scientist control admission açık.
+Completed-child cleanup artık bounded observation ve same-handle shutdown kullanır;
+timeout veya geç tamamlanma yeni görev yetkisini yeniden açmaz.
+
+**Actual manual skill new-parameter execution:** exact selected source'dan yeni
+bounded parameters compile edilir; ayrı fresh intent/confirmation sonrası owned
+retained listener'da distinct child task mevcut finite operator'a bağlandı.
+Six fresh approvals, one POST ve independent TLS whole-record readback CPU'da
+geçti; original bootstrap değişmedi. Pending revoke 0 fill/POST ve settled failure.
+Host/API ve EN/TR preview/start/status bağlı; ayrı Chromium preview/fence/lost-ACK
+testi geçti. Same-live-session çoklu yeni görev CPU lifecycle tamamlandı;
+restart continuation ve native iki-app kabul açık.
+[OWNED_PARAMETER_SKILL_REUSE](OWNED_PARAMETER_SKILL_REUSE.md).
+
+**Reviewed manual development release/selection:** canonical0022, original
+accepted review'e bağlı immutable sürümler, exact parent/head, ayrı insan onayı
+ve explicit rollback CLI/Tasks'a bağlandı. Same-original-DB iki source version
+CPU/TLS ve GUI'nin own-source rollback'i doğrulandı. Metadata yeni görevi
+yetkilendirmez; yeni-parametre task reuse ayrı izinli akıştır. Missing release
+record recovery artık explicit CLI ve Tasks/API üzerinden bağlı; managed GUI
+source switching ve lost-directory recovery açık, implicit fallback yok.
+[OWNED_PARAMETER_SKILL_RELEASE](OWNED_PARAMETER_SKILL_RELEASE.md).
+
+**Local durable review history:** canonical0021 original DB append-only metadata,
+authorization-before-file ve fresh-process exact inventory denetimi; ayrı human
+recovery yalnız eksik already-authorized record'u restore eder. Revoked review
+accepted'a dönmez; action/model/source kayıtları değişmez. OldDB implicit migrate
+ve legacy record adoption yok. Local history bağlandı; next reviewed development
+release/selection ve ayrı izinli parametric reuse. Privileged both-DB-and-FS
+rollback için dış witness veya native/site/training kabulü iddiası yok.
+
+**Ayrı manual candidate human review/iptal:** fresh audited original candidate,
+exact human SHA/literal, immutable accept/revoke ve current readback CLI/Tasks'a
+bağlı. Intact trusted store'da iptal edilmiş review yeniden kabul edilemez;
+retained host görülmüş kayıt kaybını reddeder, fresh süreç öncesi privileged
+rollback için bağımsız integrity anchor açık kalır. Sentetik development
+review, native-model provenance, released/selected skill veya yeni yürütme
+yetkisiyle karıştırılmaz. Parametric release/selection/reuse ve native kabul açık.
+
+**Manuel bootstrap skill adayı:** original kabul edilmiş multi-field run ve
+whole-record receipt bağımsız yeniden denetlenerek private immutable aday olur.
+Public CLI ve EN/TR Tasks preview/exact publish/read kaynakta bağlı; gerçek
+managed ignored-data evidence yolu düzeltildi. Model olayları uydurulmaz,
+candidate awaiting manual review. Review/release/admission, native iki-app kabulü
+ve Scientist ortak GPU sözleşmesi açık. [OWNED_PARAMETER_SKILL](OWNED_PARAMETER_SKILL.md).
+
+**Operatör teslimi ve çok-alanlı foundation:** exact current manager session için
+public `stop --expected-session`, EN/TR Development'da son source dilimleri ve
+ayrı kalan kabul kapıları. Parameter-map bağlayıcı artık mevcut generic compiler,
+trusted host Manager ve finite operator'a bağlı; immutable pre-dispatch intent,
+parent/child runtime fence, independent trajectory audit ve one-use owned TLS
+whole-record readback ile receipt yolu var. Reviewed multi-field proje offline
+CLI hazırlama/doğrulama kaynakta: [OWNED_PARAMETER_PROJECT](OWNED_PARAMETER_PROJECT.md).
+Explicit CPU-fixture startup provider ve manuel bootstrap receipt yolu kaynakta;
+doğrulanmış release lineage ve iki-app native kabul açık. Native GPU fallback,
+default host aktivasyonu veya deploy yok.
+
+**Reviewed free-goal context ve bağımsız readback source'ta:** aynı catalog scope'ta
+ayrı document-inference/storage izni, immutable intent/proposal ve native
+request/response acknowledgement sidecar; historical input binding/actual ack ve
+current source/planning admission ayrı raporlanır. Legacy/fixture kayıtları gerçek
+model kullanımı sayılmaz; task oracle/GPU/semantic relevance/training kabulü değil.
+Yeni lightweight setup prerequisite yolu existing environment/weights/processes'e
+dokunmadan missing/malformed local artifact bildirir. Ortak Scientist runtime ve
+iki-app gerçek kabul açık; aşağıdaki ilk-köprü notları tarihsel source dilimleridir.
+
+**Goal sonuç readback bağlantısı tamamlandı:** immutable proposal/review/job receipt → same-session task → independent existing trajectory audit; exact parameter/source hashes ve false training/GPU-release flags, read-only Human access. Native end-to-end/deploy kabulü hâlâ açık; kod bağlantısı, test fixture veya succeeded durumu genel ürün kabulü değildir.
+
+**Mevcut planner uygulamaya bağlandı:** free-text goal → explicit catalog/inference consent → private intent/proposal → exact parameter preview → ayrı start-review intent/accepted job receipt → existing manual S1 executor. Standalone reused-owned kaynak, no native Scientist bypass. Python/TypeScript ve kısa CPU smoke; actual model/task/GPU/deployment kabulü yapılmadı. Broader iki uygulamalı gerçek acceptance kapanmadan genel web milestone'u tamamlanmaz.
+
+**Kapanış denetimi:** son kaynak CPU havuzu 1941/276, 0 fail/error; partial report `data/capability-check-kahp3qhu/report.json`. Eski snapshot'larla toplam değil. Yeni feature dilimi açmak yerine [ilk sürüm kabul kapıları](FIRST_RELEASE.md) esas alınır; ortak sözleşme ve Scientist-only gerçek GPU kabulü açık, tam proje hedefi daraltılmaz.
+
+**Catalog UI kaynakta:** reused owned task için EN/TR explicit katalog ve manuel parametre preview; no model/start, stale control/source ve authority claim ret. TypeScript/synthetic Chromium mobil kabulü geçti; managed deploy ve genel free-text model workflow hâlâ açık.
+
+**Genel goal ilk host köprüsü:** mevcut reviewed/selected owned kaynaklarından catalog ve typed öneriden deterministic preview; authenticated bounded API kaynakta bağlı, 25 targeted CPU/mock/ASGI test geçti. Tek synthetic save-message skill, no inference/start; managed UI/durable proposal ve iki uygulamalı gerçek S1/browser kabulü açık. Genel görev milestone'u tamamlandı sayılmaz.
+
+**Teslim hızlandırma:** [kısa Scientist transferi](SCIENTIST_HANDOFF.md) ve tek komut salt okunur source report; untracked runtime dosyaları da fingerprint'e dahil. Yalnız değişen dilimin targeted testleri; geniş testler milestone kabulünde. Bu uyumluluk/admission veya GPU başarısı değildir.
+
+**Local Lab shutdown/drain kabulü:** CLI lifecycle, own async HTTP ve journal callbacks'i SQLite kapanmadan bounded bekler; cleanup failure closed admission'ı korur ve same-handle recheck destekler. Local wait iptali remote stop/GPU release değildir, uncertainty reset/replay yok. CPU/mock kapanış kabulü geçti; ortak trusted cleanup sözleşmesi ve Scientist-owned gerçek GPU kabulü açık.
+
+**Restart/native bypass kabul açığı kapandı:** failed lost-ACK regresyonu → global-store Lab uncertainty fencing ve desktop admission fence; yeni session belirsiz eski etkiyi atlayamaz. Scientist-mode engine replacement/unbrokered auxiliary model kurulumu reddedilir; UI/read-only metadata actual engeli gösterir. Geniş CPU snapshot 1921/275 ve sonraki targeted/Chromium kabulü ayrı kaydedildi. Yerel runtime seams hazır; ortak sözleşme/cleanup teyidi ve Scientist-only gerçek GPU kabulü henüz yok.
+
+**Lab host startup composition eklendi:** typed immutable API/principal/suite/program/context/credential config ve ayrı trusted verifier → same controller/service/console. Actual ASGI authenticated approval/start/independent terminal report/readback zinciri CPU/mock geçti. Config veya CLI flag joint admission değildir; source startup bağlantısı artık var, karşı tarafla trusted capability/principal/reconcile/drain ve Scientist-only GPU kabulü sonraki kapıdır.
+
+**CLI source aktivasyon kapısı bağlandı:** explicit Scientist engine/socket, trusted host provider default yok → token/DB/Desktop başlamadan ret; synthetic provider → actual S1/S2 factory/console wiring kabulü. Native fallback/reuse/idle yok, normal mevcut modlar korunur. Sonraki runtime: Lab API host startup composition, ortak capability/principal/reconcile teyidi ve Scientist-only gerçek GPU kabulü. CLI flag varlığı joint admission değildir.
+
+**Lab control-plane responsiveness kabulü:** actual ASGI execute/status/report await async HTTP; aynı effect fencing/original deadline, host-loop SQLite callback ve result commit korunur. Held POST altında read-only inventory 300 ms altında; iptal intent'i bırakır ve remote start'ı tekrarlamaz. Bu CPU/mock kontrol-plane kabulüdür, model hızlanması veya GPU release değildir. Ortak trusted reconciliation hâlâ karşı taraf teyidine bağlıdır.
+
+**GPU inference intent görünürlüğü eklendi:** authenticated existing inventory → private current-session bounded metadata/other-session counts → EN/TR Tasks blocking state. Prompt/response/token/lease gizli; read-only refresh gate açmaz, receipt veya boş inventory release sayılmaz. CPU/Chromium sentetik UI kabulü geçti; common trusted reconciliation ve Scientist-only gerçek GPU devri açık.
+
+**Explicit Scientist desktop startup ve typed Hello kabulü (CPU/mock):** existing console scheduler girişine factory eklendi; current controller/job/state/runtime guards + durable intent + ayrı exact insan onayı + gerçek temporary dosya/bağımsız okuma zinciri geçti. Joint capability default deny; unresolved intent tüm store için yeni start/resume'u engeller. Sonraki runtime kapısı trusted reconcile/cancel/drain sözleşmesinin karşı tarafla teyidi ve Scientist'ın tek gerçek GPU kabulüdür; canlı deploy veya multi-turn GPU başarısı yok.
+
+**S2 recovery/vision broker caller eklendi (CPU/mock):** mevcut Bonsai caller sözleşmeleri, schema/deployment pinleri ve recovery evidence/vision capture-state doğrulaması korunur; aynı async client kullanılır, local native fallback yok. Sonraki runtime kabulü explicit startup + ortak capability/principal ve trusted reconciliation/drain teyididir. Receipt-recorded intent kendiliğinden açılmaz; tek gerçek GPU kabul koşusunu Scientist yürütür.
+
+**S1 broker caller eklendi (CPU/mock):** mevcut DecisionEngine sınırında native prediction validation, pinned deployment ve fresh authority doğrulaması korunur. Async socket bridge mevcut SQLite callbacks'i owning event loop üzerinde tutar; model bekleme arayüzü bloklamaz. İptal sonrası unresolved intent fail-closed kalır; remote cancellation/release iddiası yok. Sonraki teslim: Bonsai caller ve explicit admitted startup; yalnız ortak capability/reconciliation teyidiyle çok-adımlı açılış ve Scientist'ın tek GPU kabulü. Yeni scheduler kurulmaz.
+
+**Scientist Lab console/controller ve Human takeover/stop eklendi:** typed task/action/policy + migration 0019 journal, current controller fence ve authenticated exact human approval ile bağlandı. Migration 0020 eski/expired unattempted onayı audit-preserving reddeder; mevcut bağlı koşuya yeni Human stop onayı üretilebilir, old ACK yeni authority'yi kapatamaz. Tasks EN/TR paneli scope/onay/uygulama/status/report/stop ve rejection reason gösterir. CPU/mock + Chromium UI geçti. Sonraki kabul: teyit edilmiş joint capability/version ve trusted reconciliation/drain, explicit app/CLI activation, ardından Scientist'ın tek GPU kabulü. Capability default deny; kullanıcı uygulaması deploy edilmedi.
+
+**Durable Scientist intent milestone:** append-only migration 0018, mevcut private TrajectoryStore üzerinde exact request/peer/control-fence/deadline intent ve ayrı receipt kaydı ekler. Pending veya receipt_recorded satır yeni client/process için de admission'ı kapatır; receipt GPU release değildir. Sonraki kabul: Scientist'ın teyit edilmiş reconciliation/cancel/drain yüzeyiyle explicit terminal transition ve yalnız bundan sonra reopening. Typed insan-onay/task/tool bağlantısı ve gerçek GPU kabulü hâlâ açık; journal kendi başına yetki üretmez.
+
+**Güncel runtime milestone — Scientist entegrasyonu:** kaynak-confirmed wire-v1 request/receipt ve terminal report readback sınırı, failed reusable S1 cleanup sonrası fail-closed request/startup uygulanmıştır. CPU worker drain/reopen GPU unload kanıtı değildir. Sonraki küçük kabul: mevcut Scientist broker/principal/fencing mekanizmasına authenticated opt-in bağlama, durable typed intent ve belirsiz dispatch reconciliation; ardından iki tarafça version/capability teyidi. Gerçek GPU kabulünün tek yürütücüsü Scientist oturumudur. [Sözleşme önerisi ve açık maddeler](SCIENTIST_RUNTIME_INTEGRATION.md).
+
+**Authenticated transport library eklendi:** sabit broker systemd-generation doğrulaması, exact intent writer seam, frozen UTF-8 wire ve original deadline; belirsiz gönderim sonrası tüm client admission kapanır. Production host callbacks varsayılan deny; bunların durable AOS task/journal bağlaması, restart reconciliation ve gerçek Scientist kabulü sonraki kapıdır. CPU socket fixture'ları canlı broker/GPU veya insan onayı değildir.
+
 **İncelenmiş belgeyi sıradan görevin S1 kararına bağlama:** ayrı nonce/5-dakikalık preview → yeni inference/private trajectory consent → fresh görev → manuel etkiler. Shared Operator/BrowserOperator immutable DECIDE context, gerçek dispatch/request/Prediction bağı ve effect-öncesi source/review/control/configuration revalidation uygulanmıştır. Fixture hazırlığı kalite artışı sayılmaz. [Sözleşme](TASK_KNOWLEDGE.md), ölçülen kabul [STATUS](STATUS.md). Genel S2 planlama, genel goal executor, gerçek-site W1–W6 ve bağımsız kalite açık kalır; aşağıdaki selected-skill S2 dilimi bu kapıları kapatmaz.
 
 ## Fork edilebilir öğrenme platformu ve model yenileme
@@ -20,23 +353,19 @@ SWAPP, şirkete özgü private-intranet web uygulamasıdır; kullanıcı bu kayn
 
 **I2 görev bilgisi — dar S1/S2 tüketiciler uygulandı:** sıradan S1 görevleri için ayrı bağlam/izin/dispatch/oracle raporu; yeni owned-reuse oturumlarında yalnız önceden admitted selected-skill için ayrı S2 document-context preview/start/report. Gerçek S2 model/service kabulüne ek olarak sentetik site/belge üzerinde gerçek managed EN/TR S2→S1→readback zinciri ve revoke-before-fill/replay retleri geçti. Native pinler ve raw canonical wire metinleri korunur; keyfi hedefler, birleşik collection ve geniş relevance/kalite kabulü açıktır. [S2 sınırı](OWNED_SKILL_KNOWLEDGE.md), [kanıt](STATUS.md).
 
-## Güncel çalışma sırası — SWAPP entegrasyonu en son
+## Tarihsel çalışma sırası ve W kabul sözleşmeleri
 
-**Genel web goal başlangıcı:** ayrı [scoped catalog proposal adapter](WEB_GOAL_PLANNING.md) serbest metinden skill/parametre önerir; native iki sentetik katalog/five-case model-interface kabulü vardır. Katalogun gerçek registry/profile/release admission'ı, console ve executor/S1/oracle bağlantısı henüz yoktur. Bu alt dilim item 3'ün iki farklı uygulama uçtan uca kabulünü kapatmaz.
+Bu bölümdeki eski beşli öncelik listesinin yerine [tek kapanış kaydı](RELEASE_ACCEPTANCE.md)
+geçerlidir. Genel goal/native iki-app, rol-özel bilgi/skill, veri/eğitim ve teslim
+hedefleri kaldırılmadı; altı aşamada ayrı source/verification/delivery ile izlenir.
+1 Ekim named iki uygulama browser/receipt kabulü CPU fixture'dır; güncel native
+iki-app veya SWAPP kalitesi değildir.
 
-Uygulanabilir kalan işlerin kabul ölçütlü kısa kuyruğu [REMAINING_WORK](REMAINING_WORK.md) içindedir; tarihsel dilimler aşağıda korunur. Aynı-boot temiz başarısız başlangıç için explicit `recover-clean-exit` yalnız kaldırılmış kaynakları denetleyerek state'i retired eder; genel orphan cleanup veya otomatik restart değildir.
-
-Kullanıcı kararı (27 Eylül 2026): SWAPP şirket intranetinde; yetkili tünel/erişim hazır olmadığı için gerçek hedef bağlantısı ve W1–W6 uçtan uca kabulü **son entegrasyon aşamasına** ertelendi. URL/hesap istemek, hedefe bağımsız AOS geliştirmesini durdurmak için gerekçe değildir. Önceki hedef-bekleme kararı bağımsız işler için geçersizdir; aşağıdaki W numaraları kabul bağımlılıklarını korur, geliştirme kuyruğu değildir.
-
-1. **Yerel çalışma ve kullanılabilirlik:** açılış/yeniden açılış, görünür Chromium-MCP, kontrol devri, hata toparlama ve görev gecikmesi eksiklerini kapat. Kabul: izole gerçek runtime, bağımsız sonuç ve başarısız/iptal edilmiş işin tekrar oynatılmaması; mevcut kullanıcı oturumunu koru.
-2. **Plan, bilgi ve skill yaşam döngüsü:** parametrik görev yürütmesi, iki rolün ayrı skill kaynakları, sürümleme ve oturumlar arası kullanım eksiklerini kapat. Kabul: farklı izinli girdiler, taze bağlam/lease, yanlış kapsam ve stale kaynak retleri. Sentetik ortam SWAPP öğrenmesi sayılmaz.
-3. **Veri, değerlendirme ve eğitim altyapısı:** ayrı S1/S2 aday/review/dönüşüm/readiness, bağımsız değerlendirme grupları ve explicit candidate/promotion/rollback eksiklerini tamamla. S2 tokenizer/trainer uyumluluğunu ayrıca kanıtla; destekli trainable checkpoint yokken GGUF üzerinde eğitim veya otomatik büyük indirme varsayma. Gerçek şirket verisi ve hakları bu aşamada uydurulmaz.
-4. **Test edilebilir yerel teslim:** tekrar edilebilir geniş test havuzu, UI kanıtları, kurulum/başlatma ve kurtarma belgeleriyle hazırla. Kabul: temiz izole oturumda temel akışlar, EN/TR arayüzü, kaynak/süre raporları ve yanlış başarı iddiası olmaması. Hedef erişimi yokluğu bir test skip'i olarak açık kalır; yüzdeyi artırmak için kapı silinmez.
-5. **Son aşama — SWAPP:** kullanıcı yetkili intranet/tünel erişimini sağladıktan sonra exact hedef/origin/ağ/hesap/tenant sınırı, ilk izinli görev ve bağımsız sonuç oracle'ını bağla. Mevcut public-IP güvenlik kapılarını körlemesine kapatma; intranet/tünel admission'ını ayrı doğrula. Ardından gerçek SWAPP üzerinde W1–W6, veri hakları/redaction, iki rolün öğrenmesi ve ölçülmüş tekrarlı kabulü tamamla.
-
-Bu sıralama plan değişikliğidir, yeni yetenek veya gerçek-site kabulü değildir. SWAPP erişimi hazır olana kadar tünel açma, şirket ağına bağlanma veya credential toplama yapılmaz.
-
-**Güncel öncelik — çalışan pilot teslimi:** kullanıcı isteğiyle kapsam genişletme yerine mevcut açılış → Tasks → gerçek model → görünür sonuç akışı önceliklidir. Yeni izole öğrenme-projesi lifecycle tasarımı ertelendi; aşağıdaki gelecek tasarımı pilotun kullanımını engellemez. Mevcut port-8765 oturumu korunarak dosya ve yerel tarayıcı görevleri tekrar doğrulandı. [Kısa kullanıcı denemesi](PILOT_QUICKSTART.md), [kanıt](STATUS.md). Gerçek hedef-site kabulü ayrı ve açıktır.
+27 Eylül kullanıcı kararı korunur: gerçek SWAPP, yetkili intranet/tünel/hesap ve
+bağımsız görev oracle'ı sağlandıktan sonra en son kabul edilir. Erişimin yokluğu
+bağımsız geliştirmeyi durdurmaz; intranet kapıları körlemesine kapatılamaz ve
+credential/tünel işlemi açık izin olmadan yapılmaz. Aşağıdaki W/I kayıtları
+ayrıntılı tarihsel sözleşme ve kanıttır, ikinci aktif iş kuyruğu değildir.
 
 **W3 hedef → Bonsai → seçilmiş skill — v1.4 uygulandı:** asenkron planning API'si ve iki tam TR/EN grameri, Tasks öneri→bind→önizleme→açık başlangıç akışına bağlandı. Öneri/preview/admission hash'leri immutable yürütme kaydında ve ilk eylem öncesi observation'da korunur; Decider yürütmesi altı manuel onay ister. Planlı tarihsel audit eski sürüm sonucuna düşemez; bound plan bırakılmadan manuel yol açılamaz. Gerçek-model/UI kabulünün kapsamı ve tanısal başarısızlıklar STATUS'tadır. Genel hedef, gerçek-site W1–W6 kabulü ve S1/S2 veri/eğitim kapıları açık. [Kapsam](OWNED_SKILL_PLANNING.md).
 
@@ -68,7 +397,7 @@ Bu sıralama plan değişikliğidir, yeni yetenek veya gerçek-site kabulü değ
 
 **Sonraki uçtan uca kapı:** gerçek hedefin URL/hesap/izinli görev/bağımsız sonuç oracle'ını mevcut onboarding'e bağlamak; uzun süreli farklı oturumlardaki öğrenilmiş sürümlerin explicit yeniden kabulünü ve yürütmesini doğrulamak. Mevcut yeni-süreç salt okunur audit'i canlı restart/resume veya farklı site/hesap yetkisi olarak kullanma. S2 skill kaynakları, bağımsız held-out, gerçek S1/S2 dataset ve eğitim/promotion/rollback ayrı açık işlerdir; W1–W6 gerçek-site kabulü **0/6** kalır.
 
-**Oturumlar arası kullanım hazırlığı — replay/kota ayrımı:** kalıcı private execution bundle'larından kaynak-pinli tüketilmiş preview envanteri, yeni oturumun ayrı dörder başlangıç sayacından ayrılır. Completion olmayan tam bundle da tekrar kullanılamaz; kısmi/bozuk envanter atlanmaz. Eksik dizin yalnız güncel controller oturumunun doğrulanmış yeni gösterimi için kabul edilir. Bu yeniden açma değildir. Sıradaki uygulama: eski öğrenme kökü ve DB'yi kopyalamadan yeni manager/runtime/lease'e açık yeniden kabul; kaynak kökünde yaşam-boyu exclusive kilit; tarihsel gösterimin yeniden audit'i; aynı origin/port/sertifika; eski iş/onayları oynatmadan iki ayrı gerçek managed oturumda yeni seçilmiş koşu. Kanıtlar STATUS'ta izlenir.
+**Oturumlar arası kullanım — replay/kota ayrımı:** kalıcı private execution bundle'larından kaynak-pinli tüketilmiş preview envanteri, yeni oturumun ayrı dörder başlangıç sayacından ayrılır. Completion olmayan tam bundle da tekrar kullanılamaz; kısmi/bozuk envanter atlanmaz. Eksik dizin yalnız güncel controller oturumunun doğrulanmış yeni gösterimi için kabul edilir. Eski öğrenme kökü/DB kopyalanmadan explicit yeniden kabul, yaşam-boyu source lock ve iki managed oturum kabulü zaten uygulanmış ve STATUS'ta kaydedilmiştir; yeniden yapılmaz. Yeni public named-project komutu bu mevcut yolu izole kapsamda erişilebilir kılar. Public komutla gerçek named-project/model kabulü henüz çalıştırılmadı.
 
 **W3 doğrulanmış deneyimden recipe adayı:** sentetik `.invalid` altı-aşamalı gerçek S1 koşusunun eylem sırası ve kaynak olayları, açık manuel semantik/parametre eşlemesiyle tek özel değişmez skill/recipe adayına bağlanır. Kaynak değişiminde reddedilen yükleme ve eylem-öncesi admission, aynı recipe'nin yeni gelişim girdilerinde çalışmasını kaynak kökenine bağlar. Kabul: gerçek kaynak → private publish/reload → iki farklı gelişim girdisi → aynı frozen snapshot'ta kaynak/recipe audit; değiştirilmiş kaynak, kayıp admission, başarısız kaynak ve bağımsız held-out sınıflandırması reddi. Ölçülmüş kanıt STATUS'tadır; managed UI yürütmesi üstte ayrı izlenir. Gerçek hedef, review/aktivasyon/rollback ve eğitim hâlâ ayrı kapılardır. [Kapsam](SITE_SKILL_FORM_RECIPE_CANDIDATE.md).
 

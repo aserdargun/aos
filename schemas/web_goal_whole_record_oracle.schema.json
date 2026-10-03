@@ -1,0 +1,117 @@
+{
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "web_goal_whole_record_contract",
+      "title": "Kind",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/KnowledgeScope"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "task_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Task Sha256",
+      "type": "string"
+    },
+    "source_run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Run Ref",
+      "type": "string"
+    },
+    "case_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Case Key",
+      "type": "string"
+    },
+    "readback_url": {
+      "maxLength": 2048,
+      "minLength": 1,
+      "title": "Readback Url",
+      "type": "string"
+    },
+    "expected_fields": {
+      "maxProperties": 8,
+      "minProperties": 1,
+      "patternProperties": {
+        "^[A-Za-z_][A-Za-z0-9_]{0,63}$": {
+          "type": "string"
+        }
+      },
+      "title": "Expected Fields",
+      "type": "object"
+    },
+    "expected_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Record Sha256",
+      "type": "string"
+    },
+    "maximum_reported_posts": {
+      "const": 1,
+      "title": "Maximum Reported Posts",
+      "type": "integer"
+    },
+    "ambiguous_effect": {
+      "const": "stop_without_retry",
+      "title": "Ambiguous Effect",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "scope",
+    "profile_sha256",
+    "task_sha256",
+    "source_run_ref",
+    "case_key",
+    "readback_url",
+    "expected_fields",
+    "expected_record_sha256",
+    "maximum_reported_posts",
+    "ambiguous_effect"
+  ],
+  "title": "WebGoalWholeRecordOracle",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_whole_record_oracle.schema.json"
+}

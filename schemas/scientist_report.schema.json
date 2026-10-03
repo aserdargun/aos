@@ -1,0 +1,33 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "report_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Sha256",
+      "type": "string"
+    },
+    "report": {
+      "additionalProperties": true,
+      "title": "Report",
+      "type": "object"
+    },
+    "verified_at": {
+      "title": "Verified At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "report_sha256",
+    "report",
+    "verified_at"
+  ],
+  "title": "ScientistReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

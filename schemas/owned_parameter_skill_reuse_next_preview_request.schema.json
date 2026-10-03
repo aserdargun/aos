@@ -1,0 +1,65 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "release_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Release Sha256",
+      "type": "string"
+    },
+    "selection_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Selection Sha256",
+      "type": "string"
+    },
+    "parameters": {
+      "maxProperties": 8,
+      "minProperties": 2,
+      "patternProperties": {
+        "^[a-z][a-z0-9_-]{0,63}$": {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "title": "Parameters",
+      "type": "object"
+    },
+    "lease_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,128}$",
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    },
+    "previous_intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Previous Intent Sha256",
+      "type": "string"
+    },
+    "previous_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Previous Receipt Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "release_sha256",
+    "selection_sha256",
+    "parameters",
+    "lease_id",
+    "generation",
+    "previous_intent_sha256",
+    "previous_receipt_sha256"
+  ],
+  "title": "OwnedParameterSkillReuseNextPreviewRequest",
+  "type": "object"
+}

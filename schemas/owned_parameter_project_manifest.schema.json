@@ -1,0 +1,201 @@
+{
+  "$defs": {
+    "OwnedParameterProjectIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode"
+      ],
+      "title": "OwnedParameterProjectIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "mode": {
+      "const": "owned_synthetic_parameter_project",
+      "title": "Mode",
+      "type": "string"
+    },
+    "application_key": {
+      "enum": [
+        "synthetic-crm-note",
+        "synthetic-inventory-note"
+      ],
+      "title": "Application Key",
+      "type": "string"
+    },
+    "port": {
+      "maximum": 65535,
+      "minimum": 1,
+      "title": "Port",
+      "type": "integer"
+    },
+    "origin": {
+      "pattern": "^https://w3-owned-form\\.aos\\.invalid:[1-9][0-9]{0,4}$",
+      "title": "Origin",
+      "type": "string"
+    },
+    "directory_identity": {
+      "$ref": "#/$defs/OwnedParameterProjectIdentity"
+    },
+    "profile_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Sha256",
+      "type": "string"
+    },
+    "skill_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Sha256",
+      "type": "string"
+    },
+    "page_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Page Sha256",
+      "type": "string"
+    },
+    "task_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Task Sha256",
+      "type": "string"
+    },
+    "form_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Form Plan Sha256",
+      "type": "string"
+    },
+    "state_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Plan Sha256",
+      "type": "string"
+    },
+    "recipe_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Recipe Sha256",
+      "type": "string"
+    },
+    "invocation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Invocation Sha256",
+      "type": "string"
+    },
+    "parameters_review_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameters Review Sha256",
+      "type": "string"
+    },
+    "certificate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Certificate Sha256",
+      "type": "string"
+    },
+    "case_key": {
+      "const": "dev-query",
+      "title": "Case Key",
+      "type": "string"
+    },
+    "sources": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "title": "Sources",
+      "type": "object"
+    },
+    "source_identities": {
+      "additionalProperties": {
+        "$ref": "#/$defs/OwnedParameterProjectIdentity"
+      },
+      "title": "Source Identities",
+      "type": "object"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "execution_performed": {
+      "const": false,
+      "title": "Execution Performed",
+      "type": "boolean"
+    },
+    "source_evidence_verified": {
+      "const": false,
+      "title": "Source Evidence Verified",
+      "type": "boolean"
+    },
+    "skill_reviewed": {
+      "const": false,
+      "title": "Skill Reviewed",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "synthetic",
+    "mode",
+    "application_key",
+    "port",
+    "origin",
+    "directory_identity",
+    "profile_sha256",
+    "skill_sha256",
+    "page_sha256",
+    "task_sha256",
+    "form_plan_sha256",
+    "state_plan_sha256",
+    "recipe_sha256",
+    "invocation_sha256",
+    "parameters_review_sha256",
+    "certificate_sha256",
+    "case_key",
+    "sources",
+    "source_identities",
+    "execution_authorized",
+    "execution_performed",
+    "source_evidence_verified",
+    "skill_reviewed",
+    "site_outcome_verified",
+    "activation_authorized",
+    "training_ready"
+  ],
+  "title": "OwnedParameterProjectManifest",
+  "type": "object"
+}

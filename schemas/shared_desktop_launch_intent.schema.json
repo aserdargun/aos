@@ -1,0 +1,69 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "preparation_only": {
+      "const": true,
+      "default": true,
+      "title": "Preparation Only",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "runtime_started": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Started",
+      "type": "boolean"
+    },
+    "runtime_authority": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Authority",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "app_session": {
+      "pattern": "^app-[a-f0-9]{32}$",
+      "title": "App Session",
+      "type": "string"
+    },
+    "boot_id": {
+      "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+      "title": "Boot Id",
+      "type": "string"
+    },
+    "provision_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provision Sha256",
+      "type": "string"
+    },
+    "activation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Activation Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan_sha256",
+    "app_session",
+    "boot_id",
+    "provision_sha256",
+    "activation_sha256"
+  ],
+  "title": "SharedDesktopLaunchIntent",
+  "type": "object"
+}

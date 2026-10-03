@@ -1,0 +1,179 @@
+{
+  "$defs": {
+    "ScientistIntentBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "authorization_context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Authorization Context Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "authorization_context_sha256"
+      ],
+      "title": "ScientistIntentBinding",
+      "type": "object"
+    },
+    "ScientistReport": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "report_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Report Sha256",
+          "type": "string"
+        },
+        "report": {
+          "additionalProperties": true,
+          "title": "Report",
+          "type": "object"
+        },
+        "verified_at": {
+          "title": "Verified At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "report_sha256",
+        "report",
+        "verified_at"
+      ],
+      "title": "ScientistReport",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "readback_id": {
+      "pattern": "^lab-readback-[a-f0-9]{32}$",
+      "title": "Readback Id",
+      "type": "string"
+    },
+    "session_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Session Id",
+      "type": "string"
+    },
+    "local_run_id": {
+      "pattern": "^run-[a-f0-9]{32}$",
+      "title": "Local Run Id",
+      "type": "string"
+    },
+    "remote_run_id": {
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+      "title": "Remote Run Id",
+      "type": "string"
+    },
+    "current_binding": {
+      "$ref": "#/$defs/ScientistIntentBinding"
+    },
+    "authority_url": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Authority Url",
+      "type": "string"
+    },
+    "principal_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Principal Id",
+      "type": "string"
+    },
+    "original_request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Original Request Sha256",
+      "type": "string"
+    },
+    "report_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Report Sha256",
+      "type": "string"
+    },
+    "result_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Result Sha256",
+      "type": "string"
+    },
+    "report": {
+      "$ref": "#/$defs/ScientistReport"
+    },
+    "retention_source": {
+      "const": "explicit_console_request",
+      "title": "Retention Source",
+      "type": "string"
+    },
+    "created_at": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Created At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "readback_id",
+    "session_id",
+    "local_run_id",
+    "remote_run_id",
+    "current_binding",
+    "authority_url",
+    "principal_id",
+    "original_request_sha256",
+    "report_sha256",
+    "result_sha256",
+    "report",
+    "retention_source",
+    "created_at"
+  ],
+  "title": "ScientistLabReadback",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

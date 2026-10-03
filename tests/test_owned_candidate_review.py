@@ -302,6 +302,7 @@ class OwnedCandidateReviewTests(unittest.TestCase):
 
         def audit_with_receipt(receipt):
             scheduler = DesktopScheduler.__new__(DesktopScheduler)
+            scheduler.web_goal_planning = None
             scheduler.owned_skill_planning = None
             scheduler.task = None
             scheduler.sequences = SimpleNamespace(reserved=False)

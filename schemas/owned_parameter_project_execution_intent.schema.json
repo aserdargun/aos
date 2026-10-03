@@ -1,0 +1,760 @@
+{
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    },
+    "OwnedParameterProjectExecutionSource": {
+      "additionalProperties": false,
+      "properties": {
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "manifest": {
+          "$ref": "#/$defs/OwnedParameterProjectManifest"
+        },
+        "invocation": {
+          "$ref": "#/$defs/SiteSkillFormRecipeInvocation"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "expected_fields": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "maxProperties": 8,
+          "minProperties": 2,
+          "title": "Expected Fields",
+          "type": "object"
+        }
+      },
+      "required": [
+        "manifest_sha256",
+        "manifest",
+        "invocation",
+        "scope",
+        "expected_fields"
+      ],
+      "title": "OwnedParameterProjectExecutionSource",
+      "type": "object"
+    },
+    "OwnedParameterProjectIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode"
+      ],
+      "title": "OwnedParameterProjectIdentity",
+      "type": "object"
+    },
+    "OwnedParameterProjectManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "mode": {
+          "const": "owned_synthetic_parameter_project",
+          "title": "Mode",
+          "type": "string"
+        },
+        "application_key": {
+          "enum": [
+            "synthetic-crm-note",
+            "synthetic-inventory-note"
+          ],
+          "title": "Application Key",
+          "type": "string"
+        },
+        "port": {
+          "maximum": 65535,
+          "minimum": 1,
+          "title": "Port",
+          "type": "integer"
+        },
+        "origin": {
+          "pattern": "^https://w3-owned-form\\.aos\\.invalid:[1-9][0-9]{0,4}$",
+          "title": "Origin",
+          "type": "string"
+        },
+        "directory_identity": {
+          "$ref": "#/$defs/OwnedParameterProjectIdentity"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "skill_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Sha256",
+          "type": "string"
+        },
+        "page_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Page Sha256",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        },
+        "form_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Form Plan Sha256",
+          "type": "string"
+        },
+        "state_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Plan Sha256",
+          "type": "string"
+        },
+        "recipe_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Recipe Sha256",
+          "type": "string"
+        },
+        "invocation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Invocation Sha256",
+          "type": "string"
+        },
+        "parameters_review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Parameters Review Sha256",
+          "type": "string"
+        },
+        "certificate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Certificate Sha256",
+          "type": "string"
+        },
+        "case_key": {
+          "const": "dev-query",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "sources": {
+          "additionalProperties": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "title": "Sources",
+          "type": "object"
+        },
+        "source_identities": {
+          "additionalProperties": {
+            "$ref": "#/$defs/OwnedParameterProjectIdentity"
+          },
+          "title": "Source Identities",
+          "type": "object"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "execution_performed": {
+          "const": false,
+          "title": "Execution Performed",
+          "type": "boolean"
+        },
+        "source_evidence_verified": {
+          "const": false,
+          "title": "Source Evidence Verified",
+          "type": "boolean"
+        },
+        "skill_reviewed": {
+          "const": false,
+          "title": "Skill Reviewed",
+          "type": "boolean"
+        },
+        "site_outcome_verified": {
+          "const": false,
+          "title": "Site Outcome Verified",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "synthetic",
+        "mode",
+        "application_key",
+        "port",
+        "origin",
+        "directory_identity",
+        "profile_sha256",
+        "skill_sha256",
+        "page_sha256",
+        "task_sha256",
+        "form_plan_sha256",
+        "state_plan_sha256",
+        "recipe_sha256",
+        "invocation_sha256",
+        "parameters_review_sha256",
+        "certificate_sha256",
+        "case_key",
+        "sources",
+        "source_identities",
+        "execution_authorized",
+        "execution_performed",
+        "source_evidence_verified",
+        "skill_reviewed",
+        "site_outcome_verified",
+        "activation_authorized",
+        "training_ready"
+      ],
+      "title": "OwnedParameterProjectManifest",
+      "type": "object"
+    },
+    "SiteSkillFormRecipeInvocation": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "status": {
+          "const": "admission_ready",
+          "title": "Status",
+          "type": "string"
+        },
+        "skill_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Sha256",
+          "type": "string"
+        },
+        "skill_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Plan Sha256",
+          "type": "string"
+        },
+        "case_inputs_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Case Inputs Sha256",
+          "type": "string"
+        },
+        "case_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        },
+        "form_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Form Plan Sha256",
+          "type": "string"
+        },
+        "state_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Plan Sha256",
+          "type": "string"
+        },
+        "field_binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Binding Sha256",
+          "type": "string"
+        },
+        "recipe_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Recipe Sha256",
+          "type": "string"
+        },
+        "preconditions": {
+          "items": {
+            "$ref": "#/$defs/SiteSkillFormRecipePrecondition"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Preconditions",
+          "type": "array"
+        },
+        "outcome": {
+          "$ref": "#/$defs/SiteSkillFormRecipeOutcome"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/SiteSkillFormRecipeStep"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "title": "Steps",
+          "type": "array"
+        },
+        "fresh_approval_per_stage": {
+          "const": true,
+          "title": "Fresh Approval Per Stage",
+          "type": "boolean"
+        },
+        "maximum_post_count": {
+          "const": 1,
+          "title": "Maximum Post Count",
+          "type": "integer"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "collection_authorized": {
+          "const": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        },
+        "recipe_executed": {
+          "const": false,
+          "title": "Recipe Executed",
+          "type": "boolean"
+        },
+        "skill_executed": {
+          "const": false,
+          "title": "Skill Executed",
+          "type": "boolean"
+        },
+        "site_outcome_verified": {
+          "const": false,
+          "title": "Site Outcome Verified",
+          "type": "boolean"
+        },
+        "reviewed": {
+          "const": false,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "synthetic",
+        "status",
+        "skill_sha256",
+        "skill_plan_sha256",
+        "case_inputs_sha256",
+        "case_key",
+        "profile_sha256",
+        "task_sha256",
+        "form_plan_sha256",
+        "state_plan_sha256",
+        "field_binding_sha256",
+        "recipe_sha256",
+        "preconditions",
+        "outcome",
+        "steps",
+        "fresh_approval_per_stage",
+        "maximum_post_count",
+        "execution_authorized",
+        "collection_authorized",
+        "recipe_executed",
+        "skill_executed",
+        "site_outcome_verified",
+        "reviewed",
+        "activation_authorized",
+        "training_ready"
+      ],
+      "title": "SiteSkillFormRecipeInvocation",
+      "type": "object"
+    },
+    "SiteSkillFormRecipeOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "outcome_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Outcome Key",
+          "type": "string"
+        },
+        "kind": {
+          "const": "submitted_field_state_transition",
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameter_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Parameter Key",
+          "type": "string"
+        },
+        "form_field_name": {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$",
+          "title": "Form Field Name",
+          "type": "string"
+        },
+        "verified_at_operation": {
+          "const": "read_state_after",
+          "title": "Verified At Operation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "outcome_key",
+        "kind",
+        "parameter_key",
+        "form_field_name",
+        "verified_at_operation"
+      ],
+      "title": "SiteSkillFormRecipeOutcome",
+      "type": "object"
+    },
+    "SiteSkillFormRecipePrecondition": {
+      "additionalProperties": false,
+      "properties": {
+        "precondition_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Precondition Key",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "entry_form_available",
+            "declared_state_before"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "checked_at_operation": {
+          "enum": [
+            "fill_form",
+            "read_state_before"
+          ],
+          "title": "Checked At Operation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "precondition_key",
+        "kind",
+        "checked_at_operation"
+      ],
+      "title": "SiteSkillFormRecipePrecondition",
+      "type": "object"
+    },
+    "SiteSkillFormRecipeStep": {
+      "additionalProperties": false,
+      "properties": {
+        "step_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Step Key",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "open_entry",
+            "read_state_before",
+            "fill_form",
+            "submit_form",
+            "read_receipt",
+            "read_state_after"
+          ],
+          "title": "Operation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step_key",
+        "operation"
+      ],
+      "title": "SiteSkillFormRecipeStep",
+      "type": "object"
+    },
+    "StoreIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 0,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner": {
+          "minimum": 0,
+          "title": "Owner",
+          "type": "integer"
+        },
+        "mode": {
+          "minimum": 0,
+          "title": "Mode",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner",
+        "mode"
+      ],
+      "title": "StoreIdentity",
+      "type": "object"
+    },
+    "WebGoalExecutionAuthority": {
+      "additionalProperties": false,
+      "properties": {
+        "manager_session": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Manager Session",
+          "type": "string"
+        },
+        "desktop_session_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Desktop Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "owner": {
+          "const": "AGENT",
+          "title": "Owner",
+          "type": "string"
+        },
+        "status": {
+          "const": "running",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "manager_session",
+        "desktop_session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "status"
+      ],
+      "title": "WebGoalExecutionAuthority",
+      "type": "object"
+    },
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "released_skill_verified": {
+      "const": false,
+      "default": false,
+      "title": "Released Skill Verified",
+      "type": "boolean"
+    },
+    "native_model_verified": {
+      "const": false,
+      "default": false,
+      "title": "Native Model Verified",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "replay_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Replay Authorized",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "owned_parameter_project_manual_bootstrap_intent",
+      "title": "Kind",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "job_id": {
+      "pattern": "^job-[a-f0-9]{32}$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "source": {
+      "$ref": "#/$defs/OwnedParameterProjectExecutionSource"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "authority": {
+      "$ref": "#/$defs/WebGoalExecutionAuthority"
+    },
+    "workspace_identity": {
+      "$ref": "#/$defs/WorkspaceIdentity"
+    },
+    "execution_workspace_identity": {
+      "$ref": "#/$defs/WorkspaceIdentity"
+    },
+    "journal_identity": {
+      "$ref": "#/$defs/StoreIdentity"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "synthetic",
+    "job_id",
+    "source",
+    "source_sha256",
+    "authority",
+    "workspace_identity",
+    "execution_workspace_identity",
+    "journal_identity"
+  ],
+  "title": "OwnedParameterProjectExecutionIntent",
+  "type": "object"
+}

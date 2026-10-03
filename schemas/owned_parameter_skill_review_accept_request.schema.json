@@ -1,0 +1,45 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Sha256",
+      "type": "string"
+    },
+    "confirm_review_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Review Sha256",
+      "type": "string"
+    },
+    "human_confirmation": {
+      "const": "ACCEPT_MANUAL_REVIEW",
+      "title": "Human Confirmation",
+      "type": "string"
+    },
+    "lease_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,128}$",
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "candidate_sha256",
+    "confirm_review_sha256",
+    "human_confirmation",
+    "lease_id",
+    "generation"
+  ],
+  "title": "OwnedParameterSkillReviewAcceptRequest",
+  "type": "object"
+}

@@ -1,6 +1,6 @@
 import argparse
 import asyncio
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, nullcontext
 import hashlib
 import json
 import os
@@ -22,6 +22,13 @@ from aos.desktop import DesktopRuntime
 from aos.desktop_console import create_console
 from aos.desktop_control import DesktopController
 from aos.desktop_tasks import DesktopScheduler
+from aos.scientist_desktop import create_scientist_desktop_scheduler
+from aos.scientist_admission_history import ScientistAdmissionHistory, ScientistOutputContractPin
+from aos.scientist_bootstrap import ScientistBootstrapCapture
+from aos.scientist_bootstrap_factory import ScientistBootstrapAdmissionFactory
+from aos.scientist_protocol import _reject_constant, _unique_object
+from aos.scientist_transport import ScientistAdmissionError
+from aos.scientist_lab_service import ScientistLabService, prepare_scientist_lab_startup
 from aos.storage import TrajectoryStore
 from aos.vision import BonsaiVisionSupervisor, FixtureVisionSupervisor
 from aos.dataset_preflight import bounded_file
@@ -40,7 +47,22 @@ from aos.web_https_form_state_probe import (WebHTTPSFormStatePlan,
 from aos.web_https_preflight import validate_https_cookie_header
 
 
-def main():
+def prepare_console_assets(runtime, assets_root=None):
+    root = REPO_ROOT / 'data/desktop-console-assets' if assets_root is None else Path(assets_root)
+    if not root.is_absolute() or '..' in root.parts or root.resolve() != root:
+        raise ValueError('Console assets require an absolute non-symlink root')
+    assets = root / runtime.pins['image_id'].split(':')[1]
+    if assets.is_symlink():
+        raise ValueError('Console assets cannot follow a symbolic link')
+    assets.mkdir(parents=True, exist_ok=True)
+    runtime.docker(['cp', runtime.container_id + ':/usr/share/novnc/.', str(assets)])
+    return assets
+
+
+def main(*, scientist_confirm_runtime=None, scientist_lab_config=None, scientist_verify_lab_capability=None,
+         scientist_admission_factory=None, scientist_output_contract=None, scientist_output_context_tokens=16384,
+         scientist_bootstrap_expected_peer=None, scientist_bootstrap_factory=None,
+         scientist_retained_resolver_factory=None):
     parser = argparse.ArgumentParser(description='Authenticated loopback-only AOS desktop console')
     parser.add_argument('--port', type=int, default=8765)
     parser.add_argument('--local-ui-auto-login', action='store_true',
@@ -48,17 +70,29 @@ def main():
     parser.add_argument('--listen-fd', type=int, help=argparse.SUPPRESS)
     parser.add_argument('--owned-form-listener-fd', type=int, help=argparse.SUPPRESS)
     parser.add_argument('--owned-form-manifest-sha256', help=argparse.SUPPRESS)
+    parser.add_argument('--owned-parameter-project-directory', type=Path,
+                        help='Explicit private prepared synthetic multi-field project; requires its manifest pin and owned listener')
+    parser.add_argument('--owned-parameter-project-manifest-sha256',
+                        help='Exact manifest confirmation for the prepared synthetic multi-field project')
     parser.add_argument('--owned-learning-lock-fd', type=int, help=argparse.SUPPRESS)
     parser.add_argument('--owned-skill-reuse-sha256', help=argparse.SUPPRESS)
     parser.add_argument('--owned-synthetic-form-recipe', action='store_true',
                         help=argparse.SUPPRESS)
     parser.add_argument('--workspace', type=Path, default=REPO_ROOT / 'data/desktop-workspace')
+    parser.add_argument('--console-assets-root', type=Path,
+                        help='Explicit separate host noVNC asset directory for an isolated runtime')
     parser.add_argument('--database', type=Path, default=REPO_ROOT / 'data/desktop-console.sqlite')
     parser.add_argument('--managed-retention', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('--trajectory-database', type=Path, default=REPO_ROOT / 'data/aos.sqlite')
     parser.add_argument('--web-profiles-root', type=Path, default=REPO_ROOT / 'data/web-applications')
     parser.add_argument('--knowledge-root', type=Path, default=REPO_ROOT / 'data/document-knowledge',
                         help='Private owner-only uploaded document and review store; no path ingestion')
+    parser.add_argument('--site-knowledge-root', type=Path, default=None)
+    parser.add_argument('--site-skills-root', type=Path, default=None)
+    parser.add_argument('--page-seed-root', type=Path, default=None)
+    parser.add_argument('--route-review-root', type=Path, default=None)
+    parser.add_argument('--json-review-root', type=Path, default=None)
+    parser.add_argument('--json-page-seed-root', type=Path, default=None)
     parser.add_argument('--web-task-root', type=Path, default=REPO_ROOT / 'data/web-task-drafts')
     parser.add_argument('--web-form-plan-root', type=Path, default=REPO_ROOT / 'data/web-form-plan-drafts')
     parser.add_argument('--web-form-value-root', type=Path, default=REPO_ROOT / 'data/web-form-value-drafts')
@@ -67,7 +101,9 @@ def main():
     parser.add_argument('--web-static-root', type=Path, default=REPO_ROOT / 'data/web-static-asset-drafts')
     parser.add_argument('--web-readonly-data-root', type=Path,
                         default=REPO_ROOT / 'data/web-readonly-data-drafts')
-    parser.add_argument('--engine', choices=['disabled', 'decider', 'fixture'], default='disabled')
+    parser.add_argument('--engine', choices=['disabled', 'decider', 'fixture', 'scientist'], default='disabled')
+    parser.add_argument('--scientist-broker-socket', type=Path,
+                        help='Explicit broker UDS; scientist mode additionally requires a jointly confirmed host runtime provider')
     parser.add_argument('--reuse-decider', action='store_true', help='Reuse pinned Decider within one task; release afterward unless bounded GPU idle retention is enabled')
     parser.add_argument('--prewarm-decider', action='store_true', help='Prepare one expiring CPU-only Decider while idle; requires --reuse-decider')
     parser.add_argument('--prewarm-idle-seconds', type=int, help='Bounded CPU-only idle preparation lifetime; requires --prewarm-decider')
@@ -162,6 +198,128 @@ def main():
                         help='Permit per-task opt-in synthetic metadata only in this private outbox')
     parser.add_argument('--bonsai-manifest', type=Path, default=REPO_ROOT / 'models/bonsai-manifest.json')
     arguments = parser.parse_args()
+    owned_parameter_startup = None
+    project_options = (arguments.owned_parameter_project_directory,
+                       arguments.owned_parameter_project_manifest_sha256)
+    if any(option is not None for option in project_options):
+        conflicting_sources = [value for name, value in vars(arguments).items()
+                               if name.startswith('remote_')
+                               and name != 'remote_entry_mcp_manifest' and value is not None]
+        if (not all(option is not None for option in project_options)
+                or arguments.owned_form_listener_fd is None
+                or arguments.owned_form_manifest_sha256 is not None
+                or arguments.owned_synthetic_form_recipe
+                or arguments.owned_skill_reuse_sha256 is not None
+                or arguments.engine != 'fixture'
+                or arguments.vision_engine not in {'disabled', 'fixture'}
+                or arguments.reuse_decider or arguments.prewarm_decider
+                or arguments.prewarm_idle_seconds is not None
+                or arguments.gpu_idle_seconds is not None
+                or not arguments.browser_tasks or not arguments.desktop_browser
+                or arguments.desktop_mcp_manifest is not None
+                or arguments.desktop_navigation_mcp_manifest is not None
+                or arguments.desktop_staging_mcp_manifest is not None
+                or arguments.staging_fixture_port is not None
+                or conflicting_sources):
+            parser.error('Owned parameter project requires complete explicit pins, an owned listener and a separate CPU-fixture manual browser session; native GPU model paths are forbidden')
+        try:
+            from aos.owned_parameter_project_startup import load_owned_parameter_project_startup
+
+            owned_parameter_startup = load_owned_parameter_project_startup(
+                *project_options, arguments.owned_form_listener_fd)
+            project = owned_parameter_startup.bundle
+            if arguments.web_profiles_root.absolute() not in {
+                    REPO_ROOT / 'data/web-applications', project['profiles_root']}:
+                raise ValueError('owned_parameter_project_profile_root_mismatch')
+            arguments.web_profiles_root = project['profiles_root']
+            arguments.remote_entry_mcp_manifest = arguments.remote_entry_mcp_manifest or (
+                REPO_ROOT / 'models/desktop-mcp-v001/manifest.json')
+            arguments.remote_entry_profile_sha256 = project['profile_sha256']
+            arguments.remote_entry_task_file = project['directory'] / 'remote-entry-task.json'
+            arguments.remote_entry_task_sha256 = project['source_pins']['remote-entry-task.json']
+        except (OSError, ValueError, TypeError, KeyError):
+            parser.error('Owned parameter project sources or listener are unavailable or invalid')
+    if scientist_retained_resolver_factory is not None:
+        if (arguments.engine != 'scientist' or not callable(scientist_retained_resolver_factory)
+                or not callable(getattr(scientist_retained_resolver_factory, 'verify_configuration', None))
+                or (scientist_bootstrap_factory is None and (
+                    scientist_admission_factory is None or scientist_output_contract is None))):
+            parser.error('Scientist retained resolution requires an explicit verified trusted factory; no runtime started')
+        try:
+            if scientist_retained_resolver_factory.verify_configuration() is not None:
+                raise ScientistAdmissionError('Retained factory configuration must complete or raise')
+        except Exception:
+            parser.error('Scientist retained resolution configuration is unavailable or incompatible; no runtime started')
+    if scientist_bootstrap_factory is not None:
+        if (type(scientist_bootstrap_factory) is not ScientistBootstrapAdmissionFactory
+                or arguments.engine != 'scientist'
+                or any(value is not None for value in (scientist_confirm_runtime, scientist_admission_factory,
+                    scientist_bootstrap_expected_peer, scientist_output_contract))):
+            parser.error('Scientist bootstrap requires one concrete trusted factory without mixed admission/runtime/peer/output hooks')
+        try:
+            scientist_output_contract = scientist_bootstrap_factory.output_contract
+        except (TypeError, ValueError, ScientistAdmissionError):
+            parser.error('Scientist bootstrap factory output contract is unavailable or incompatible; no runtime started')
+        scientist_confirm_runtime = scientist_bootstrap_factory.confirm_runtime
+        scientist_admission_factory = scientist_bootstrap_factory
+        scientist_bootstrap_expected_peer = scientist_bootstrap_factory.expected_peer
+    if scientist_bootstrap_expected_peer is not None and (
+            not callable(scientist_bootstrap_expected_peer) or scientist_admission_factory is None):
+        parser.error('Scientist bootstrap requires an explicit peer reader and original admission factory')
+    if scientist_admission_factory is not None or scientist_output_contract is not None:
+        if (arguments.engine != 'scientist' or not callable(scientist_admission_factory)
+                or scientist_output_contract is None):
+            parser.error('Scientist original admission requires a trusted factory and pinned output contract together')
+        try:
+            contract = scientist_output_contract
+            if isinstance(contract, ScientistOutputContractPin):
+                contract = contract.model_dump(mode='json')
+            scientist_output_contract = ScientistOutputContractPin.model_validate(contract, strict=True).model_dump(mode='json')
+            if type(scientist_output_context_tokens) is not int or not 256 <= scientist_output_context_tokens <= 16384:
+                raise ValueError('Scientist output context limit is invalid')
+        except (TypeError, ValueError):
+            parser.error('Scientist output contract or trusted context limit is invalid; no runtime started')
+    elif scientist_output_context_tokens != 16384 or type(scientist_output_context_tokens) is not int:
+        parser.error('Scientist output context configuration requires the original admission factory and contract')
+    lab_startup = None
+    if scientist_lab_config is not None:
+        if arguments.engine != 'scientist' or not callable(scientist_verify_lab_capability):
+            parser.error('Lab startup requires Scientist engine and an explicit trusted joint Lab capability verifier')
+        try:
+            lab_startup = prepare_scientist_lab_startup(scientist_lab_config)
+        except (OSError, ValueError, ScientistAdmissionError):
+            parser.error('Lab startup authority/principal/suites/private credential are unavailable or incompatible')
+    elif scientist_verify_lab_capability is not None:
+        parser.error('Lab capability verifier requires explicit host Lab startup configuration')
+    scientist_pins = None
+    if arguments.engine == 'scientist':
+        if not callable(scientist_confirm_runtime):
+            parser.error('Scientist runtime is not jointly admitted: trusted host capability/version provider required; no native fallback')
+        if (arguments.scientist_broker_socket is None or not arguments.scientist_broker_socket.is_absolute()
+                or '..' in arguments.scientist_broker_socket.parts):
+            parser.error('Scientist mode requires an explicit absolute --scientist-broker-socket')
+        if (arguments.reuse_decider or arguments.prewarm_decider or arguments.gpu_idle_seconds
+                or arguments.owned_synthetic_form_recipe
+                or arguments.owned_skill_reuse_sha256 is not None or arguments.owned_form_listener_fd is not None
+                or arguments.vision_engine == 'fixture'):
+            parser.error('Scientist mode forbids native reuse/prewarm/idle and unbrokered owned model paths')
+        try:
+            scientist_pins = json.loads(bounded_file(arguments.decider_manifest.absolute()),
+                                       object_pairs_hook=_unique_object, parse_constant=_reject_constant)
+            if not isinstance(scientist_pins, dict):
+                raise ValueError('Pinned Scientist Decider manifest must be an object')
+            profiles = {'aos.decider.turn.v1': digest(scientist_pins)}
+            if arguments.vision_engine == 'bonsai':
+                from aos.scientist_supervisor import ScientistBonsaiVisionSupervisor
+
+                profiles['aos.bonsai.vision.v1'] = ScientistBonsaiVisionSupervisor(
+                    arguments.bonsai_manifest, None)._deployment_digest
+            if scientist_confirm_runtime(profiles.copy()) is not None:
+                raise ScientistAdmissionError('Joint runtime verifier must complete or raise')
+        except (OSError, ValueError, ScientistAdmissionError):
+            parser.error('Scientist pinned source/capability is unavailable or incompatible; no runtime started')
+    elif arguments.scientist_broker_socket is not None:
+        parser.error('--scientist-broker-socket requires --engine scientist')
     recipe_options = (arguments.remote_form_skill_recipe_file,
                       arguments.remote_form_skill_recipe_file_sha256)
     if any(option is not None for option in recipe_options):
@@ -171,6 +329,18 @@ def main():
     owned_form_directory = None
     owned_form_manifest = None
     owned_skill_reuse_material = None
+    manager_base = arguments.workspace.absolute().parent.parent
+    manager_project = (re.fullmatch(r'local-app-project-([a-z0-9][a-z0-9-]{0,47})', manager_base.name)
+                       if manager_base.parent == REPO_ROOT / 'data' else None)
+    manager_scope = ({'project': manager_project.group(1), 'port': arguments.port}
+                     if manager_project is not None else None)
+
+    def scoped_manager():
+        if manager_scope is None:
+            return nullcontext()
+        from aos.local_app import LocalAppInstance, instance_scope
+        return instance_scope(LocalAppInstance.for_project(manager_scope['project'], manager_scope['port']))
+
     if (arguments.owned_learning_lock_fd is not None
             and (arguments.owned_learning_lock_fd < 0 or arguments.owned_form_listener_fd is None)):
         parser.error('Owned learning lock requires its private owned form source')
@@ -182,8 +352,9 @@ def main():
             from aos.local_app import load_owned_skill_reuse_startup
 
             manager_directory = arguments.workspace.absolute().parent
-            owned_skill_reuse_material, _previous, retained_directory = load_owned_skill_reuse_startup(
-                manager_directory, arguments.owned_skill_reuse_sha256)
+            with scoped_manager():
+                owned_skill_reuse_material, _previous, retained_directory = load_owned_skill_reuse_startup(
+                    manager_directory, arguments.owned_skill_reuse_sha256)
             if (arguments.workspace.absolute() != manager_directory / 'workspace'
                     or arguments.database.absolute() != retained_directory / 'store.sqlite'
                     or manager_directory == retained_directory
@@ -192,18 +363,21 @@ def main():
                 raise ValueError('Owned skill reuse paths differ from retained source')
         except (OSError, ValueError, TypeError, KeyError, sqlite3.Error):
             parser.error('Owned skill reuse source changed or is unavailable')
-    if ((arguments.owned_form_listener_fd is None)
+    if (owned_parameter_startup is None and (arguments.owned_form_listener_fd is None)
             != (arguments.owned_form_manifest_sha256 is None)):
         parser.error('Owned synthetic form requires its listener and manifest pin')
     if arguments.owned_synthetic_form_recipe and arguments.owned_form_listener_fd is None:
         parser.error('Owned recipe mode requires its inherited private fixture listener')
-    if arguments.owned_form_listener_fd is not None:
+    if owned_parameter_startup is not None:
+        owned_form_directory = project['directory']
+        owned_form_manifest = project['manifest']
+    elif arguments.owned_form_listener_fd is not None:
         try:
             from aos.owned_form_invocation_session import verify_owned_form_invocation_manifest
 
             session_dir = arguments.database.absolute().parent
             if (session_dir.parent.parent != REPO_ROOT / 'data'
-                    or re.fullmatch(r'local-app-(?:v1|test-[a-f0-9]{32})',
+                    or re.fullmatch(r'local-app-(?:v1|test-[a-f0-9]{32}|project-[a-z0-9][a-z0-9-]{0,47})',
                                     session_dir.parent.name) is None
                     or re.fullmatch(r'app-[a-f0-9]{32}', session_dir.name) is None
                     or not 1024 <= arguments.port <= 65535):
@@ -653,6 +827,16 @@ def main():
         except (OSError, ValueError, TypeError, KeyError):
             parser.error('Synthetic skill invocation sources are unavailable or invalid')
         remote_form_skill_revalidator = revalidate_skill_invocation
+    if owned_parameter_startup is not None:
+        project = owned_parameter_startup.source()
+        if remote_task != project['task']:
+            parser.error('Owned parameter project task changed during startup')
+        remote_form_plan = project['form_plan']
+        remote_form_state_plan = project['state_plan']
+        remote_form_fields = [{'name': name, 'value': value} for name, value in project['fields']]
+        remote_form_skill_invocation = project['invocation']
+        remote_form_skill_invocation_sha256 = project['invocation_sha256']
+        remote_form_skill_revalidator = owned_parameter_startup.revalidate
     owned_form_fixture = None
     def create_owned_form_fixture():
         if owned_form_directory is None:
@@ -661,6 +845,11 @@ def main():
         try:
             from aos.owned_form_fixture import OwnedFormFixture
 
+            if owned_parameter_startup is not None:
+                fixture = owned_parameter_startup.create_fixture(arguments.owned_form_listener_fd)
+                os.close(arguments.owned_form_listener_fd)
+                arguments.owned_form_listener_fd = None
+                return fixture
             if (remote_form_plan is None or remote_form_state_plan is None
                     or remote_form_skill_invocation is None
                     or arguments.remote_form_public_plan_sha256 is not None
@@ -753,8 +942,10 @@ def main():
                     store.close()
                     store = None
                 key.unlink(missing_ok=True)
-                if owned_form_fixture is not None:
+                if owned_form_fixture is not None and owned_parameter_startup is None:
                     owned_form_fixture.close()
+                if owned_parameter_startup is not None:
+                    owned_parameter_startup.close()
                 if owned_workspace_lock is not None:
                     owned_workspace_lock.close()
                     owned_workspace_lock = None
@@ -791,6 +982,8 @@ def main():
                 await scheduler.close()
                 if isinstance(scheduler.vision_supervisor, BonsaiVisionSupervisor):
                     await scheduler.vision_supervisor.close_pin_prewarm()
+            if scientist_lab is not None:
+                await scientist_lab.close_async(timeout_seconds=scientist_lab.client.timeout_seconds)
             cleanup()
 
     try:
@@ -804,13 +997,32 @@ def main():
             if arguments.owned_learning_lock_fd is not None:
                 os.close(arguments.owned_learning_lock_fd)
                 arguments.owned_learning_lock_fd = None
+            if owned_parameter_startup is not None:
+                owned_parameter_startup.retain_workspace(owned_workspace_lock)
             if owned_skill_reuse_material is not None:
-                owned_skill_reuse_material, _previous, _retained = load_owned_skill_reuse_startup(
-                    arguments.workspace.absolute().parent, arguments.owned_skill_reuse_sha256)
+                with scoped_manager():
+                    owned_skill_reuse_material, _previous, _retained = load_owned_skill_reuse_startup(
+                        arguments.workspace.absolute().parent, arguments.owned_skill_reuse_sha256)
         owned_form_fixture = create_owned_form_fixture()
         store = TrajectoryStore(arguments.database)
         runtime.start()
         controller = DesktopController(store, runtime)
+        scientist_admission_history = None
+        scientist_bootstrap_capture = None
+        if scientist_admission_factory is not None:
+            try:
+                scientist_admission_history = scientist_admission_factory(controller)
+                if (not isinstance(scientist_admission_history, ScientistAdmissionHistory)
+                        or scientist_admission_history.record_version != '2.0'
+                        or scientist_admission_history.store is not controller.store):
+                    raise ScientistAdmissionError('Scientist admission history must use this controller store and version2.0')
+                if scientist_bootstrap_expected_peer is not None:
+                    scientist_bootstrap_capture = scientist_admission_history.capture
+                    if (not isinstance(scientist_bootstrap_capture, ScientistBootstrapCapture)
+                            or scientist_bootstrap_capture.store is not controller.store):
+                        raise ScientistAdmissionError('Scientist bootstrap requires the exact original typed capture')
+            except (OSError, ValueError, TypeError, ScientistAdmissionError):
+                parser.error('Scientist trusted original admission factory is unavailable or returned an incompatible history')
         remote_form_owned_candidate_session = None
         if arguments.engine != 'disabled':
             remote_learning_enabled = (remote_routes_plan is not None
@@ -818,16 +1030,21 @@ def main():
                                        or (remote_form_plan is not None
                                            and remote_form_cookie is None))
             engine_class = ReusableDeciderEngine if arguments.reuse_decider else DeciderEngine
-            engine = FixtureDecisionEngine() if arguments.engine == 'fixture' else engine_class(
+            engine = None if arguments.engine == 'scientist' else FixtureDecisionEngine() if arguments.engine == 'fixture' else engine_class(
                 arguments.decider_manifest, arguments.model_python,
                 **({'cpu_prewarm': arguments.prewarm_decider,
                     'idle_seconds': arguments.prewarm_idle_seconds or 60,
                     'gpu_idle_seconds': arguments.gpu_idle_seconds or 0}
                    if arguments.reuse_decider else {}))
-            supervisor = None if arguments.vision_engine == 'disabled' else (
+            supervisor = None if arguments.vision_engine == 'disabled' or arguments.engine == 'scientist' else (
                 FixtureVisionSupervisor() if arguments.vision_engine == 'fixture' else BonsaiVisionSupervisor(arguments.bonsai_manifest))
             remote_form_owned_auditor = None
-            if owned_form_fixture is not None:
+            if owned_parameter_startup is not None:
+                def audit_owned_parameter_run(run_id):
+                    return owned_parameter_startup.audit(arguments.database, run_id)
+
+                remote_form_owned_auditor = audit_owned_parameter_run
+            elif owned_form_fixture is not None:
                 from aos.owned_form_invocation_session import (
                     verify_owned_form_invocation_manifest)
 
@@ -875,7 +1092,20 @@ def main():
                                 / 'site-skill-recipe-candidates'),
                             database=arguments.database, profiles=profiles,
                             pages=candidate_pages))
-            scheduler = DesktopScheduler(controller, Settings(workspace=arguments.workspace, database=arguments.database), engine,
+            scheduler_factory = DesktopScheduler
+            if arguments.engine == 'scientist':
+                def scheduler_factory(controller, settings, engine, *, vision_supervisor, **options):
+                    return create_scientist_desktop_scheduler(controller, settings, scientist_pins,
+                        arguments.scientist_broker_socket, confirm_runtime=scientist_confirm_runtime,
+                        admission_history=scientist_admission_history, output_contract=scientist_output_contract,
+                        output_context_tokens=scientist_output_context_tokens,
+                        bootstrap_capture=scientist_bootstrap_capture,
+                        expected_bootstrap_peer=scientist_bootstrap_expected_peer,
+                        resolver_factory=scientist_retained_resolver_factory,
+                        bonsai_manifest=arguments.bonsai_manifest if arguments.vision_engine == 'bonsai' else None,
+                        **options)
+
+            scheduler = scheduler_factory(controller, Settings(workspace=arguments.workspace, database=arguments.database), engine,
                                          browser_manifest=arguments.browser_manifest if arguments.browser_tasks else None,
                                          vision_supervisor=supervisor, desktop_browser=arguments.desktop_browser,
                                          desktop_vision=arguments.desktop_vision,
@@ -938,6 +1168,12 @@ def main():
                                                                        if remote_learning_enabled else None),
                                          remote_learning_stream_dir=(arguments.database.parent / 'remote-learning-outbox'
                                                                      if remote_learning_enabled else None))
+            if owned_parameter_startup is not None:
+                scheduler.configure_owned_parameter_project_execution(
+                    owned_parameter_startup.bundle,
+                    arguments.database.absolute().parent / 'owned-parameter-project-execution',
+                    current_source=owned_parameter_startup.source,
+                    source_auditor=remote_form_owned_auditor)
             if owned_skill_reuse_material is not None:
                 from aos.local_app import write_new_private_plan
                 from aos.owned_skill_reuse_admission import make_owned_skill_reuse_admission
@@ -955,9 +1191,11 @@ def main():
 
                 scheduler.configure_owned_skill_planning(
                     BonsaiOwnedSkillPlanner(arguments.bonsai_manifest, knowledge_context=True))
-        assets = REPO_ROOT / 'data/desktop-console-assets' / runtime.pins['image_id'].split(':')[1]
-        assets.mkdir(parents=True, exist_ok=True)
-        runtime.docker(['cp', runtime.container_id + ':/usr/share/novnc/.', str(assets)])
+                from aos.web_goal_planner import BonsaiWebGoalPlanner
+
+                scheduler.configure_web_goal_planning(BonsaiWebGoalPlanner(
+                    arguments.bonsai_manifest, knowledge_context=arguments.knowledge_root is not None))
+        assets = prepare_console_assets(runtime, arguments.console_assets_root)
         origin = f'http://127.0.0.1:{arguments.port}'
         print(f'Console: {origin}\nLocal token file (0600): {key}', flush=True)
         knowledge_answerer = None
@@ -965,14 +1203,30 @@ def main():
             from aos.knowledge_answer_model import BonsaiKnowledgeAnswerer
 
             knowledge_answerer = BonsaiKnowledgeAnswerer(arguments.bonsai_manifest)
+        scientist_lab = None
+        if lab_startup is not None:
+            lab_config, lab_client = lab_startup
+            scientist_lab = ScientistLabService(controller, lab_client,
+                authorization_context_sha256=lab_config.authorization_context_sha256,
+                program_version=lab_config.program_version, verify_capability=scientist_verify_lab_capability)
         app = create_console(controller, token, origin, assets,
                              arguments.database if scheduler else arguments.trajectory_database, scheduler,
                              local_ui_auto_login=arguments.local_ui_auto_login,
+                             manager_scope=manager_scope,
+                             manager_session=arguments.workspace.absolute().parent.name if manager_scope is not None else None,
+                             ui_root=manager_base / 'ui' if manager_scope is not None else None,
                              retention_status=retention_telemetry.snapshot,
                              recovery_database=arguments.database,
                              web_profiles_root=arguments.web_profiles_root,
                              knowledge_root=arguments.knowledge_root,
+                             site_knowledge_root=arguments.site_knowledge_root,
+                             site_skills_root=arguments.site_skills_root,
+                             page_seed_root=arguments.page_seed_root,
+                             route_review_root=arguments.route_review_root,
+                             json_review_root=arguments.json_review_root,
+                             json_page_seed_root=arguments.json_page_seed_root,
                              knowledge_answerer=knowledge_answerer,
+                             scientist_lab=scientist_lab,
                              web_task_root=arguments.web_task_root,
                              web_form_plan_root=arguments.web_form_plan_root,
                              web_form_value_root=arguments.web_form_value_root,
@@ -982,7 +1236,8 @@ def main():
                              web_readonly_data_root=arguments.web_readonly_data_root,
                              owned_form_recipe_mode=(owned_form_manifest is not None
                                 and owned_form_manifest.get('mode')
-                                == 'owned_synthetic_form_recipe'))
+                                in {'owned_synthetic_form_recipe',
+                                    'owned_synthetic_parameter_project'}))
         app.router.lifespan_context = lifespan
         uvicorn.run(app, host='127.0.0.1', port=arguments.port, fd=arguments.listen_fd,
                     access_log=False, ws_max_size=65536, timeout_graceful_shutdown=5)

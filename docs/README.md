@@ -1,5 +1,17 @@
 # Dokümantasyon dizini
 
+## Teslimden başla
+
+- [DELIVERY_AND_CONTINUATION — test edilmiş kaynak teslimi, açık eksikler ve AI Scientist/web uygulaması için devam ölçütleri](DELIVERY_AND_CONTINUATION.md)
+- [STATUS — tarihli gerçek test sonuçları; mock/native ayrımı](STATUS.md)
+- [LOCAL_SETUP — yeni ortam ve canlıya dokunmadan UI staging](LOCAL_SETUP.md)
+- [CONTROL_CENTER — paneli okuma, Mac bridge ve SSH erişimi](CONTROL_CENTER.md)
+- [USAGE_ACCOUNTING — geliştirme/runtime tüketimi, kapsam ve bilinmeyen ücretler](USAGE_ACCOUNTING.md)
+- [USAGE_TIMER — saatlik özel kayıt, açık kurulum/etkinleştirme ve sınırlar](USAGE_TIMER.md)
+- [README_HISTORY_20261003 — önceki README ve korunmuş tarihsel sayaç/model kayıtları](README_HISTORY_20261003.md)
+
+## Ayrıntılı sözleşmeler
+
 - [FAILURE_FOLLOWUP — incelenmiş başarısızlıktan ayrı izinli yeni görev ve sonuç denetimi](FAILURE_FOLLOWUP.md)
 - [FAILURE_IMPROVEMENT — başarısız görevden ayrı, izinli metadata incelemesi ve düzeltme önerisi](FAILURE_IMPROVEMENT.md)
 - [FAILURE_GUIDANCE — incelenmiş sonlu yönlendirmeyi yeni Hello kararında kullanma](FAILURE_GUIDANCE.md)

@@ -6,7 +6,7 @@ import {OwnedEpisodeLearning} from './OwnedEpisodeLearning';
 import {OwnedSkillKnowledge} from './OwnedSkillKnowledge';
 
 export type PlanningStatus = {available: boolean; status: 'idle' | 'pending' | 'ready' | 'bound' | 'consumed' | 'needs_human' | 'cancelled' | 'failed' | 'unavailable';
-  planning_id?: string; bundle_sha256?: string | null; episode_id?: string; execution_authorized: false; real_model?: boolean; model_called?: boolean; knowledge_available?: boolean};
+  planning_id?: string; bundle_sha256?: string | null; episode_id?: string; job_id?: string; execution_review_pending?: boolean; execution_authorized: false; real_model?: boolean; model_called?: boolean; knowledge_available?: boolean};
 type Preview = {schema_version: '1.4'; preview_sha256: string; planning_bundle_sha256: string;
   reuse_admission_sha256: string; source_run_ref: string; case_key: string; steps: OwnedFormRecipeStep[]};
 type Props = {source: OwnedFormInvocation; snapshot: Snapshot; tasks: Tasks; disabled: boolean};

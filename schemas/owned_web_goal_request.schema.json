@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "owned_web_goal_request.schema.json",
+  "description": "Catalog or preview-only request. Proposal separately obeys web_goal_plan.schema.json; this cannot start execution or inference.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "lease_id", "generation"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "lease_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9_-]+$"},
+    "generation": {"type": "integer", "minimum": 0},
+    "confirm_catalog_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "proposal": {"type": "object"}
+  },
+  "dependentRequired": {
+    "proposal": ["confirm_catalog_sha256"],
+    "confirm_catalog_sha256": ["proposal"]
+  }
+}

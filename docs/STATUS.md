@@ -1,6 +1,3210 @@
+## 3 Ekim 2026, 13:15 UTC — kaynak yayını hazırlığı ve saatlik özel kullanım kaydı
+
+Paralel kaynak/geçmiş incelemesinde manifest dışı private veri, gerçek trajectory,
+DB veya model ağırlığı bulunmadı; bu sınırlı inceleme tam secret audit değildir.
+İki public belgedeki kişisel SSH/Tailnet hedefleri placeholder ile değiştirildi.
+README ve tarihsel sayaçlarda raw geliştirme thread kimliği yerine başlangıca
+bağlı sabit scope etiketi kullanıldı; ham token/saniye değerleri korunur.
+Dört reachable Git commit'inde bilinen credential pattern eşleşmesi gözlenmedi.
+Public kaynak güncellemesi için aynı origin/main'in ayrı private kopyası
+hazırlandı; canlı checkout'un index/HEAD ve çalışma ağacı sıfırlanmadı.
+`v0.1.0` sürüm hedefidir; release etiketi ve lisans kararı henüz yoktur.
+
+Saatlik özel kullanım collector'ı için açık install/enable helper'ı eklendi.
+İlk gerçek etkinleştirme, quoted `WorkingDirectory` systemd tarafından mutlak
+yol sayılmadığı için başarısız oldu; gereksiz directive kaldırıldı. ExecStart
+executable/arg `$` escaping ayrımı da gerçek sentetik unit doğrulamasında
+düzeltildi. **28 odaklı test / 0,042 s PASS**; gerçek `systemd-analyze verify`
+testi dahildir. Önceki 3426 core sonucu bu yeni helper testlerini içermez.
+
+Exact kurulmuş unit düzeltildi; gerçek unit doğrulaması ve install/enable geçti.
+Timer `enabled/active/waiting`, sonraki tetik 14:00 UTC; ilk manuel servis
+çalışması `Result=success`, `ExecMainStatus=0`. Saat13 private snapshot'ı
+`data/accounting/2026-10-03T130000Z.json`, mode0600. Bu özel aggregate kaydıdır;
+public raw session/veri, model çağrısı veya uygulama restart'ı yoktur.
+Saatlik otomatik commit/push henüz kurulmadı; bu timer onu yapıyor diye sunulmaz.
+
+Frozen161 kaynak pini tekrar eşleşti; varsayılan AOS aynı oturum ve processlerle
+running kaldı. Scientist'in yeni CPU capability önerisi sonraki kaynak dilimi
+olarak ayrıldı: version-pair ACK veya runtime yetkisi verilmedi. Gerçek ortak
+GPU kabulünü yalnız Scientist yürütecek; mevcut GPU HOLD kaldırılmadı.
+Entegrasyon **kısmi**, v0.1.0 tam ürün/GPU kabulü değildir.
+
+## 3 Ekim 2026, 12:50 UTC — teslim regresyonları kapandı; v0.1.0 hedefi
+
+**Önceki yedi FAIL ve tamamlanamayan socket testi düzeltildi.** Entegrasyon
+hâlâ kısmi; gerçek ortak GPU ve hedef uygulama kabulleri tamamlanmadı.
+Kullanıcının istediği ilk sürüm adı **v0.1.0**; Python/UI/Cargo/Tauri metadata'sı
+zaten `0.1.0`. Git etiketi yok; test edilmiş uncommitted kaynakları içermeyen
+eski HEAD'e etiket konmadı. Doğru kaynak commit'i ve teslim/yayın kapıları
+tamamlandığında sürümleme yapılmalı; koşullar devam rehberine kaydedildi.
+
+Canonical `recovery_backup` schema'sına desteklenen 28 eklendi. Testler artık
+current schema sayısını kullanırken özgün satırlar, exact trigger SQL ve FK
+bütünlüğünü denetlemeye devam ediyor. Schema20 rollback fixture'ı 28 tablo,
+trigger ve migration satırını da kaldırıyor. Gerçek oluşturulmuş sentetik
+schema28 backup manifesti canonical JSON schema'dan geçiyor; eski versiyonla
+yeniden etiketleme reddediliyor. **49 odaklı kontrol / 26,443 s PASS**.
+Migration dosyaları, mevcut DB'ler ve runtime source değiştirilmedi.
+
+Socket takılması test fixture'ının boş SO_PEERCRED probe EOF'unda bütün accept
+thread'ini kapatmasından kaynaklandı. Önce eklenen regresyon **3,021 s'de
+beklenen hatayla** problemi yeniden üretti (`probe-before.log`). Fixture artık
+boş probe sonrası yeni bağlantı bekliyor; kısmi newline frame'i hata olarak
+reddediyor. Sentetik client timeout'u 3 saniye; üretimin iki bağlantılı auth,
+durable-before-send ve EOF'a kadar receipt doğrulaması aynen korunuyor.
+**68 Decider/Bonsai/transport testi / 3,484 s PASS** (`socket-after.log`).
+Astra bağımsız socket reproduksiyonu ve schema/test diff incelemesiyle
+düzeltmelerin test sınırlarını gevşetmediğini doğruladı.
+
+**Tam core tekrar koşusu:** önceden enumerated **3426 test**; **3122 PASS,
+304 SKIP, 0 FAIL, 0 ERROR**, **513,626 s**, exit0. Official sonuç `partial`:
+atlanan opt-in gerçek GPU/UI kontrolleri başarıya çevrilmedi. 900 saniyelik
+owned-process sınırına ulaşılmadı; test source hashleri başlangıçtan sona aynı.
+Canonical kanıt `data/capability-check-65h0esl6/report.json`, `contracts.json`
+ve `contracts.log`. Başlangıç kimliği ve sonucu
+`data/delivery-20261003/core-rc2-startup.private.json` ve
+`core-rc2-result.private.json` taşır. Önceki başarısız/eksik koşu korunur;
+tekrar koşular aynı testleri yeni yetenekler diye toplamaya izin vermez.
+
+**Kalan test uyarısı:** ham logda beş ignored SQLite finalizer ResourceWarning
+var: üçü Lab readback history, ikisi HTTPS preflight testi sırasında göründü.
+GC zamanı allocation kaynağını kanıtlamaz; fixture veya runtime kökeni henüz
+kanıtlanmadı. `-W error::ResourceWarning` finalizer uyarılarını unittest failure'a
+çevirmedi; bu koşu warning-clean diye sunulmaz. Yeni ilgisiz düzeltme eklenmedi.
+
+Development checkpoint source kaydı güncellendi; altı stage'in tarih/kabul
+bayrakları değişmedi. **12 checkpoint kontrolü / 0,091 s**, TypeScript/Vite ve
+ayrı staged build'de **1 GPU-disabled Chromium EN/TR/mobile testi / 1,740 s**
+geçti. Kaynak kayıt/UI staging canlı oturuma deployment değildir. Ana JS chunk
+boyut uyarısı sürüyor. Bu odaklı logların kökü
+`data/delivery-regressions-20261003/`; özel ekran görüntüleri arşive girmez.
+
+README authoritative aynı-goal snapshot'ı: **12:50:21 UTC**, ham
+`tokensUsed=12027420`, `timeUsedSeconds=71229` (**19 saat 47 dakika 9 saniye**).
+Geliştirme modelleri ve scope/start README'de; ücret veya bütün proje toplamı
+çıkarılmaz. Yeni kaynak arşivi önceki immutable teslimi ezmeden hazırlanır.
+Scientist tek GPU yürütücüsü, producer/consumer/bakım izni sınırı, lisans ve
+saatlik güvenli kayıt/yayın idari açıkları korunur. Commit/push/tag/deploy yok.
+
+## 3 Ekim 2026, 12:30 UTC — eksikleriyle test edilebilir kaynak/prototip teslimi
+
+**Durum: kaynak teslimi; ortak AI Scientist runtime entegrasyonu kısmi.**
+Kullanıcı isteğiyle özellik genişletme durduruldu. README kurulum, mimari,
+pilot erişimi, güvenlik, model/agent sınırları, özelleştirme ve açık kapılar için
+yeniden düzenlendi. Eski README'nin bütün tarihli kullanım/model kayıtları
+`docs/README_HISTORY_20261003.md` içinde korundu. Yeni
+`docs/DELIVERY_AND_CONTINUATION.md` Scientist + yetkili web uygulamasının AOS
+içinde sonraki kabulünü, skill/RAG/veri/eğitim ayrımını ve özel fork devrini anlatır.
+SWAPP intranet kabulü en son; lisans kararı bekliyor. Kaynak teslimi bu
+kapıları tamamlamaz ve canonical stage kabul bayrakları yükseltilmedi.
+
+### Geçen, başarısız ve çalıştırılmayan kontroller
+
+| Koşu | Gözlenen sonuç | Kanıt/kapsam |
+|---|---|---|
+| `scripts/validate_package.py` ön kontrol | 5605 PASS | `data/delivery-20261003/package-preflight.log`; model/runtime/training yok |
+| Son kaynak ve arşivden çıkarılmış paket kontrolü | Her birinde 5609 PASS | `package-final.log`, `extracted-package.log`; 1622 allowlist kaynak üyesi |
+| Arşivden çıkarılmış kaynakta odaklı testler | 47 PASS; 1,836 s | `extracted-focused.log`; maintenance, exclusion DTO, shared-only candidate, bridge, usage; repo import kökü ayrıca denetlendi |
+| `unittest discover -s tests -p 'test_native*.py' -v` | 72 koşu: 70 PASS, 2 opt-in UI/GPU SKIP; 1,533 s | `native-cpu.log`; fiziksel GPU/servis sınırları mock, sentetik CPU alt süreçleri gerçek |
+| `tests.test_shared_only_runtime_candidate` | 6 PASS; 1,141 s | `shared-only-candidate.log`; patch yalnız disposable kopyada |
+| `tests.test_aos_mac_bridge tests.test_native_exclusion` | 10 PASS; 0,021 s | `access-contracts.log`; sentetik HTTP/WebSocket ve DTO, gerçek Mac/native producer değil |
+| `tests.test_record_usage` | 15 PASS; 0,012 s | `usage-tests.log`; ownership-scoped dedup ve negatif kayıt sınırları |
+| TypeScript `--noEmit` ve Vite staged build | PASS; büyük chunk uyarısı | `typescript.log`, `ui-build.log`; canlı `ui/dist` değiştirilmedi |
+| `test_control_center_ui` isolated staged UI | 1 PASS; 1,745 s | `ui-isolated.log`; gerçek GPU-disabled Chromium, sentetik readonly API, EN/TR ve 390px mobil |
+| `scripts/check_capabilities.py --profile core` | **Tamamlanmadı / infrastructure_error**, 7 FAIL gözlendi | `data/capability-check-lwufa3f5/`; final başarılı suite sonucu yok |
+| Yeni gerçek GPU/model, ortak Scientist kabulü, hedef şirket uygulaması | **Çalıştırılmadı** | HOLD, ayrı izin ve Scientist tek yürütücü korunur |
+
+Odaklı cohort'lar örtüşür; sayıları bütün ürün başarısı olarak toplamayın.
+`data/delivery-20261003/` tablodaki kısa log adlarının private köküdür.
+Staged UI testinde yalnız static asset yolu ayrı build'e ve screenshot çıktısı
+private teslim dizinine yönlendirildi; testin model/API yanıtları sentetiktir.
+Minified ana JS yaklaşık 1046 kB; performans optimizasyonu açık uyarıdır.
+
+Geniş core çalıştırıcısı bütün `AOS_*_TESTS` opt-in bayraklarını temizledi,
+tam port-affecting `test_local_app` yerine yalnız güvenli `LocalAppTests`
+seçti. `test_scientist_bonsai_receipt.BonsaiReceiptTransportTests.
+test_actual_socket_guards_both_profiles_before_journal_commit_and_preserves_receipt`
+üzerinde log 255 saniye ilerlemedi; client varsayılan timeout'u 720 saniyedir.
+Teslim sınırını aşınca yalnız exact bu koşunun worker PID kimliği/pidfd ile
+SIGTERM gönderildi; diğer oturumlara/süreçlere sinyal yok. Parent raporu
+`exit_code=-15`, `infrastructure_error` kaydetti. `unrun_cases=[]` alanı yalnız
+istenen contracts case'in başlatıldığı anlamındadır; bütün testlerin
+tamamlandığı değildir. Kalan testler doğrulanmadı. Kesme kanıtı
+`data/delivery-20261003/core-timeout.private.json` içindedir.
+
+Ham core logunun tamamlanan satırları **1776 PASS, 179 SKIP, 7 FAIL**;
+bir socket testi başladı fakat bitmedi. Bunlar parser ile çıkarılmış kısmi
+gözlemdir, unittest final başarılı raporu değildir. Daha sonra eklenen üç
+usage testi ayrı 15-test koşusunda geçti; başlangıç suite envanteri ile
+sonraki kaynak envanteri aynı varsayılmaz. Yedi failure ayrıca sınırlı odaklı
+koşuda **7/7 FAIL, 1,119 s** olarak yeniden üretildi:
+`data/delivery-20261003/core-seven-failures-focused.log`. Kısmi sınıflandırma
+ve eksik test listesi `core-partial-counts.private.json` içindedir.
+
+**Bilinen regresyonlar:** `test_dataset_reviews` içinde dört migration testi
+27 beklerken kaynak 28 destekliyor; beşincisi migration0028'in eklediği
+immutable trigger'ı eski trigger kümesinde beklemiyor.
+`test_owned_parameter_skill_cli` missing
+history fixture'ı 21–27 tablolarını kaldırıp yeni 28 tablosunu bırakıyor; schema20
+beklentisi CLI çağrısından önce başarısız. `test_recovery_backup` ise gerçek
+canonical schema drift'i yakalıyor: typed `SupportedSchemaVersion` 28 içeriyor,
+`schemas/recovery_backup.schema.json` enum'u 27'de bitiyor. Schema-28 backup
+export'u kanonik kabul edildi sayılmamalı. Bunlar yeni maintenance dosyalarının
+etkisi diye sunulmadı; teslimde gizlenmedi, ilgisiz kaynaklar değiştirilmedi.
+
+### Kaynak ve canlı ortam sınırı
+
+Maintenance kaynak dilimi quiesce body `session_id`, özgün
+`unix:///var/run/docker.sock` daemon pin'i ve cwd-relative/compact `-m`
+process envanter hataları düzeltilerek incelendi. Kaynak SHA256
+`63a9dc1f4effc4c33e07951bc1f183a5503b1b61adf4639d95cb6125317d0e93`.
+Gerçek bakım/stop/promotion yapılmadı. Shared-only 41 dosyalık aday uygulanmadı;
+native exclusion yalnız DTO/schema, gerçek producer/consumer ve fiziksel GPU
+devri açık. Sözleşme önerisi `aos.native-exclusion.v1`, schema SHA
+`e73cec23f0152432df3992874df8e8f944cfe748f191e488dd5117d2f207722a`;
+bu runtime authority veya karşı tarafın tamamlanmış consumer'ı değildir.
+
+AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist HEAD
+`55c5300600112ab823f76ec434029d6dc23e513c`. İki HEAD çalışma ağacı farklarını
+içermez; teslim manifesti kaynak kapsamını, private teslim kaydı diff/archive
+hashlerini ayrı taşır. AOS `main` / `https://github.com/aserdargun/aos.git`;
+staging, commit, push veya force push yapılmadı. Mevcut yerel değişiklikler korundu.
+
+Frozen 161 kaynak eşliği ve default `app-d0898491ef744a258969589e4e41ffcd`
+oturumu running/same_process olarak bağımsız salt okunur doğrulandı;
+supervisor/backend 42512/42513 değişmedi. Yerel `/ui/` ve `/api/session` HTTP200.
+Mac için ayrı `aos-aserdargun-ui-bridge.service` çalışır: exact yetkili Tailscale
+peer dışında 403, backend 8765 korunur, bridge 8766 yalnız Tailscale bind'idir.
+Gerçek Mac tarayıcı pozitif readback yok. Kullanıcıya özel unit kaynak arşivinin
+parçası değil; güven sınırı [CONTROL_CENTER](CONTROL_CENTER.md) içindedir.
+
+### Kullanım ve idari açıklar
+
+README authoritative snapshot: 12:30:43 UTC, aynı active goal için ham
+`tokensUsed=11787319`, `timeUsedSeconds=70052` (19 saat 27 dakika 32 saniye).
+Scope/start ve gözlenen geliştirme modelleri README'de ayrı tutulur.
+Collector 95 AOS-owned yerel session'dan metadata/token aggregate üretir;
+12:17:44 UTC corrected read-only gözlemi 4.218.512.079 kayıtlı token birimidir,
+fatura veya tüm proje toplamı değildir. Goal bu toplamla toplanmaz.
+İlk saatlik immutable snapshot'lar korunur; dedup düzeltmesi tarihsel 12:10
+toplamını değiştirmedi. Ayrıntılar [USAGE_ACCOUNTING](USAGE_ACCOUNTING.md).
+Gerçek ücret, abonelik ve tarihsel runtime toplamı bilinmiyor.
+**Saatlik otomatik recorder/Git timer kurulmadı**; önceki bu istek açık idari
+iştir, tamamlandı sayılmadı. Secret/privacy review yapılmadan bütün dirty tree
+otomatik yayınlanmaz. GPU/runtime ve lisans işleriyle karıştırılmaz.
+
+## 3 Ekim 2026, 11:32 UTC — bütün yönetilen native girişler için shared-only kaynak adayı
+
+**Entegrasyon kısmi; canlıya uygulanmamış kaynak adayı tamamlandı.**
+`scripts/shared-only-runtime-v1/` altında exact before/after SHA manifesti,
+unified source patch ve kullanım sınırları bulunur. 41 dosyada 86 açık giriş
+politikası; 13 kasıtlı korunmuş Scientist/broker ve CPU hazırlık kaynağı vardır.
+Native Decider/reusable/Bonsai, Laya, adapter/adaptation, probe/run/main ve
+manager start/supervise/restart yolları model etkisinden önce reddedilir.
+Native `ModelSession` constructor kapanır; broker worker yalnız özgün model
+uygulaması `BrokerModelSession` sınıfına yönlenir. TurnGate sırası değişmez.
+Scientist S1/S2, CPU tokenizer/veri hazırlığı, artifact setup ve metadata/export
+yolları korunur. Owner'ın keyfî kodu/eski checkout/vendor binary yürütmesi
+kapsam dışıdır; bu OS çapında GPU izolasyonu değildir.
+
+Root **6 odaklı CPU kontrolü / 1,146 s PASS**:
+`data/shared-only-candidate-20261003/cpu-tests.log`. Yama yalnız disposable
+kopyada gerçekten uygulandı; bütün önce/sonra ve korunmuş hashler doğrulandı.
+Beyan edilen retlerin ilk-statement AST denetimi, seçili gerçek staged callable
+ve direct-worker retleri, model import/spawn olmaması, Scientist seçimi ve
+gerçek staged broker main'in sahte model/gate ile çağrı sırası kapsanır.
+86 politika kaydı 86 bağımsız davranış testi veya gerçek GPU kabulü değildir.
+Astra son kaynak/CPU kapsamını inceledi. CPU tokenizer/setup'ı gereksiz kapatan
+48 dosyalık ilk taslak reddedildi; yalnız düzeltilmiş 41 dosyalık aday geçerlidir.
+Development checkpoint'inin Python/schema ve TypeScript sınırları ayrıca
+**6 kontrol / 0,061 s PASS** verdi (`checkpoint-final-tests.log`). İlk belge
+taslağındaki fazla/izin verilmeyen evidence yolları mevcut schema gevşetilmeden
+düzeltildi; ilk başarısız log korunur. **5492 paket kontrolü PASS**
+(`package.log`); bu model/runtime/training kabulü değildir.
+
+Yama SHA256 `a0cbf60e092a7ef2b6caefeeefe6f105486d0013df5a1cc8e3cd154f44a8bf54`;
+manifest SHA256 `d52a57e853fd43e90eb8f275519f1fd4567c9d0b911df1fe30b62e039c11c598`.
+Frozen 161 live kaynak aynı; default oturum salt okunur kontrolde aynı
+`app-d0898491ef744a258969589e4e41ffcd`, running/same_process. Patch canlıya
+uygulanmadı; süreç, DB, model, GPU veya servis değiştirilmedi. Development
+JSON checkpoint'i kaynakta yenilendi; mevcut UI assetleri yeniden derlenmedi.
+
+**Kalan kritik yol:** executable maintenance, ayrı açık bakım onayıyla exact
+legacy cleanup/terfi ve güncel gerçek `read_native_exclusion` üreticisi.
+Scientist henüz consumer/host adapter veya incelenmiş wire schema bulunmadığını
+teyit etti; legacy SSH oturumu ile yeni dedicated shared caller kimliklerinin
+ayrılması iki oturum arasında kabul edildi. Tam sürümlü producer/consumer
+schema ve yeni source/config pair ayrıca teyit edilecek. GPU kabulünü yalnız
+Scientist yürütecek; HOLD kalkmadı. Önceki lifetime wrapper shared-only profilde
+zorunlu ek katman değildir: bu profil native girişleri tamamen kapatır.
+[Sınırlar ve kimlik ayrımı](NATIVE_HANDOVER.md), [aday](../scripts/shared-only-runtime-v1/README.md).
+
+## 3 Ekim 2026, 11:01 UTC — staged Decider exec girişi ve gerçek interpreter uyumluluğu
+
+**Entegrasyon kısmi; staged giriş uygulanıp CPU'da doğrulandı.** Yeni
+`src/aos/native_decider_entry.py` + standalone script + canonical config schema,
+fixed private config/external SHA/store/worker/manifest pinlerini zorunlu tutar.
+Native SH lease altında tekrar doğrulanan executable FD üzerinden exec yapılır;
+lexical venv argv0, PID ve yalnız read-only lease descriptor'ı korunur.
+Diğer descriptor'lar CLOEXEC olur; exec hatasında lease directory erken
+kapatılmaz. Orijinal worker argv şekilleri ve offline model ortamı korunur.
+
+Root **7 entry CPU kontrolü /0,707 s PASS**, aynı7 **Btrfs /0,791 s PASS**,
+aynı7 ayrı modelsiz **Python3.12.13 venv /1,325 s PASS** verdi. Loglar
+`data/native-decider-entry-20261003/cpu-tests.log`, `cpu-btrfs-tests.log` ve
+`cpu-python312-tests.log`. Gerçek sentetik exec, venv/PID, kalan FD, post-exec
+parent crash/yaşayan grandchild kilidi, config/pin/link/argv retleri ve failure
+cleanup kapsanır. Gerçek model worker veya model ağırlığı kullanılmadı; mevcut
+model venv'e paket eklenmedi. Public CLI missing-config denial ayrıca exit1
+verdi; fixed live entry dizini hâlâ yok (`public-cli-denial.log`).
+
+Gerçek model interpreter'ı30.929.576 bayttır; mevcut16 MiB source-reader sınırı
+uygun değildi. Entry64 MiB bounded FD kontrolü kullanır. Inhibit source okuması
+da explicit64 MiB'ye düzeltildi; config sınırları korunur, her dosya öncesi
+özgün deadline doğrulanır. Root **17 inhibit kontrolü /0,175 s PASS**, aynı17
+**Btrfs /0,305 s PASS**: `inhibit-tests.log`, `inhibit-btrfs-tests.log`.
+17 MiB sentetik sparse kaynak kabulü,64 MiB üzeri pre-intent ret, source-read
+sonrası expiry ve gerçek fsync sonrası expiry/readback hatası ayrı kapsanır.
+Tekrarlı ortam koşuları farklı testler diye toplanmaz.
+
+Entry SHA256 `e3cb8f4aca984f08c8acfdba6c9bc037f8e3a258d9f2c323e441f5b0c3ca6263`.
+Güncel inhibit SHA256 `8b514849feafc902d76418a7b573eca8890ccccb38db32392c1f71016f1cea55`;
+önceki01685 teslimi tarihseldir, yeni config yeni pini kullanmalıdır. Astra
+iki kaynak sınırını inceledi. Frozen161 kaynak, original Decider worker ve
+model manifest hash'leri korunur. Canlı config/store, route promotion,
+servis restart/deploy, model/GPU koşusu yapılmadı. Paket günlüğü ve teslim:
+`data/native-decider-entry-20261003/package.log`, `handoff.private.json`.
+
+**Gerçek kalan:** bütün legacy/native/Bonsai girişlerin bu store'a bağlanması,
+ayrı açık bakım onayıyla kaynak/config promotion ve idle-owned cleanup;
+ardından actual native-exclusion producer ve Scientist'in tek GPU kabulü.
+Staged wrapper tek başına legacy bypass'ı kapatmış sayılmaz.
+[Giriş sözleşmesi](NATIVE_DECIDER_ENTRY.md), [inhibit sınırı](NATIVE_INHIBIT.md).
+
+## 3 Ekim 2026, 10:40 UTC — kalıcı native inhibit primitive ve gerçek CPU lifetime kanıtı
+
+**Entegrasyon kısmi; bağımsız primitive uygulanıp CPU'da doğrulandı.**
+Yeni `src/aos/native_inhibit.py`, yeni private store provision eder; dışarıdan
+beklenen directory/lock/metadata inode ve içerik kimliklerini korur. Native
+lease yalnız read-only descriptor ile lifetime SH tutar. Publication
+nonblocking EX ister; busy durumda worker kesilmez, bekleme veya otomatik
+temizlik yoktur. Parent descriptor'ı kapatırken LOCK_UN kullanılmaz, dolayısıyla
+yaşayan child aynı kilidi tutmaya devam eder.
+
+Exact request/session/generation/principal, handover/shared-plan ve kaynak/config
+pinlerine bağlı intent önce sabit lock'a fsync edilir, sonra immutable receipt
+yazılır. Sonlu CLOCK_BOOTTIME hakkı source/config okumalarından sonra, son yazma
+sınırında ve başarı dönüşünden önce tekrar denetlenir. Expiry, partial write,
+receipt silinmesi, lock truncate veya path/inode değişimi native'i açmaz.
+Request alanları kullanıcı onayı veya principal authentication değildir;
+trusted host ayrıca yetki doğrulamalıdır. Release/reset/adoption yoktur.
+
+Root **14 CPU kontrolü /0,148 s PASS** ve aynı14 kontrol gerçek **Btrfs /0,255 s
+PASS**, ResourceWarning-as-error ile:
+`data/native-inhibit-20261003/cpu-tests.log` ve `cpu-btrfs-tests.log`.
+Gerçek izole child/parent-crash/grandchild descriptor aktarımı, admission ve
+publication contention, expiry, bozulan/değişen inode/metadata, partial
+publication, replay reddi ve üç canonical şemanın model eşliği kapsanır.
+Bu tekrarlı cohort28 farklı test veya gerçek model/GPU kabulü değildir.
+Scientist'in dar postcommit challenge'ı da kapsandı: receipt fsync sonrası
+expiry veya observer hatası fonksiyonu başarısız döndürse bile original
+store readback committed inhibit'i bulur; native admission ve retry reddedilir.
+Hata dönüşü etki yokluğu sayılmaz. Üretim source hash'i değişmedi.
+
+Kaynak SHA256 `01685b8ebd6af72105aa3cd50854e5cafd098623730ca081354d72ea5a5fd20f`.
+Beş yeni source/test/schema dosyası dışında frozen161 kaynak değişmedi.
+Mevcut Decider worker ve197 distribution deployment pinleri korunur; model
+venv'e paket eklenmedi. Canlı store oluşturulmadı, servis/job/model/GPU işlemi
+yapılmadı. Paket kontrolü `data/native-inhibit-20261003/package.log`, commit
+çifti/fark hash'leri ve kaynak kanıtı `data/native-inhibit-20261003/handoff.private.json`.
+
+**Gerçek kalan:** yeni AOS-interpreter Decider exec girişini aynı descriptor
+lifetime'ına bağlamak; sonra legacy/native/Bonsai yollarının eksiksiz source
+entegrasyonu ve açık bakım/promotion. Eski native kodun otomatik fenced olduğu
+iddia edilmez. Native-exclusion producer, owned worker/GPU cleanup ve Scientist
+gerçek ortak koşusu henüz yoktur. [Sözleşme ve sınırlar](NATIVE_INHIBIT.md).
+
+## 3 Ekim 2026, 10:20 UTC — gerçek salt okunur native devir önizlemesi
+
+**Entegrasyon kısmi; önizleme uygulanıp doğrulandı, devir yürütülmedi.**
+Yeni `src/aos/native_handover.py` ve standalone
+`scripts/prepare_native_handover.py`, exact default v1 real/running session,
+raw state hash ve supervisor/backend process kimliğini pinler. Login dışında
+POST yoktur; dört authenticated GET ve state/binding tekrar okuması yapılır.
+Sınırlı all-thread descendant/cgroup gözlemi HTTP sonrasında tekrar karşılaştırılır.
+Discovery parent, owned worker veya signal yetkisi sayılmaz. Eksik/truncated,
+busy, unresolved ve configured Lab'ın gözlenemeyen aktif kontrolleri blocker'dır.
+
+Root **12 CPU kontrolü /0,048 s PASS**, ResourceWarning-as-error ile:
+`data/native-handover-20261003/cpu-tests.log`. Bunlar sentetik HTTP/process
+gözlemleriyle wrong session/v1/process, değişen state, busy/unknown inventory,
+duplicate/oversized/redirect yanıt, HTTP mutation allowlist, all-thread discovery,
+private exclusive output ve canonical şema sınırlarını kontrol eder.
+
+Gerçek public preview komutu ayrıca default oturuma salt okunur bağlandı:
+`data/native-handover-20261003/preview-v2.private.json`, SHA256
+`27f1b7905d726d37c5a538391f1e473d4d4c51746d08f31c4219cbf89b77ec9d`.
+State hash `ef038e91aef8a59c32b8032a2a4fdcab39cb2a195296bc82430287bfe61f833c`;
+supervisor42512/backend42513 aynı boot/start kimlikleriyle görüldü.
+`local_idle_observed=true`, snapshot continuity true; execution, native
+exclusion, GPU release ve reservation alanları false. Dört açık gate:
+ayrı maintenance consent, sürdürülebilir native inhibit, fiziksel cleanup,
+Scientist canonical reservation. Shared `session-3.scope` hiçbir şekilde
+toplu signal hedefi değildir. İlk0755 çıktı dizini denemesi doğru reddedildi;
+private0700 dizindeki v1 tarihsel taslak korunur, sonv2 dosyası0600'dır.
+
+Kaynak SHA256 `2681d8a409904b412f7a641f4a35b4f7d40a691d7a607cefa8ca24f01bc873e1`.
+Yeni module/script/schema/test ve belge dışında frozen161 runtime kaynağı
+değiştirilmedi. AOS HEAD `ed6e857`, Scientist HEAD `55c5300`; yerel değişiklikler
+korunur. Commit, restart/deploy, native model/GPU testi veya kullanıcı işi
+durdurma yapılmadı. Paket kontrol günlüğü:
+`data/native-handover-20261003/package.log`; teslim kimlikleri:
+`data/native-handover-20261003/handoff.private.json`.
+
+**Sıradaki gerçek uygulama:** native-only durable inhibit ve desteklenen bütün
+native girişlere worker-lifetime gate. Bu ikinci GPU scheduler değildir;
+Scientist broker yolları mevcut yetkilerini korur. Eski canlı native kodu
+otomatik olarak bu gate'e katılmış sayılmaz; deployment ve idle-only geçiş
+ayrı açık bakım yetkisi gerektirir. [Sınırlar](NATIVE_HANDOVER.md).
+
+## 3 Ekim 2026, 09:59 UTC — ortak admission drain, final seal ve kalıcı audit
+
+**Entegrasyon kısmi; yeni kaynak/CPU dilimi tamamlandı, canlıya uygulanmadı.**
+`POST /api/shared/drain` exact request/session/runtime/owner/lease/generation
+ile scheduler ve Lab yeni başlangıçlarını aynı controller lock altında kapatır.
+Normal restart-release, resume, doğrudan onay ve planning girişleri bunu açamaz.
+Lab'ın zaten gönderilmiş start ACK'i kaydedilebilir; yeni start intent'i
+son gönderim sınırında da reddedilir. Yetkili status/report/stop, ilk drain
+sırasında çalışabilir; dolayısıyla ilk boşta makbuzu sürekli boşluk kanıtı değildir.
+
+`POST /api/shared/drain/seal`, iki tarafta yerel blocker kalmadığında Lab'ın
+cleanup dahil tüm yeni kontrollerini ayrıca kapatır. Aktif callback/client,
+belirsiz işlem veya durable intent varken seal olmaz. Async kayıt ve senkron
+client kilidi yarışları kontrol edilir; makbuz yazımı başarısız olsa da kapanış
+geri alınmaz. Busy desktop işleri otomatik kesilmez, blocker kalır.
+
+Makbuz gerçek backend `ProcessIdentity` ve typed gözlemi canonical JSON ile
+mevcut `desktop_events` tablosunda tutar; yeni migration yoktur. Aynı son payload
+aynı event'i döndürür. Authenticated GET tarihsel okuma yapar; bağımsız helper
+salt okunur SQLite bağlantısında session/event/hash eşleştirir, DB açmaz veya
+migration/reconcile yapmaz. Gerçek izole CPU writer alt süreci çıktıktan sonra
+aynı DB'yi salt okunur açıp makbuz eşliğini doğrulayan kontrol geçti. Bu gerçek
+shared servis kapanışı değildir. Latch process-local, makbuz kalıcı audit'tir;
+crash-durable enforcement veya launch/cleanup yetkisi değildir.
+
+Root focused **40 CPU/ASGI kontrolü /6,536 s PASS**:
+`data/shared-drain-focused-exit-readback-20261003.log`. Yanlış owner/generation,
+aynı isteğin tekrarı, body-await yarışı, kısmi latch/gözlem/yazma hatası, busy
+kontroller, eski ACK'in kaydı, seal sonrası sync/async kontrol reddi ve offline
+makbuz readback kapsanır. Önceki39 koşusu bununla örtüşür. Adjacent **63 test:
+62 PASS,1 SKIP /27,148 s**; `data/shared-drain-adjacent-20261003.log`. Gerçek
+Chromium testi opt-in olmadığı için atlandı; eski journal fixture'larından3
+SQLite finalizer ResourceWarning çıktı, warning-clean sonucu iddia edilmez.
+Manuel checkpoint için12 kontrol geçti; UI asset'leri dağıtılmadı.
+
+V5 selected AOS source paketi `data/shared-drain-source-v5-20261003.private.json`,
+SHA256 `9ea15d364611ce26e1e55afe9f88ebba11c6cd38364f332a5a86f7843ccd15a4`.
+161 pin: önceki156'dan console/tasks/Lab service/Lab journal değişti;
+`shared_drain.py` ve4 canonical schema eklendi. Paket39-test anında donduruldu;
+sonraki CPU-exit testi bu seçili üretim kaynaklarını değiştirmedi. Scientist
+bağımsız161 hash eşliğini bildirdi. Önceki227 template ve workspace korunur fakat
+değişen kaynağın güncel runtime kimliği olarak kullanılamaz; yeni adoption yoktur.
+
+Scientist MAIN finite-context kaynakları salt okunur hash'le doğrulandı:
+`scripts/aos_joint_lab_hooks.py` =
+`3ca32027a48c71e7670d58fc9f3849f250104d10eca43e952be2e2f8010aaa74`,
+yeni `scripts/aos_joint_api_authority.py` =
+`a8d9185ffc7b06d0458197f1450897bbe3e0ef131a7badb6f6a5987b9a5f184a`.
+Scientist seçimi68'e genişlemelidir; caller `c18efb…3495` değişmedi.
+Bu kaynak okumaları gerçek API/servis/GPU yürütmesi değildir. Yeni birleşik
+template, peer host adapter ve exact finite yetki incelemesi bitmeden üretilmez.
+
+**Gerçek kalan:** trusted host provider receipt'teki admission_closed,
+local_controls_drained ve cleanup_controls_closed alanlarını exact canlı
+service/process binding ile birlikte doğrulamalı; GPU/native/remote fiziksel
+kanıt ayrıca gelmelidir. Bu üç GPU/remote alanı makbuzda daima false'tur.
+Default native UI korunurken sürdürülebilir GPU dışlaması sağlanamaz. Açık
+opt-in bakım/devretme penceresi, idle/no-unresolved kontrolü ve owned worker
+cleanup doğrulaması olmadan canlı native oturum değiştirilmez. Scientist tek
+GPU kabul yürütücüsüdür. [Sözleşme ve API](SHARED_ADMISSION_DRAIN.md).
+
+Paket kontrolü **5441 PASS**; `data/shared-drain-package-20261003.log`.
+MANIFEST yenilendi, seçili161 kaynağın son bağımsız hash okumasında fark yok,
+`git diff --check` geçti. Commit/çalışma farkı hash'leri, sayaç gözlemi ve kanıt
+referansları `data/shared-drain-handoff-20261003.private.json` dosyasında tutulur.
+
+## 3 Ekim 2026, 09:29 UTC — gerçek ayrı workspace ve public CLI teslimi
+
+**Entegrasyon kısmi; inert filesystem hazırlığı gerçek ve doğrulandı.**
+Public `./scripts/aos-v1 prepare-shared` → `provision-shared` komutları
+`scientist-shared-v1:18866` kapsamında başarılı oldu. İlk komutun yakaladığı
+gerçek hata, `python -m aos.local_app` içindeki `__main__._INSTANCE` ile
+manager'ın canonical modülündeki `_INSTANCE` ayrılığıydı. Minimal canonical
+`main` dispatch düzeltmesi ve iki subprocess regresyonu eklendi; public komut
+atlanmadı. İlk başarısız template korunur, plan/session yaratmamıştır.
+Yeni `local_app.py` SHA256
+`5ec835173c6a0bd773713e13b4282eb80386935f893d80f5d7e8ef007ec0559d`.
+
+Gerçek manager base `data/local-app-project-scientist-shared-v1` altındadır:
+
+- Template `shared-template-20261003-v2.private.json`, raw SHA256
+  `8318bee3d666c0c62f77bd74236d669b186fd7720d0db3ba0a7bc9f6d8fc65cc`.
+- Plan `shared-plan-20261003-v2.private.json`, SHA256
+  `fbced4bb609b2efdeade898231c8287db9238ab91836f5eea2c8159eca536c45`.
+- Session `app-0a5d1cfcebd44c6b9ede47b93755ea1c`; altındaki
+  `shared-provision.json` SHA256
+  `07270c77f5b1c9cf7d6207638273746713f8dcfe134b07372cde9d78a3054f24`.
+- Session altındaki boş `workspace`: device55/inode9608217, UID1000/mode0700.
+  Session yalnız workspace ve0600 receipt içerir. `current.json`, DB, token,
+  launch intent, activation veya servis oluşturulmadı; named durum `not_started`.
+
+Root gerçek `load_plan`, `verify_template_files` ve pristine `load_provision`
+ile bağımsız doğruladı. Scientist aynı helper/input'larla kendi salt okunur
+doğrulamasının geçtiğini bildirdi; bu kaynak/preparation uyumudur, runtime yetkisi
+değildir. Sabit unit `swapp-aos-gpu-shared-desktop-default.service`; bu çalışma
+unit yüklemez veya servisi başlatmaz.18866 canlı arayüz adresi olarak sunulmaz.
+
+Güncel v4 seçim `data/shared-scoped-source-v4-20261003.private.json`, SHA256
+`f004bdce68e000b784d91c61d76b1b3711c9b332dcb7f470372001725a309054`.
+Önceki156 AOS yolundan yalnız `local_app.py` değişti. Template227 source pini
+(156 AOS,67 Scientist,4 Python/model girdisi) ve3 private config pini taşır.
+Scientist MAIN `c18efb89584946975f3740b071d2c2a3eca106ea44ae07b6a83060a267a03495`
+korundu. Commit çifti AOS `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444` /
+Scientist `55c5300600112ab823f76ec434029d6dc23e513c`; çalışma ağacı pinleri
+HEAD ötesi yerel değişiklikleri içerir, yeni commit/push yoktur.
+
+Focused Btrfs **100 CPU kontrolü /2,119 s PASS**:
+`data/shared-public-cli-btrfs-focused-20261003.log`. Legacy dahil ayrı normal
+tmp/umask022 koşusu **187 test /4,408 s:182 PASS,5 SKIP**:
+`data/shared-public-cli-regression-final-20261003.log`. Dört opt-in ve dolu
+pilot portunu gerektiren bir test atlandı. Bu kümeler örtüşür, toplanmaz.
+İlk geniş denemeler zorlanmış umask077 nedeniyle3 permission-fixture hatası ve
+checkout içi TMPDIR nedeniyle2 outside-checkout fixture hatası verdi; loglar
+korundu, üretim guard'ları gevşetilmedi. Normal test ortamı yukarıdaki sonucu verdi.
+Manuel EN/TR checkpoint için12 kontrol geçti; JSON güncellendi fakat canlı
+UI asset'leri yeniden derlenmedi/dağıtılmadı. Aşama kabul bayrakları değişmedi.
+
+**Kalan gerçek kapılar:** generation-bound ortak drain (Lab service scheduler
+quiesce bayrağını kullanmıyor), bağımsız finite activation/cleanup bileşimi,
+fresh broker/caller generation ve native GPU dışlaması. Aktif default8765
+native-capable UI değişmeden/durdurulmadan sürdürülebilir GPU dışlaması
+kanıtlanamaz; idle veya boş GPU gözlemi yeterli değildir. Kullanıcı oturumu
+korundu; GPU koşusunun tek yürütücüsü Scientist olmaya devam eder.
+
+Private runtime/config devir manifesti
+`data/local-app-project-scientist-shared-v1/shared-inert-handoff-20261003-v2.private.json`,
+SHA256 `730bb91acc4cf6d75d7ff7175c6d4b18c4b8b2a2b2a395fd28b1beab99c3fe83`.
+Scientist bağımsız readback dosyası
+`/home/cachyos/ai-scientist/data/runtime/aos-shared-launch-v1/actual-inert-provision-readback-20261003.private.json`,
+SHA256 `1aa7da6c2cbab6dbdbf076d0b55a59a5f7ba119544a409bd50cfed6726f21f9f`;
+root bu hash'i diskten doğruladı. Astra/high bağımsız incelemesi inert teslimde
+engel bulmadı; runtime yetkisi vermedi. Paket kontrolü **5409 PASS**,
+`data/shared-inert-delivery-package-20261003.log`. Son commit/çalışma farkı,
+MANIFEST ve kanıt hash'leri `data/shared-inert-delivery-root-20261003.private.json`
+devir kaydında tutulur; fark hash'i mevcut diğer yerel işleri de içerir.
+
+## 3 Ekim 2026, 09:09 UTC — adaptif orkestrasyon ve Btrfs kaynak düzeltmesi
+
+**Entegrasyon kısmi.** Astra 6/high orkestrasyon/inceleme ve Sol 6.1/high
+runtime işçileri yeniden çalıştı. Rutin işler için medium tercihi korunur;
+bu tur yeni medium işçi çalıştırılmadı, root model varyantı doğrulanmadı.
+
+Btrfs üzerinde retained directory FD listesi child yaratımı sonrası eski boş
+sonucu döndürüyordu. Provisioning artık her listeleme öncesi aynı descriptor'u
+başa sarar; inode/owner/race kontrolleri korunur, path fallback yoktur.
+Odaklı20 test Btrfs ve tmpfs üzerinde geçti. İlk birleşik98 koşusunun tek
+başarısızlığı test fixture'ın TMPDIR'ın gerçek data dışında olduğunu varsaymasıydı;
+production guard gevşetilmeden izole fake-repository negatif sınırı kuruldu.
+Yeni birleşik **98 CPU test /1,435 s PASS**, ResourceWarning-as-error:
+`data/shared-btrfs-cpu-20261003-tmpdir-fixed.log`, SHA256
+`9038fff167e4e73c99885ea59e252183a360670ee583a7cd6961ed10aebfb4fa`.
+Önceki başarısız log korunur;20 odaklı test bu98 ile örtüşür.
+
+Import closure incelemesi86 adayını156 AOS kaynağına genişletti. Güncel v3
+`data/shared-scoped-source-v3-20261003.private.json`, SHA256
+`e955194e47e14416797aa58eaf632159c7d4e503e7f394e09053f493115f84c6`.
+Astra tüm156 dosya hash'ini doğruladı. Scientist MAIN launcher disk readback SHA256
+`c18efb89584946975f3740b071d2c2a3eca106ea44ae07b6a83060a267a03495`;
+Scientist HEAD `55c5300600112ab823f76ec434029d6dc23e513c`, AOS HEAD
+`ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`; iki çalışma ağacı da HEAD ötesi
+yerel değişiklik içerir. Bu kaynak eşleşmesi runtime/config authority ACK değildir.
+
+Sıradaki küçük teslim exact inert template → plan → provision receipt'tir.
+Named UI hazırlanmıştır; gerçek named workspace/servis/activation henüz yoktur.
+Broker identity null yalnız unobserved demektir. Trusted activation/cleanup,
+default native GPU exclusion ve Scientist'in tek yürüttüğü gerçek ortak GPU
+kabulü açık kalır. Çalışan varsayılan kullanıcı servisine müdahale edilmedi.
+
+## 3 Ekim 2026, 08:42 UTC —19 session yolu, nested yazma ve ayrı arayüz hazırlığı
+
+**Entegrasyon kısmi.** Önceki turdaki mutable-path kaynak engeli kapatıldı:
+host19 exact session yolu geçirir; entrypoint altı yeni site/seed/review kökünü
+mevcut console kwargs'a bağlar. İki seed store'un flat-data kısıtı gerçek
+authenticated yazma denemesinde yakalandı; sadece private default/named
+manager/app-session seed yapısı eklendi. Keyfi nested data, symlink, traversal,
+yanlış UID/mode reddedilir; legacy flat kökler korunur. `desktop_console.py`
+değişmedi. Eski141 kaynak ACK, değişen entrypoint/helper ve shared kaynakları
+kapsamaz; yeni ortak inceleme gerekir.
+
+Root birleşik **191 CPU test /3,864 s:185 PASS,6 SKIP**;
+`data/shared-scoped-regression-20261003.log`. İlk96 odaklı test bununla örtüşür.
+Gerçek authenticated HTTP seed route/private0600 dosya yazımı vardır; page audit
+sentetiktir, model/Docker/network-site/GPU kabulü değildir. Host24 test19flag,
+optional retained review çiftinin partial/malformed retleri ve üç config pinini
+kapsar. Retained yoksa mevcut iki-pin semantiği korunur; gerçek joint profil
+retained kullanacağı için üç map'te aynı provision hash'i gerekecektir.
+
+Template broker identity alanı zorunlu ama nullable oldu. İki oturum `null`ın
+yalnız unobserved anlamını teyit etti; config hash veya yetki wildcard değildir.
+Non-null mevcut canonical ScientistServerGeneration digest'idir. Fresh mevcut
+broker/capability her activation için zorunlu; offline socket ile başlatılmaz.
+Pre-spawn finite launch izni future caller PID/Invocation istemez; actualcaller
+postspawn peer launcher tarafından `module.main` öncesi doğrulanır.
+
+Gerçek offline `prepare-ui --project scientist-shared-v1 --project-port 18866`
+yalnız `data/local-app-project-scientist-shared-v1/ui` ve private build kaydını
+oluşturdu. UI source digest `91b12ffbde58e1092b434468ee872eaa3e095210c94f73099c5163b184aba449`;
+index SHA `d0970f5e648d4faf72075a1dcc6db5f22bce47b1e9da3726491cba2dd3f0826f`.
+Named status `not_started`,18866 listener yok; workspace/DB/token/servis/GPU
+başlatılmadı. Default8765 native session aynı ve running/same_process olarak
+okundu. Yeni arayüz adresi canlıymış gibi sunulmaz.
+
+86 AOS seçili source adayının private kaydı
+`data/shared-scoped-source-20261003.private.json`, SHA
+`717be3a3dae141be426b62b8c3fc8dd0dd513896ddb20208ab1d3b179132248d`.
+Seçim eski74 AOS path +6 module +6 schema'dır; tüm repo/dependency closure veya
+joint ACK değildir. Scientist bağımsız hash readback'te mismatch=[] bildirdi.
+Peer shared-scope pre-main guard'ını ayrı kaynak adayında geliştiriyor; MAIN
+runtime/config/generation kabulü yapılmadı. Yeni peer launcher hash'i donmadan
+template/plan/provision üretip stale inode planı bırakılmıyor. Üretim trusted
+activation, cleanup ve default native GPU exclusion sağlayıcıları açık kalır.
+Paket doğrulaması **5406 PASS**, `data/shared-scoped-package-20261003.log`;
+MANIFEST yenilendi ve `git diff --check` geçti. Commit/diff/package/UI hash'leri
+`data/shared-scoped-handoff-20261003.private.json` kaydında tutulur.
+Scientist tek GPU test yürütücüsüdür. Push/merge/deploy, kullanıcı oturumunu
+durdurma veya Scientist repo yazımı yapılmadı. README counter yenilendi.
+
+## 3 Ekim 2026, 08:21 UTC — Explicit provisioning ve adaptif uygulama
+
+**Entegrasyon kısmi; gerçek activation/GPU kabulü yok.** Astra6/high orkestrasyon
+incelemesi ve iki Sol6.1/high uygulama işçisi disjoint dosyalarda çalıştı.
+Root manager/CLI bağlantısını tamamladı; kesin root model varyantı doğrulanmadı.
+Yeni medium dokümantasyon ajanı thread sınırı nedeniyle açılamadı; gerçekleşmiş
+çalışma diye kaydedilmez. Rutin görevler için medium tercihi korunur.
+
+`prepare-shared` yalnız plan üretir; yeni `provision-shared` mevcut private
+manager base altında session/workspace inode'larını ve version1 private makbuzu
+oluşturur. Canlı predecessor aynı kalabilir, mevcut `current.json` değiştirilmez.
+Start ayrı provision SHA ister; receipt iki config closure'da pinlenir. Retained
+allocation descriptor'ları, actual0700 kimlik ve boşluk kontrolleri kullanılır.
+Exclusive/fsynced launch intent ilk state yazımından ve transport'tan öncedir.
+Partial provision, kayıp ACK, başarısız state yazımı veya yeni activation aynı
+scope'u yeniden çalıştıramaz; otomatik cleanup/adoption yoktur.
+
+Root birleşik CPU koşusu **159 test / 3,216 s:154 PASS,5 SKIP**. Shared72 testin
+tamamı geçti:20 plan,18 provision,20 host,14 manager; legacy manager87 testte
+82 PASS/5 SKIP. Log `data/shared-provision-cpu-20261003.log`.
+Private gerçek tmpdir/inode/lock/fsync ve public CLI kontrolleri vardır;
+systemd/network/model/GPU sınırları sentetiktir. İlk ara provision testi, henüz
+yazılmamış schema nedeniyle hata verdi; schema/examples tamamlandıktan sonraki
+birleşik koşu geçti. Bu sonuç gerçek servis veya üretim kabulü sayılmaz.
+Paket doğrulaması **5404 PASS**; log `data/shared-provision-package-20261003.log`.
+`git diff --check` geçti. Commit/diff/manifest ve dosya hash'leri
+`data/shared-provision-handoff-20261003.private.json` teslim kaydında tutulur;
+tracked diff untracked/private dosyaları kapsamaz, MANIFEST source-only'dir.
+
+Scientist readonly karşı incelemesi yeni somut engel buldu: launch argv bütün
+mutable knowledge/web/noVNC yollarını session'a taşımıyor; altı console yan
+deposu için entrypoint forwarding de yok.13 mevcut flag tek başına yeterli
+değil; tam19 scoped path ve gerekli provisioning/fresh source review sonraki
+adım. Gerçek global yazma gözlenmedi. Trusted activation/cleanup varsayılan
+reddi, peer MAIN caller-unit delta'sı ve yeni nested binder incelemesi hâlâ açık.
+Eski API136/native141 ACK yeni kaynakları kapsamaz. Ayrıntılar
+[shared manager](SHARED_DESKTOP_MANAGER.md) belgesinde.
+
+AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist HEAD
+`55c5300600112ab823f76ec434029d6dc23e513c`; çalışma ağaçları dirty olduğundan
+HEAD tek başına kabul değildir. Native session
+`app-d0898491ef744a258969589e4e41ffcd` running, supervisor/backend same_process
+olarak tekrar okundu. Servis restart, görev/model/GPU, deploy, push veya Scientist
+kaynak yazımı yapılmadı. Panelin önceki build'i değiştirilmedi. README aynı-goal
+authoritative kullanım gözlemi yenilendi; GPU kabulünü yalnız Scientist yürütür.
+
+## 3 Ekim 2026, 07:57 UTC — Net kontrol merkezi, gerçek yerel UI doğrulaması ve shared-manager CPU adayı
+
+Kontrol merkezinde Genel durum / Sürüm kontrol listesi / Kanıt geçmişi ayrıldı.
+Canlı oturum şeridi görev, onay ve masaüstünü son gözlemden okur; eski/başarısız
+ve biçimi bozuk durum artık boşta veya güncel sayılmaz. Busy+reserved durumunda
+işin sürdüğü görünür. Opsiyonel resource/overview hatası sağlam core okumayı
+iptal etmez. Kanıt geçmişi de cache'i canlı diye sunmaz; tarih ve stale uyarısı
+kendi görünümünde vardır. Refresh, görev/test/model başlatmaz.
+
+Canonical `release_acceptance.json` v1.1 checkpoint'i iki dilli, tarihli
+geliştirme satırları ve açılabilir kanıt başvuruları ekler. v1.0 uyumluluğu,
+altı aşamanın eski `observed_at` değeri ve bütün kabul/yetki bayrakları korunur.
+Bu derlemeye alınan manuel kayıttır; geliştirme işçilerinin canlı telemetrisi
+veya genel tamamlanma yüzdesi değildir. [Kullanım](CONTROL_CENTER.md).
+
+Root `pnpm build` TypeScript/Vite kabulü geçti; mevcut büyük bundle uyarısı
+korunur. Son odaklı birleşik koşu **19 PASS / 4,337 s**:6 CPU/Chromium UI,
+6 checkpoint,6 release acceptance,1 dil sözleşmesi. HTTP200 bozuk core durum,
+opsiyonel telemetry503, busy+reserved, stale/başarısız cache, açılabilir kanıt,
+sekme/panel geçişleri, klavye, EN/TR ve390px overflow kontrolleri kapsanır.
+Root'un ayrı shared-runtime + snapshot + dil koşusu56 PASS/0,198s idi;
+bu sayılar birbirine eklenmez, örtüşen doğrulamalardır.
+
+**Gerçek mevcut8765 UI:** Sol6.1/medium read-only Chromium kontrolü **41 check
+PASS**;1536×1024 ve390×844, EN/TR ve üç görünüm. API fixture kullanılmadı.
+Sayfa/framework/console/overflow hatası yok; bekleyen iş/onay yok, masaüstü
+running. Tek POST standart `/api/login/local`; görev, kontrol, Scientist,
+çıkarım/eğitim POST'u veya logout yok. Browser plugin olmadığı için mevcut
+Python Playwright/pinli headless Chromium `--disable-gpu` kullanıldı. Receipt
+`/tmp/aos-control-center-delivery-qa/receipt.json`, SHA
+`794cfbef7cd991af106fc60bc108872922941a980f49d95e087dd6db54e67405`;
+aynı dizinde18 ekran görüntüsü vardır, kaynak paketine alınmaz. Screenshot
+karşılaştırması: beyaz/navy/emerald palet, tipografi hiyerarşisi, ana/yan sütun,
+durum+tarih+kanıt satırları ve mobil akış incelendi. Taslak konseptten bilinçli
+farklar: mevcut kalıcı güvenlik kontrol çubuğu ve EN/TR korunur; örnek konsept
+tarihleri gerçek kayıtlarla değiştirilir; ikon uydurulmaz; açılan kanıt alanları
+sayfayı uzatır. Canlı session `app-d0898491ef744a258969589e4e41ffcd`,
+supervisor/backend `same_process` ve running olarak yeniden doğrulandı.
+Backend yeniden başlatılmadı. Gerçek Mac/SSH, yeni görev veya GPU kabulü değildir.
+
+**Ayrı runtime ilerlemesi:** shared template/plan/activation, default-deny somut
+host transport'u ve v2 manager lifecycle uygulandı.20 plan +14 host +9 manager
+= **43 CPU test geçti**; actual host sınıfı/public CLI akışında process/network/
+systemd/GPU sınırları sentetiktir. Gerçek activation ve cleanup sağlayıcıları,
+Scientist'in reviewed durable-unit delta'sı ve workspace inode provisioning
+sırası açık kalır. [Sözleşme ve sınırlamalar](SHARED_DESKTOP_MANAGER.md).
+Yeni GPU scheduler yok; gerçek GPU koşusunu yalnız Scientist yürütür.
+
+AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist HEAD
+`55c5300600112ab823f76ec434029d6dc23e513c`. Kirli kaynak ağaçlarında HEAD,
+çalışma ağacı kabulü değildir; shared yeni dosyalar API136/native141 ACK'ine
+otomatik eklenmez. Push/merge/commit/deploy veya Scientist kaynak değişikliği
+yapılmadı. Astra6/high orkestrasyon incelemesi ve Sol6.1/medium UI işçisi araç
+metadata'sında gözlendi; eski Astra/max ve Sol6.1/high çalışmaları korunur.
+README aynı-goal authoritative kullanım snapshot'ı yenilendi. Entegrasyon
+**kısmi**; fullgoal tamamlanmış sayılmaz.
+
+08:00 UTC paket doğrulaması: `.venv/bin/python scripts/validate_package.py`
+**5392 PASS**, model/runtime/training çalıştırılmadı. Log
+`data/control-center-shared-package-20261003.log`, SHA
+`4b32f38b4787cb9c2f627596fa91ac74ae55ed85785c3aeb6e3159c50d89e6c9`.
+Tüm tracked değişikliklerde `git diff --check` geçti. Kaynak MANIFEST'i güncel;
+commit çifti, source manifest/trackeddiff hash kapsamı ve teslim kanıt başvuruları
+`data/control-center-delivery-20261003.private.json` içinde saklanır.
+
+## 3 Ekim 2026, 07:07 UTC — Kalıcı eylemci runner'ı; ortak config kabulü, gerçek GPU koşusu HOLD
+
+Yeni opt-in `AgentOrchestrator` ve ayrı `AgentOrchestrationStore`, sürümlü agent/
+capability kaydı, immutable istek, bağımlılık, atomik instance/bütçe rezervasyonu,
+before-effect intent, onay bekleme, job-specific iptal ve read-only reconciliation
+sağlar. Canonical migration ayrı `database/agent_orchestration_migrations/`
+dizinindedir; aktif trajectory DB yeniden açılmadı. Belirsiz prepare/dispatch/stop
+yeniden gönderilmez; exact original owner/lease/generation değişimi reddedilir.
+Kapasite yalnız exact-handle bağımsız sonuç ve doğru-scope cleanup ile bırakılır.
+[Sözleşme, çalıştırma ve sınırlar](AGENT_ORCHESTRATION.md).
+
+Root birleşik `.venv/bin/python -W error::ResourceWarning -m unittest discover
+-s tests -p 'test_agent*.py' -v` koşusu **49 PASS / 8,013 s**:29 çekirdek,
+12 Scientist service/client/journal + authenticated console/sentetik HTTP peer,
+8 sabit CPU adapter kontrolü. Private log
+`data/agent-orchestration-focused-20261003-final.log`. İlk birleşik koşuda
+`umask 077` yüzünden yanlışlıkla private oluşan nonprivate test fixture'ı hatayı
+yakalamadı; test açık `chmod(0o644)` ile düzeltildi, production kontrolü gevşetilmedi.
+İlk başarısız log korunur. Gerçek Lab API veya model kullanılmadı.
+
+README authoritative usage snapshot ve source MANIFEST yenilendi; virtualenv
+`scripts/validate_package.py` **5358 PASS**, model/runtime/training testi yok.
+Log `data/agent-orchestration-package-20261003.log`; `git diff --check` ve yeni
+untracked kaynakların whitespace kontrolü geçti. Lisans/CI değişikliği, commit,
+push, merge veya deploy yapılmadı. Commit çifti AOS `ed6e857` / Scientist `55c5300`;
+full source MANIFEST ve tracked-only diff hash'leri ayrı private devir kaydındadır.
+
+Public CPU komutu `scripts/check_agent_orchestration.py --cpu --root
+data/agent-orchestration-cpu-20261003-final` **8 senaryo kontrolü / 0,704 s**:
+iki eşzamanlı gerçek sabit worker, yalnız birinin iptali, üçüncü active instance
+kotası, doğrulanmış parent sonrası bağımlı iş, eski generation reddi ve gerçek
+dördüncü alt süreçten sonra **sentetik lost ACK**. SQLite store yeniden açılışı
+replay üretmedi; aynı canlı adapter'ın korunan process kimliğiyle readback yapıldı.
+Bu tam host-process crash recovery veya genel güvenlik sandbox'ı kabulü değildir.
+Sonuç:3 succeeded,1 gerçek worker cancelled,1 hiç başlatılmadan cancelled;
+hiçbir rezervasyon veya owned CPU worker açık kalmadı. Receipt
+`data/agent-orchestration-cpu-20261003-final/acceptance.private.json`, SHA
+`c6dfaf60ef89d4885a878bfc1ac9b69e67ed58ad6827b3eb740de950b1136b15`.
+Private klasör0700, DB/log/receipt0600 ve gitignored.
+
+Scientist adapter mevcut original service/controller/store'u alır; exact envelope
+onayını kendisi vermez. Başlatma ve STOP ayrı authenticated onay tüketir. Orijinal
+binding çağrıdan önce/sonra korunur; takeover ortasında geç cevap ve kayıp ACK yeni
+etki oluşturmaz. STOP reddi çalışan deneyi failed gibi göstermez. Status/report
+bağımsız okunur, normal doğrulama rapor içeriğini saklamaz. Varsayılan GPU cleanup
+prover yoktur: terminal rapor doğrulansa bile kapasite tutulur. Shared client
+kontrolleri serialize edilir; shared `close_async` ile başka iş durdurulmaz.
+Yeni source/schema/example/test dosyaları seçili74 AOS runtime pini dışındadır;
+UI/servis yeniden başlatılmadı, yeni native/GPU veya gerçek üçüncü taraf iş yoktur.
+
+**Ortak config:** Scientist'in `4f10...` hazırlığında broker argv16/17 eski plan
+profil/policy yollarına işaret ettiği için ret verildi. Kullanılmamış hatalı yerel
+review geri çekilip append-only REJECTED receipt ile supersede edildi; hiçbir
+runtime izni veya aktivasyon üretmedi. Düzeltilmiş prep SHA
+`04577691ff68907cf939228f9db62d6d7f56d1eb5c46bc8bbc03542a0ee09d07`,
+AOS FINAL ACK
+`data/scientist-opt-in-20261001/native-coordinated-review-v8/api-v6-source-config-review.bonsai-envfix-20261003-v2.FINAL.private.json`
+SHA `d5e1a6e5604f89e869c088561cce2d219177618ef132e6bb249dff7ff735b4ea`.
+Sol/high etkin argv/env ve actual factory/profile/policy/hash grafiğini bağımsız
+inceledi; kaynak136/141, schema ve inert scope eşleşti. Root receipt SHA'sını
+bağımsız okudu ve ACK'i Scientist'e iletti; peer teyit etti. Aynı wire/source
+sözleşmesi korunur, runtime/start/GPU/native bayrakları false.
+
+**Ayrı gerçek engel:**07:00 civarı salt okunur source/actual argv incelemesi,
+default native UI42513'ün Decider/Bonsai görev ve knowledge yollarının canonical
+Scientist GPU broker'ını kullanmadığını gösterdi. Idle/CPU prewarm rezervasyon
+değildir. Restart/quiesce native girişleri kapatsa da retained worker drain etmez
+ve release/restart ile açılır; pause da resumable'dır. Kullanıcı oturumu
+`app-d0898491ef744a258969589e4e41ffcd` değiştirilmedi. Scientist GPU HOLD'u teyit
+etti; sole GPU executor yine Scientist'tir. Sıradaki somut dilim reviewed shared
+host için açık opt-in manager/launch hazırlığı ve fiziksel cleanup'lı idle handover;
+hazırlanmış18865 host ile default8765 birbirine karıştırılmaz. Entegrasyon **kısmi**.
+
+## 3 Ekim 2026, 06:20 UTC — Güncel kontrol merkezi ve gerçek yerel UI; native/Mac kabulü açık
+
+Kontrol merkezi kaynak diliminin birleşik `pnpm build` TypeScript/Vite sonucu
+EXIT0. Sol/high Development testleri **5 PASS/2,413 s**, tam uygulama kabuğu
+sentetik CPU/Chromium testi **1 PASS/1,258 s**, dil sözleşmesi **1 PASS/0,033 s**.
+Kayıt `data/control-center-ui-20261003.private.json` gözlem tarihi 06:06:31 UTC:
+runtime unknown/fresh/stale/error ve cached-state ayrımı, canlı/terminal iş
+ayrımı, salt okunur polling hatası/toparlanma, Tasks ve açılan Scientist Lab
+yönlendirmesi, EN/TR desktop/mobile, overlay/page error/overflow yokluğu sınandı.
+Bütün fixture API istekleri GET; bu sonuç gerçek model/görev/GPU kabulü değildir.
+Scientist istek editörünün ayrı **9 sentetik PASS/5,040 s** kanıtı aşağıdadır.
+Parent son sentetik desktop/mobile görüntülerini ayrıca inceledi.
+
+Eski `app-681d4fdf0bbe40dd87536576da6a1d76` oturumu mevcut exact fenced
+reboot recovery yolundan safely retired oldu; kanıt
+`data/ui-delivery-recovery-20261003/recover-reboot.private.json`.
+İlk supported real start sekiz Bonsai native dependency hash farkını fail-closed
+reddetti; `start-rejection.private.json` korunur. Nedeni 2 Ekim 18:25:57+0300
+meşru glibc/OpenSSL yükseltmesidir. Sol/high salt okunur incelemesinde eski/yeni
+paketlerin dört trusted imzası ve sekiz eski/yeni kütüphane baytı eşleşti;
+`bonsai-dependency-provenance.private.json` SHA
+`6ac850c6699c1328b070f56b2a98428b106723da83dc728e48bb37eebb904d39`.
+Astra/max pin incelemesi ve root'un açık sekiz-only yetkisi sonrası yalnız bu
+hash'ler güncellendi; 12 diğer kütüphane ve bütün diğer manifest alanları korunur.
+Old manifest 0600 arşivi SHA
+`3773305ac067780330124b658081835e88895dec3c7068dfa12e771d7a4351b1`,
+new manifest SHA `96a50e62fd69a5a5651b7270d874d57c32dbdc0e3174d436d317921821e36dc4`.
+Yeni Supervisor deployment
+`bonsai-8e74c85adfa90771359d185fb9235b3ffd6543a8cd6e73ef44cf292688ef3c1c`;
+old ACTIVE/native kabulü aktarılmadı. 06:14:49 CPU `_bonsai` dosya bütünlüğü PASS;
+`bonsai-native-library-revalidation.private.json` SHA
+`19526a1ba4823f84f2b143164425faaf28a4f79e365f1d2811f035e6be4b013d`.
+Paket kurulumu/downgrade, model çıkarımı veya GPU kabulü yapılmadı.
+
+Düzeltilmiş tek supported plain real start sonrası gerçek oturum
+`app-d0898491ef744a258969589e4e41ffcd`, URL `http://127.0.0.1:8765/ui/`,
+workspace `data/local-app-v1/app-d0898491ef744a258969589e4e41ffcd/workspace`,
+desktop `desktop-b5adcc26482d4250a756289e2d31df01`.
+Sol/high'ın **06:17:53 UTC unmocked** browser sonucu EN1440/TR1440/TR390 için
+HTTP200, standart local-auto-login dışında POST yok, task submit yok,
+console/page/network/overflow hatası yok. Root bağımsız HTTP200 ve manager
+real/running/supervisor+backend `same_process` readback'ini doğruladı;
+busy=false, reserved=false, jobs=[], approval=null. Root gerçek TR desktop
+`/tmp/aos-default-live-tr-desktop-20261003.png` görüntüsünü inceledi; SHA
+`4370b6bba775b20b7ba3207cb206c214b1ce9ef6984352aaa618eeb6a0e405eb`.
+Sol/high'ın tamamlanmış 06:20:11 UTC receipt'i
+`data/ui-delivery-recovery-20261003/live-default-delivery.private.json` SHA
+`c9864ea7b431c3678991458d8eb9a9b1ca5e585a3dcfc3eb5f17f35ce4edd34a`
+bağımsız dosya hash'iyle okundu. Source agent'ın mevcut doctor gözlemi **7 PASS**;
+supervisor42512/backend42513 `same_process` kimliği 06:19:09 UTC kaydındadır.
+Bu dated root gözlemi ve unmocked QA receipt'i yalnız gerçek yerel UI erişimini
+doğrular; bu belge işi kontrolü yeniden koşmadı. Gerçek Scientist bağlantısı
+bu plain oturumda yapılandırılmamış/disabled'dır.
+06:20:11 mevcut expiring CPU-only Decider hazırlığı ready; worker/ağırlık
+yükleyebilir. Worker PID unavailable; CPU readiness kaynak kontrolü CUDA
+initialized=false ister fakat fiziksel GPU ölçümü yapılmadı. Bu inference/GPU
+testi veya yeni görev kabulü değildir. Gerçek Mac/SSH, web/Scientist görevi ve
+güvenli kullanıcı kapanışı, temiz makine ve ürün tamamlanması hâlâ doğrulanmamıştır.
+
+136 API/141 native seçili kaynak baytları korunur; ignored local Bonsai manifest
+bu source setlerin dışında config/artifact kimliğine bağlıdır. Sekiz hash repin'i
+sonrası önceki `dd26...f384` source/config ACK **tarihsel** kaldı; Scientist yedi
+etkilenen config çıktısının aynı-wire türetimini hazırlıyor. Yeni protokol,
+scheduler veya runtime yetkisi yok; entegrasyon kısmi, Scientist tek GPU yürütücüsü.
+Canonical JSON ve birleşik UI'nin manuel kaynak kabul kaydı 05:50:46 dated
+snapshot olarak değiştirilmedi; bu record current runtime/config kabulü değildir.
+Altı aşama ve SWAPP-last planı, tüm geniş completion/delivery/authority sınırları
+korunur. Native retained/ikinci çağrı/fairness/iptal-report-cleanup kapıları açık.
+
+README authoritative root 06:18:45 gözlemi 6208999 token/47742 s ile yenilendi:
+13 saat 15 dakika 42 saniye/13,2616667 saat, aynı goal scope/start; tarihsel veya
+Scientist sayaçları toplanmaz. 06:27 UTC devir kontrolünde MANIFEST yenilendi;
+zorunlu paket doğrulaması **5307 PASS**, `git diff --check` PASS. Paket günlüğü
+`data/control-center-package-validation-20261003.log`; model/runtime/eğitim testi
+çalıştırmadı ve gerçek UI kanıtının yerine geçmez.
+
+## 3 Ekim 2026, 05:50 UTC — Tek static kaynak/config ACK; Scientist istek editörü sentetik kabulü
+
+Sol/high incelemesinin 05:49:18 UTC kaydı
+`data/scientist-opt-in-20261001/native-coordinated-review-v8/api-v6-source-config-review.boot-d2c97005.FINAL.private.json`
+SHA `dd26c6b818c8be29432612cab29fe94eb237aff32e1689d80ac0234e50dcf384`
+bağımsız dosya hash'iyle tekrar okundu. `accepted=true` ve
+`configuration_derivation_accepted=true`; `runtime_authorized=false`,
+`runtime_started=false`, `gpu_test_started=false`, `native_acceptance_complete=false`.
+136 API/141 native seçili kaynak pini, 9 native/5 API çıktı hash'i ve canonical
+successful-resolution şeması eşleşir; seçili kaynak uyuşmazlığı yoktur.
+AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist HEAD
+`55c5300600112ab823f76ec434029d6dc23e513c`; HEAD tek başına dirty kaynak kimliği değildir.
+
+Yeni hazırlık SHA `e1bd12012d2c1e410a0e834f654917e70476263e61f1e50a2146b07e0cc57482`,
+kaynak paketi SHA `9ff29ed542cfad0a014784b29fc86723967f1758796bddd61348cb2164c02479`
+ve append-only scope SHA `f88974c0eddcc940a6d2e88704874bb68d4b6a93a90b388624239aba7f0561e8`
+mevcut boot `d2c97005-500e-4b3f-a925-bed6b664f444` için birlikte bağlandı.
+11 boş 0700/UID1000 dizin device55'te, iki DB yok; binder guard'ları ve
+seçilmiş kaynak baytları korunur. Tarihsel device54 receipt ve reddedilmiş
+taslak değiştirilmedi. Root tek birleşik ACK'i çalışan oturumlar arası MCP
+kanalından Scientist'e iletti; bu yalnız inert static binding/config türetimi kabulüdür.
+Yeni bir onay katmanı veya runtime/model/GPU yetkisi oluşturmaz.
+
+Canonical `release_acceptance.json` gözlemi 05:50:46 UTC oldu; yalnız Scientist'in
+`joint_source_configuration` engeli çıkarıldı. Actual caller ve enabled-runtime
+kabul kapıları, altı aşamanın bütün source/verification/delivery durumları,
+`runtime_authority=false` ve `product_complete=false` korunur. Scientist tek
+GPU yürütücüsüdür: fresh aynı-boot caller/root/broker generation ve özgün
+süre/yetki, güncel kaynak/rezervasyon denetimi, gerçek retained resolution,
+ayrı ikinci AOS görevi, olayla kanıtlı fairness, ayrı typed Lab iptali ve
+terminal rapor/readback/fiziksel cleanup hâlâ gerçek kabul gerektirir.
+
+Mevcut ScientistLab panelinde sabit anomaly/1 deney/30 s/100 token isteği kaldırıldı:
+boş bütçe alanları ve ayrı track seçimi, yalnız sunucudan gelen suite/program,
+protokol aralığındaki tam sayı kontrolü ve yerel exact request preview vardır.
+Hostun etkin bütçe/track izinleri, task purpose ve Lab profile metadata'sı API'de
+yoktur; kaynak UI bu bilgileri veya yetkiyi uydurmaz. Propose→ayrı exact insan
+onayı→execute→durable intent/bağımsız report/readback yolu korunur.
+GPU-disabled, route-fixture Chromium **9 PASS/5,040 s**, TypeScript **PASS**,
+EN/TR language contract **1 PASS**; malformed/stale metadata, geçersiz bütçe,
+exact payload, ayrı onay ve uncertain durumda sıfır replay sınandı. İlk select
+label test hatası explicit label bağıyla düzeltildi; geçerli son log
+`data/scientist-request-ui-corrected-20261003.log`, kapsam/hash/komut kaydı
+`data/scientist-request-evidence-20261003.json`. Bunlar gerçek Scientist/native kabulü değildir.
+
+05:48 CPU UI build EXIT0 ve o snapshot'ın pure frontend freshness PASS sonucu
+**tarihsel kaynak dilimi** kanıtıdır; kontrol paneli hâlâ uygulanırken son birleşik
+build veya güncel kullanıcı teslimi diye sunulmaz. Son bounded kaynak kontrolünde
+8765 listener yok, eski `app-681d4fdf0bbe40dd87536576da6a1d76` oturumu
+`needs_inspection`/different_boot idi; güncel kullanıcı UI'si, gerçek Mac/SSH ve
+görev kabulü doğrulanmış değildir. Bu çalışma servis/model/GPU/görev başlatmadı.
+README ana oturumun 05:50:46 authoritative 5596044 token/46063 s sayacıyla yenilendi;
+dashboard ve son birleşik build bittikten sonra MANIFEST/paket doğrulaması ana
+oturumun ayrı final devrinde yapılacaktır.
+
+## 2 Ekim 2026, 06:40 UTC — Yeni ortak paket olmadan native kabul ilerlemiyor
+
+Üç ardışık goal turunda aynı dış kapı doğrulandı: ayrı v8 alanı hazır, fakat
+güncel Scientist kaynak/config ve sonlu runtime yetkisi paketi henüz yok.
+AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist HEAD
+`3988a1936455f0d9aebe3c68110a6a7d56d32d04`; iki çalışma ağacı da değişiklik
+içerdiğinden HEAD tek başına mevcut kaynak eşliği değildir. Scientist'in iki
+retained doğrulama kaynağı yeniden değişti; aşağıdaki06:22 dar inceleme yalnız
+kendi tarihli snapshot'ı içindir, son kaynağın onayı değildir.
+
+Scientist06:38 CPU ölçümü gerçek dosya/config okumaları fakat fixture servis
+yetkileriyle10 doğrulama/60 snapshot için2,728855208 saniye bildirdi. Sonuç
+`runtime_authority=false`, `sqlite_or_ipc_acceptance=false`, `gpu_run=false`;
+AOS bu testi çalıştırmadı. Bu ölçüm actual3 saniyelik retained kontrolün,
+başarılı ikinci görevin veya GPU devrinin kabulü sayılmaz.
+
+06:40:22 bağımsız readback: native, broker ve APIv5 unit'leri inactive/MainPID0;
+eski generation/yetki yeniden kullanılmadı. Doğrudan oturum mesajlaşması
+`127.0.0.1:33807/mcp` bağlantı hatası veriyor ve listener yok; bu Scientist
+oturumunun durduğunu kanıtlamaz. Kullanıcı8765 arayüzü HTTP200; gerçek Mac
+tüneli/kullanıcı görevi kabulü değildir. Yeni servis, model veya GPU işi yok.
+
+Astra/max kapanış incelemesi yeni özellik/test tekrarı yerine fresh ortak
+paketi sıradaki gerekli olay olarak belirledi. Hazırlık ve devir sınırları
+ignored v8 `handoff.private.md` içinde; altı aşamanın kapsamı ve kısmi kabul
+durumları değişmedi. Yeni paket geldiğinde yalnız etkilenen farklar uzlaştırılır;
+gerçek kabulün tek GPU yürütücüsü Scientist olarak kalır.
+
+## 2 Ekim 2026, 06:22 UTC — Sonraki ortak koşu için ayrı v8 alanı ve dar kaynak incelemesi hazır
+
+Eski v7 başarısız görev/intent/control/cleanup kayıtlarına dokunulmadan ignored
+`data/scientist-opt-in-20261001/native-coordinated-review-v8/` hazırlandı:
+11 boş UID1000/mode0700 dizin ve henüz oluşturulmamış iki DB yolu; toplam13
+runtime yolu. `scope-preparation.private.json` SHA
+`e99a9fa9c805171aabcc28adb42222a529c0346a41bb94efe8237faca68e5f0f`.
+Hiçbir servis, model, GPU işi, scheduler veya DB başlatılmadı. Yeni API
+origin/principal/generation uydurulmadı; eski APIv5 süresi yenilenmedi.
+
+Scientist'in operation-scoped artifact doğrulama değişikliğini Astra/max
+yalnız AOS caller/owner-loop/deadline/yetki sınırında okudu: yeni uyumsuzluk
+bulmadı. Root06:22:48 UTC raw hash kontrolünde74 AOS/67 Scientist kaynak
+içinde tam3 fark gördü: AOS tanı helper'ı ile Scientist artifact-receipts ve
+retained-factory dosyaları. Exact hash'ler private
+`source-boundary-review.private.json` içinde. Önbelleklenen dosya baytları
+canlı rights/fencing/expiry denetimlerinin yerine geçmiyor; mevcut mutlak
+deadline uzatılmıyor. Bu kaynak okuması gerçek3 saniyelik kontrol penceresinin
+geçtiğini veya nihai kaynak/config paketinin iki tarafça kabulünü kanıtlamaz.
+Scientist kodu import edilmedi, testleri çalıştırılmadı, dosyaları değiştirilmedi.
+Sonraki adım exact yeni paket anlaşması ve geçerli ayrı runtime authority;
+gerçek GPU kabulünün tek yürütücüsü Scientist olarak kalır. Entegrasyon kısmi.
+
+## 2 Ekim 2026, 06:11 UTC — Ayrık API de kapatıldı; generation yeniden kullanılmaz
+
+Scientist APIv5'i açıkça kapattı; AOS original PID14002/start181282, aynı unit
+ve cgroup yokluğunu06:11:40 UTC'de bağımsız doğruladı. Bu, özgün deadline
+öncesi owned cleanup'tır; otomatik expiry testi değildir. Deadline yenilenmedi,
+eski API/native kimliğiyle yeni iş başlatılmadı. Kanıt ignored v7 dizinindeki
+`api-v5-cleanup-independent-readback.private.json`; Scientist cleanup receipt
+SHA `27c2f6d3400873affa79264d8d357574b2e22e5430da9b2a5a181d4402e52121`.
+Doğrudan oturum mesaj aracı transport hatası verdi; devir aynı private dosyada
+korunur. Bu iletişim hatası Scientist geliştirme oturumunun durduğu anlamına
+gelmez. AOS8765 UI HTTP200; Mac tarayıcı erişimi hâlâ doğrulanmadı.
+
+## 2 Ekim 2026, 06:01 UTC — Native v7 gerçek girişimi: S1 yanıtı başarılı, görev kapanışı başarısız
+
+Scientist tek GPU yürütücüsü olarak agreed enabled paketi çalıştırdı. AOS HEAD
+`ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist HEAD
+`3988a1936455f0d9aebe3c68110a6a7d56d32d04`; her iki checkout'un yerel runtime
+farkları önceki74/67 dosyalık kaynak haritasında sabitlenmişti. AOS, actual
+caller/broker PID, start ticks, invocation, boot, UID ve cgroup inode'larını;
+yeni0600 console token metadata'sını, owned desktop image/labels/mount ve
+lifecycle hash'ini salt okunur bağımsız doğruladı. Token içeriği okunmadı.
+
+Gerçek request `25f4c6a97a8d4436a09c90a8a0c0feee` için orijinal AOS SQLite
+receipt'i `write_file` seçimini0,9964206 olasılıkla kaydetti: broker model load
+3628,647 ms, inference963,320 ms,90 input token, worker'ın raporladığı
+peak VRAM3811927040 byte. Bunlar bütün görevin gecikmesi veya global GPU
+ölçümü değildir. Görev yaklaşık42 saniyede **failed** oldu: retained
+`post_intent_authorization` aşamasında, kontrol frame'i gönderilmeden hata
+oluştu. `hello.txt` yazılmadı; Lab deneyi/followup başlamadı. S1 receipt'in
+başarılı olması uçtan uca görev başarısı sayılmaz.
+
+Orijinal intent `receipt_recorded`, evidence control1, response0, resolution0
+olarak korundu; inference veya control tekrarlanmadı. Kısa control deadline
+3799,227040714 iken terminal gözlemi3799,313605258 idi. Tek dispatch öncesi
+en az dört tam authority/source kontrolü yürür. Deadline tükenmesi güçlü
+adaydır; eski hata izi yalnız dış8 frame'i tuttuğundan leaf exception ve
+kesin kök neden bu kayıtla kanıtlanamaz.
+
+Scientist owned runtime'ı kapattı. AOS05:59:45 UTC'de native/broker/model
+unit/PID/cgroup yokluğunu, owned desktop'ın kaldırıldığını ve tek canonical
+scheduler'ın idle/fence25 durumunu bağımsız doğruladı. GPU fiziksel readback'i
+Scientist kanıtıdır; AOS yeni GPU testi, tahsis veya cleanup işlemi yapmadı.
+8765 kullanıcı oturumu bu koşudan ayrı kaldı.
+
+**Uygulanan dar düzeltme:** kapanıştan sonra `_failure_locations` artık ilk4
+ve son4 frame'i korur; yalnız exception türü/function/line yayınlar, mesaj,
+locals veya dosya yolu yayınlamaz. İki CPU regresyonu önce1FAIL/1PASS ile
+eksikliği yakaladı; fix sonrası ilgili evidence-client/decision grupları
+**34 passed / 3,627 saniye**. Yetki, timeout, replay ve resolution davranışı
+değişmedi. Bu tanı düzeltmesi retained kapanış hatasını çözmüş sayılmaz;
+sonraki runtime için yalnız bu source delta'sının karşı tarafla yeniden
+pinlenmesi gerekir. Eski çalışma generation'ı kapalıdır.
+
+Kanıtlar ignored `data/scientist-opt-in-20261001/native-coordinated-review-v7/`:
+`native-startup-independent-readback.private.json` SHA
+`471f4714e6b7280e8298116f921fb07b35b8a38a4aebd76d9eaa088885f40931`,
+`native-cleanup-independent-readback.private.json` SHA
+`35ba4c4a508d1e84ff358d0151aca8644684c8731181b3653cf5c971b16a4126`.
+CPU log `/tmp/aos-native-inner-trace-diagnostic.log` SHA
+`fdb248377b90eeb12663d6a6c147ca565a9582f2d40fbecb089cf2ec310dc4f8`.
+Runtime helper yeniSHA
+`8b0d974c8b97b31cce5d7ea923c21b8f9c3e7df97a48377c4238842cfa218e01`.
+Entegrasyon **kısmi**; gerçek resolution, ikinci çağrı, contested fairness ve
+kontrollü iptal/toparlanma kabulü açık. Mac kullanıcı erişimi de henüz
+doğrulanmadı; exact default URL `http://127.0.0.1:8765/ui/` olmalıdır.
+
+## 2 Ekim 2026, 03:01 UTC — AOS trusted owner-loop resolution hook uygulandı; native kabul bekliyor
+
+03:15 UTC fencing takibi: async client original context ile `_active_request_id` tutar; yalnız aynı active task terminal olduğunda veya explicit rearm context kapandığında temizler. Eski task done callback'i yeni request/context'i silemez. Binding resolver öncesi/sonrası exact request ID, aynı active task/context ve cleanup_pending kontrolü yapar; historical attempted/uncertain ID aktif caller kanıtı sayılmaz. Normal tamamlanmada eski readonly deadline context davranışı korunur; aktif request ID boş olduğu için tarihsel context yeni resolution yetkisi sağlamaz.
+
+Fencing sonrası aynı birleşik altı CPU grubu **72 passed / 16,518 saniye**; log SHA `8391bf1b09bc6dadebdb0aa46a8256366b82b6e020842572abfe32e150ff0330`. İlk deneme context'i terminalde temizleyince iki mevcut bootstrap deadline gözlem testi hata verdi; final düzeltme eski historical context davranışını korur, aktif request/task fencing'i kaldırmaz. Native GPU kabulü çalıştırılmadı.
+
+`serve_desktop.main` opt-in `scientist_retained_resolver_factory` alır; factory `verify_configuration()` ve original Scientist admission/output yapılandırması desktop başlamadan denetlenir. DefaultNone otomatik resolver yüklemez, mevcut unresolved admission kapısı korunur. Factory exact binding/current intent binding ile original owner loop/thread üzerinde çağrılır. Sync veya async `resolve_successful(request_id)` sonucu canonical internal typed DTO ile doğrulanır; AOS aynı store'daki committed resolution/ACK/terminal/admission hash'lerini ve değişmemiş original intent'i yeniden okur. Başarılı inference dönüşü durable receipt sonrası hook tamamlanana kadar bekler; özgün deadline yenilenmez, client rearm veya POST replay yok.
+
+Yeni schema `schemas/scientist_successful_resolution.schema.json`; arayüz ve sorumluluk sınırı [SCIENTIST_RETAINED_RESOLUTION](SCIENTIST_RETAINED_RESOLUTION.md). İlk CPU grubu **50 passed**, ayrıca early-startup rejection geçti. Bunlar gerçek SQLite/typed hook + **sentetik proof/authority ve mock turn** testleridir; gerçek GPU cleanup veya native tekrar çağrı başarısı değildir. Scientist channel/factory/physical proof bağlantısını kendi reposunda geliştiriyor. Yeni pin anlaşması ve Scientist'in tek yürütücülü fresh GPU kabulü henüz yapılmadı. Entegrasyon **kısmi**, fairness/iptal/toparlanma açık. AOS hiçbir servis/GPU başlatmadı; eski koşu kanıtları korunur.
+
+Son birleşik CPU doğrulaması: `test_scientist_successful_resolution`, `test_scientist_startup`, `test_scientist_desktop`, `test_scientist_resolution`, `test_scientist_rearm_integration`, `test_scientist_bootstrap_async` **70 passed / 16,269 saniye**. Paket **5303 passed**, model/runtime/training testi çalıştırılmadı. Test log SHA `fdc6f9878b8746026a1af937a421bbb561c057c469d2b1294881b1032c122a1d`; `git diff --check` temiz. Yeni schema/hook AOS tarafında implemented/CPU-verified; Scientist'in factory/proof kapanışı ve gerçek kabulü ayrı, hâlâ açık.
+
+## 2 Ekim 2026, 02:34 UTC — Gerçek native araştırma/rapor akışı geçti; entegrasyon kısmi
+
+AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444` ve Scientist runtime delivery `fcb3b70e08335f115cc6fc4afe5dbc1eeebd0968` temelindeki ayrı opt-in v6 koşusunu yalnız Scientist yürüttü. AOS kullanıcı oturumu kullanılmadı. Gerçek Decider dosya görevi başarılı; exact `hello.txt` SHA `09308e6af1379087dd0ae56e8bbf85b96f3861fb4c91ef2393edb70229164032` ve kalıcı model/verification kayıtları bağımsız doğrulandı. Scientist `772de3f1-4291-4044-b7df-c6cf2e5a4ee0` deneyi tamamlandı; AOS saved report/readback/record hash zinciri query_only SQL ile doğrulandı: report `9e031c5d02d62f854d99d6b0234cb6852dd098eb8d42c779b9ecd573536b6afa`.
+
+Bu gerçek model koşusu **sentetik operating-modes verisi** üzerindedir; öğrenilmiş adaptör, public benchmark veya genel araştırma başarısı değildir. Scientist Referee sonucu DISCARD/no improvement bildirdi. Canonical AOS23/Lab24 done; exact retained model PID/unit/cgroup yokluğu ve AOS/broker kapanışı bağımsız doğrulandı. GPU gözlemi ve desktop removal Scientist kanıtıdır; AOS bağımsız GPU testi başlatmadı. Özel kanıtlar ignored `data/scientist-opt-in-20261001/native-coordinated-review-v6/` içindedir; gerçek veriler kaynak paketine eklenmez. Scientist sanitized evidence: `docs/ai-scientist/review-evidence/native-aos-research-completed-20261002.json`.
+
+İkinci native çağrı güvenli biçimde reddedildi: ilk `receipt_recorded` intent için bağımsız resolution eksik. HTTP katmanı bu hatayı eskiden non-JSON500 olarak bırakıyordu. **Uygulandı:** yalnız task admission `ScientistAdmissionError` bounded JSON409/code `reconciliation_required` döndürür, özel exception detayı sızdırmaz; güvenlik kontrolü, intent veya yetki değişmez. İki odaklı CPU regresyonu geçti; bunlar GPU kabulü değildir. Mevcut retained host discover/reconcile/resolve kitaplık zinciri vardır; native bootstrap/owner-loop bağlantısı henüz uygulanmadı. Başarılı receipt resolution gerektirir, uncertain-client rearm değil.
+
+**Açık:** otomatik trusted resolution runtime bağlantısı, ikinci model çağrısı, iki yönlü fairness ve kontrollü iptal/toparlanma. HTTP düzeltmesi bunları tamamlamaz. Koşu sonrası source freeze kaldırıldı; sonraki ortak koşu yeni kaynak pinleri üzerinde uzlaşmadan başlatılmaz. Sayaç frozen/historical; yeni iş tüketimi unavailable (README gözlemi). Lisans/CI ayrı kapsamdır.
+
+Doğrulama: `test_scientist_desktop` + `test_task_auto_approval` CPU paketi 27 test/22 passed/5 skipped; iki yeni odaklı test ayrıca passed. `scripts/validate_package.py` **5297 passed**, model/runtime/training koşusu yok; `git diff --check` temiz. Scientist sonraki docs HEAD'i `23675f36c523b87535dd115fc0fa8db0f843156e` salt okunur görüldü. Yeni AOS source pini `desktop_console.py` SHA `ff36943ac9e8da884339a05969d2e7b602d54c4df8fc29e2085ff10c8085c773`; eski native manifestlerle yeni koşu yapılmaz. Internal owner-loop resolution DTO/method taslağı özel handoff'tadır, implement edilmiş API değildir.
+
+## 1 Ekim 2026, 22:26 UTC — Gerçek V5 retained kapanışı kalıcı doğrulandı
+
+Scientist bağımsız kapsamlıpreflight'i tekrarPASS gördü ve ayrı immutableV5 plan16983db6/config5069e743/auth9c32d6a1 ile fixed22511954817..22571954817us verdi. Root samecurrent81/DB27/SAMEoldscope/newconsumerac9/waiter87 kontrolü ve canonicalnewapproval **23ee2cf83d3af99774ec4b7fd82402644d92770136107650c791b1c72273de16** actualexactfile consumer+waiter preflightPASS sonrası tekownwaiter **PID239866/startticks2245513/session71119 READY** hazırladı. V4approval exactbf3ad kopyası ve resultJSON payload ayrı archive'da korundu; deadline uzatılmadı. Scientist kendi tekwitness'ını başlattı; root S1/S2/GPU/broker/model başlatmadı.
+
+SAMEwaiter71119 terminal **consume1/exit0/closure_committed=true**, stderr empty. Root bağımsız mode=ro/query_only SQLreadback: **actualschema28/tekclosure**, originalrequest3ccf intent pending/receiptNULL değişmez; closure.intent_snapshot_json exactoriginalrow; observationraw77e555/obsa904/schema927 korunur; scope.retained_recovery fullV5ctx exactbyte/JSON eşleşir. V5ctx canonical/raw **9d431fc892f73940a5afe6ae4b4c314f8c0c0aa43dab5757157811d6277de66a**; actualschema28catalog6b366... cfgpin aynı. No authority/lease/gen taskmodelrelease yaratılmaz; mevcut0028 artık gerçekDB'de kullanıldı, ileride rewrite değil yeni migration gerekir.
+
+Root ps PID239866/240150 yok +systemctl inactive/MainPID0/emptycgroup gördü; Scientist bağımsız aynıclosure/originalscope/worker cleanupPASS bildirdi. Kanıt `retained-recovery-runtime-v5-independent-readback.private.json` ve `retained-recovery-consume-result.private.json`; bu **gerçek cleanup-only ortak CPU closure kabulüdür**, mock değildir ama GPUrelease/VRAM/nativeinference/training veya fullruntimeaccepted değildir. Normal GPU admission/claim/verifier gevşemedi; oldpendingintent üstü boyanmadı veya tekrar yürütülmedi.
+
+Development singleacceptance snapshot22:24:33 cleanupblocker'ını çıkarır ve EN/TR nextaction gerçekclosure sonrası fullruntimebindings/Scientist-only taskGPU kabulünü gösterir. Altıstage partial/cpu/delivery/product_complete/runtime_authority bayrakları yükseltilmedi; aktif8765 build/deploy untouched. Own CPU6PASS/0.010s, isolatedGPU-disabledsourceUI3PASS/1.245s (`retained-v5-source-status-cpu.log`/`retained-v5-source-status-ui.log`). Public67a8/current81same29ed/privateac9/87 pinleri aynı. Fullgoal authoritativeblocked/counterfrozen değişmedi; yalnız açık boundedhandoff tamamlandı, proje tamamlanmadı.
+
+Sonraki peer isteği: mevcut preparer/actualfactory için source67/currentScientist'e bağlı yeni policy/staticartifact/jointreview/launchargv paketi AOSowned alanda hazırlanacak, runtime başlatılmayacak. Eski enabledpolicy kaynak drift nedeniyle reused edilmez; V5infer yetkisi değildir. Gerçek AOSforeground→boundedScientist→AOS bağımsızrapor/cleanup kabulünün tekGPUyürütücüsü yineScientist. ModelinLab'i otomatikspawn etmesi yeni önkoşul yapılmaz; tamkapsam küçültülmez.
+
+## 1 Ekim 2026, 22:18 UTC — Kapsamlı early preflight tamamlandı, runtime yetkisi değil
+
+Scientist consumerac91285 narrowdiff review'ını kabul etti. Root yeni ignored `retained-comprehensive-preflight.private.py` ile actual8metadata exactprivate/rawSHA/reader kontrolünü tek CPU koşusunda tamamladı: V4cfg/auth/approval/launch/review, originalproducerconfig, historicalcleanupcapture ve retainedmanifest. Manifest bir JSONarray ve runtime'ın doğrudan girdi dosyası değil; kendi bounded strictarray audit'i config.retained_sources ile byte-pin/shape eşliğini doğrular. Cleanupreader object-only kalır; array/duplicate/nonfinite kuralları gevşetilmez. İlk audit denemesi manifest'i objectreader'a verdiğinde ve caller'ı ServerGeneration'a çevirdiğinde audit reddetti; final audit doğru array/CallerGeneration tiplerini kullanır, productionconsumer için yeni gevşetme yok.
+
+Final actual CPUaudit PASS: current81 +retained76 privatebytes/oldsource eşliği, oldproof927/recovery6d structural linkler, originalAOSDB27 identity/catalog/history/unchangedrows/SAMEPAUSEDgen1lease, canonicalDBidentity/schema/immutable tombstone+dispatch aggregate ve exact10 request yüzeyi yokluğu; originalcaller/broker/oldCPUobserver unit/PID/cgroup yokluğu iki snapshot ve originalcontainer exactpinned capture'a bağlı readonlyinspect. Existing0028 yalnız read-only actualDB'nin **in-memory backup** kopyasına uygulandı; resulting28catalog cfgpin ile aynı, actualDB hâlâ27. Actualv1verifier/_original/_links ve retained_context static yolları geçti; fullverify defaultdeny kaldı. Clock/generation taklit edilmedi; expiredV4context canlıauthority kabul edilmedi.
+
+Kanıt `retained-comprehensive-preflight-result.private.json` raw **404a1b25603070c7800088da72de2d303816f701c56c48df49b096ea8144edc8**. Report fresh_authority/live_generation/runtime_authorized/migration_or_closure/GPUrelease=false. V4approval hâlâ executedoldconsumer714 pinlidir; bu metadata/static audit yeniac91285 runtimeauthority sağlamaz. Future exactnewapproval/config/rawSHA ve actualnewliveprincipal ile tekrar finalverify zorunludur. Yeni plan/consumer/replay/GPU açılmadı; peer bağımsız CPU işine müdahale yok.
+
+Currentpair AOSed6e857b0e61e9c19c8ba63933e2cc9f318fe444 / Scientist28fe1f4e8b10792c1dac22997c0161cf1209124c saltokunur görüldü; Scientist2833PASS/all7zero/image195parity peer bildirimi AOS koşusu veya GPU kabulü değildir. Public67a8/current81same29ed/privateconsumerac9/waiter87 korunur. Eski blocked gate review/plan kısmı bu sınırlı handoff içinde ilerledi; authoritativegoal hâlâ blocked ve sayaçdonmuş, otomatik resume yapılmadı. Entegrasyon **kısmi**, tamkapsam korunur.
+
+## 1 Ekim 2026, 22:11 UTC — Ayrı V4 handoff görevi; immutable metadata format hatası düzeltildi
+
+Scientist newwaiter87d review'ını bağımsız kabul edip ayrı V4 finiteplan iletti. Root exactplan8817ca71/config7d38cb79/auth06a88657/source81same29ed, sameoriginalscope/DB27 ve fixed21646781316..21706781316us koşullarını readonly doğruladı. Canonical newapproval **bf3ad89ec7448fc58b54d9fb014879165f4b4d0476b5cce3084844f28cef17f5**, exact actualconsumer.read_json+waiter.decode_approval PASS; ownwaiter PID219246/startticks2158891/session19947 READY. Oldconsume result root tarafında ayrı V3 archive'a taşındı (JSON payload korunur; archive finalLF ekler). Scientist tek witness başlattı; root başka witness/GPU/consumer çağrısı yapmadı.
+
+SAMEwaiter19947 terminal **consume1/exit2**; originalDB readonly27/pending/receiptNULL/no closuretable. ContextV4 raw9721f776575d4333291237a7d315902233cc5423c2936546210cf5ef82d087ed; immutableoldproof77e555... aynı. Current actual witness canlıyken yalnız pinned714consumer'ın mode=ro/query_only/unconditionalpremigrationstop diagnostic'i çalıştı: `verify→physical→read_json` cleanupcapture canonical-byte guard'ında ret. Approval biçimi artık geçti; **immutable historical cleanup evidence aa56 noncanonical capture idi**. Source/config/oldproof bytes değiştirilmedi; timestamp/principal sahteleştirilmedi. Scientist witness sabit süresinde exit3/closureFalse bildirdi; root inactive/MainPID0 gördü, cleanup GPUrelease değildir.
+
+Privateconsumer'da yalnız historicalcleanupmetadata için ayrı `read_pinned_metadata` kullanılır: exactprivatefile/rawSHA korunur, duplicate/nonfinite-safe bounded decoder; metadata keyorder/whitespace canonical olmak zorunda değildir. Approval/auth/config okuyucusunun strictcanonical-or-singleLF ve ctx/proof canonical kontrolleri gevşetilmedi. Executedconsumer714 byte-exact arşivlendi; yeni consumer **ac91285e8071048a8f213c6218391c2d75e5af8566473e71ffa967d8fac39162**, waiter87/source67a8 aynı, yeni pair peer review ister. Private5PASS (`retained-private-metadata-tests.log`): exacthash noncanonicalmetadata, wrongpin, duplicate/NaN/Infinity, nonprivate denial, approvalstrict ve actualoldcapture unchanged. Bunlar CPU format kanıtıdır; gerçek closure/native/GPU kabulü değildir. V4 tekrar edilmez; yeni reviewed plan olmadan authority üretilemez.
+
+Mevcut goal hâlâ blocked; dıştan gelen sınırlı Scientist handoff isteği işlendi, hedef active'a programatik çevrilmedi. `get_goal` donmuş3387845/37253 değerlerini döndürür; bu V4/fix görevinin ayrı tüketimi ölçülemiyor, README sayacı historical/unavailable olarak etiketlenir. Fullgoal kapsamı ve entegrasyon **kısmi** durumu korunur.
+
+## 1 Ekim 2026, 21:54 UTC — Blocked audit üç ardışık turda doğrulandı
+
+HEADpair AOSed6e857/Scientiste03682f aynı. Yeni reviewed finite-plan/waiter review teyidi yok; oldV3 unit inactive/MainPID0/emptycgroup ve mevcut dosyalar hâlâ sonV3historical çıktıları. Root outbound thread aracı mevcut değil; peer commentary/outbox okuyabilir ancak yeni agreedauthority yerine geçmez. Aynı dış gate no-progress streak3; canlı rootconsumer/witness/handle yok, verifiedwait değildir. Soniki tur yeni uygulama/acceptance üretmedi; kullanım/doc güncellemeleri ilerleme sayılmaz.
+
+Mevcut güvenli source/privateformat düzeltmeleri ve CPU kanıtları tamamlandı; çalışma originalpending intent'e dokunmadan, sonScientist sözleşmesi gereği gerçek cleanupauthority olmadan devam edemez. Native/Lab/GPU/learning/delivery/SWAPP kapsamı daraltılmadı veya kapatılmadı. Gereksiz bağımsız scheduler/authority, manualretry/restart ve fakecurrentclock uygulanmaz. Hedef blocked status güncellemesi için audit koşulları sağlandı; tamamlanma iddiası yok. Devam koşulu: Scientist newwaiter87d36286 review + değişmez sourcepair/config ve ayrı sınırlı futureplan, ardından exactnewcanonicalapproval preflight; entegreGPU yürütücüsü yine yalnızScientist.
+
+## 1 Ekim 2026, 21:53 UTC — Aynı gate yeniden gözlendi, no-progress streak2
+
+Yeni reviewed finiteplan/waiter review teyidi yok; current81 rawpin check ownconsumer inspectPASS/noauthority. Privatewaiter diff yalnız canonical import/helper ve READY öncesi approvaldecode kullanımından ibaret; consumer/public67 değişmedi. Scientist bağımsız CPU27profiles ölçümünü bildirdi; AOS bunu GPU veya sharedclosure kabulü saymaz, bu ayrı işi durdurmaz/benimsemez. Bu goal turn yine no-progress, aynı gate streak2; yeniauthority/replay/consumer/witness başlatılmadı. Outbound thread aracı hâlâ yok; peer mevcut root commentary/outbox'ı okuyabilir. Üçüncü ardışık goal turn'de aynı dış gate sürer ve anlamlı güvenli iş yoksa hedef blocked olarak kaydedilmelidir; kapsam küçültülmez.
+
+## 1 Ekim 2026, 21:50 UTC — Yeni finite-plan kapısı henüz açılmadı
+
+Readonly güncel durum: AOSed6e857/Scientiste03682f, consumer71453/newwaiter87d36286 pinleri aynı; V3 witness inactive/MainPID0/emptycgroup, old waiter/observer süreçleri yok. Yeni reviewed launch/authority dosyası veya karşı tarafın newwaiter review teyidi yok. Önceki tur exactcanonical-format preflight ile somut ilerlemeydi; bu tur yalnız yeniden gözlem/koordinasyon, **no-progress streak1**, canlıprocess/handle olmadığı için verifiedwait değildir. Yeni yetki yaratılmadı, expiry değiştirilmedi, manualconsumer/restart/replay yapılmadı. Fullgoal active; dış review/finiteplan kapısı açılana kadar gerçek kapanış çalıştırılamaz. Aynı gate ardışık üç goal turn boyunca değişmez ve başka anlamlı güvenli iş kalmazsa blocked audit uygulanır; bu ilk no-progress gözlemidir.
+
+## 1 Ekim 2026, 21:41 UTC — V3 gerçek AOS ret nedeni bulundu; readiness format kapısı düzeltildi
+
+Scientist exactNEWV3 witness'ı bir kez başlattı: PID193931/inv6d49c1009c3c46c3aa11153dbe4f2a6a, context raw105d9376fc27907247fa1f75c3fc903b5c0710fc49e003c3cb559cc251acb65d üretildi. Root SAMEwaiter39298 terminalini topladı: **consume1/exit2/denied_or_uncertain**, otomatik tekrar yok. ActualAOSschema27/no closuretable/originalpending/receiptNULL bağımsız mode=ro/query_only readback ile teyit edildi; migration hiç uygulanmadı. Scientist witness sabit süre sonunda kendi kapandı, root readonly inactive/MainPID0 gördü; peer59.980s/exit3/closureFalse bildiriyor. GPU/model/proofreissue veya kullanıcı oturumu müdahalesi yok.
+
+Root hemen yalnız kendi consumer kaynaklarını bellekte salt okunur diagnostic'e çevirdi: SQL mode=ro/query_only ve migration öncesi unconditional stop; gerçek clock/principal değiştirilmedi. Actual deny stack `verify→current→read_json` canonical byte kontrolünü gösterdi. Root tarafından hazırlanan approval29593746 JSON key order canonical değildi; rawSHA doğru olmasına rağmen consumer reddetti. Bu **AOS operational-format hatasıdır**, Scientist provider hatası değildir. Executed approval29593746/waitere671 byte-exact arşivlendi; actualreceipt ve oldproof değiştirilmedi.
+
+Yeni privatewaiter readiness artık consumer ile aynı exactcanonical veya canonical+singleLF kodlamayı zorunlu tutar; unsorted/extra whitespace/duplicate/nonfinite authority READY olamaz. Consumer71453/public67a8ac aynı; yeni waiter raw87d36286aa912c2b2bf0ffa75f8fc4950e95f7de94d2d0af17f4801a1fd63e66 karşı taraf review ister. Private regresyon4PASS (`retained-private-approval-encoding-tests.log`), actualexecuted295 approval'ını da reddeder; acceptedcanonical/oneLF sentetik örneklerdir. Outcome `retained-recovery-runtime-v3-outcome.private.json`. Freshplan yokken yeniapproval/retry/witness açılmadı; nextapproval canonical serialize+ownconsumer read_json preflight ile doğrulanmalıdır. Entegrasyon **kısmi**, fullgoal active.
+
+21:46UTC followup: originalexpired295approval payload'ı değiştirilmeden canonical serialize edilen ayrı b4d2eafcdf7e011d072f9218ba86235e753997186d25898303151caa2eee648d artifact, exactabsoluteprivatepath/rawSHA ile gerçek consumer.read_json ve yeni waiter.decode_approval kontrollerinden geçti. `retained-recovery-expired-canonical-approval-preflight.private.json` **süresi dolmuş biçim örneğidir**, yeni yetki/freshcontext değildir; fixedactual295 dosyası untouched. İlk diagnostic relativepath kullanımı mevcut alias guard tarafından reddedildi; absolutepath ile doğrulama geçti, uygulama guard'ı değiştirilmedi. Yeniwaiter CLI actual295 dosyasıyla **exit1/encoding mismatch/READY yok/consumer0** verdi; originalDB27/pending/no closure tekrar doğrulandı. Yeni future approval hazırlanırsa exactnewartifact/rawSHA preflight aynı şekilde, runtime öncesi tekrar zorunludur. Scientist yeni plan veya review teyidi henüz yok; yeni consumer/witness/authority başlatılmadı.
+
+## 1 Ekim 2026, 21:30 UTC — Düzeltme ve yeni expired draft bağımsız incelendi
+
+Scientist provider raw `a25f259f9d74b9f834da3d26853dd452bb2300304495a95bcf89d5b3d7803a26` salt okunur incelendi: eski CPU observer için yalnız sabit unit/UID/boot/PID/cgroup yokluk kontrolü eklendi; GPU scheduler namespace genişletilmedi. Karşı taraf166 CPU PASS ve kendi physical read-only probe PASS bildirdi; AOS Scientist kodunu import etmedi/testlerini çalıştırmadı.
+
+Yeni `recovery-provider.expired-review-draft-v3.private.json` raw30647653d340840c9c8696b24841ba1ebd8b01b69dc239aa8efcb672afac47c1, current81 digest29ed64c2762748728b797d0efc133c554ddc691d8d2958740581002ffa8756ad: root ownconsumer inspect exit0/noauthority; bağımsız81 byte pinleri ve76 retained private snapshot/oldconfig/oldproof kimlikleri geçti. V2draft ile yalnız provider değişmiş. OriginalDB mode=ro/query_only tekrar27/pending/receiptNULL; aynı PAUSED/stopped/gen1/lease korunuyor, closuretable yok. Bu incelemede physical absence tekrar çalıştırılmadı; GPU release/closure/authority iddia edilmez.
+
+Development kaynak kaydı uygulanan toparlanma ve düzeltilen gerçek hatayı, yeni onaylı koşunun beklenmesini gösterir; altı aşamanın completion/authority/delivery bayrakları yükseltilmedi. Aktif8765 UI değiştirilmedi. Yeni mandatory Scientist gate ve finite authority beklenirken waiter/runtime başlatılmadı; eski81 planları kullanılmaz. Bu tur intersession send/read araçları listede yok; aktarım mesajı private outbox olarak hazırlanır, teslim edilmiş sayılmaz. Entegrasyon **kısmi**, fullgoal active.
+
+21:34UTC: Scientist ayrı NEW V3 finiteplan iletti. Root exactlaunch221ae212/configf198a28e/authdc1f131b ve current81/retained76 eşliğini bağımsız inceledi; CPU-only fixedunit/argv/60s19860383724..19920383724us/noinference/reissue/release koşulları pinli. OriginalV2 approval exactkopya korundu, yeni rootapproval raw29593746a9a27a86a0cf00e5a523ad216c2ac16556a20b5845312629f0942178 hazırlandı. Own bounded waiter **PID192972/session39298 READY/consume0**, aynıhandle canlı ps ile teyit edildi; Scientist mandatoryR2 tamamlanmadan witness çalıştırmaz. Intersession message araçları yok; privateoutbox readiness içeriyor, teslim teyidi yok. Root consumer veya Scientist witness/GPU başlatmadı. Own CPUstatus6PASS/0.009s ve isolatedsourceUI3PASS/1.470s; logs `recovery-fixed-source-status-cpu.log`/`recovery-fixed-source-status-ui.log`. Aktif8765 build/oturum untouched; source67 aynıa8ac2cda.
+
+21:36:48UTC: Scientist mandatoryR2 terminalsession83413 EXIT0 bildirdi; root salt okunur log2781PASS/7SKIP/121deselected/all7exit_code0 gördü. Bunlar Scientist koşusudur, AOS testi değil. Own currentruntimeconfig inspect yinePASS; waiter192972/session39298 canlı. AOS ownhelper ile historicalCPUobserver unit/PID/cgroup yokluğu iki kez gerçekreadonly doğrulandı; `retained-recovery-old-cpu-independent-snapshot.private.json`, BOOTTIME19675817040us. Snapshot closure/GPU release/current runtimeauthority değildir. Paired onay/Scientist launch henüz teyit edilmedi; expiry sabit kalır.
+
+## 1 Ekim 2026, 21:15 UTC — Actual V2 witness başlatıldı; provider context öncesi reddetti
+
+Scientist single readonlyCPUwitness V2 launch'ını exactplan/issued sonrasında bir kez yaptı; actualreceipt `recovery-launch.runtime-v2.actual.private.json`, invocatione3c36c41899e489ab17959245664e542. Root exactunit journal'ını salt okunur okudu: STARTED→`denied_or_uncertain/observation_reissued=false`→**exit2/INVALIDARGUMENT**, sonra collected. `systemctl` inactive/MainPID0/ExecMainStatus0 collected defaultu başarı kanıtı değildir. ContextV2 dosyası **yok**; root aynıwatcher51483/PID162893 **expiry exit3/consume0** terminalini topladı, consumer hiç çağrılmadı. Yetki süresi uzatılmadı, yeniden başlatma/tekrar/proofmint/GPU yok.
+
+Root originalDB readonly tekrar: schema27, closuretable yok, intent3cc pending/receiptNULL aynı; outcome `retained-recovery-runtime-v2-outcome.private.json`. Actual ret nedeni henüz belirlenmedi; stderrgeneric'in cause olduğu uydurulmadı. Scientist kendi provider/authority/physical/static/liveness yolunu salt okunur tanılıyor; root karşı taraf dosyalarını/süreçlerini değiştirmedi. Herhangi bir sonraki kontrollü koşu actualneden/regresyon/source review sonrası ayrı karar ister. Fullgoal active, entegrasyon **kısmi**, closure/native/GPU kabulü açık.
+
+21:22 UTC cause belirledi: Scientist read-only probe ile CPU oldobserver için generic `_gone`→`gpu_scheduler._systemctl_show` GPU namespace guard'ının ValueError verdiğini doğruladı. AOS root bu çağrı zinciri/fixednamespace ret kuralını salt okunur kaynakta da gördü; Scientist kodunu çalıştırmadı. Scientist kendi reposunda yalnız sabit eski CPU observer için bağımsız UID/boot/PID/cgroup/unit/Id/load/inv absence checker ekledi; GPU namespace genişletilmedi. Peer RED→166CPU PASS ve actualoldobserver read-only probe PASS bildirdi; authority/closure/GPU release değil. Newprovider raw a25f259f9d74b9f834da3d26853dd452bb2300304495a95bcf89d5b3d7803a26; old81source config/futureauthority artık stale, tekrar kullanılamaz. Root public67a8/private714/e671 değişmedi; yeni manifest/sourcegate/context review olmadan waiter/witness/consumer başlatılmayacak.
+
+## 1 Ekim 2026, 21:08 UTC — Private consumer review tamamlandı; fixed-window V2 için canlı bekleyici
+
+Root actualdraft5954 ve runtimeV2config6a979/current81 sourcepins, retained76 bytes, oldproof77e/a904/SAMEscope ve cleanup evidence oldpin eşliğini bağımsız inceledi. Actual AOS27catalogd116 eşliği ve yalnızmemorybackup+0028 ile post28catalog6b366 eşliği doğrulandı; originalDB değiştirilmedi. Kanıtlar `retained-recovery-draft-independent-review.private.json` raw95b0afd5e8253bf3ac00b598112943cd91ac86cb4289cf3d7d06673e8099a47a ve `retained-recovery-catalog-independent-review.private.json`.
+
+Privateconsumer ve waiter hazır: independentcurrent-unit/proc/source/authorization, oldrow/canonical10, retained76, oldcaller/broker/observer/cgroup ve exactoldcontainer absence kontrolleri; originalDBlock, verifybeforemigration, selftransactional28 ve retainedJournalprepost. Container evidence oldcfg path/hash ve capturedPID/inv/cgroup ile ayrıca bağlandı. Defaultinspect all81PASS/noauthority; privateCPU5+boundaryCPU3PASS (0.001s/0.203s): emptyreserved vs nonprivate/symlink, wrongunit/UID, missingapprovalbeforeSQL, duplicatesource/hashsubstitution/noncanonicalJSON, wrongevidencebeforeDocker, unknownerrorredaction ve sadeceownedchild timeoutkill/reap. Bunlar mock/seam CPU kanıtlarıdır, actualruntimecleanup kabulü değildir.
+
+Prelaunch ownapproval finalLF formatı strictreader'a takılmadan fark edildi: consumer yalnız exactcanonical veya singleLF kabul eder/rawSHA pinli; waiter yalnız approvedmetadata canonical-required=false, contextstrict kalır. Finalprivate consumer71453f06de45425f7fe897df065778b97d8028c7c0fd54a5f78b04c53410d904/waitere671fb3221a06cd974e9b03d13877ede4b381c96160c416d0ae83fe915318461 karşı tarafça tekrar incelendi. RuntimeV1 plan penceresi handshake tamamlanmadan doldu: rootwaiter161898/session55622 **exit3/consume0**, Scientistunit/context hiç başlamadı. Expiredapproval3be exactkopya korundu; eskiplan/expiry uzatılmadı.
+
+AyrıNEWcleanuprequest için sabit gelecekteki V2 plan bağımsız gözden geçirildi: config6a979d304619a548ba911461556210e23490f2a6883284f76c2edec344dd59f5/authb782e2a5bf311453107a7aea40f762e29f15a7a12bbc0d91fd701b28c00f3984/launcha420bd131aea0219901e86c3d14078b77c0deddb4c952dc6d639de825adafa3c; fixedBOOTTIME18125287981..18185287981us (60s), sameoriginalscope/source/oldproof, noinference/GPU/reissue. Ownapproval5f94f3dfcff0c1f8156c1bddbeaba62950485f18c2f1e14514c0090b1add66b4 ile rootwaiter **PID162893/session51483 canlı READY/consume0**; aynıhandle poll edildi. Scientist yalnız kendi readonlywitness'ını exactissued sonrasında başlatacak. Actual closure/migration/GPU kabulü hâlâ yok; READY başarı değildir. Fullgoal active, entegrasyon **kısmi**.
+
+Publicsource67 freeze selecteda8ac2cda5b19d0ce977e47b306758303776aa42d977b3277063f87b64ca43b16, root176CPU/5297packagePASS; Scientist ownfull2677PASS/7skip/121deselect/203.36s/all7exit0 bildirildi, root Scientisttestlerini çalıştırmadı. Commitpair AOSed6e857b0e61e9c19c8ba63933e2cc9f318fe444 / Scientist0ed5b01f532044e16b77ff98933274d1a0505ab0; seçilibytepinleri committen ayrı. Fresh privateplanreview `retained-recovery-runtime-v2-independent-review.private.json` raw7bb0541fda61688f8fb7c651726004881825bb8b4014c3880805d7d4a3a0448c. Kullanıcıoturumları/deploy/push/merge/GPUtest değişmedi.
+
+## 1 Ekim 2026 — Retained close-only context anlaşması ve AOS verifier/journal uygulaması, 20:32 UTC
+
+İki oturum closed nested recoveryv1 shape'inde uzlaştı: distinct recoveryrequest/principal, independentretained pins, SAMEoldpaused scope, fixedfresh<=60s authority, permissions3false ve entirecontextcanonicalSHA/noembeddedselfhash. Scientist recursive schema'sı root tarafından bytes bağımsız okunarak mirror edildi: canonical6d173eb1231989b3b3304ae08455f9b10c192dc0aa37afa54acccb223615690b/raw608ad06c177abcabb4c9591b2a7757fe5af55c58c34106dd914429bf63e36619. Eski927 observation/proof/tombstone/expiry değişmedi. CanonicalDB schemaSHA eski4d üçkolon tables/triggers konvansiyonunu korur; yeni AOS27/28 dörtkolon wholecatalog pinleri ayrı tutulur.
+
+`ScientistNoAdmissionRetainedVerifier` ve `ScientistNoAdmissionRetainedJournal` uygulandı: v1 strictdecode/originalhistory/links yeniden kullanılır, normalv1 `_current` çağrılmaz/değiştirilmez; oldTTL yalnız historicalstructure, freshcontext saat/generation/source/authority bağımsız. Callback(proof,context) current/canonical/physical/retainedsource defaultdeny, readonlySQL ve transaction/config integrity, pre/postsamecurrentPAUSEDscope. Coreboot/UID/PID/starttick identity oldcaller/broker/observer ile aynı olamaz; hash değişimi bunu atlatmaz. Newctx issued oldmint observed'dan önce olamaz. Fullcontext mevcut0028 recovery_scope_json içine immutable yazılır; migration değiştirilmedi. Actual schema27/pending/row1 untouched; yeni runtimeapproval/unit/proof/closure yok.
+
+CPU176PASS/13.415s `retained-recovery-freeze-cpu.log`:10 yeni retainedfaultcase +existing166, wrongowner/gen/lease/source/target/perms/oldprincipal/mintordering, defaultdeny, expiry/revoke, callbackCOMMIT/configmutation/interrupt, conflictingretry ve unchanged original. İlk175koşusunda bir fixture SYS1 geçersizownerSQLCHECK'e takıldı; validAGENT'e düzeltilip tamkoşu geçti. CPU yalnızsentetiktrustedcallbacks içerir; gerçekrecoveryclosure/GPU kabulü değildir. Sourceprofile `no_admission_retained_recovery_candidate_v1` artık67 (old66+newrecovery schema); module raw3a46e7754c8cea3bf66f906e0a154954175f5cbf52844d23afe870dd9e1439c2. Scientist readonlyprovider/CLI ve source67preflight hazırlığını paralel sürdürüyor; actualconfig/sourcepair/trustedprivateconsumer+authority review sıradadır. Entegrasyon **kısmi**, fullgoal active.
+
+## 1 Ekim 2026 — Development gerçek engeli gösteriyor; historical recovery sözleşmesi tasarımda, 20:14 UTC
+
+Önceki goal turn somut ilerleme sağladı: on-surface fix, actualmint/failure ve iki private defect tanısı/düzeltmesi. Bu tur gerçek DB/HEAD yeniden okundu; Scientist actualcanonical row/proofbyte eşliğini, observer original60s sonunda closurefalse/exit3 ve PIDgone/inactive durumunu bağımsız teyit etti. Karşı taraf original76 sourcebyte'larını private retainedmanifest ile koruduğunu bildirdi; root bu retained kopyayı henüz bağımsız okumadı. Ortak historical-mint recovery tasarımı devam ediyor; actual closure yok, goal active ve fullnative/Lab/16GB kapsamı korunuyor.
+
+Development'ın mevcut tek kabul kaydı `docs/release_acceptance.json` gerçek20:10 gözlemiyle yenilendi: minted observation/AOSdenial/no blindretry engeli ve güvenli toparlanma nextaction. Altı aşama/source/verification/delivery durumları yükseltilmedi; runtime_authority/product_complete false kaldı. İngilizce/Türkçe mevcut label'lar güncellendi, yeni panel/yüzde yok. CPU6PASS (`recovery-status-cpu.log`), ayrı outputdir/temporaryserver/Chromium --disable-gpu ile sourceUI3PASS/1.712s (`recovery-status-isolated-ui.log`). Aktif kullanıcı8765 build'i veya oturumu değiştirilmedi; sourceUI kabulü canlı teslim değildir.
+
+`SCIENTIST_NO_ADMISSION_OBSERVATION.md` historical recovery için versioned cleanup-only teklif içerir: immutable oldproof/tombstone/deadline korunur, fresh explicitlyauthorized currentprincipal/physical/source/fence witness oldobserver yerine uydurulmaz. Existingv1 checks gevşetilmez; endpoint/migration/authority agreement öncesi uygulanmaz. Scientist kendi canonical close-only tasarımını inceleyip paylaşacak; iki taraf bağımsız CPU/source işleri için beklemiyor. Native/Lab/learning/Mac/clean-machine/SWAPP açık kapıları aynı kalır.
+
+20:16 UTC retainedbytes bağımsız kabulü: root tüm76 retainedsource dosyasını boundedsecure reader + private600/UID/nlink/path kontrolleriyle originalreviewedV3bd64 pinlerine karşı doğruladı. Retainedmanifest raw07ce36d88ff66fa6b69a4a114fe23ab666ca46c02acf77cc4d8ee72a05c7d893, ownreview raw449a6f51db541cc70f0d006a123b7257f9cf3251690b168b67f33afffa52dbe0 (`retained-source76-independent-review.private.json`). Root originalobserver/waiter PID'lerinin artık yokluğunu tekrar okudu; yeniden başlatmadı. Bu historicalsource korunumu kanıtıdır, freshauthority veya recoveryclosure değildir. Scientist minimalclose-only ortakAPI tasarımını sürdürüyor. Package5294PASS (`recovery-status-package.log`), runtime selecteddf7 değişmedi; release/UI durumları partial/notdelivered korunuyor.
+
+## 1 Ekim 2026 — Gerçek observation mint edildi; AOS closure reddedildi, 20:10 UTC
+
+Scientist fresh V3 observer'ı bir kez çalıştırdı; gerçek canonical observation row1 ve complete proof üretildi. Root waiter PID125565 reserved zero-byte proof'a güvenli bounded-reader'ın ScientistAdmissionError vermesini yakalamadığı için **consume öncesi exit1/attempts0** ile bitti. Root aynı approvedconsumer42d9/a70 context altında yalnız **bir manuel consume** yaptı: exit2/denied_or_uncertain. Salt okunur diagnostic migration'ı explicit yasaklayıp private guard reddini doğruladı; sonraki diagnostic original60s expiry'yi reddetti. Actual old-container inspect exit1/stdout `[]\n`/exact missing-container error döndürüyor; executedprivate predicate boş stdout istediği için bu gerçek reply'ı reddeder. Bu readback uyumsuzluğu bağımsız doğrulandı; expiry veya yetki gevşetilmedi.
+
+Own original AOS schema27, closuretable yok; migration/closure yapılmadı. Scientist mintedproof raw77e555000ae10a46fdbea1f7de089e90124d3ff70b28783c28ac29555a8c0ea6, observationa904d3aa2fad3c220b48e1ba304429668a44143e5772fc4968ca514c1284ecef, actual canonical row1. Observer inactive/MainPID0; root Scientist unit'ini durdurmadı. Artık mint gerçekleştiği için pre-mint düzeltme bağlamı veya yeni filename/context ile reissue **yasak**. Ortak historical-mint recovery sözleşmesi ayrı incelenmeden devam edilmeyecek. Gerçek GPU/ürün kabulü değildir; entegrasyon **kısmi**, actual closure recovery açık.
+
+Privatecandidate iki root defect için düzeltildi: yalnız doğrulanmış private600/user-owned/regular/nlink1 emptyreservation beklenir; Docker stdout sadece exact empty veya `[]`/`[]\n` +exit1+exact targetmissingerror kabul edilir. Synthetic2PASS; bozuk/nonempty/wrongcontainer/permission/live-success deny. Bu yeni privatebytes eski approvala70 ile yetkilendirilmez ve yeniden çalıştırılmadı. Executed42d9/4c48 dosyaları exactSHA ile ayrı historicalprivate kopyalarda korundu. Kanıt `data/scientist-opt-in-20261001/no-admission-v3-consumer-failure.private.json`. AOS publicdf7/Scientist source76bd64 değişmedi; all143CPU/package5294 önceki kapı kanıtları, gerçekclosure başarıları değildir.
+
+## 1 Ekim 2026 — Gerçek observer reddi ve on-surface düzeltmesi, 19:55 UTC
+
+Scientist kendi observer unit'ini bir kez çalıştırdı; canonical_inventory_unknown nedeniyle mint öncesinde güvenli şekilde reddedildi. Eksik onuncu request-bearing tablo `gpu_runtime_bindings` idi. AOS canonical verifier artık bu tabloda tüm owner/token/state değerleri için original request yokluğunu denetler; unknown inventory defaultdeny korunur. Scientist kendi producer düzeltmesini bağımsız yürütüyor. Wire v1 SHA92791 değişmedi; yeni AOS selected66 `df7d865c4d171d9df16c3beb4e1436dfabb08fedfa361d67727f6476f3cc0a80`, module raw `16be1c29c08357dcebc57bf86b5c58eabf136bbfdd4629a794eff88a29e63b3c`. Kanıt: `data/scientist-opt-in-20261001/source66-runtime-binding-report.json`.
+
+CPU/mock141PASS/11.414s: `runtime-bindings-inventory-cpu.log`; bu gerçek GPU veya closure kabulü değildir. Root bounded waiter approval süresi dolunca exit3 ile bitti, consume_attempts=0. Complete proof ve canonical observation tablosu üretilmedi; original AOS DB schema27/pending korunuyor. Eski c8 config/8a approval ve bd9 source eşleştirmesi artık tarihsel/yeniden kullanılamaz. Servis/GPU koşusunu yalnız Scientist yönetir; root kullanıcı oturumlarına dokunmadı. Entegrasyon **kısmi**; native/Lab ortak GPU kabulü hâlâ açık.
+
+20:01 UTC güncellemesi: clean CPU/mock143PASS/11.257s (`runtime-bindings-clean-final-cpu.log`), yeni late-runtime-binding ve unrelated-row preservation regresyonları dahil. Önceki test çağrılarındaki module-path/import hataları düzeltildi; karışmış log yerine yeni clean log kullanıldı. Package5294PASS (`runtime-bindings-package.log`). Root V3 config bd64 tüm76 sourcepins/exactdf7 AOS66, historical6 gitblob/retainedreceipt ve actual canonical10 absent/beforeSQL eşliğini bağımsız salt okunur doğruladı; kanıt `provider-v3-independent-review.json` raw0161526d6fdebb1786cd5fb1f3e3dd93d3305d481ca08c9bca218db2797439a2. Aynı dar source-attestation review kabul edildi; eksik historical Procenv/ExecStart doğrudan verified değildir. Fresh privateconsumer42d9 defaultinspectPASS/no mutation; root boundedwaiter4c48 karşı taraf incelemesine iletildi, **henüz yeni runtime approval/start yok**. Scientist CPU/source çalışmasını bu inceleme beklerken sürdürebilir; GPU executor tek Scientist oturumudur.
+
+20:05 UTC execution handoff: Scientist privateconsumer42d9/review016152/waiter4c48 incelemesini ACK etti. Fresh cleanup-only approval `a70f6fc878ad28e870ecad4ab6bad051dfc64b6ee962ed46e224d4e032588dc2`, fixed path `data/scientist-opt-in-20261001/no-admission-runtime-approval.private.json`; original scope/source76/boot3f, no inference/GPU/reissue, BOOTTIME expiry14788272813. Eski onay exact8a hash'iyle ayrı expired private dosyada korundu. Root yalnız kendi bounded waiter'ını başlattı: PID125565/session40216, READY/consume_attempts0. Prestart original schema27 ve proofabsence doğrulandı. Scientist sole observer executor; actual mint/closure hâlâ **bekleniyor**, waiter READY gerçek entegrasyon başarısı değildir. HEAD çifti AOS ed6e857b0e61e9c19c8ba63933e2cc9f318fe444 / Scientist b80c048092aa30c92bf18b8f990b52743801bf6d; iki checkout'ın seçili byte pinleri commit kimliğinden ayrı tutulur.
+
+## 1 Ekim 2026 — Gerçek75/source+SQL review ve boundedconsumer hazırlığı, 19:25 UTC
+
+Son sufficiency kararı: corroborated driver/argv+savedoriginalgeneration+own authenticatedcapture+historicalmandatoryfactory ile yalnızexact-target cleanup source-attestation review **accepted**. Eksik Procenv/ExecStart/exactroottoolcall doğrudan doğrulanmış sayılmadı. Ownprivatekanıt `original_controlstore_composition_review_accepted=true`, direct `original_controlstore_composition_verified=false` ve limits ayrı. Privateconsumer bu doğru reviewpredicate'i kullanır; finalrawSHA **bdac05d1ac8762422d38c7f81a828f8428ede88edbbffe6afddbab258e027595**, migrationfix ve scopeguard aynı. Actual75 inspect yinePASS/no mutation. Runtimeapproval dosyası **yok/defaultdeny**, henüz execute yok; Scientist scopedreview kararını ACK etti, fixedunit/originalDB27 korunuyor. Publicsource66bd9 değişmedi. Aşağıdaki önceki pending-assessment ifadeleri review sürecinin tarihsel aşaması, güncel verdict değil.
+
+Root actual V2configc8f02 raw/canonical/privatebytes,75unique sourcepins (exactAOS66 bd9+Scientist9), source manifest4b1078, cleanupcontext0c57, dispatchreview5f1abc, postmint1993schemaartifact eşliğini bağımsız doğruladı. Actual readonly canonical identity/before-schema ve originaltarget9surface absent; original ownAOSDB schema27/pending/currentpausedscope aynı. Postmint4d4c SHA root AST literal `_TABLE_SQL` +independently reconstructed3immutabletrigger SQL +actualbeforeinventory eşliğinden tekrar üretildi; Scientist code import/execute edilmedi, canonicalDB mutasyona uğramadı. Historical5 gitblob tamsha retained107receipt eşliği geçti. İlk reviewscript kendi schemaartifact.canonical_store fullpath+identity alanını yanlış yalnızidentity ile kıyasladığı için durdu; artifactenvelope kaynakta doğrulanıp ownassertion düzeltildi. Producer bug veya gerçek authority başarısı olarak sunulmadı. `provider-v2-independent-review.json` rootkanıtı: runtime_authorized/observer_live_verified/real_closure_verified/original_controlstore_composition_verified false.
+
+Private AOS consumerreviewcandidate yazıldı; defaultinspect actual75pinsPASS ve migration/closurefalse çıktı. Dört realhelper defaultdeny trustedapproval/currentobserver/source/canonical/physical/recovery composition; exclusive original ownDB .lock, proof complete/current önceverify; yalnız0028→Journal append→unchangedoriginalreadback. Scientist code review nestedBEGIN defect yakaladı: actual0028 selftransactional olduğundan rootwrapperın ekBEGIN'i fail eder. Candidate fix93... değil exact **9939488148b40d4a955bc3e02b0c89a6f8c698cb76eb9bae0440fc04f427af63**; targeted `consumer-migration-cpu.log` oldwrapperRED, new exactmigration27→28GREEN/idempotent/unchangedsyntheticmarker/no closure. Actual original DB28'e geçirilmedi. Candidate onlyprivate rootdata; publicsource66/packagecode değişmedi. Runtimeapproval fixedfile absent/defaultdeny, consumer execute edilmedi.
+
+Scientist ile phaseorder teyit: schema27 tüm mintcallbacks boyunca; outputfile emptyreserved olabilir, existence proof değildir; completevalid/fsyncedcommittedproof→AOS approved0028/append≤original60s mintedTTL; liveobserver stays up for exactreadonlyclosure polling. NoTrajectoryStore/reconcile/reissue/GPUprocessstart. Counterpartplannedunitlaunchc6130... yalnızplan olarak actualhash eşliği okundu. Current ScientistHEAD rootreadonly **2321e5fe490f77f07e9c0729881426042d2e3e51**, sourcebytes c8f/e037/86dc stabil.
+
+Originalcontrolledcomposition source-review gate açıkça ele alındı: oldexecutor controlStore conditional, historicalservice factory ise unconditionally samecanonical DB store/executor/runtime oluşturur. Root peer-shared bf1 driver/e671argv/871 actualbroker-start ve authenticatedoriginalcapture PID/inv/cg eşliğini doğruladı; driveroldunitlaunch sonra startupgeneration yazar. e671 metadata executed=false tarihselplan olduğu için değiştirilmedi/actualreceipt sayılmadı. Peer originaltoolcmd17:13/session8866 ve ec450corroboration verdi; original /procenv/ExecStart retaineddeğil. Rootthreadreader eski sayfalarda yalnızagentmessages verdi, exacttoolcall root tarafından bağımsız okunmuş gibi sunulmadı. Sufficiency/explicitreviewedruntimeapproval kararı gerçekclosedscope activate edilmeden gerekiyor. No model/GPU/test unit starts; entegrasyon **kısmi**, goalactive. README authoritative2451695token/28070s scope ile yenilendi.
+
+## 1 Ekim 2026 — Gerçek producer storage formatı ile RED/GREEN düzeltme, 18:58 UTC
+
+Root Scientist `aos_no_admission_store.py` actual `_read_evidence`/`observe`/INSERT kaynaklarını salt okunur inceledi. AOS canonical helper ve synthetic fixture'ın row.proof_sha256=physicalSHA varsayımı **yanlıştı**; gerçek storedrow SHA observer/cleanup_scope/original/physical/dispatch_provenance beş canonical preimage agregatıdır. Önce actual-format fixture değiştirildi, RED1error (`canonical-producer-format-red.log`) yakalandı; yalnız AOS helper agregatSHA karşılaştırması düzeltildi. Scientist stableexistingcontract teyit etti; Scientist tarafında hash/schema değişimi istenmedi. Nested physicalSHA substitution ayrıca deny edilir.
+
+GREEN140PASS/11.138s (`canonical-producer-format-green.log`), son test yerleşimi sonrası focused8PASS/0.204s (`canonical-producer-format-focused.log`). Bunlar realformat CPU regresyonlarıdır, gerçek observation/currentobserver veya jointGPU acceptance değildir. Dört helper/membercount66/schema92791 sabit. Corrected selected66 `bd9cc80cd99881890fc392ccccbb6999b0a28cba83f2ec9e919b5517bf469719`, module raw `065bcca8e2bc8b4c7ec5c6951230cc2e6fb7602361f990fb486b8897caad918a`, report `source66-canonical-format-report.json`. Önceki d0fc bir gerçek uyumsuzluk nedeniyle superseded; configV2 eski source'a göre üretilemez. Scientist V2builder freshsource check'ten failclosed durdu; hiçbir runtimegrant/artifact/canonical mutation üretilmediğini bildirdi. Bu rapor peer-source/process mutation değil, karşı oturumun kendi çıktısıdır.
+
+Scientist provider/CLI actualbytes e037/86dc eşliği root tarafından salt okunur SHA ile doğrulandı. Peer fullgate7/7 EXIT0/2484PASS/158.89s raporu Scientist'e aittir; root Scientist testlerini çalıştırmadı. Concrete reviewed V2runtimeconfig +expectedpostmint SQLschema/identity +trusted current-source/physical/provenance/recovery composition **açık**; original AOS schema27/pending değişmedi, hiçbir service/GPU/model start veya replay yapılmadı. Entegrasyon **kısmi**, fullgoal active. README authoritative2367124token/26640s scope ile yenilendi.
+
+## 1 Ekim 2026 — Dört consumer helper ve son kaynak freeze, 18:52 UTC
+
+Scientist mevcut canonical `aos_no_admission_observations`/9absence surface/schema/normal admission transactional fence sözleşmesinin stabil olduğunu bildirdi. Root yalnız kaynaklarını salt okunur inceledi; import/execute veya Scientist DB/process mutation yok. AOS `ScientistNoAdmissionCanonicalVerifier` independently reviewed DB path/identity/full sorted table+trigger SQL schema SHA/current-sourcefence authority defaultdeny; exact committed fullobservation/target/binding/dispatch +all9absence queries; önceki readonlySQL transaction sonlandırılıp freshsecond snapshot ile latecontradiction kontrolü eklendi. Row/output hashes proof'u doğrulama yerine geçmez; kaynaklatefence yetkisi independently configured gate'den gelir.
+
+`ScientistNoAdmissionObserverVerifier` independently reviewed private config rawSHA/absolutepath +mandatory currenthost authority gate; exact target/cleanupscope/sourceinventory; bounded actual allsourcebytes önce/sonra eşleşme; fixedobserverunit active MainPID/inv/cgroup ve processUID/start/boot metadatası iki kez kontrol. Config/sourcechange, observerdeath/reusedPID/restartedunit deny. Existing bounded source/syscall helpers kullanıldı; generic runningcaller authenticator'ın os.getpid/swapp-aos kapsamı yanlış genişletilmedi. Hiçbir süreç başlatılmadı/durdurulmadı, GPUquery/model inference yok.
+
+CPU139PASS/11.513s (`no-admission-final-helpers-cpu.log`), önceki126 +7canonical/6observer tests; all9surface conflicts, defaultdeny, actualcommittedreadback/Journaling, schema/identity mismatch/unknowntable, uncertainty/noobservation, freshsecondSQLsnapshot lateadmission, postreadrevoke/timeout, actual bounded source bytes, syscallchecker wrongUID/PIDreuse/restartedinvocation, source/config changes, defaultprivatefile!=authority. Synthetic fixtures gerçek currentobserver/canonical/physical/recovery composition değildir. Dörtfinitehelper tamamlandı; Scientist'e tekrar configpin churn olmaması için **tek final source66** iletildi: selected `d0fc1d77ae742d3130d64b22c46a86e74cf1bc5935b9582ac61cc3a148e183e2`, module raw `90c72602fe92c7d427351eef866fcd419c834c1c3aaacf7c6b90b276cd93545f`, report `source66-final-helpers-report.json`. Schema92791/membercount66 değişmedi. Eski c971/7d/0af sourcepinleri tarihsel; fresh Scientist V2 config/producer fullsource review ve authorizedwiring **açık**. Original private AOS schema27/pending değişmedi, recoverycandidate0c57 shape/scope-only. Fullgoal active, entegrasyon **kısmi**. README authoritative2342463token/26320s scope ile yenilendi.
+
+## 1 Ekim 2026 — Independent cleanup-authority verifier ve gerçek artifact incelemesi, 18:40 UTC
+
+`ScientistNoAdmissionRecoveryVerifier` mevcut selected66 modülüne eklendi: independently configured absolute path/canonical+rawSHA, private600/user-owned/regular/nlink1 bounded canonical file; symlink/alias/changed inode/metadata/content deny; mandatory current authority önce/sonra, exact7-key cleanup-only contract, target/full scope excluding onlycontext SHA ve observerunit karşılaştırması. Context proof'tan yetki üretmez; currentcallback defaultdeny. SQL consumer'a bağımsız recovery callback olarak bağlanabilir; gerçek runtime composition hâlâ unconfigured.
+
+CPU126PASS/10.869s (`no-admission-recovery-cpu.log`), önceki116 +10 artifact test: correctfile bile currentauthorization olmadan deny; independent raw/canonical mismatch, forged target/lease/context/observer, noncanonicalbytes/privatepermission, symlink/hardlink/missingfile, postreadrevoke/samebytes inode replacement, extrafields/boolversion/inferencepermission, providerconfiguration mutation, actual Journal pre/post recoverycomposition. Synthetic callbacks başarıları gerçek yetki değildir.
+
+Root actual Scientist reviewcandidate460f bytes/hash/private mode ve originaltarget/current ownSQLite scope'u salt okunur karşılaştırdı; nested `purpose` eksik olduğu için **reddetti**, Scientist'e doğrudan iletti. Scientist mevcut rejectedartifact'ı koruyup `cleanup-authority.review-candidate-v2.private.json` hazırladı; AOS actual V2 canonical/raw `0c57c7aa387fc4f7f8f4d50b8714607ac9d750e382bd2b3b07b9c7f15316cdb4`, exact9nestedkeys+full originalstore/session/runtime/currentlease/gen/purpose eşliğini18:40:28UTC'de bağımsız doğruladı. Kanıt `cleanup-authority-v2-independent-review.json`: runtime_authorized=false/current_observer_verified=false/real_closure_verified=false. Original privateDB readonly schema27/pending değişmedi; migration/replay/newDB bypass yok. Observer actualunit/proc canlılığı AOS closure pre/post validation boyunca korunmalı; producerexpiry/crash observation reissue veya newgen substitution yetkisi vermez.
+
+Yeni selected66 `c971ca017bff61629edf680305412a19ef78bc263f0d069f1e586cc5b576e6ae`; module raw `53683c7561e7ddfc17bc40f320067e812c699c1d3eee383b5f7221600216dc87`; schema/profilemembers aynı. Fresh source report `source66-recovery-report.json`, eski7d ve0af source incelemeleri tarihsel. Scientist producer/code/config hazırlığını sürdürüyor; AOS observer/current source, canonical tombstone, provenance/physical ve recovery composition gerçek kabulü **açık**. Servis/model/GPU koşusu yok. Entegrasyon **kısmi**, fullgoal active. README authoritative2230016token/25584s scope ile yenilendi.
+
+## 1 Ekim 2026 — AOS independent physical absence callback, 18:30 UTC
+
+`ScientistNoAdmissionPhysicalVerifier` existing selected66 modülüne eklendi. Önce/sonra mandatory defaultdeny provenance/current-authority gate; original caller/broker/all independently boundchildren UID/boot; var/reused PID deny; exact inactive/collected unit; cgroup2 mount altında nofollow/bounded absent cgroup kontrolü. Boş cgroup bile absent değildir. Aynı10s deadline observation ve authority tekrarını kapsar, yenilenmez. Fiziksel helper eski allocation-release verifier'ını gevşetmez; süreç durdurma/servis start/GPU query/model inference yoktur.
+
+CPU **116PASS/10.600s**, `data/scientist-opt-in-20261001/no-admission-physical-cpu.log`: 13 yeni physical tests +existing observation/physical release/release proof/resolution/intents/desktop/bootstrapfactory. Synthetic PID reuse, live child, late unit restart, wrong UID/boot, missing mount/permission, empty cgroup/symlink, provenancefailure, post-observation revoke ve timeout deny; realcallback implementation synthetic filesystem içinde actual Journal pre/post insert'e bağlandı. Fixture failure ilk yanlış-boot testinin mevcut fixture bootuyla aynı değeri seçmesiydi; farklı boot düzeltmesiyle geçti. Bunlar gerçek original cleanup veya GPU acceptance değildir.
+
+Yeni source66 selected `7d237c11292e31075d14ba87fa1e80811e5a4856fc0f56d1ab41fa04e0cf7c28`, modül raw `f31323f91004f22cf7225600ed73c77329a9faa8a56b8b44588288cb64d81530`; profile/member count ve schema92791 sabit. Scientist'e source değişimi önceden bildirildi; önceki0af preflight yeni source'u yetkilendirmez. Yeni source report `source66-physical-report.json` current hashleri içerir. Original privateDB schema27/pending değişmedi. Scientist producer/config hazırlığını ACK beklemeden sürdürüyor; proposed cleanupauthority artifact canonical/raw pins ve actual current observer/source/canonical/physical/recovery composition gözden geçirilmeyi bekler. Entegrasyon **kısmi**, full goal active. README raw2178333token/24968s counter scope ile yenilendi.
+
+## 1 Ekim 2026 — Doğrudan iletişim ve bağımsız iş sahipliği, 18:24:30 UTC
+
+Scientist oturumu ile gerçek thread messaging yeniden doğrulandı; mesaj teslimi yetki/onay değildir. AOS consumer/own SQLite scope; Scientist canonical producer/tombstone ve tek GPU test yürütücüsü sorumluluğu açıkça iletildi. İki taraf kendi CPU geliştirmesini yeni ACK beklemeden ilerletir. Scientist source66 preflight kabulünü bildirdi; root Scientist HEAD'ini salt okunur `7eb4025a319b461cda5f224c40a43f783e0b9848` olarak gözledi. Cleanup-only one-shot observer unit/config adları yalnız öneridir; kurulu/deployed kabul edilmedi. Current observer/source/config/canonical/physical/recovery callback composition hâlâ açık. Original privateDB schema27/pending değişmedi; aktif kullanıcı servisi/GPU/model koşusu başlatılmadı veya durdurulmadı. Eski source63 devir başlığı tarihsel olarak ayrıldı; güncel source66 ve sorumluluklar `SCIENTIST_HANDOFF.md` başına taşındı. README authoritative2137522token/24619s yenilendi; hedef/entegrasyon tamamlandı sayılmaz.
+
+## 1 Ekim 2026 — Agreed wire, AOS observational consumer CPU candidate, 18:12:58 UTC
+
+Scientist field/schema owner, AOS consumer owner olarak sorumluluk netleştirildi; repeated field onayıyla karşılıklı bekleme kaldırıldı. Scientist frozen fullschema `92791f45ef6a319a27a5aade363832b737978080826537b8a1ffa7eef700cd63`, raw `93e79d8d93a22cfa72d78800aa2991b2ab8a77de401ef6707ead51cf4c3d3001`. Root local Draft202012 metaschema ve actual AOS admission_record2.0 embedded legacy SHA `f2a3d671f8f56aa70833e59a51783254fd962dd4721d6a315199c8f219ddbe06` eşliğini bağımsız doğruladı; Scientist kodu import/execute edilmedi, yalnız gözden geçirilmiş schema mirrorlandı. Eksik current lease ve hardcoded0→1 generation düzeltmeleri finalschema'ya girdi. Gerçek current session lease_changed TRUE; eski binding immutable. Observer60s integer BOOTTIME freshness originalexpired inference deadline'ını uzatmaz, timeout sonrası cleanup'ı da yasaklamaz.
+
+AOS `ScientistNoAdmissionVerifier.verify`, `ScientistNoAdmissionJournal.append`, `sqlite_store_identity` yazıldı; observer/canonical/physical/recovery dört callback defaultdeny, current ownSQLite inode/path/UID/private mode+original intent/history+stoppedPAUSED currentlease/generation+strict schema/sourcecapability/hash/preimage links+freshness denetlenir. SQL authorizer callback'in ownAOS transaction'ını commit/write etmesini engeller. BEGINIMMEDIATE pre/post authority/physical verification, originalrow equality, idempotent exact-target insert ve bağımsız SQL readback; source helper/profile66 eklendi. Appended migration0028 closure immutable UPDATE/DELETE/REPLACE, current originaltarget/pausedlease ve pendingcontrol guard, originalintent update fence içerir; globalunresolved only matching originalrequest/capture closure kabul eder. Eski generation inference yetkisi kazanmaz. Dataset audit/version28 schema ve validation birlikte güncellendi.
+
+CPU71PASS/7.207s (`no-admission-consumer-cpu.log`): 11 observational tests +dataset audit/resolution/intents/desktop/factory. Sahte tutarlı observer hashleri independent source callback'inden reddedilir; wronglease/generation/version/budget/absence, lateexpiry, postinsertcommit, takeover, interrupt, conflictingretry, SQLreplace/update/delete, originalimmutability ve oldgeneration deny kanıtlandı. Synthetic callback/socket/store kanıtları gerçek physical no-admission kabulü değildir. Paket ilk inventory farkından reddedildi; source MANIFEST yenilendikten sonra5294PASS kaydedildi, nihai docbookkeeping ardından tekrar yenilenir.
+
+Scientist current CPU commit `eca258c6f27608fe41f1642dd76a15786d697caf`, root AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`; peer2447PASS/7SKIP/121DESELECT/7qualitytools başarı kendi raporudur, root Scientist testlerini çalıştırmadı. Yeni AOS66 selected `0af19f00929de75ca8cd4b1cedfeaa9c54156a81f720028a766765011b208f1f`; önceki94/63 runtime grant yeni consumer'ı kapsamaz. Actual original3cc privateDB schema27/pending/capture **değiştirilmedi**. Gerçek current observer/source/config ve canonical tombstone/physical/recovery provider composition, original scoped closure ve joint GPU/Lab kabulü **açık**. Native/GPU/replay/newDB bypass yok. Entegrasyon **kısmi**, goal active; README authoritative2094487token/23859s yenilendi, bütün proje toplamı değil.
+
+## 1 Ekim 2026 — Never-received recovery'nin iki bağımsız kapısı, 17:30:17 UTC
+
+Önceki turn runtime phase/infer source değişimi, RED→GREEN85CPU ve actual durablepending readback üretti; gerçek ilerlemeydi. Yeni AOS readonly DB gözlemi original3cc pending, originalruntime aynı, session statusstopped/ownerPAUSED/generation1; immutable intent bindingAGENT/gen0. Existing EvidenceJournal current-running fence buna izin vermez; eski caller/owner/generation canlandırılmadı. Scientist missing canonical admission row için existing retained proof/provider unavailable bildirdi; ayrıca normal terminal/budget verifiers admitted budget provenance ister. Unknown request için sahte admittedtime/deadline veya canonicalrow/grant/reservation üretilemez.
+
+`docs/SCIENTIST_NO_ADMISSION_OBSERVATION.md` ayrı versioned **PROPOSED/notagreed/notimplemented** observational closure şartlarını kaydeder: exact original request/capture/source/profile/peer provenance, consistent canonical absence, bağımsız physical oldcaller/broker/child/cgroup yokluğu ve late-dispatch fence, current authenticated observer/feature/source pins; ayrı explicit cleanup-only current recovery authority. Original bytes immutable, append-only exact-target/idempotent/rollback; unknownbudget doldurma, globalidle shortcut, newDB bypass, GPU/inference grant yok. Existing running-task binding veya terminal verifier gevşetilmedi. Scientist ile doğrudan precise surface/closed shape/version teyidi istendi; mock/proposal gerçek çözüm değildir.
+
+Runtime selected63 `94f896034302bd9bb86f25ffaf21a792309b242b4c250cb8431ecefae09c449f` değişmedi. CPU code85PASS önceki gerçek logudur; bu turn yeni runtime/GPU testi yapılmadı. Goal active ve kapsamı küçültülmedi; entegrasyon **kısmi**, nextnative original trusted closure olmadan açılmayacak. README authoritative1818482token/21345s snapshot güncellendi; whole-project/model-specific toplam değildir. Peer active turn live API read_thread ile gözlendi; Scientist dosya/süreçlerine müdahale edilmedi.
+
+## 1 Ekim 2026 — Bootstrap geçti, infer frame staging düzeltildi, 17:20:03 UTC
+
+Root actual107 source/12config ve altı private input hash'ini, source pair AOS `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444` / Scientist `e48cf5ec1cca0990cd03de3816457798f35c7690` ve yalnız bootstrap/receipt producer runtime deltasını doğruladı. Native requirements unchanged. Yeni API18601 PID24266/start338552/invocation844476174f3b45689ea66c72a0b873c3/current boot için GET öncesi/sonrası generation eşleşti; typed startup token hash ve authenticated capability exactdict eşleşti, original3600s lifetime kalan3103.75s. DSN üç dosya okunmadı. Kanıt `phase-fresh-api-independent-review.json`; bu API/source review'dur, model/GPU kabulü değildir. Erken paylaşılan preparation path yokluğu gerçek gözlemle reddedildi; karşı taraf kalıcı hazırlık tamamlandıktan sonra actualrecord raw SHA `36a4af9376b70e5a144d31fff3dc59f4ea96f38bdac7dda0559365f33a6409cd` doğrulandı.
+
+Son actual Hello job56ee056894f1474e8f5d37d9444b2768/run-a5c2f03adc904c9f9e57181f8ba09cb4 FAILED; root read-only DB system1error23256.463499ms doğruladı. Bootstrap phase geçti: yeni durable intent1/admission_history1 oluştu. Original request3ccf93764f4c4f389864cc2edbdbcbfe **pending** kaldı. Scientist exactcaller26027/533f37e7 için `ScientistUncertainTurn` caused-by `BrokenPipeError`/infer sendall bildirdi: infer bağlantısı audit/full verification'dan önce açıldığı için aynı server5s frame penceresi tüketildi. Model/GPU allocation0 karşı taraf raporudur; pending intent ve capture silinmedi, replay/adopt yapılmadı. Owned PID/cgroup/container cleanup ayrı CPU lifecycle kanıtıdır, kendi başına unknown intent resolution değildir.
+
+AOS `ScientistTurnClient` probe(actual SO_PEERCRED)→close→authenticate/durable intent→fresh dispatch peer equality/socket inode/typed admission/current/cancel/original deadline→single send sıralamasını uygular. Yeni dispatch authentication SONRASI typed admission tekrar doğrulanır; özgün toplam admission callback sayısı3 korunur. Scientist actual broker EOF kontrolünün admission/executor öncesinde ret verdiği, service handler'ın socket/capacity bıraktığı salt okunur kaynaklardan doğrulandı; peer kodu çalıştırılmadı. RED CPU socket .1s frame/.3s durable callback aynı uncertain failure'ı üretti; GREEN85CPU/9.091s (transport, decision, async bootstrap, desktop, factory), fresh generation mismatch/cancel/typed-task revoke ve original intent deadline expiry sıfır frame ile reddedilir. Kanıtlar `infer-frame-staging-red.log`, `infer-frame-staging-green.log`. Synthetic socket kanıtı gerçek model/GPU kabulü değildir.
+
+Yeni transport raw SHA `9523892b09e9b7ff528ce0d1cd5a145741eb215b0f31cc42109b2e9058aff784`; selected63 `94f896034302bd9bb86f25ffaf21a792309b242b4c250cb8431ecefae09c449f`. Önceki984 receipt yeni runtime source'u kapsamaz; preliminary6cd source yalnız tarihsel intermediate'tir. Scientist sole authority'den original pending request için trusted reconciliation/physical no-admission kanıtı istendi; fresh DB ile bypass yapılmaz. Entegrasyon **kısmi**: gerçek infer/model ve GPU devri/Lab/independent result zinciri hâlâ açık. Root hiçbir GPU işi, servis restart, peer kaynak/süreç değişimi yapmadı. README authoritative ham snapshot1786608token/20928s 17:23:08UTC'de güncellendi; proje toplamı değildir.
+
+## 1 Ekim 2026 — Teyitli post-response phase sözleşmesi düzeltildi, 17:06:16 UTC
+
+Scientist açıkça teyit etti: control exchange10s/server frame5s değişmez; timely decode sonrası bağımsız final capture verification mevcut ORIGINAL outer infer absolute deadline altında, deadline rebase yok. Outer verilmezse mevcut local limit bütün hazırlıkta kalır. AOS `prepare_async` phase sınırını buna göre düzeltir; initial hazırlık süresi client timeout'undan düşülür. Capability60s freshness/current-source/generation/cancel ve transaction/capture guard'ları kaldırılmadı; original infer timer aynı. Sözleşme ayrıntısı `docs/SCIENTIST_BOOTSTRAP.md`. Bu timeout değerini kör artırma veya wire version değişimi değildir.
+
+RED: original fresh control response ve local limitten yavaş bağımsız verification aynı guard hatasını üretti (`post-response-phase-red.log`). GREEN: 70 CPU/synthetic checks, 7.916s (`post-response-phase-green.log`); original outer deadline ile yavaş verification başarılı, outer expiry/capability expiry/cancel/source change/generation change ve outer yokken local expiry sıfır infer dispatch/history ile reddedildi. Gerçek model/GPU başarı iddiası yok. Bootstrap raw SHA `2f0e2d6ce6c3a5da718a791f8ce5116e07477d3e6e856c4437f464e3d7c4d534`; selected63 `98416579bd1dcb9de57da760493cba295ff76906b3cf3b44397e09e4abfc0362`; önceki089 source receipt yeni admission için geçerli değildir.
+
+Root read-only timing: actual107source+12config+policy iki guarded sweep 240reads/3,741,962byte, beş örnekte median0.008232s. Scope runtime/artifact/auth/şema değerlendirmesini içermez; Scientist'in yeni receipt source değişimi historical pin mismatch olarak kayıtlı, admission değil (`source-sweep-cpu-measurement.json`). Scientist kendi197dependency metadata-once optimizasyonunu ayrı geliştiriyor; root peer dosyasını çalıştırmadı/değiştirmedi. Yeni fresh own API18601 hazırlığını karşı taraf bildirdi; root bağımsız canlı API doğrulamadı. Yalnız Scientist gerçek koşu yürütücüsü; runtime source/config closure repin ve yeni current caller/reservation şart. Entegrasyon **kısmi**, ortak gerçek GPU görev-deney-devir zinciri hâlâ kabul edilmedi. README ham authoritative snapshot1722660token/19931s, bütün proje toplamı değil.
+
+## 1 Ekim 2026 — Gerçek S1 fault readback ve oturumlar arası iş paylaşımı, 16:59:05 UTC
+
+Scientist yeni kaynak08900464 ve bütün 107 source/config closure pinlerini doğruladı; tek owned native caller13525/invocation217505287f1c447cafeb478b6ac3fab0 ile bounded Hello tanısı yürüttü. Task başarısızdı; actual stderr `ScientistAdmissionError`, son görünen frame `_verified_capture:255`. Root shared trace raw SHA `9e9b177e8dacdf66ed562b3ffeaee7376d99fcc1abe985cc62a1f7f66c4b4f44` ve kaynak satırını bağımsız eşleştirdi: line255 **guard()**, binding verifier249 ve final current253 sonrasında. Bu binding mismatch değildir; original deadline/cancellation guard reddidir. Trace sekiz frame ile sınırlı olduğundan daha derindeki guard koşulu bağımsız ayrıştırılmadı. Capability response gelmiş olması model inference başarısı veya GPU admission değildir.
+
+Scientist own cleanup raw SHA `a37c195495c5aaa0df838f46f07e3763f87c5748336503c82fdf81d40b016276` model GPU allocation0/Lab execute0 bildirdi. Root original caller13525/broker13513 PID ve cgroup yokluğunu bağımsız okudu; GPU release'i bağımsız doğrulanmış saymadı. Kanıt `data/scientist-opt-in-20261001/s1-failure-independent-readback.json`. Root AOS callback scheduling/tekrarlı doğrulama maliyetini, Scientist kendi receipt/current-runtime tarafı CPU maliyetini incelemeye devam eder; iki oturum doğrudan haberleşir. Yeni native/GPU koşusu, timeout artışı veya source/authority cache bypass yapılmadı. Runtime selected source08900464 değişmedi. Entegrasyon **kısmi**, ortak gerçek GPU görev-deney-devir zinciri açık. README aynı-goal ham snapshot 1684877 token/19492 saniye; bütün proje toplamı değildir.
+
+## 1 Ekim 2026 — S1 tam çağrı sınırında güvenilir tanı, 16:52:28 UTC
+
+Scientist'in son gerçek diagnostic görevi başarısızdı: system1 error16.337s; SDK logging satırı actual native journal'da yoktu. Bu yokluk hatanın SDK dışında olduğunun kanıtı değildir. AOS `ScientistDecisionEngine.decide` bütün pre/infer/post doğrulama yolunu doğrudan stderr'e bounded exception type/function/line ile kaydeder; mesaj/path/body/locals yazılmaz. Özgün hata yeniden fırlatılır; tanı I/O hatası da özgün hatayı maskelemez. Yetki, original deadline, fencing ve tek-gönderim davranışı değişmedi. SDK dosyası önceki `9a1243bc1274162680ad1210615999096e565cce921def6871d7e8ebbe950b32` pininde kaldı.
+
+CPU decision/evidence 32 PASS/3.689s: `data/scientist-opt-in-20261001/decision-boundary-diagnostic-cpu.log`. Yeni testler pre-authority ve client failure için original exception kimliğini, secret-free JSON'u ve sıfır/tek dispatch'i doğrular. Bunlar synthetic CPU kanıtıdır, gerçek model/GPU kabulü değildir. Yeni source63 `089004647f12818673d24d0ce5f26d21c5bff8cc72afe907d9090ded331c0c56`; decision raw SHA `36e979800a96302f335fb6e1da89bc13f64ed0c4577d58dda14907e4711811c3`. AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, observed Scientist HEAD `34f57d6dc58ccbdbf5b21a1224c74171e1209473`. Scientist yeni runtime closure/policy pinleri ve fresh caller ile tek yürütücüdür; root hiçbir GPU işi veya başka oturum süreci başlatmadı/değiştirmedi. Entegrasyon **kısmi**; gerçek ortak GPU devir ve deney zinciri hâlâ kabul edilmedi. README authoritative aynı-goal snapshot'ı 1646391 token/19103 saniye olarak yenilendi, bütün proje toplamı değildir.
+
+## 1 Ekim 2026 — Onaylı runtime aktarımı bekleniyor, 09:30:53 UTC
+
+AOS infer deadline bağlantısı, canonical unit/slice ve statik model dosya haritası hazırlığı tamamlandı; ortak runtime kabulü değil. Scientist 1fbd76f47dc4f30039fa40998ae445df84995f0f üzerinde consumer kodu yerel taslak olarak gözlendi. Üç ardışık turda independently reviewed enabled launch/config/artifact/current generation/task aktarımı bulunmadı; GPU koşusunun tek yürütücüsü Scientist olduğundan güvenli ikame yok. Hedef blocked kaydedildi, tamamlanmadı. Son README sayaç güncellemesi yalnız metadata değişikliğidir; selected source63 pini aynı kalır, tracked diff ve manifest pinleri bu son metadata için yenilenir. Önceki teslim JSON pinleri tarihsel gözlemdir. Kullanıcı runtime/model işleri durdurulmadı.
+
 # Mühendislik durumu
 
-Son güncelleme: **30 Eylül 2026 (Europe/Istanbul)**, canlı CachyOS ortamı.
+Son güncelleme: **1 Ekim 2026 (Europe/Istanbul)**, canlı CachyOS ortamı.
+
+## Completion-plan alignment — 1 October
+
+Goal state at2026-10-01T07:30:43Z: **blocked**, not complete. Three consecutive
+no-progress goal turns re-observed Scientist HEAD62259ff and its source60/legacy
+caller path, without agreed source63/current-caller/trusted runtime admission.
+Only AOS may be changed here and only Scientist may run coordinated GPU
+acceptance; native/learning acceptance cannot safely bypass that external gate.
+No replacement scheduler, unconfirmed endpoint or extra GPU run was created.
+Local user AOS remained running and its UI returned200. Counterpart actions
+are in `docs/SCIENTIST_HANDOFF.md`; this is development-goal status, not a
+command to stop the user's runtime or a completed product claim.
+
+### Broad candidate rejection and targeted repair
+
+Final rerun on the unchanged runtime source: **2741PASS/299SKIP/0FAIL/0ERROR**,
+3040 tests/502.626s, exit0. The existing capability runner correctly labels
+this pool `partial`, because opt-in native/GPU/UI acceptance cases were skipped.
+Evidence: `data/release-candidate-core-repaired-20261001.log` and
+`data/capability-check-14_exqgg/report.json`.
+Core-tested full source manifest:
+`11ee9b76db397f85f8e58667da6d1e39c9b662d8d54f7a6e26e1df2331c5b151`.
+After publishing the outcome, seven snapshot/language checks and three isolated
+GPU-disabled UI checks PASS/1.321s. Installed TypeScript/build and the actual
+local8765 EN/TR browser readback passed; the highlighted checkpoint shows2741
+passed/299skipped and source63/caller confirmation as the next action. Only
+local login was POSTed; no task/model run or backend restart occurred. Evidence:
+`data/development-checkpoint-final-contracts-20261001.log`,
+`data/development-checkpoint-final-ui-20261001.log`,
+`data/development-checkpoint-final-build-20261001.log`, and private
+`data/development-live-final-tr-20261001.png`.
+The 694-file runtime source map (src/services/scripts/database/schemas/computer/
+training, excluding UI/docs) hashes to
+`0078353cdfb834d24a35921a1c57a1f3f4aa730596a946e4f86f02d1ea60ce1f`.
+Subsequent checkpoint UI/docs updates do not retroactively change this exact
+full-manifest evidence; their separate contract/UI checks must accompany it.
+
+The repaired source-only archive matches that tested manifest, SHA256
+`c3c0d23a985d3fd8d2e329f7ab5ec41fbfb5b12d09f2cd35b2f84b862f4`
+(`data/aos-source-candidate-20261001-repaired.tar`). Its1501 archive entries
+include the manifest and1500 allowlisted source files. Extracted without links
+into an empty private directory, it passed5286 package checks using the
+existing validation interpreter: `data/release-candidate-source-roundtrip-20261001.log`.
+No clean-machine model/runtime installation, comprehensive secret audit or
+whole-product completion is claimed.
+
+On the user's explicit UI-visibility request, the current Development build
+was delivered without restarting the backend or deleting existing UI assets.
+Its first highlighted block shows current priority, checkpoint changes, next
+action and incomplete acceptance items, explicitly labelled as dated source
+status rather than live job/model activity. Installed TypeScript, seven
+language/snapshot contract checks and three isolated UI checks PASS. A
+GPU-disabled browser then verified the actual8765 instance in EN/TR; its only
+POST was local login, no task/model/training start. Private evidence:
+`data/development-live-checkpoint-20261001.json` and EN/TR screenshots under
+`data/`; source remains public, screenshots are not packaged. Actual Mac/SSH
+acceptance is still not observed. Existing user session identity is unchanged.
+
+The shared audit version definition changed the selected source63 pin to
+`b56c54a1bb63653f0bc69ad55caf25f8cce353ece97e8d7ceab80a640e03ca46`.
+Old source pins reject the new bytes; no runtime authority or joint agreement
+is inferred from the new source observation.
+
+The first byte-stable source candidate failed the existing CPU-only core pool:
+**2711PASS/299SKIP/10FAIL/20ERROR**,3040 tests/489.049s.
+Evidence: `data/release-candidate-core-20261001.log` and
+`data/capability-check-2sa0zw4h/report.json`. Opt-in GPU/browser/user-session
+effects were not enabled. The earlier source archive is retained as rejected
+candidate evidence, not a verified first release.
+
+Actual application defects: backup's typed canonical manifest and the private
+receipt writer still supported only DB versions through20 while the canonical
+store is27. Audit/backup/reviewer now share one explicitly pinned supported
+version definition; exact migration names/hashes/schema and integrity checks,
+private locks, no-auto-migration and no resume/execution authority remain.
+No migration was rewritten or newly appended for this compatibility repair.
+The legacy backup example remains valid; future unknown versions remain denied.
+
+Regression fixture fixes retain real safety assertions: constructor-bypassing
+scheduler doubles explicitly initialize the new planner field; migration-count
+expectations use the canonical inventory; the missing-history fixture now
+proves it is actually canonical20, not a hybrid27 database. Language coverage
+reads the same translation modules as runtime and the new acceptance heading
+no longer conflicts with an existing action-label translation.
+
+After repair: backup/reviewer/language28PASS/3.175s; broader affected modules
+240 tests/54.331s,183PASS/57SKIP; isolated GPU-disabled Development UI3PASS/1.303s;
+installed TypeScript and diff checks PASS. Logs:
+`data/release-backup-reviewer-regression-20261001.log`,
+`data/release-candidate-repaired-focused-20261001.log`, and
+`data/release-repaired-development-ui-20261001.log`.
+The full repaired-source core rerun is recorded above. The failed first-candidate
+record remains historical; neither CPU run proves native/Scientist acceptance.
+
+Active priorities now come from `docs/release_acceptance.json`, explained in
+`docs/RELEASE_ACCEPTANCE.md`. Six ordered stages distinguish source implementation,
+CPU/historical native evidence, delivery and remaining blockers; no overall
+product percentage is computed. Historical checklist entries are collapsed and
+SWAPP W1–W6 is separately deferred, not accepted. Canonical schema rejects extra
+authority fields, completion claims, unsafe evidence paths, duplicate/reordered
+stages and unsupported statuses. Package validation checks the same snapshot.
+
+Focused evidence: six schema/negative tests PASS
+(`data/release-acceptance-schema-20261001.log`), three isolated GPU-disabled
+Chromium tests PASS/1.265s (`data/release-acceptance-ui-20261001.log`), and installed
+TypeScript check PASS. UI checks cover EN/TR, six stage cards, absence of old
+percentage selectors,390px layout and no task/model-start effects. Broader
+Docker-backed Development tests were adapted but not executed in this slice.
+These results do not prove joint Scientist/native-model/learning acceptance.
+
+The focused final source regression (release snapshot, named-project manager,
+Scientist bootstrap factory and source observation) passed78 tests/2.342s:
+`data/release-candidate-focused-20261001.log`. This is a bounded regression set,
+not the whole application suite or a full review of the dirty working tree.
+
+On explicit user request, public exact-session `recover-reboot` verified the
+previous boot's stopped owned container and retired that local session; public
+`aos-v1 start` created plain real-mode session
+`app-d5c3ca811c844dd3adb129575fcce7ac` with live supervisor/backend. Installed
+TypeScript/Vite built the UI; `/ui/` returned200 and `/api/session` advertised
+`local_auto_login=true`. No task or training was started. `Host:127.0.0.1:18765`
+returned403, while exact `Host:127.0.0.1:8765` returned200; the supported Mac
+tunnel uses8765 at both ends. Actual Mac-side tunnel/browser acceptance is not
+observed. Subsequent source changes do not automatically replace that UI build.
+
+Read-only counterpart observation: AOS HEAD
+`ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist HEAD
+`f23e1f6fc723c6d3bc5880eaea34b429dece5d62`. Scientist's preparation source still
+accepts profiles only through `configured_source_candidate_v1`, not AOS
+`lab_readback_history_candidate_v1`; configured factory still calls its
+`_verify_caller_service`. Same-version/source63/current-caller agreement and
+trusted enabled composition remain required. No Scientist files/processes were
+changed, and no independent GPU acceptance was run.
+
+## Two public named CPU parameter applications — 1 October
+
+Existing pinned parameter-project activation now accepts an explicit named
+manager project/port without changing the ordinary instance. Complete source
+directory/manifest/fixture-engine flags, exclusive activation, exact source
+listener/workspace locks and private manager DB/UI/token are retained. Backend
+uses the project's original web-profile root and omits the incompatible generic
+navigation-MCP flag; startup guards were not relaxed. Persisted mode `real` is
+historical wire metadata: actual engines/vision are fixtures, no native prewarm.
+
+Actual public CLI plus GPU-disabled UI acceptance **1 PASS/18.231s**:
+`data/named-parameter-public-cpu-browser-20261001.log`. Two fresh named sessions
+for `synthetic-crm-note` and `synthetic-inventory-note` used public plan/provision,
+prepare-ui/start/token, real browser login/Development/Tasks and separate task
+start with six individual approvals each. Each actual container Chromium task
+succeeded; independent recipe audit and whole-record TLS readback accepted its
+receipt. Exact field values, one POST, typed receipt SHA and false native/GPU
+flags were checked. Both owned services/container/token/listeners cleaned up;
+default manager/shared assets remained unchanged. This is real CPU browser/tool
+execution with deterministic fixture decisions, not native model, held-out
+two-application quality, learned skill, training or joint GPU acceptance.
+
+Evidence roots:
+`data/local-app-project-cpu-parameter-014bcf25430e42f8b5676a7fd1da6c5b` (CRM),
+`data/local-app-project-cpu-parameter-658b41c48f30406ab345b1202b89ca02` (inventory).
+Private source requests/manifests stay outside checkout under the corresponding
+`/tmp/aos-public-parameter-*` paths printed in the log. No real company data used.
+Initial task/receipt execution succeeded but the test's plain port-rebind check
+failed on TCP TIME_WAIT. Final check uses reuse-address then listen after verified
+owned shutdown; no live service is stopped or existing listener adopted.
+
+Root53 focused tests:51 PASS/2 opt-in SKIP in1.287s
+(`data/named-parameter-regression-20261001.log`). Separate worker104 tests:
+103 PASS/1 SKIP in3.596s. Independent review found no remaining source blocker.
+Live8765, Scientist runtime/GPU and user model/service state were untouched.
+
+## Explicit skill-release record restoration in Tasks — 1 October
+
+The existing anchored missing-release/selection recovery now has strict
+authenticated API requests and EN/TR Tasks preview/checkbox/restore controls.
+It restores only previously authorized exact bytes in the original retained
+catalog; database anchors, review/release/selection and runtime authority do not
+change. Fresh idle AGENT lease/generation, source/review locks, original scope,
+canonical proposal/nested-record hashes and false authority claims are checked.
+Lost-directory, altered/unanchored record and revoked-source recovery deny.
+
+Final29 CPU/synthetic API/service/CLI tests passed in35.327s
+(`data/parameter-release-recovery-regression-final-20261001.log`). A separate
+worker21 API/service tests passed in17.804s, not an additional unique total.
+GPU-disabled isolated Chromium **1 PASS/7.682s**
+(`data/parameter-release-recovery-ui-final-20261001.log`) covers exact release and
+selection byte restoration through routed real synthetic service responses,
+malformed canonical/hash/authority/nested digest denial, stale-control zero POST,
+lost recovery ACK with no automatic resend and independent inventory resolution,
+revocation denial, EN/TR and390px rendering with no page exceptions. HTTP/browser
+route fixtures are synthetic; this is not native model/learning/GPU acceptance.
+Screenshot `/tmp/aos-release-recovery-parameter-skill-release-ui-pj9zzofs.png`
+shows the scoped recovery controls and explicit denial after revocation.
+TypeScript passed; independent read-only review found no blocking defect.
+No live8765 deploy/restart, Scientist runtime or third-party-site operation.
+
+Scientist public HEAD advanced to `f23e1f6fc723c6d3bc5880eaea34b429dece5d62`;
+read-only source review confirms Scorer deployment DSN routing work. Scientist's
+own reported CPU subprocess evidence is not AOS-executed or joint GPU acceptance.
+Source63/current-caller compatibility and enabled joint composition remain open.
+
+## Named Mac connection with live CPU identity readback — 1 October
+
+`aos-connect-macos.sh` accepts paired `AOS_PROJECT`/`AOS_PROJECT_PORT`, requires
+installed python3 only for named mode and forwards the exact same loopback port.
+Named mode only reads the explicitly running project's scoped status; it never
+grants implicit fixture/owned-learning startup. Bounded strict JSON checks compare
+running original process metadata with public project/port/app-session identity
+before browser opening. Tokens stay manual and are never fetched or copied.
+Default start/automatic-login behavior remains unchanged. Public `/api/session`
+exposes only validated named identity; tasks/state/jobs still require a cookie.
+
+Final85 CPU/mock tests passed in17.473s
+(`data/project-mac-connect-regression-final-20261001.log`); worker10 mocked shell
+tests and `sh -n` passed separately. Actual CPU status/HTTP plus GPU-disabled
+browser login and three fixture sessions passed **1 test/12.587s**
+(`data/project-mac-connector-actual-cpu-final-20261001.log`). Connector composition
+used synthetic SSH/Darwin/browser-open commands with actual owned status and HTTP;
+this is **not real Mac hardware or SSH tunnel acceptance**. Full cleanup/default
+manager/shared UI invariants passed. Screenshot remains private under `/tmp`.
+
+Initial new-metadata readiness failed because the supervisor compared against the
+old exact session shape. Exact scoped readiness now matches the backend, with
+default-shape and foreign-scope regressions. The failed owned CPU session's two
+processes exited; explicit `recover-clean-exit` validated existing physical proof
+and recorded stopped. It was not blindly restarted or force-cleaned. Independent
+review also caught named plain-start authorization mismatch; connector now uses
+status rather than introducing startup privileges. No unrelated process,
+Scientist runtime, GPU, live8765 restart/deploy or real third-party site touched.
+
+## Public project UI preparation and actual browser login — 1 October
+
+Named projects now expose `prepare-ui`: installed offline Node/Vite builds into
+private staging and publishes without replacing existing assets, after bounded
+source/state/root checks. This explicit host action does not start a runtime,
+install packages, change shared UI or grant execution/GPU authority.
+
+Actual public CLI preparation plus three CPU fixture start/restart/stop sessions
+passed **1 test/11.742s** (`data/project-prepare-ui-actual-cpu-20261001.log`).
+A separate actual browser-enabled repetition passed **1 test/12.562s**
+(`data/project-prepare-ui-browser-final-20261001.log`): real private token login,
+default Development screen, source/project/report cards, English/Turkish switch,
+390px viewport without document overflow and no page exceptions. Installed
+Python Playwright used GPU-disabled Chromium; Browser plugin was unavailable.
+Screenshot `/tmp/aos-project-browser-cpu-lifecycle-588c9f8eaa96453c8eaaf767248c9060.png`
+shows the mobile Development screen. Owned fixture processes/container/token/
+listener cleaned up; shared assets/default manager remained unchanged. An initial
+browser attempt failed because the test required an explicit HTML submit type;
+the corrected role-based locator passed, with no application workaround.
+
+These are actual CPU services and browser login, not native-model, learning,
+Scientist, GPU or private SWAPP acceptance. Live port8765 was not restarted or
+deployed. Scientist source review confirms receipt and aggregate-slice work;
+source63/caller compatibility and actual enabled runtime composition remain open.
+
+Focused root regression:45 tests,44 PASS/1 opt-in SKIP in1.135s
+(`data/project-prepare-ui-regression-final-20261001.log`), including mocked build
+failure, source/state drift and existing-target rejection. These tests are not
+additional real GPU or learning acceptance.
+Separate worker run:90 tests in4.731s,89 PASS/1 SKIP; source stable. These are
+mocked-builder/owned-file lifecycle regressions, not actual model execution.
+
+## Actual named restart/release and fenced recovery — 1 October
+
+Named stop/restart/release/recover now require the exact manager app-session,
+checked inside callables and before/after effects. Restart preserves the full
+original predecessor through verified shutdown into locked successor admission;
+lock contention cannot adopt another session. Interrupted named state requires
+separate explicit recovery, never automatic orphan cleanup. Existing physical
+reboot/clean-exit workspace/process/container/journal gates remain intact. Even
+already-stopped confirmation rejects a replacement or wrong-phase result.
+
+Trusted Tasks metadata carries a separate manager-session ID. EN/TR Development
+release guidance preserves project/port/expected-session, or shows no command
+when the identity is unavailable. Three isolated GPU-disabled browser tests
+passed in1.542s (`data/isolated-project-restart-ui-20261001.log`); TypeScript passed.
+
+Final actual public CPU CLI lifecycle **1 PASS/11.734s**
+(`data/isolated-project-restart-actual-cpu-final-20261001.log`): stale restart was
+denied while original supervisor stayed alive; current quiesce/release, fenced
+restart, original cleanup and fresh successors were verified. Three actual
+fixture manager/backend/container sessions cleaned up, including repeated exact
+stop confirmation. Default manager/shared assets stayed unchanged; no model,
+GPU, Scientist, live8765 restart/deploy or actual reboot/crash occurred.
+Earlier pre-edge-fix acceptance1 PASS/12.577s is separate historical evidence.
+
+Final root198 CPU/mock regressions in19.557s:197 PASS/1 opt-in SKIP
+(`data/isolated-project-restart-root-final-20261001.log`), including no-op stop
+replacement races. Worker82 focused tests:81 PASS/1 SKIP in2.920s. These counts
+are separate runs, not summed unique tests, model evaluations or GPU acceptance.
+
+
+## Actual public named-project CPU lifecycle — 1 October
+
+The stale shared UI prerequisite was observed, not bypassed or rebuilt. Named
+manager doctor/preflight/backend now require their exact project-private staged
+UI; missing/stale/symlinked assets deny without shared fallback. Default paths,
+assets and ordinary session remain untouched.
+
+Actual public `scripts/aos-v1` acceptance **1 PASS/7.374s**:
+`/tmp/aos-public-project-lifecycle-20261001.log`. A unique private project staged
+current Vite assets without install/network/shared writes, then ran two actual
+fixture manager/backend/container sessions. Login/token, scoped Tasks, idempotent
+start, exact-session stop and fresh second identities passed. Both process pairs,
+containers and token files were removed and listener released. Docker used
+network-none/runc/no devices or GPU requests, with only the owned workspace mount.
+Shared UI and default manager snapshots stayed unchanged. This is real CPU
+lifecycle execution, not actual Decider/Bonsai/Scientist/GPU or learning success.
+
+Root independently read the public scoped status after the fixture acceptance:
+phase `stopped`, two retained owned sessions, correct project/port metadata
+(`data/isolated-project-public-status-20261001.json`). Package validation passed
+5265 checks with1494 source manifest members; no model/runtime/training test is
+implied by package validation itself.
+
+Root177 regression tests in19.433s:176 PASS/1 opt-in SKIP
+(`data/isolated-project-staging-root-20261001.log`). Includes current scoped
+preflight, private UI readback/no fallback and cookies; mocked/CPU regression is
+separate from the actual lifecycle above. Live8765 was not deployed or restarted.
+
+
+## Named public learning-project lifecycle — 1 October
+
+Implemented paired `--project`/`--project-port` public manager scope using an
+immutable typed context-local instance. Default BASE/ORIGIN/URL remain unchanged;
+named state/URL, child arguments/listener and private roots are pinned. Current
+state mismatch denies before credentials, HTTP, signals or launch. Existing
+source locks and selected-skill readmission are reused, not duplicated.
+
+Tasks exposes copied validated scope metadata and EN/TR reuse commands preserve
+it. Named project cookies do not overwrite default8765 authentication on the
+same host. Source path validation binds persisted project to exact base. Recovery
+and unsupported remote/mode combinations deny explicitly. See
+[isolated project scope](ISOLATED_LEARNING_PROJECTS.md).
+
+Worker61 CPU/mock checks:60 PASS,1 existing opt-in SKIP in3.068s. Root16 focused
+cookie/path checks passed in0.700s (`data/isolated-project-isolation-20261001.log`);
+two isolated GPU-disabled Chromium EN/TR/source/guide tests passed in1.334s
+(`data/isolated-project-ui-20261001.log`). TypeScript passed. No actual manager
+backend/model/GPU service launch, deployment or live8765 modification here.
+
+Final root regression:160 tests in19.220s,159 PASS/1 existing opt-in SKIP
+(`data/isolated-project-root-20261001.log`), including safe manager, project,
+reuse, Scientist startup/console, dataset migration and source-report checks.
+Final two isolated browser tests passed in1.351s; skipped integration is not
+success. The original live instance stays untouched.
+
+
+## Explicit private Lab report history — 1 October
+
+Implemented separate authenticated `save_report` and `read_saved_report` console
+operations and English/Turkish history UI. Ordinary report reads do not retain
+content. Saving requires the exact displayed report-body SHA, a fresh independent
+status/report/status readback, and transactional revalidation of the frozen
+controller authority. Historical reads remain subject to current report rights,
+stay local/offline, and never authorize inference, replay or GPU release.
+
+Migration0027 adds immutable private records with replacement guards,32 records
+per job and20 newest metadata entries. Restart keeps the existing paused-session
+rule: current rights must be reacquired before saved content can be read. Record,
+result and report-body hashes are independently revalidated. This stores the
+verified report only, not fabricated separate status observations or training data.
+
+Root77 CPU/synthetic checks passed in21.165s
+(`data/scientist-lab-history-root-20261001.log`), plus an isolated GPU-disabled
+Chromium English/Turkish test in1.189s
+(`data/scientist-lab-history-ui-20261001.log`) and TypeScript validation.
+Independent source review found no remaining blockers in this slice. The live
+UI8765 was not restarted/deployed; actual Scientist/GPU acceptance remains open.
+
+Final broader128 CPU/synthetic checks passed in39.885s
+(`data/scientist-lab-history-full-20261001.log`); all7 isolated Lab browser
+tests passed in3.480s (`data/scientist-lab-history-ui-all-20261001.log`).
+Package validation passed5258 checks;1490 source manifest members exclude local
+databases/evidence. These checks are not live model or end-to-end GPU acceptance.
+
+
+## Actual Lab lifecycle correctness fixes — 1 October
+
+Two real gaps found by source audit and corrected: START now returns/persists the
+independently observed same-run state, rejecting terminal ACK regression/conflict;
+REPORT rejects baseline-purpose terminal status before report GET, with the same
+restriction in reusable hash/readback verification. A verified failed remote run
+is not stored as a queued ACK, nor labeled experiment success. Lost readback keeps
+the original intent/uncertainty and no blind retry.
+
+Root: **212 CPU/synthetic tests passed in57.348s**,
+`data/scientist-lab-lifecycle-root-20261001.log`; final focused **50 passed
+in18.185s**, `data/scientist-lab-lifecycle-focused-20261001.log`.
+Two baseline report tests failed before the fix. Seven new START tests use actual
+owned HTTP, controller/service and SQLite commit visibility/persistence.
+Existing report drift fixture was nondeterministic because state changed after
+sending report bytes; it now changes before sending the captured old report.
+No production assertion was weakened. No real Lab/model/GPU/deploy ran.
+
+Source profile60 members are unchanged; current selected-source SHA:
+`ba4b73ab4ac8d26c6b2e6c34e7817cf50a2fd8dcce40c426a8eade334dfd5a27`.
+Scientistf13b011 has ongoing local configured-runtime work observed read-only.
+Durable status/report history remains a concrete user-facing gap; report data is
+currently returned transiently. Joint runtime/closure and Scientist-only GPU
+acceptance are still open. Integration remains **partial**.
+Independent final source/test review found no blocker. Package validation:
+**5253 checks passed**, manifest1486 files,
+`data/scientist-lab-lifecycle-package-20261001.log`; no runtime/model tests.
+
+## Independent current AOS caller generation — 1 October
+
+Native `SystemdCallerAuthenticator` now provides the missing actual caller/service
+identity subcheck for the mandatory configured runtime gate. It pins current
+PID/UID, reviewed service MainPID/start/boot, exact unit cgroup and InvocationID,
+private owned runtime/bus, closed unique systemd properties, before/after process
+identities and a shared bounded query deadline. MainPID is not kernel PPID;
+descendant cgroups deny to match Scientist's exact-unit producer membership.
+This is identity-only: it cannot authorize profiles/artifacts/dependencies/tasks,
+enable policy or replace the default-deny complete runtime callback.
+
+Root: **222 CPU/synthetic tests passed in32.029s**, ResourceWarning-as-error:
+`data/scientist-caller-generation-root-20261001.log`. Fourteen new caller tests
+exercise actual parser/descriptor primitives with synthetic proc/property/bus
+observations; existing transport/source/bootstrap/startup/rearm/provider tests
+remain green. All proc/systemctl observations and runner calls were patched;
+no live query, service action, user process intervention or GPU/model/deploy ran.
+Independent read-only core/test review found no blocking issue.
+
+Profile60 membership stays unchanged; current selected-source SHA is
+`fa769fa05ead3d5e732e42af01fd6b68fbce5ae5c4fb4ed6cc7fc059ab729fb8`.
+Older hashes below are historical. Scientistf13b011 has ongoing local60/configured
+runtime adapter work observed read-only, not reviewed runtime admission here.
+Joint current source/config/principal/artifact closure and sole Scientist real
+GPU/cancellation acceptance remain open. Integration remains **partial**.
+Package validation: **5252 checks passed**, manifest1485 source files,
+`data/scientist-caller-generation-package-20261001.log`; no runtime/model tests.
+
+## Concrete configured-source readback and visible delivery — 1 October
+
+`ScientistConfiguredSourceVerifier` now provides actual bounded descriptor-safe
+source/config reads for the bootstrap factory's trusted callback. Independently
+supplied raw file pins and canonical policy/source-map fingerprints must match;
+the enabled private policy, three profiles, source maps and original shared
+caller/server identity are not adopted from ACKs or changed files. Source/config
+sweeps, current runtime bracketing and final private-policy readback deny drift.
+Complete profile/artifact/dependency/current principal authority remains a mandatory
+default-deny callback, not proven by minimum producer names or profile membership.
+
+Root: **208 CPU/synthetic tests passed in31.899s**, ResourceWarning-as-error:
+`data/scientist-source-authority-root-20261001.log`;15 new configured-source tests.
+Final focused15 tests passed in0.430s after producer-minimum completion. Actual
+synthetic policy/source/config files and owned UDS factory composition are tested;
+no real private Scientist configuration, Scientist imports or runtime was used.
+Independent review corrected profile/evidence-field shape and found no blocker.
+
+Development EN/TR now shows single factory/source-verification work in the source
+delivery card, without changing real product percentages. Isolated Chromium with
+GPU disabled passed1 test in1.198s:
+`data/scientist-source-authority-ui-20261001.log`; `pnpm exec tsc --noEmit` passed.
+No live UI build/deployment/restart or model/GPU/training ran.
+
+New60-member `configured_source_candidate_v1` selected-source SHA:
+`e14585558be8b433033f878338e730e3e119fa9e473b8e171402f20001002575`.
+Earlier source hashes are historical. Scientist99a0248's ongoing local59-profile
+configuration support was observed read-only; new60 pair/config confirmation,
+actual principal/dependency provider and trusted FD activation remain open.
+Integration is **partial**, not deployed. [Contract](SCIENTIST_SOURCE_AUTHORITY.md).
+Final counterpart source advanced to
+`f13b0117be78efd8e86ea50560ebc5082927df4f`, clean tracked tree. Its documented
+native59 bounded CPU service run used the actual AOS factory/provider, independently
+read the committed audit before bootstrap ACK, and completed original history →
+retained reconcile/provider → resolution before pause/generation denial. These
+service/cleanup results are **counterpart-reported**, not run here and not GPU/model
+acceptance. Its source report changed after the run, so native59 configuration
+preparation rejected the stale receipt; the new60 verifier remains outside that
+evidence. No `lab/llm` runtime producer changed from99a0248.
+Root package: **5251 checks passed**, manifest1484 source files:
+`data/scientist-source-authority-package-20261001.log`.
+
+## Single typed factory actual startup — 1 October
+
+The trusted host can select one concrete factory through
+`serve_desktop.main(scientist_bootstrap_factory=factory)`. Exact native type,
+Scientist engine, no mixed legacy hooks and one shared reviewed output pin are
+required before runtime starts. Output pins are copied frozen values; mismatched
+reviewed profile bundles deny. Existing individual trusted hooks remain supported.
+
+Root: **192 CPU/synthetic tests passed in31.691s**, ResourceWarning-as-error:
+`data/scientist-single-factory-root-20261001.log`. Three new actual startup tests
+exercise the real factory/controller/store/scheduler forwarding and source-revoke
+denial before runtime. Two added factory tests cover copied frozen output pins
+and cross-profile disagreement. Startup creation does not prefetch capability,
+write an audit/turn intent, authenticate broker or execute native models.
+
+Current59 selected-source SHA:
+`679b58693108d7b99ab42d802f94492bdde09baecaf6deafdfde973425702cd9`.
+AOS HEAD remainsed6e857 with local changes; Scientist HEAD99a0248 now has ongoing
+local compatibility/fixture changes observed read-only. No Scientist source was
+imported or executed. Independent review identifies its58-only configuration
+preparer and disabled policy plan as insufficient for59 production admission.
+Use one native factory; independently regenerate reviewed enabled policy/current
+caller/service/broker bindings, never derive authority from its own ACK or disabled
+plan. No live service/GPU/deploy ran. Integration is **partial**.
+
+## Trusted bootstrap admission factory — 1 October
+
+`ScientistBootstrapAdmissionFactory` now composes independently reviewed complete
+binding pins, default-denied current source/config authority, actual desktop
+controller/store/history2.0 and original broker generation. Its explicit hooks fit
+the implemented async startup without activating policy or native fallback.
+The existing `desktop_events` table stores an independently committed before-send
+audit intent; exact readback, durable SQLite, duplicate, source revoke and whole
+ACK-binding checks deny on failure. An audit event proves neither dispatch nor
+GPU ownership, and the table is not SQL-enforced append-only.
+
+Root: **187 CPU/synthetic tests passed in31.642s**, ResourceWarning-as-error:
+`data/scientist-bootstrap-factory-root-20261001.log`. Includes14 new factory tests,
+owned Unix socket observation of an already committed event from an independent
+SQLite connection, actual DesktopController and original journal/history2.0,
+plus async/startup/transport/rearm/provider regression. Scientist source remained
+read-only; no model, live service, GPU acceptance or deployment ran.
+
+Source pair remains AOS `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444` with local
+changes / Scientist `ce1d902784de142d1f73a2ac238d48472627925a`.
+New59-member `bootstrap_factory_candidate_v1` selected-source SHA:
+`b705b1bf24a2d0b87ab5e37a11412f01820849612e36fea8c9e729a7ba1bfa8b`.
+This is selected code, not full runtime/dependency/config authority. Trusted
+production configuration/source closure, caller generation and retained FD
+inheritance remain unactivated; Scientist-only GPU/cancellation acceptance is open.
+Integration remains **partial**. [Composition details](SCIENTIST_BOOTSTRAP.md).
+Independent read-only factory review found no blocking issue; source authority and
+activation are still external mandatory gates, not established by these fixtures.
+Final source observation advanced to Scientist
+`99a0248f028140936816058b90e71f29beead10e`, clean tracked worktree. Its new native
+admission/configuration source recognizes58-member async/provider profiles and
+explicitly leaves the59-member factory unconfirmed. No `lab/llm` source changed
+fromce1d902. Its configuration/test observations are counterpart-reported, not
+executed here. Share the new59 receipt before mutual source/config admission.
+Package validation: **5245 checks passed**, manifest1481 source files:
+`data/scientist-bootstrap-factory-package-20261001.log`.
+
+## Async preconnect original bootstrap wired — 1 October
+
+The real desktop binding/startup now selects the exact typed same-store history2.0
+capture with an explicit trusted expected-peer getter. Bootstrap network completes
+off-loop before the inference socket opens; all SQL/current/expected/durable
+callbacks stay on the host thread. Frozen journal/capture/store/version and peer
+are rechecked after await, then actual inference peer is rebound inside capture.
+One original absolute deadline covers preparation and infer intent. Cancellation
+tracks the owned worker until terminal and prevents late ACK/callback/dispatch.
+No synchronous post-connect bootstrap hook is enabled.
+
+Root: **138 CPU/synthetic tests passed in26.746s**, ResourceWarning-as-error:
+`data/scientist-bootstrap-async-root-20261001.log`. Actual owned control/inference
+sockets and original SQLite prove deadline equality, main-thread callbacks,
+heartbeat and cancellation behavior; typed desktop/startup guard tests cover
+forwarding and reconfiguration. An initial runner named a nonexistent test module;
+the corrected complete suite passed. Independent read-only review found no blocking
+flaw; same-store/version poststage guards were tightened.
+
+Source observation now Scientist `ce1d902784de142d1f73a2ac238d48472627925a`:
+its new bounded CPU-service bootstrap evidence is counterpart-reported, not a GPU
+test performed here. Trusted deployed factories, source/config confirmation and
+FD inheritance plus Scientist-only real GPU/cancel acceptance remain open.
+
+## Authenticated inherited retained-source AOS client — 1 October
+
+The AOS client/adapter now composes the committed Scientistdb344fc private
+provider protocol into whole-budget source reads and independent physical proof.
+Per-packet kernel credentials, fixed original broker generation, strict bounded
+packet/sequence/deadline checks, received FD closure and permanent channel denial
+preserve current authority. Exact same-store history2.0 and complete pinned durable
+capability/reconcile ACKs, including result preimage, are bound before/after reads.
+`create_budget_verifier` pairs independent reader with consistency checks; using
+consistency-only `verify_source` without the reader is not sufficient source proof.
+
+Root: **116 CPU/synthetic tests passed in35.230s**, ResourceWarning-as-error:
+`data/scientist-retained-provider-root-20261001.log`. The19 new tests include actual
+SCM credentials, full original SQL resolution with ten remote reads, fresh retry,
+historical no-network inspection and denials preserving zero resolutions/original
+rows. An initial failed expectation confused retry with inspection; corrected to
+require fresh proofs. No Scientist test/import/process, GPU query or deployment ran.
+
+Independent source review found no blocking wire/semantics flaw. Mandatory trusted
+source/config closure must include native_runtime.py and actual dependencies;
+the producer minimum source set alone is insufficient. Remote physical success
+is not AOS UUID-specific observation. Trusted FD bootstrap, actual production
+callback/thread composition, joint source/config admission and Scientist-only
+GPU/cancellation acceptance remain open. [Details](SCIENTIST_RETAINED_PROVIDER.md).
+
+Latest counterpart observation: Scientist `db344fcd5bb2cae15a0f2b616e0be1e2666d49ae`
+now commits the inherited authenticated retained-provider candidate. The bootstrap
+control source is unchanged from737b80b. AOS review/composition and real acceptance
+are still required; no Scientist process/test was launched here.
+
+## Existing control-v1 bootstrap reader candidate — 1 October
+
+Source-derived closed `ScientistBootstrapCodec` and `ScientistBootstrapCapture`
+now perform authenticated private UDS prefetch with mandatory independent authority
+and durable before-send storage. Exact one-use ACK maps into admission2.0 during
+the original intent transaction without network or nested commit. Configuration,
+descriptor/binding/hash/source/profile/output/freshness and transaction guards
+fail closed. Defaults grant no authority. This is a local candidate, not an agreed
+complete wire schema or live capability.
+
+Root: **108 CPU/synthetic tests passed in6.895s**, ResourceWarning-as-error:
+`data/scientist-bootstrap-root-20261001.log`. This includes actual owned UDS and
+original journal/history2.0 insertion/expiry rollback. Independent read-only AST
+review confirms the three descriptor hashes match Scientist737b80b source.
+
+Review found a synchronous prepare hook after infer connection would violate the
+Scientist5-second frame deadline and block the host asyncio loop. That experimental
+hook was removed, not shipped. Explicit preparation must happen before connection,
+outside SQL; production asynchronous staging with host-thread callbacks remains
+open. See [bootstrap lifecycle](SCIENTIST_BOOTSTRAP.md). New57-member profile
+`bootstrap_capture_candidate_v1` preserves all earlier membership. Scientist dirty
+sources now contain an inherited retained-provider candidate; it is not yet adopted
+or treated as committed/agreed production transport.
+
+## Original admission through actual desktop startup — 1 October
+
+Trusted `serve_desktop.main` composition now accepts paired
+`scientist_admission_factory(controller)` and `scientist_output_contract`, plus
+an explicit bounded output context. Pair/callable/engine/strict contract preflight
+runs before runtime/token startup. The returned history must be version2.0 and
+use the exact live controller store; foreign stores, legacy histories, booleans
+and invalid context/pins deny. The actual scheduler receives this same history
+and pinned output validator, rather than leaving the available API unwired.
+Default standalone startup stays denied without joint runtime authority.
+
+Root: **53 CPU/fixture tests passed in2.720s**, ResourceWarning-as-error,
+`data/scientist-admission-startup-root-20261001.log`. This covers actual fixture
+startup, output desktop validation, source reporting, desktop and intent guards.
+No authenticated bootstrap capture, model run, GPU acceptance or deployment is
+claimed. New explicit `physical_observer_candidate_v1`56-file profile includes
+the real bounded subprocess helper without rewriting old55 membership; missing
+or changed helper rejects its expected source pin.
+
+Scientist `737b80b` independent budget/physical methods are in-process only;
+existing socket does not dispatch them. Its physical snapshot lacks original
+GPU UUID provenance. These concrete counterpart requirements are documented in
+the handoff; no endpoint/private DB access or source-only proof is substituted.
+
+## Shared-lane original-child release observation — 1 October
+
+The existing physical observer now accepts explicit trusted-host policy
+`allow_shared_lanes=True`. Default quiet policy still denies every CUDA context.
+Shared policy denies the original child PID and every immutable drain-recorded
+GPU PID while allowing unrelated contexts; it never stops another lane. Strict
+PID provenance must be independently checked against the original cgroup/source.
+The source gate must also prove the original allocation is neither active nor
+quarantined in the canonical Scientist arbiter, with nonregressing current fence.
+Matching a historical owner/fence alone is insufficient.
+
+Two bounded UUID-scoped GPU reads bracket repeated unit/cgroup/process checks.
+Public device/mode properties are read-only; per-call captured configuration and
+authority checks reject private mutation during verification. Malformed or failed
+queries, owned PID reappearance, failed cleanup or revoked rights deny release.
+Never-admitted/never-started and PID-reuse remain unsupported conservatively.
+
+Root: **144 CPU/synthetic tests passed in26.878s**, ResourceWarning treated as
+error: `data/scientist-shared-physical-root-20261001.log`. No NVIDIA/systemd
+observer command, Scientist test or GPU task ran. Production provider mapping,
+full config/dependency closure and Scientist-only GPU acceptance remain open.
+
+## Previous quiet-only physical observer snapshot
+
+`ScientistPhysicalReleaseVerifier` in the existing release-proof module now
+implements bounded Linux user-systemd, boot/PID-generation, recursive cgroup2
+and explicit GPU-UUID compute-process observations. It mutates no model worker,
+lease or scheduler. Exact loaded/inactive units and collected `--collect` units
+are supported; collected absence requires repeated systemd reads, a verified
+readable cgroup2 mount and exact child-path ENOENT, not arbitrary missing files.
+Both current host authority and independent original source/fencing/child-nonce/
+device/irreversible-late-launch proof gates default deny before/after observation.
+Permission/query/identity/occupancy/revocation errors retain denial. Actual current
+UID/private bus is required; PID reuse, never-admitted and never-started cases
+remain conservatively unsupported by this concrete observer.
+
+NVIDIA commands are read-only, fixed argv, explicit UUID and bounded by the
+existing `run_bounded` helper. All compute contexts must be absent; this stricter
+handoff observer cannot verify old-child release while another CUDA lane runs.
+It does not assert zero total VRAM or absence of graphics/display memory. Trusted
+provider mapping and full runtime dependency/config closure remain mandatory;
+selected55 sources are not a full dependency attestation (`bounded_process.py`
+is an existing shared dependency). No GPU/systemd command ran in this session.
+
+Root measured its own `/proc/self/mountinfo` at22658 bytes, revealing the initial
+16KiB bound would reject this host. Only mountinfo's limit now permits256KiB;
+other files/commands remain16KiB, with bounded recursive entries and deadlines.
+Root **133 CPU tests PASS26.152s**, ResourceWarning-error, include21 new physical
+tests (fake kernel/commands, full proof-verifier composition), existing release/
+budget/readback/resolution/host/rearm/source checks and bounded-process cleanup.
+Log `data/scientist-physical-root-20261001.log`. Success/failure leaves original
+admission/intent rows unchanged. This is CPU evidence, not physical GPU acceptance.
+Production source/current adapters, quiet handoff admission and Scientist-only
+real GPU acceptance remain open. Integration is **partial**, not deployed.
+Package **5228 checks PASS**, manifest1471 files;
+`data/scientist-physical-package-20261001.log`. Package checks are not GPU tests.
+
+## Independent whole-budget source readback
+
+Existing `ScientistBudgetWitnessVerifier` now accepts an optional trusted
+`read_source(request, original)` reader and strictly compares the whole returned
+retained witness with the candidate. Target/principal, source profile/config/
+response pins, original admission, allocation and assigned budget must match.
+Source rights remain mandatory/default deny, checked before/after each of two
+reads; copied inputs and immutable history checks preserve original identity.
+Reader configuration alone does not grant authority; no-reader behavior retains
+the existing explicit trusted-source contract. No migration/wire changes occur.
+
+Scientist's committed `LabAOSControl.read_original_budget` was reviewed read-only
+at HEAD `abaaef6633414aa58e8da73d38980ed4c059f2bf`. Production mapping still needs
+authenticated current peer and exact retained-target capability ACK context;
+the callback cannot directly be assigned that differently shaped in-process API.
+No cross-process provider, endpoint or private Scientist DB read is introduced.
+
+Root **73 CPU tests PASS16.373s**, ResourceWarning-error, cover existing budget/
+proof, resolution/host, actual synthetic rearm and selected-source regressions;
+log `data/scientist-budget-readback-root-20261001.log`. Legacy callback behavior
+remains intact. Production provider/config and Scientist-only real GPU acceptance
+remain open; integration is **partial**, not deployed.
+
+Separate root **38 CPU tests PASS2.770s** include21 new source-readback tests
+and17 source-profile checks; log `data/scientist-budget-readback-final-20261001.log`.
+Two actual owned synthetic UDS/original SQLite host compositions prove independent
+reads before/after physical-provider callbacks: matching data appends one resolution;
+postphysical allocation mismatch appends none and preserves SQL/intent/receipt.
+Wrong/malformed/oversized source data, missing/revoked rights, mutated inputs and
+changed history all deny. Synthetic providers are not actual GPU/source proof.
+Package **5227 checks PASS**, manifest1470 files;
+`data/scientist-budget-readback-package-20261001.log`. Current55-source SHA:
+`270ce9437bc1f22b81d185355c4277d3178cce8ae48b504b41bed04ac681aadf`.
+
+## Independent Scientist Lab stop readback
+
+Fixed a real typed experiment-control gap: `lab.stop` previously accepted only
+its POST ACK, unlike the separate GET used by start/report. It now validates ACK
+target/purpose, rechecks current authority and independently GETs the exact run
+under the same deadline. Stop_requested can advance to terminal, but a terminal
+ACK cannot regress/change terminal state. The journal stores observed status.
+GET failure, wrong identity/purpose, drift or revoked authority keeps the effect
+uncertain and original intent unresolved; no POST replay or GPU-release claim.
+
+Root **59 CPU tests PASS26.967s**, ResourceWarning-error, cover Lab client,
+original journal, authenticated console/controller and actual startup fixtures.
+Log `data/scientist-lab-stop-root-20261001.log`. Read-only Scientist API source
+confirms GET is authenticated owner/origin scoped and POST commits stop_requested
+before background cleanup. No Scientist code or real experiment was executed.
+Current AOS contains both native broker workers; old isolated-copy flags/modules
+are not current interfaces and were not copied. Production providers/config and
+Scientist-only real GPU acceptance remain open; integration is **partial**.
+
+Separate root **27 CPU tests PASS5.647s** include10 new actual synthetic HTTP/
+original SQLite stop-readback tests and17 source-profile regressions; log
+`data/scientist-lab-stop-final-20261001.log`. Coverage includes exact POST/GET and
+one deadline, returned GET timestamp, allowed terminal progression, wrong run/
+origin/baseline, regression, lost GET and authority revoke before/after GET.
+Reopening the original SQLite preserves lost-GET intent/NULL result and denies
+same/replacement effect without another POST. These are synthetic providers, not
+actual Scientist experiments. Package **5226 checks PASS**, manifest1469 files;
+`data/scientist-lab-stop-package-20261001.log`. No runtime/model/training package test.
+Current55 selected source SHA:
+`3be0e6b7c5de1ad0c8c861bf66b4a9f21b039731f3fd8b92b1d43c1f6388bf2a`.
+Earlier selected hashes below describe their historical snapshots only.
+
+
+## Original client rearm after independent resolution
+
+Fixed a real source-level continuation gap: a durable resolution freed the SQL
+admission fence but the original inference client's uncertain/cancelled latch
+still blocked the next request. Explicit default-denied sync/async `rearm` now
+requires the exact original request, fresh trusted resolution and a free worker
+lock; a cancelled terminal asyncio wrapper cannot hide a still-running thread.
+Attempted IDs, the256-attempt lifetime limit, pins, callbacks, budgets and original
+records remain unchanged. Stale queued callbacks cannot affect a fresh context.
+The desktop hook validates same-store history2.0/current controller and exact
+ACK target, reruns full `host.resolve` proof/rights and rechecks controller before
+clearing the latch. It does not dispatch, repeat inference or renew authority.
+
+Root **108 CPU tests PASS27.608s**, ResourceWarning-error, include4 desktop hook
+checks and2 actual owned synthetic UDS lost-inference-ACK/rearm/new-request checks,
+plus original transport/decision/desktop, resolution/admission, host and source
+regressions. Log `data/scientist-rearm-root-20261001.log`. The new request receives
+a CPU fixture receipt and captures distinct original history2.0; old replay and
+failed independent physical-proof callbacks remain denied. Scheduler/engine
+fixture seams are synthetic, not real desktop or GPU lifecycle acceptance.
+
+Scientist's source note92 and machine report independently record an earlier
+actual cross-repository v3 socket→resolution→fresh-admission CPU fixture exit0.
+That run did not dispatch a new inference and used synthetic authority/physical
+providers. Its pinned54-source snapshot predates this rearm change; it is not
+acceptance of the new snapshot. We read the report, did not run Scientist code.
+Current production providers/config and Scientist-only real GPU acceptance are
+still open. Integration remains **partial**; no live restart/deploy occurred.
+
+Separate root **142 CPU tests PASS16.998s**, ResourceWarning-error, cover10 new
+rearm unit checks, original intents/history, retained codec/client, budget/proof,
+evidence journal/client, inventory and startup; log
+`data/scientist-rearm-regression-20261001.log`. Existing55-source profile membership
+is unchanged; current selected SHA is
+`7e633e845ca8fe499b1ecf52e10306ea975f5a85e8335b020ff2f1a0169c1869`.
+Commit pair reobserved: AOS `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`
+(dirty), Scientist `ea62c7eace862e998957e4bbed26876a73d6d4b3`
+(tracked diff empty at observation). Previous selected pins below are historical.
+Source package **5225 checks PASS**, manifest1468 files; log
+`data/scientist-rearm-package-20261001.log`. Package checks are not runtime tests.
+
+
+## Explicit trusted retained-host composition
+
+`ScientistRetainedHost` groups existing v3codec, authenticated client, immutable
+original-store journal and proof-backed resolution. Separate explicit discovery
+and reconcile obtain retained capability preimages only from same-store ACKs.
+Resolution/inspection performs no network I/O. Configuration requires original
+history2.0, canonical26 metadata/tables, explicit reviewed schema/pins and supplied
+socket; missing current authority, peer, independent verifier or resolution rights
+deny before connect. No migration, listener, scheduler or native engine starts.
+
+Original `ScientistDesktopBinding.create_retained_host` verifies exact current
+session/runtime/owner/lease/generation and original history/store. Construction
+grants no rights; HUMAN cleanup remains explicit. Mutating effects are single-flight,
+host ambiguity is sticky, original SQL pending fences survive a fresh host and
+all stored control IDs are denied redispatch. Historical inspection is callback-free.
+Exact resolution retry still checks fresh full proof/authority.
+
+Root **152 CPU tests PASS34.895s**, ResourceWarning-error: host12 and actual
+synthetic UDS integration8 plus resolution/admission, retained codec/client,
+budget/proof, journal, source, inventory and actual desktop gate regressions.
+Log `data/scientist-retained-host-root-final-20261001.log`. The integration runs
+actual owned synthetic sockets/original SQLite, separate cap/reconcile ACKs,
+explicit resolution and fresh admission capture; no inference is dispatched.
+Defaults/schema/pins/target/cap-ID/stale binding/lost ACK/replay negatives passed.
+Previous227 broader canonical/original regressions and6 UI checks are separate
+historical evidence, not silently summed into this152-test run.
+
+Explicit55-source `retained_host_candidate_v3` selected SHA
+`666e7ca49fbfc4cf547c73e2f4308c3cbd620d5bc4dd858a3e261f6147138534`.
+Commit pair observed: AOS `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist
+`62b2fb3c74a800ea75914b57ae8e9fef5a7092ed`. No55-source counterpart runtime
+admission, production provider or physical GPU release is claimed. Source/config/
+providers and Scientist-only coordinated real GPU acceptance remain open;
+abandoned-control and caller-transfer recovery remain unsupported. Integration
+is **partial**. No Scientist tests/imports, deploy, push, native/GPU test or user
+process interruption occurred. [Host API](SCIENTIST_RETAINED_HOST.md).
+
+## Proof-backed original inference resolution and fresh admission
+
+Canonical additive0026 adds one append-only same-store resolution marker per
+original request. Original0018 intent state/receipt/deadline/identity and prior
+migration bytes remain unchanged. The session insert guard now excludes only
+proof-backed resolved history; resolved IDs cannot replay and late receipt
+writes are rejected in Python and SQL. Current resolution authorization is
+separate/default-denied; source/result/resolver/physical proof is checked both
+before and after append. Revoke/failure rolls back, including failure after insert.
+
+Actual AOS-synthetic UDS capability/reconcile ACKs compose into this journal:
+fresh admission captures a new original history2.0 without dispatching inference;
+exact old resolution retries still require current authorization/full proof.
+Startup and inventory use the same unresolved predicate across sessions and
+also block pending controls. Historical resolution counts and per-intent flags
+are EN/TR metadata only; joint runtime/GPU ownership is never inferred from them.
+
+Root final **227 CPU tests PASS26.995s**, ResourceWarning-error, covering
+resolution14, actual synthetic UDS admission10, previous retained transport/
+budget/proof/client/journal, original identity/deadline regression, inventory/
+startup, explicit source profiles and canonical34 audit/review checks. Log
+`data/scientist-resolution-root-final-20261001.log`. Separate legacy fake20 CLI
+check **1 PASS0.776s**, `data/scientist-resolution-legacy-cli-20261001.log`.
+Readonly7..26 and explicit24/25→26 preserve original row bytes, add zero implicit
+resolutions and keep foreign-key/immutable/pending protections.
+
+Separate UI **6 isolated synthetic Chromium tests PASS3.096s** and TypeScript
+`tsc --noEmit` passed. Log `data/scientist-resolution-ui-20261001.log`, owned
+fixture `data/scientist-ui-qa-jdz0obfg`. No source build was deployed to the live app.
+Initial combined regression exposed only stale legacy test expectations for
+the intentional new late-receipt SQL guard: v22 expected no extra trigger and
+fake20 retained a dangling26 trigger. Both fixtures now explicitly distinguish
+the added guard from unchanged original SQL and restore exact legacy schema.
+
+Explicit54-source `resolution_candidate_v3` selected SHA
+`d6475ba07babe3962059814b06fdf4f294299314b36bc81066dc16f144559a92`.
+Migration26 SHA `82eea9e33e4f597f67151ad9369b8f56d3d73104d9497295c3f9bbabe99f8f9b`.
+New Scientist observed HEAD `62b2fb3c74a800ea75914b57ae8e9fef5a7092ed` supersedes
+the earlier `fa05289e07c7e3a6d9a859dfde9f60d8d021422f` v3 commit observation.
+No54-source counterpart runtime admission is claimed. Production providers,
+abandoned-control/caller-transfer recovery and Scientist-only real GPU acceptance
+remain open. Integration is **partial**; no Scientist test/import, native/GPU
+test, deploy, push, merge or running user work interruption occurred.
+[Resolution API and remaining gates](SCIENTIST_RESOLUTION.md).
+
+## Authenticated retained evidence-v3 and canonical25 ledger
+
+Separately opt-in `ScientistRetainedEvidenceCodec` consumes the exact counterpart
+public v3 schema, with independently copied retained-capability preimage required
+for successful reconcile. Original v2 codec/client/journal source is unchanged.
+The v3 subclass composes the same authenticated UDS client and original journal;
+`verify_response` passes only successful v3 reconcile into the independent
+budget/release verifier. Capability/error responses call no proof providers.
+
+Canonical additive0025 rebuilds the same immutable evidence ledger, preserving
+old24 row bytes and deadlines before installing current-state insert triggers.
+Exact namespace/version2|3 pairs and response-to-original version matching are
+enforced; one global pending-target fence still spans both versions. Migration24
+hash stays `7fd555755d46ade345643a483333a71e765f8a3302f9d6195b7455e3d04ec499`.
+Readonly dataset audit supports canonical7..25 without automatic migration;
+explicit24→25 keeps original intent/admission/control/ACK byte/hash identity,
+foreign-key integrity/enforcement and append-only protections. Infer stays pending.
+
+Root **155 CPU tests PASS18.475s**, ResourceWarning-error: new codec11,
+actual owned synthetic UDS/client/journal composition6, budget14, proof14,
+terminal15, old codec12/client17/journal18, source15 and canonical audit/review33.
+Log `data/scientist-retained-v3-final-20261001.log`. Separate fake20 CLI check
+passed1 test0.768s. Socket tests cover actual capability→reconcile→verification,
+committed ACK uncertainty/default-denied proof and cross-version pending fencing.
+These are AOS-synthetic servers, not execution of Scientist's implementation.
+
+Exact public v3 file SHA matches both checkouts:
+`d75c00384650e21f9c3c13a4bb1bcb2aad7009a4ae0580bc644959f4edc68f3d`;
+canonical v3 SHA `cbbfa1e109cf28bac8143c01975eb575b6fcfb44970d84d1c50828ca60ac1070`.
+Explicit52-source AOS profile `retained_evidence_candidate_v3` selected SHA
+`b26b5da7343f1d9557eea7bfd45e27dc4de258b95118b9d5663e94d0eb45f87a`.
+AOS HEAD remains `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`; Scientist HEAD
+observed `dcaedf7ef955b3753e09fdba86ec0dbe850d50a7` with locally dirtyv3 source.
+No52-source counterpart preflight or runtime capability agreement is claimed.
+Production source/config/current-rights/budget/resolver/physical providers,
+durable infer resolution and Scientist-only real GPU acceptance remain open.
+Integration is **partial**; no native/GPU test, deployment, push or model change.
+
+## Independently retained budget and release-proof composition
+
+`ScientistBudgetWitnessVerifier` binds source-shaped original retained budgets
+to strict history2.0; historical1.0 cannot be adopted by a version2 reader.
+`ScientistReleaseProofVerifier` validates the exact public full evidence schema,
+allocation/drain/no-admission preimages and original fencing/child/deadlines.
+`ScientistRetainedTerminalVerifier` composes both, compares independently retained
+allocation hashes before physical callbacks and rechecks the budget source after.
+Current-source, resolver and physical-readback providers remain mandatory.
+
+Root **104 CPU tests PASS10.638s** with ResourceWarning-error: budget14, proof14,
+terminal15, codec12, client17, journal18 and source14. Evidence:
+`data/scientist-retained-terminal-final-20261001.log`. Synthetic full-preimage
+composition checks unchanged original SQL/pending intent, mismatched allocation
+zero physical calls, and source revocation after synthetic physical verification.
+No Scientist test/import, native model/GPU, runtime promotion or deployment ran.
+
+Source pair observed: AOS `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist
+`dcaedf7ef955b3753e09fdba86ec0dbe850d50a7`. AOS explicit48-source
+`release_proof_candidate_v1` selected SHA:
+`373a9414e0942179ae08720c62b4f3485925330366f830b2137eab35fc87e6d9`.
+Public proof schema bytes match Scientist; canonical evidence schema SHA remains
+`aa9fd4ea32d480f097b1c79c62fcba1e11ade062bea58d29e575f010c0ed259c`.
+Local budget schema is source-derived, not a mutually agreed full transport pin.
+Scientist's newer locally dirty retained evidence-v3 candidate is not enabled.
+Older source-profile memberships remain unchanged; no48-source counterpart
+compatibility or joint admission is claimed. Integration remains **partial**:
+production authority/budget transport/physical readback and durable infer
+resolution, then Scientist-only coordinated GPU acceptance remain open.
+[Implementation and counterpart expectations](SCIENTIST_RETAINED_TERMINAL.md).
+
+## Original-store durable evidence journal and composed client
+
+Additive canonical migration0024 adds immutable `scientist_evidence_controls`
+and separate immutable `scientist_evidence_responses` to the original store.
+Original0018 inference intents and0023 admission hashes/bytes remain unchanged.
+Every control is bound to strict admission2.0, original target/hash/caller,
+profile/deployment and current session/runtime/owner/lease/generation.
+`journal.authorize`, `persist_intent` and `record_response` now compose directly
+with the evidence client; the actual target-rights provider remains default-denied.
+Both fresh AGENT and HUMAN cleanup require explicit current authority, not
+historical infer admission. Pending controls block another ID for the same target
+across process reopen/new leases. No request or response can be updated/deleted.
+
+Response persistence settles only the control exchange. Original inference stays
+unresolved, no budget is renewed, and no GPU ownership or release is granted.
+Post-response authorization failure retains a historical ACK but blocks publication
+with sticky uncertainty. Abandoned control resolution/session transfer, production
+authority, independent budget/physical proof and inference resolution remain open.
+Trusted callbacks must never alter connection transaction ownership.
+
+Root final **113 CPU tests PASS7.749s**, ResourceWarning-error: journal18,
+client17, codec12, terminal15, source observer13, inventory6 and canonical dataset
+audit/reviews32; log `data/scientist-evidence-journal-final-20261001.log`.
+Worker composed62 PASS6.077s and canonical33 overlap these checks; do not sum.
+Separate legacy simulated missing21 CLI regression **1 PASS0.709s**, no migration
+on read; `data/scientist-evidence-journal-legacy-cli-20261001.log`.
+Actual owned private UDS and independently read synthetic SQLite prove intent
+before bytes, capability→reconcile with separate ACKs, fresh-process pending
+fencing and original inference/admission invariance. No live broker/model/GPU.
+
+Root **5 isolated Chromium tests PASS2.818s**, including read-only control counts,
+EN/TR and unavailable/legacy metadata not displayed as zero. Count0 leaves infer
+admission blocked. `data/scientist-evidence-journal-ui-20261001.log`; no deployment.
+Local inventory reads invoke no authority callback and perform no DB writes.
+Dataset audit explicitly supports24 and unchanged legacy7–23 read-only; explicit
+23→24 upgrade preserves the original Scientist rows without adopting them.
+
+Read-only independent review found no blocker under the trusted callback contract;
+it is source review, not additional tests or a physical release witness. New
+`evidence_journal_candidate_v2` pins44 selected source files; older profile
+membership is unchanged. Common source/config/provider admission and the single
+Scientist-run GPU acceptance remain **partial**, not verified.
+Current read-only Scientist base `54f74cafc2e18312751a825d9dbe948575c94015`
+has a dirty inspector recognizing this profile. Both observers'44 selected maps
+match; selected SHA
+`60a1acbd25fd0c9c71da7e4b257b6f075e83ed6d96649b485ca817cfaed2dfd7`.
+Actual Scientist preflight remains exit2/unsupported for AOS dirty/untracked
+source, not runtime admission. Logs `data/scientist-evidence-journal-preflight-20261001.log`
+and `data/scientist-evidence-journal-source-20261001.json`.
+Final package evidence: `data/scientist-evidence-journal-package-20261001.log`;
+no package check establishes model/GPU/runtime acceptance.
+
+## Authenticated Scientist evidence control client
+
+New opt-in `ScientistEvidenceClient` uses the explicitly supplied existing
+control socket and pinned codec. Private user-owned socket/parent inodes,
+`SO_PEERCRED` and current broker systemd generation are checked. Fresh exact
+target authorization and durable control-intent callbacks are mandatory and
+default-denied before connection. Both capability and reconcile persist their
+exact canonical control request before dispatch; neither is an automatic GET.
+Callbacks receive copies. Final authorization follows slow peer observations
+before send and publication, then cheap inode/deadline checks run again.
+
+The client bounds one LF/EOF frame and the whole exchange to at most ten seconds,
+keeps one request in flight, consumes attempted control IDs and permanently
+fences ambiguous post-send outcomes. Partial send, lost/malformed responses,
+timeouts, cancellation or post-response revoke cannot automatically retry.
+An error's retryable flag does not bypass that fence. Real crash/restart
+protection requires the external durable control ledger; it is not supplied here.
+
+Root final **83 CPU tests PASS6.031s**, ResourceWarning-error: new client17,
+codec12, legacy transport27, source observer12 and terminal15. Log
+`data/scientist-evidence-client-final-20261001.log`. Worker focused17 PASS2.462s
+and combined44 PASS4.072s overlap the root run; do not add counts. Tests use
+owned private UDS and synthetic authenticator/authorization plus independently
+read SQLite intent-before-bytes evidence. No model, Scientist test, live broker
+or GPU was used. A static independent review found the slow-peer authorization
+ordering gap; final regressions prove zero pre-send dispatch or sticky post-send
+uncertainty after revocation. No pre-fix runtime reproducer is claimed.
+
+Scientist committed base is `91c2109b1c6af10dce4f41894050324c97c6e866`;
+it was clean at the earlier source observation. At final handoff a new original
+budget/store candidate is dirty; it has not been adopted or tested by AOS.
+Its public full schema/module bytes match the previous reviewed candidate.
+Actual read-only Scientist source inspector rejects the new explicit
+`evidence_client_candidate_v2` profile with exit2/unsupported choice; this is
+not runtime incompatibility testing or admission. Counterpart review of the
+39-source profile, trusted providers/ledger, independent original budget and
+physical proof, durable resolution and Scientist-only GPU acceptance remain open.
+See [client obligations](SCIENTIST_EVIDENCE_CLIENT.md).
+Package validation: **5179 checks PASS**, manifest1439 source files; log
+`data/scientist-evidence-client-package-20261001.log`. TypeScript no-emit passes
+after the EN/TR Development source card. No live deployment or runtime enablement.
+
+## Scientist panel live inventory visibility
+
+The source-only evidence bridge now decodes Scientist's exact reviewed complete
+`aos-scientist-control-evidence.v2` schema, rather than changing legacy admission
+or inventing endpoints. Explicit reviewed schema bytes and both pins are required;
+there is no default enablement, socket, authority minting or journal resolution.
+Original v1 terminal/proof/result strings retain their exact canonical bytes.
+The new codec rejects mismatched correlation, pins, lexical versions, unknown
+fields and noncanonical preimages. Its returned data is not physical proof.
+
+Counterpart full transport schema canonical SHA-256:
+`7e76687f7f0e3e4f8f5dba4d0edbc4d70dbba192f567f92d373b80b056fb12b7`;
+terminal-evidence schema canonical SHA-256:
+`aa9fd4ea32d480f097b1c79c62fcba1e11ade062bea58d29e575f010c0ed259c`.
+AOS-only codec tests exercise that transferred public full schema with synthetic
+requests/responses; Scientist tests/imports/processes were not used. Trusted
+current resolver, independent original budget, physical-proof provider,
+authenticated client wiring and safe durable intent resolution remain pending.
+
+Tasks' Scientist panel now refreshes only the local read-only inventory GET every
+five seconds while expanded. It shows the last successful observation and stale
+data on errors, keeps one GET in flight, and aborts on close/unmount. An explicit
+human operation first cancels and awaits an inventory read, suspends polling,
+then executes its one operation and readback. No automatic start, stop, report,
+replay or remote GPU reconciliation is introduced.
+
+Retained Sol/medium worker: **4 isolated synthetic Chromium tests PASS2.496s**,
+ResourceWarning-error, including no automatic POST, single-flight, stale-data
+recovery, close cancellation and GET cancellation before explicit POST. Root
+TypeScript no-emit passes after EN/TR dictionary/Development updates. Source
+only: the user's running application is not restarted or deployed by this turn.
+Root repeated the same 4 tests: **PASS2.491s**, log
+`data/scientist-evidence-ui-20261001.log`; these are overlapping runs, not 8 tests.
+
+Root final **38 CPU tests PASS1.862s**, ResourceWarning-error: 12 codec, 11 source
+observer and 15 original terminal regressions. Log
+`data/scientist-evidence-final-20261001.log`. These overlap the focused worker
+and root runs; counts are not added across runs. No actual GPU acceptance.
+The retained Astra/high worker also ran **59 combined CPU regressions PASS2.270s**
+(codec12, terminal15, admission history24, output8), log
+`data/scientist-evidence-codec-20261001.log`. These overlap the root run.
+Package validation: **5174 checks PASS**, manifest1436 source files;
+`data/scientist-evidence-package-20261001.log`. Selected-source identity is
+recorded separately in `data/scientist-evidence-source-20261001.json` and the
+private handoff; source identity explicitly denies runtime admission/GPU proof.
+
+Original terminal verifier: root **15 CPU tests PASS0.609s**. Source observer
+adds an explicit evidence-transport candidate profile; membership of previous
+profiles is preserved. Full codec/transport evidence follows the current source
+review; no default-denied physical-proof callback or journal fence is removed.
+
+## Manual release/selection missing-record recovery
+
+Backend and public CLI `recovery-preview`/`recover` now restore exactly an
+already-authorized missing release/selection file from original0022 history.
+Fresh accepted target source, retained private catalog/review locks, exact
+proposal hash and `RESTORE_ANCHORED_RELEASE_RECORD` are required. Existing,
+changed, unanchored, stale or revoked targets deny. No history append, DB change,
+selection switch, task replay, runtime/model start or new execution authority.
+Lost-directory and GUI/API recovery are not implemented.
+
+Root final **13 CPU/TLS/CLI tests PASS21.730s**, ResourceWarning-error, including
+original release/selection regression, exact missing-file restore and failed
+original publication recovery. Whole DB snapshots and original bytes/selection
+remain unchanged. Log `data/manual-release-recovery-final-20261001.log`.
+Initial backend test expected the wrong corruption error name; source already
+failed closed, assertion corrected before final pass. TypeScript no-emit passed
+after EN/TR Development source-card update; no live deployment/native/GPU test.
+
+Parallel Scientist control/terminal-v2 **source-only** review independently
+verified eight schema/bundle/source pins at a bounded dirty-tree observation.
+No imports or Scientist tests were run. Transport/evidence response, independent
+budget/proof/current authority, integer-clock and canonical/version transition
+remain unagreed. Existing AOS terminal-v1/history2 defaults unchanged; see
+[SCIENTIST_CONTROL_V2_REVIEW](SCIENTIST_CONTROL_V2_REVIEW.md).
+
+## Terminal evidence and explicit source preflight
+
+`ScientistTerminalVerifier` binds terminal/result verification to immutable
+original2.0 admission, independently retained budget, exact principal/profile/
+config/schema, boot/deadlines and child/result hashes. Wire canonical UTF-8
+matches Scientist. Resolver and allocation/fencing/physical-drain proof callbacks
+default deny; no provider, transport, endpoint, resolution or unfencing exists.
+Current control replies lack independent budget/proof preimages; hashes alone
+cannot enable this path. [Contract](SCIENTIST_TERMINAL_EVIDENCE.md).
+
+Root final **115 CPU tests PASS3.127s**, ResourceWarning-error: terminal15,
+source observer10 and previous90 regressions. Log
+`data/terminal-evidence-final-20261001.log`; worker47 overlaps, not added.
+UTF-8 results, owner change, failed cleanup, wrong generation/hash, legacy denial
+and unchanged pending state are synthetic evidence only. TypeScript no-emit
+passed after EN/TR source card update; no live deployment or GPU/model run.
+
+Scientist advanced to `ebb8f5dfe1b1dc48e45fbb18cc7f42cf20bf0217`, with its
+admission2.0 preflight candidate dirty. Audited read-only AST/Git inspector:
+**exit2, unsupported**, due dirty tracked AOS and required untracked files.
+Both observers nevertheless produced identical33 selected file hashes and pin
+`e8cfb75f6cd4f1b986a9f3983bd215a655753540e9fc07fab8686201a698a2e1`.
+Evidence: `data/admission-v2-source-observation-20261001.json` and
+`data/scientist-admission-v2-preflight-20261001.json`. Source hash agreement
+is not accepted runtime admission. Wrong expected pin independently rejected
+with exit2; no commit/push/merge/deploy or user-process cleanup occurred.
+
+## Scientist note84: explicit record2.0 and historical-only compatibility
+
+Separate closed BindingV2/CaptureV2/RecordV2 and complete versioned schemas now
+implement new record2.0 admission. Pinned factory construction requires explicit
+history2.0 before task creation. Four-field default1.0 remains compatible; interim
+1.0/V2-profile records remain immutable historical evidence only. Current
+verification rejects wrong versions before authority callbacks; capture does not
+fall back. Original0018/0023 and existing example/schema bytes remain unchanged.
+
+Root final **90 CPU tests PASS2.402s**, ResourceWarning-error: history24, output
+guard8, factory4, readonly inventory and desktop/producer/receipt regressions.
+Log `data/admission-record-v2-final-20261001.log`; Astra's overlapping66 tests
+are not added. Valid record2.0→synthetic UDS→human Hello approval→independent
+temporary-workspace readback passed. Legacy configured host fails before any
+task/intent/dispatch; wrong bundle sends zero frames; invalid returned metrics
+retain one uncertain dispatch. Recovery/vision preserve original evidence/capture
+and trusted context bounds. Hash-only inventory reads2.0 without authority callbacks.
+EN/TR Development source card updated; TypeScript no-emit passed. No live build,
+restart/deploy, native model, training or GPU acceptance occurred.
+
+Scientist note84's profile fragment semantics are matched; complete AOS enclosing
+schema hashes and exact source/config pair still need counterpart confirmation.
+Full control/terminal/clock/cleanup agreement and Scientist-only coordinated GPU
+acceptance remain open. The source milestones below are historical observations.
+
+## Scientist output-v2: original admission-bound host composition
+
+Explicit closed version2 profile pin union preserves historical four-field
+serialization/hash and additive0023 bytes. Original captured output pin includes
+the configured complete bundle identity; optional factory `output_contract`
+requires original history and binds exact request/profile/deployment before the
+infer frame is sent and again before the existing semantic receipt guard.
+Known wrong pins are not dispatched; invalid returned content retains uncertainty.
+Matching syntax is not an authority grant or
+proof that every external bundle component executed. No callback override,
+implicit legacy adoption, model activation or GPU scheduler is introduced.
+
+Root final **80 CPU tests PASS2.062s**, ResourceWarning-error: original admission19,
+new guard6, new actual factory integration4, desktop and three-profile
+producer/receipt regressions. Private log
+`data/profile-output-v2-final-20261001.log`. Astra worker's overlapping61 tests are
+not added to this count. Read-only Scientist current HEAD
+`a60e9e2a2c872be97f696d1dada130d502d2ad6c`; eight schemas, both source pins
+and canonical bundle `ab94aaf3fa70a82cde3971b16c325bc87bf3813d7e20c7dd4cea5d3e12e3962e`
+verified. At that observation Scientist note84's separate record2.0 dispatch
+proposal was unimplemented; the explicit implementation above supersedes that gap. Joint full control/
+terminal/clock/cleanup acceptance remains open. No native/GPU or live app test.
+The synthetic UDS→typed Hello approval→temporary workspace write→independent
+readback path passed. Wrong bundle and legacy pin produce zero dispatch/effects
+with the original pending fence; malformed returned metrics produce one dispatch
+and unresolved uncertainty. No automatic retry is permitted in either case.
+
+## Original Scientist admission identity: additive0023
+
+Original0018 request ve immutable original admission record aynı BEGIN IMMEDIATE
+transaction'ında commit edilir. Stable nine-field binding/hash, complete server/
+caller/policy/source/profile/schema pin'leri ve ayrı capability observation
+freshness/SHA kaydedilir. Capture/current callback default deny; owner/peer/
+generation/freshness/deadline callback sonrası yeniden denetlenir. Bad capture
+iki new row'u geri alır; late receipt old pending identity'yi tüketmez. Same-store
+typed desktop factory opt-in history'yi actual task journal'a aktarır. Capability
+SHA observation, Scientist'ın o exact freshness-bearing capability'yi tükettiği
+kanıtı değildir; infer wire değişmedi.
+
+Root final **90 PASS25.419s**, ResourceWarning-error: history, original intent/
+desktop, canonical dataset audit/review ve manual review-history/CLI regresyonu.
+Migration22 read-only audit bytes korudu; explicit23 upgrade eski intent row ve
+0018 trigger/index SQL'ini korudu, yeni history boş kaldı; implicit adoption yok.
+First56-test koşusunda eski latest-minus-one assertion21→22 düzeltildi; unknown
+migration rejection guard gevşetilmedi. İki existing independent SQLite reader
+testi artık connection'larını açık bırakmaz.
+
+Agent'ın ayrı **57 PASS2.469s** koşusu (root90 ile örtüşür): actual synthetic
+socket→typed Hello→fresh human approval→independent file/SQLite readback ve late
+verifier/missing identity/owner/peer denial. Read-only inventory **3 PASS0.097s**
+(root90 içinde); callback çağırmaz, corruption hash'leri gizler, legacy18..22
+identity reads byte/schema değiştirmez. Ayrı authenticated console **19
+PASS11.149s** ve isolated EN/TR Chromium **2 PASS2.097s**, TypeScript PASS.
+Full Lab inventory18'in existing Lab19-table gereksinimi değiştirilmedi.
+
+Original0018 SHA `bb0d4644b274ccacdc80867a7d14f92f7c0e5926f84929f24ee774a2681bd8d9`;
+new0023 SHA `61c24832ce587ca72dc4ddea7ab7eaf91d83f29b043d2f9c086f831f41225006`.
+Private ignored root log: `data/admission-history-final-20260930.log`.
+No resolution API, new scheduler, unresolved-fence removal, live migration/deploy
+ve native/GPU kabulü. [SCIENTIST_ADMISSION_HISTORY](SCIENTIST_ADMISSION_HISTORY.md).
+
+## Bonsai producer → host receipt → journal bağlantısı
+
+Trusted manifest ayrı `bonsai_output_projection` version/schema/adapter pin'i
+verirse exact Prism9a9394a native serializer metadata'sı kapalı schema80 şekline
+çevrilir. Legacy default değişmedi; bad pin model startup öncesi, stale adapter/
+schema pin HTTP sonrasında reddedilir. Cleanup failure hiçbir output yayınlamaz.
+Optional exact model/assistant role korunur; tools/refusal/nonempty reasoning,
+unknown metadata ve invalid usage elenir. Outer canonical schema SHA
+`c07e0f14089840858b6a1d688fac81ba0dc9ae07870ef2c6a501ab110080467d`;
+inner content-schema pin'leri değişmez.
+
+Host `validate_bonsai_receipt` / `validate_profile_receipt`, journal öncesinde
+strict RecoveryPlan/VisionScene, exact supplied evidence/capture/image/state,
+request-bound output count/context ve response/receipt usage eşitliğini doğrular.
+Lexical bool/float protocol version reconstruction'dan önce reddedilir (Decider
+da aynı guard'ı kullanır). Bad postdispatch receipt pending/uncertain ve no-replay
+kalır; stored receipt bytes callback tarafından değiştirilmez.
+
+Root combined **133 PASS4.701s**, ResourceWarning-error: host14, producer16,
+existing broker13 ve related90 regression. Actual synthetic socket+SQLite iki
+profile'da source-shaped producer helper→host guard→immutable receipt geçti;
+mocked worker cleanup-before-emit kanıtı native process/model/GPU yürütmesi değil.
+Private ignored evidence: `data/scientist-output-pipeline-20260930.log`.
+[SCIENTIST_BONSAI_OUTPUT](SCIENTIST_BONSAI_OUTPUT.md).
+
+Source handoff allowlist'e yeni `services/bonsai_projection.py` açıkça eklendi;
+aksi halde worker import'u tar paketinde eksik kalıyordu. Synthetic deterministic
+tar roundtrip ve inclusion regresyonu **14 PASS0.111s**; private/model dosyaları
+hâlâ dışlanır. Offline projection pin inspection canonical schema ve adapter
+hash'ini verdi; runtime/model başlatmadı.
+
+Scientist HEAD65b8fae ve dirty proposed profile-output.v2 modülü salt okunur
+incelendi. Onun mandatory role/omitted model şekli bu explicit schema80 local
+kararla aynı değildir; joint agreement veya gerçek GPU kabulü iddiası yok.
+
+## Scientist Decider receipt: journal öncesi kapalı doğrulama
+
+Trusted opt-in `validate_decider_receipt`, exact response/prediction/eight-metric
+alanlarını, original request option ID'lerini, finite probability distribution,
+deployment bağını ve response metrics/usage byte eşitliğini denetler. Transport
+callback'i receipt journal yazımından önce çalışır; async/desktop host forwarding
+eklendi. Callback yalnız ayrı deep copy görür, sonucu değiştiremez; ret/exception
+sonrası pending intent ve uncertain/no-replay korunur. Legacy default ve runtime
+admission deny değişmedi. Bu guard fresh broker flags=false, input1..1536 ve
+bounded timing/VRAM ister; Scientist80'in daha geniş proposed schema'sıyla ortak
+admission anlaşması değildir.
+
+Root CPU koşusu **57 PASS2.878s**, 16 yeni test dahil; agent'ın ayrı protocol,
+Bonsai-supervisor/startup regresyonu **33 PASS1.156s**. Toplam90 unique focused
+test, iki ayrı koşu. Synthetic socket→SQLite pending→host callback→receipt→fresh
+manual approval→fixture hello readback kanıtı native Decider/GPU sonucu değildir.
+Root log: `data/scientist-decider-receipt-20260930.log` (private ignored).
+
+## Aynı oturumda ayrı izinli ardışık skill görevleri
+
+Explicit `next-preview` / async `next-start`, accepted previous intent/receipt
+pair'ını yeni binding'in hash'ine bağlar. Yeni parametreler original ve last
+task'tan farklıdır; human confirmation ve fresh AGENT lease/generation gerekir.
+Yalnız tamamlanmış kendi child'ı kapatılır; source/selection/control cleanup
+sonrasında tekrar denetlenir. Failed cleanup veya takeover yeni intent yazmadan
+transition'ı kapatır. Uncertain/failed iş reset edilmez, eski metadata korunur.
+Cleanup için trusted en fazla10s observation window uygulanır; timeout kendi
+task handle'ını iptal etmez veya ikinci cleanup başlatmaz. Late completion
+admission latch'ini açmaz; parent shutdown aynı handle'ı gözler. Targeted actual
+CPU/TLS timeout/late-completion testi **1 PASS7.879s**; GPU release kanıtı değil.
+Exact historical `read` iş, model veya readback tekrar yürütmez. Existing journal
+unique bounded transition chain'i denetler; yeni migration/ledger/allocator yok.
+
+Actual CPU/TLS original bootstrap→A→B aynı source/controller/store/listener'da
+**21 action, 18 fresh approval, 3 POST, 0 model call**; originalsource/rows ve
+earlierproof değişmedi. Existing execution **7 PASS17.985s**, new transition
+**8 PASS65.808s**, typed API envelope **4 PASS0.169s**. ResourceWarning-as-error
+backend koşuları; ayrı isolated Chromium UI **2 PASS21.101s**, actual ikinci
+child ve lost-start-ACK sonrası status/historicalread içerir. Missing predecessor pending
+fill'i durdurdu: 0 fill/POST. Restart continuation veya native/GPU kabulü değil.
+[OWNED_PARAMETER_SKILL_REUSE](OWNED_PARAMETER_SKILL_REUSE.md).
+
+Son combined ResourceWarning-error koşusu: execution7 + next-task9 + API4 +
+isolated Chromium UI2 = **22 PASS111.492s**; private ignored log
+`data/parameter-reuse-next-timeout-20260930.log`. Sonrasında pending parent
+shutdown same-handle timeout observation da eklendi: targeted **1 PASS7.950s**
+(22-test koşusuna ikinci kez sayılmaz). TypeScript ve diff whitespace geçti.
+
+## Reviewed manual skill sürümleme, seçim ve geri alma
+
+**Sonraki actual execution dilimi:** seçilmiş manual skill ayrı fresh task onayı
+ve altı ayrı action approval ile yeni parametreleri aynı owned TLS origin/cert
+üzerinde ayrı child scheduler'da yürüttü; tek POST ve independent whole-record
+readback doğrulandı. Original bootstrap/source/config değişmedi; toplam14 action,
+0 model ve 0 label kaydı. Compiler **7 PASS10.726s**, integrated execution
+**7 PASS19.373s** (ResourceWarning-as-error), typed API envelope **3 PASS0.122s**.
+Pending fill sırasında review revoke, 0 fill/POST ve tam bir revoked approval
+ile beklemeyi sonlandırır; incomplete intent unresolved kalır, kör replay yok.
+API ve EN/TR Tasks component kaynakta bağlı; yeni UI'nın ayrı actual CPU/TLS
+preview + Chromium EN/TR/fence/lost-ACK/status kabulü **1 PASS3.144s**:
+`data/parameter-skill-reuse-ui-20260930.log`. Bu UI testi tam başarılı görev
+yürütmesi değildir; ayrı backend actual task kabulüyle kapsamları karıştırılmaz.
+Birleşik **114 PASS, 0 fail/error/skip, 113.919s**
+(ResourceWarning-as-error, üç isolated Chromium UI) kanıtı:
+`data/parameter-skill-reuse-completion-20260930.log`. Yukarıdaki compiler/execution/
+API alt koşuları bu toplamla örtüşür ve tekrar toplanmaz. Retained listener
+startup **9 PASS0.676s**; existing iki-app/four-case bootstrap regression
+**1 PASS2.025s**. Yeni görev
+journal'ının privileged rollback'ine DB review anchors kanıt sayılmaz. Native
+GPU/model ve live deploy çalıştırılmadı. [OWNED_PARAMETER_SKILL_REUSE](OWNED_PARAMETER_SKILL_REUSE.md).
+
+Canonical **0022** original trajectory DB'ye append-only release/selection
+history ekler. Fresh accepted review, original candidate/bootstrap/readback,
+source ve store kimlikleri yeniden denetlenir. Exact parent/selection hash ve
+ayrı insan onayı olmadan kayıt eklenmez; concurrent selection yalnız bir exact
+head kazananı kabul eder. Revoked kaynak ve eksik/değişmiş history dosyaları yeni
+süreçte de reddedilir. Release/selection kayıtlarının kayıp dosyası için recovery
+henüz yoktur; belirsiz ACK kör tekrar edilmez.
+
+Public module CLI ve authenticated EN/TR Tasks paneli kaynakta bağlı. İki actual
+CPU/TLS bootstrap aynı original DB'de A→B→A release/selection zincirini ayrı
+trusted original source context'leriyle doğruladı. GUI kendi configured A
+source'unda kalır; historical inventory başka kaynakların current admission'ı
+değildir. Bu kayıtlar **development metadata**, yeni görev yürütme veya runtime
+activation yetkisi değildir. Ayrı izinli yeni-parametre CPU reuse bağlantısı
+yukarıdaki sonraki dilimde doğrulandı; genel native kabul anlamına gelmez.
+
+Birleşik focused koşu **97 PASS, 0 fail/error/skip, 82.905 s**, üç isolated
+Chromium UI dahil: `data/parameter-skill-release-completion-20260930.log`.
+Legacy migration20 test fixture'ı 0021 ve dependent0022'yi birlikte kaldırarak
+gerçek eski schema'yı oluşturur; production migration/guard gevşetilmedi.
+Actual host/API testi original 7 action / 0 model call kayıtlarını değiştirmedi.
+Native model, GPU, canlı migration/restart/deploy çalıştırılmadı.
+
+Scientist'in ayrı kontrol önerisine kaynak incelemesi ve gerekli netleştirmeler
+[SCIENTIST_CONTROL_RESPONSE](SCIENTIST_CONTROL_RESPONSE.md) içinde. Ortak wire1
+infer source basis ile authenticated control admission farklıdır; ikinci kapı
+henüz anlaşılmadı veya uygulanmış sayılmaz.
+
+Scientist75/77 güncel proposal ve kontrol kaynakları read-only yeniden incelendi.
+Counterpart control implementation ilerledi; final joint admission hâlâ kapalı.
+İptal edilmiş işin inflight duplicate/cache yolundan success dönebilmesine dair
+blocking source trace raporlandı; reproducer veya GPU koşusu yapılmadı. Nested
+schema/security binding, rotation sırasında cleanup ve terminal/result eşleşmesi
+ayrıca netleştirilmelidir. Counterpart test sayıları attributed documentation'dır,
+AOS'un çalıştırdığı veya private artifact'larını denetlediği kabul değildir.
+
+## Restart için DB-anchored review geçmişi ve exact kayıt kurtarma
+
+Yeni canonical migration **0021**, original trajectory SQLite içinde append-only
+manual review history ekler; 0019/0020 ve kullanılan eski migrations değiştirilmez.
+Accept/revoke insan onaylı exact record'u dosya yazımından önce atomic/idempotent
+olarak anchor eder. FS inventory her yeni süreçte DB geçmişiyle tam eşleşmelidir;
+silinmiş accept/revoke veya unanchored dosya normal akışı kapatır. SQL update/delete
+trigger'ları geçmişi korur; candidate/source/task/action/model kayıtları yeniden
+yazılmaz. Accept/revoke yalnız yeni review metadata satırları ekler.
+
+Explicit `recovery-preview` → exact SHA + `RESTORE_ANCHORED_REVIEW_RECORD` →
+`recover`, yalnız original DB'de zaten yetkilendirilmiş **eksik** private kaydı
+yeniden materialize eder. Altered existing file overwrite edilmez. Fresh source,
+review directory/parent/store identity ve original candidate/run bağları tekrar
+denetlenir. Recovery yeni history/task/model satırı veya tool/POST üretmez;
+iptal edilmiş review restore sonrası iptal edilmiş kalır. CLI ve authenticated
+EN/TR Tasks kaynakta bağlı; fresh AGENT fence write için, Human read-only preview
+için korunur. Kayıp ACK'ta kör tekrar yok; ayrı exact review status read gerekir.
+
+Old DB migration21 yoksa explicit migration-required deny olur; preview/read
+otomatik migrate/adopt yapmaz. Yeni TrajectoryStore canonical21'i normal startup
+migration akışında uygular. Çalışan eski kullanıcı DB/session değişmedi.
+Legacy20/21 audit desteği ve canonical audit schema güncellendi; eski satırlar
+korundu. DB **ve** FS'nin birlikte privileged offline rollback'i bağımsız dış
+witness olmadan kanıtlanmaz; local trusted-history kapsamı açık, execution/
+release/training/native/GPU flags hâlâ false. Aşağıdaki retained-only yaklaşım
+migration21 öncesi tarihsel kanıttır.
+
+Kanıtlar: `data/parameter-review-history-completion-20260930.log`,
+`data/parameter-review-history-console-20260930.log`,
+`data/parameter-review-history-migration-20260930.log`.
+
+Birleşik focused koşu **74 PASS, 0 fail/error/skip, 56.543 s**; iki isolated
+Chromium UI dahil. Canonical migration regressions ayrıca **14 dataset audit +
+15 dataset review PASS**; aynı testleri örtüşen toplam gibi tekrar saymayız.
+Canonical version-aware ledger guard sonrası 6 history testi ayrıca PASS3.632s.
+Actual cached API fresh source üzerinden delete→deny→exact restore→still revoked
+zincirinde 7 original action, 0 model call ve 2 history row korundu.
+TypeScript geçti; native GPU/model/managed deploy çalıştırılmadı.
+
+Kullanıcının son isteğiyle explicit **GPT-6 Astra/high orkestrasyon ajanı** aktif;
+bir inherited Astra/high release backend worker ile sonraki gerçek reviewed
+release/selection/rollback dilimini planlıyor. Bu iş henüz implementation/kabul
+tamamlandı sayılmaz; ana oturum backend'inin değiştiği iddia edilmez.
+
+## Skill adayı için ayrı insan incelemesi ve store-bağlı iptal
+
+Original published manual candidate ayrı private immutable review kaydına exact
+SHA ve `ACCEPT_MANUAL_REVIEW` insan onayıyla bağlanır. Candidate/receipt/run
+yeniden yazılmaz. Read original kaynak ve bağımsız recipe audit'i tekrar denetler;
+`REVOKE_MANUAL_REVIEW` ayrı exact hash ile revocation ekler. İntact trusted
+private store'daki revoked review yeniden kabul edilemez. İptal edilmemiş review yalnız synthetic manual
+recipe development review'dur; release, execution, activation veya training
+yetkisi değildir. Yeni native model/learning-event/GPU kabulü iddiası yok.
+
+Bağımsız inceleme eksik tombstone sorununu yakaladı: yalnız mevcut dosyalardan
+inventory kurmak, görülmüş revoke silinirse accepted'a dönüşebiliyordu. Retained
+host store artık gözlenmiş/yazılmış immutable accept/revoke isimlerini izler ve
+eksik kayıt varsa fail-closed olur. Yeni süreç/restart öncesi ayrı privileged
+host rollback'i bağımsız integrity anchor olmadan ispatlanamaz. Bu sınır açık;
+review'dan execution admission verilmez. Release/reuse kapısı bunu ayrıca ele
+almalıdır; sahte global tamper-proof iptal iddiası yok.
+
+Public CLI ve authenticated Tasks EN/TR preview/accept/read/revoke-preview/revoke
+kaynakta bağlı. API write current AGENT owner/lease/generation ve idle scheduler
+ister; Human mode salt okunur kalır. Uncertain ACK blind write retry yapmaz;
+exact original review hash readback ile accepted/revoked ayrılır. DB hataları
+private ayrıntı dökmeden 409/fail-closed olur. Development source-delivery kartı
+bu iki yeni dilimi gösterir; canlı asset/backend deployment yapılmadı.
+
+Gerçek scheduler + original ignored-data CPU/bootstrap/TLS evidence ile API
+candidate → accept → read → revoke → read → blocked reaccept doğrulandı;
+7 original action ve 0 runtime model call değişmedi. Isolated Chromium fixture
+UI actual typed review payload'ını kullanır; native tarayıcı/model kabulü değil.
+Kanıt: `data/parameter-skill-review-console-20260930.log`,
+`data/parameter-skill-review-ui-20260930.log`. Birleşik nihai koşu ayrıca kayıtlanır.
+
+Nihai birleşik koşu: **56 PASS, 0 fail/error/skip, 39.995 s**, iki opt-in
+isolated Chromium UI dahil; yeni 15 backend lifecycle testi ve cached actual API
+testinde revoke tombstone silinince read/accept 409 doğrulandı. Log:
+`data/parameter-skill-review-completion-20260930.log`. TypeScript ve manifest
+yenilemesi sonrası **5018 package checks PASS**;
+`data/parameter-skill-review-package-20260930.log`. Bunlar CPU/scripted/mock
+browser/TLS/source UI kapsamıdır, native/GPU/deployment kabulü değil.
+
+Scientist'ın `74-aos-scientist-contract-response.md` mutable kaynak notu shared
+`aos-scientist-runtime.v1` / wire integer1 temelini kabul etti; AOS aynı temeli
+teyit eder. Tam kontrol sözleşmesi/runtime admission değil: authenticated
+capability, principal/deployment/profile pinleri, cancel/status/reconcile ve
+trusted drain/release transport'u açık. Not SHA-256
+`c6f78887a93225af262c5f85c2b91671c0d8b97b242db3a1b9ad2af84a4c11e9`;
+[karşılıklı kaynak özeti](SCIENTIST_HANDOFF.md). Diğer oturumun dosya/süreçlerine
+müdahale edilmedi; GPU kabul yürütücüsü yalnız Scientist.
+
+## Manuel bootstrap → bağımsız denetimli skill adayı
+
+Original accepted bootstrap artık actual recipe/snapshot audit ve bütün alanlar
+receipt'iyle private immutable `audited_manual_bootstrap_candidate` üretir.
+Public `scripts/aos-parameter-skill` ve authenticated Tasks EN/TR preview → exact
+human publication → read kaynakta bağlı. Fresh owner/lease/generation, idle
+scheduler, exact candidate hash ve literal insan onayı zorunlu; unknown ACK
+otomatik tekrar üretmez. Read kaynak/run/receipt'i yeniden denetler; görev
+yeniden çalıştırılmaz. Sentetik manuel kaynak için model olayı uydurulmaz:
+`model_calls = 0`, awaiting manual review, activation/training/native/GPU false.
+
+Gerçek managed path hatası kapatıldı: original DB/bootstrap journal ignored
+checkout `data/` altında olabilir; authored project ve candidate checkout dışında
+kalır. Kaynak dosyaları ve symlink/traversal reddedilir. Actual CPU bootstrap
+başından bu path düzeninde oluşturuldu; DB/journal taşınmadı veya receipt
+yeniden yazılmadı. API/CLI/backend bu original evidence ile doğrulanır.
+Kanıt: `data/parameter-skill-completion-20260930.log`; scope CPU operator,
+gerçek loopback TLS/readback, scripted decisions/mock browser ve izole Chromium
+UI. Native modeller, Scientist ortak sözleşme/GPU kabulü ve skill review/release
+açık. Çalışan kullanıcı oturumu veya deploy değiştirilmedi.
+
+Son birleşik koşu: **30 test PASS, 0 fail/error/skip, 19.408 s**; opt-in isolated
+Chromium UI dahil. API testi gerçek scheduler ve original ignored-data runtime
+DB/journal ile çalıştı. Fixture engine/scripted decisions/mock browser kanıtı
+gerçek native Decider/Bonsai sonucuna dönüştürülmez. Scientist salt okunur HEAD
+`957b4517e1200c07609952f71d5b6b670621d19a` gözlendi; önceki `1b069ea` incelemesinden
+sonra console/docs ve `0040_attempted_stop_context_lock` migration/test eklendi.
+Bu commit çifti ortak runtime sözleşmesi veya GPU kabulü için teyit edilmedi.
+
+TypeScript `tsc --noEmit`, 14 package-handoff fixture testi ve kaynak manifest
+yenilemesi sonrası **4995 package checks PASS**. Paket sayısı model/runtime/
+training veya gerçek entegrasyon kabulü değildir. Paket kanıtı:
+`data/parameter-skill-package-20260930.log`.
+
+[Komutlar ve UI akışı](OWNED_PARAMETER_SKILL.md).
+
+## Çok alanlı proje: explicit startup ve manuel bootstrap receipt
+
+Public `aos-v1 start` prepared private source project'i exact manifest pin ve
+zorunlu `--owned-parameter-project-engine fixture` ile tek managed session'a
+bağlar. Eski çalışan oturum reuse/replace edilmez; retained source lock/listener
+ve immutable activation marker, yanlış kaynak/port/session ve reactivation'ı
+reddeder. Honest yeni state/schema/metadata, `fixture_cpu` ve real-model false
+taşır. Yeni path native Decider/Bonsai, GPU reuse/prewarm veya silent fallback
+kabul etmez. Görev kendiliğinden başlamaz; mevcut kullanıcı uygulaması değişmedi.
+
+Gerçek `DesktopScheduler` ordinary start → pre-action private intent → actual
+child run binding → leased gateway → finite `RemoteFormOperator` → independent
+source snapshot recipe audit → one-use bütün alanlar TLS readback → immutable
+manual-bootstrap receipt source'ta bağlı. Journal source/control/workspace/store
+ve original job/run pinlerini tekrar denetler; partial/lost ACK/failed cleanup
+ve unresolved restart yeni admission'ı kapatır. Accepted duplicate yeni GET/POST
+yapmaz. Source draft/release lineage uydurulmaz; skill validation, native model,
+site/account rights, training/promotion ve GPU release false kalır.
+
+EN/TR Tasks read-only project kartı prepared/unresolved/accepted ve manifest/
+receipt hash'lerini ayırır. Advertised kind yalnız scoped formdur; malformed,
+uncertain veya consumed receipt'te Start kapalıdır. TypeScript geçti.
+
+**55 focused project CPU/TLS + isolated Chromium PASS / 7,232 s**:
+`data/parameter-project-completion-20260930.log`; provisioning/CLI/startup/
+launcher/journal/UI ve dört gerçek composed CPU scenario aynı snapshot'ta.
+Dört scenario iki uygulama × iki map: actual scheduler/start/operator, gerçek
+TLS POST/state/whole-record, unmocked startup auditor + audit_snapshot,
+scenario başına altı scripted approval kaydı, yedi action, bir POST ve sıfır
+model call; actual accepted receipt/source/run/whole-record pinleri ve replay
+ret. Yalnız browser runtime factory mock TLS backend'e bağlanır; engine fixture.
+Audit, readback ve receipt mock değildir. Bu gerçek managed Chromium/GUI,
+native S1/S2, ortak GPU kabulü veya canlı deploy değildir. İlk test yazımındaki
+diagnostic/record-key assertion hataları düzeltildi; son combined koşu tamamen
+geçti. Broad eski test havuzu tekrarlanmadı.
+
+Salt okunur `aos-v1 status`: mevcut `app-2ab16a6ab690411fbcd094f9a412449b`
+running, parametre projesi değil; eski canlı UI hâlâ aynı oturumdadır. Kaynak
+teslimi bu oturumun güncellendiği iddiasıyla karıştırılmaz. Native Scientist
+capability/reconciliation/drain kapıları ve released-source S2 plan bağlantısı
+açık kalır; proje bütünü tamamlanmadı.
+
+## Çok alanlı proje: public offline hazırlama komutu
+
+`scripts/aos-parameter-project` artık özel canonical request'ten plan → exact
+request SHA + `PROVISION` onayı → private source provisioning → fresh manifest
+verify sunar. CRM/contact_name ve inventory/item_code ile ortak note alanı,
+mevcut profile/page/skill/recipe/case compiler'ıyla hazırlanan gerçek kaynak
+artefact'ları, bounded form body ve whole-record config üretir. OpenSSL yalnız
+yerel fixture sertifikası oluşturur; listener/model/runtime/task başlatılmaz.
+Manifest execution/review/activation/training claim'leri false tutar. Persisted
+manual authoring kaydı synthetic/unverified; native run veya released skill
+lineage uydurulmaz. Hazırlama, Tasks/startup aktivasyonu değildir.
+
+**9 focused CLI CPU PASS / 0,560 s**:
+`data/parameter-project-cli-20260930.log`; iki uygulamada actual OpenSSL
+provision/verify (socket oluşturma yasaklanmış), exact map/port/destination hash
+fence, private/duplicate/oversize input retleri, changed-source verify ret ve
+fresh-process module komutu. Shell wrapper `--help` de çalıştırıldı.
+Public runtime activation ve iki-app native S2→S1 kabulü açık kalır.
+
+**Sonraki combined provisioning + CLI snapshot: 19 CPU/TLS PASS / 1,890 s**:
+`data/parameter-project-focused-20260930.log`; önceki dokuz-test CLI gözlemiyle
+toplanmaz. Dört farklı map/iki uygulama, canonical manifest schema eşitliği,
+fresh public shell plan/provision/verify subprocess zinciri, no-write retleri,
+inode/symlink/hardlink/privacy/source değişimi retleri ve iki app için gerçek
+loopback TLS transport/probe/whole-record readback içerir. Bu son TLS kontrolleri
+fixture source+transport kabulüdür; native modeller veya managed task zinciri
+çalıştırılmadı. Önceki manager dört-case kanıtından ayrı scope'tadır.
+
+## Çok alanlı goal: finite yürütücü, durable journal ve owned TLS oracle
+
+Yeni parameter-map yolu actual `DesktopScheduler` start/run, mevcut finite
+`RemoteFormOperator`, mevcut fresh per-action approvals ve leased gateway'ye
+kaynakta bağlandı. Intent effects öncesi private immutable journal'da; child
+Browser runtime parent Desktop authority'den ayrı pinlenir. Runtime startup,
+tool dispatch ve read-only observation'da source/control/workspace yeniden
+denetlenir. Failed/cancelled/lost-ACK/unverified kayıtlar yeni journal instance'da
+da admission'ı kapatır; consumed confirmation tekrar başlayamaz.
+
+Owned fixture explicit record mode'da actual parsed POST alanlarını kaydeder.
+Mevcut exact state URL'inden tek ek authenticated TLS GET bütün alanları okur;
+beklenen map'i doğrudan outcome diye döndürmez. Manager, original task/recipe
+trajectory audit pinlerini one-use readback öncesi doğrular. Ancak matching
+terminal task + source snapshot audit + whole-record observation immutable
+accepted receipt oluşturabilir. Site/account, native model, training/promotion
+ve GPU release bununla kanıtlanmaz.
+
+Authenticated bounded `parameter-web-goal` preview/start/report API ve EN/TR
+Tasks paneli bağlandı; explicit unchecked human consent, stale response fence,
+sync duplicate lock ve uncertain zero-replay var. Report Human/busy kontrolünde
+read-only kalır. Unconfigured hosts deny-default; ordinary Start bu yolu atlayamaz.
+Reviewed multi-field proje CLI/startup provisioning, iki-app native model kabulü
+ve Scientist shared capability/principal/reconciliation/drain kapıları açık.
+Canlı managed uygulama/UI güncellenmedi, kullanıcı işi durdurulmadı.
+
+- **İki sentetik uygulama / dört parameter map, CPU/TLS source-audit PASS / 1,238 s**:
+  `data/web-goal-desktop-tls-source-20260930.log`; actual scheduler → runner →
+  finite operator, scripted altı approval kaydı, SQLite trajectory, loopback TLS
+  POST/whole-record GET, bağımsız gerçek snapshot audit ve immutable receipt.
+  Replay reddedilir. Browser mocked, engine fixture, model çağrısı sıfırdır;
+  native model, managed Chromium veya GPU kabulü değildir.
+- **22 host/API CPU test PASS / 1,607 s**:
+  `data/web-goal-desktop-host-20260930.log`; dört senaryolu pozitif test dahil.
+  Aşağıdaki önceki snapshot ve ayrı koşuyla sayılar toplanmaz.
+- **51 focused CPU/TLS/mock PASS / 1,301 s**:
+  `data/parameter-execution-composition-20260930.log`; record fixture, runner,
+  journal ve host/API composition snapshot. Snapshot sonraki pozitif testten
+  öncedir; başka sayılarla toplanmaz.
+- **27 adjacent CPU/mock PASS / 0,354 s**:
+  `data/parameter-execution-adjacent-20260930.log`; scalar bridge/planning/context
+  korunur, broad test pool tekrar edilmedi.
+- **3 isolated Chromium fixture PASS / 1,717 s**, TypeScript PASS:
+  `data/parameter-web-goal-ui-20260930.log`; exact two-field preview, escaped
+  literals, EN/TR, explicit start, corrupt/stale binding, lost ACK ve Human report.
+  Browser fixture, managed native web kabulü değildir.
+- Önceki full legacy fixture isolation gözlemi **20 PASS / 1 ERROR**: partial
+  `DesktopScheduler.__new__` fixture'ında eksik `web_goal_planning` attribute'u.
+  İki doğrudan scalar TLS transport kontrolü geçti; unrelated fixture setup burada
+  düzeltilmedi. Bu hata yeni accepted execution veya GPU iddiasıyla gizlenmez.
+
+Önceki Scientist kaynak incelemesi: `31cd67dbcebb096e4e68e478470acbc07c74e62e`,
+tracked diff `02c66b072ee7ed1c89782decb0735f8d7f618404ce0c67909c60f5d3daf5a31c`.
+30 Eylül 19:32 (16:32 UTC) read-only tekrar incelemesi yeni, clean
+`1b069ea40c6db9dea4b6d0b4c2e6a221478aa074` üzerinde broker/executor/scheduler/API
+sözleşmelerinin değişmediğini doğruladı: fixed infer-only wire v1 ve üç profil;
+authenticated capability/cancel/reconcile/drain transport hâlâ yok. AOS selected
+runtime kaynak hash'i `8bb6fa3d906cdbde40ebff83bdafa9c807b3009bd1f2e57eae6ae93c394b150a`
+whole-checkout veya ortak admission kanıtı değildir. Scientist native R7,
+SQLSTATE 42703 sonrası SQL039 shape kontrolü ve 37 physically-quiescent worker
+bildirir; ledger quarantined, GPU allocation/model yok. Bunlar Scientist'ın
+kanıtlarıdır, bu oturumun native testi veya AOS GPU devri değildir.
+Uyumlu sürüm çifti kabul edilmedi; ayrıntılar [Scientist handoff](SCIENTIST_HANDOFF.md).
+Bu oturum yalnız AOS'u değiştirdi; ortak entegrasyon hâlâ **kısmi**.
+
+## Public lifecycle kimliği ve Development'da kaynak teslim görünürlüğü
+
+Yeni `web_goal_execution_binding.py` iki-parametreli iki farklı authored profile
+ve her biri için iki girdi haritasını mevcut generic form recipe compiler'ına
+bağlar. Exact human confirmation, active AGENT authority ve before/after source
+fencing vardır. Host-owned state URL callback'i bütün alanları karşılaştırır,
+partial/unknown/duplicate JSON/reported-two-POST gözlemlerini tek GET sonrası
+reddeder. Yeni canonical schema'lar typed modellerle birlikte doğrulandı.
+**8 focused CPU/compiler/reader fixture PASS / 0,065 s**:
+`data/web-goal-execution-binding-20260930.log`. Callback record binding dışında
+execution receipt, native model, gerçek POST sayısı, outcome, training veya GPU
+kanıtı yok; desktop/executor/host oracle henüz bağlı değil. Bu iki-app end-to-end
+kabul değildir. [Sonraki wiring](WEB_GOAL_PLANNING.md).
+
+Public `./scripts/aos-v1 stop --expected-session SESSION_ID`, mevcut manager'ın
+aynı session'ı göstermesini graceful shutdown öncesi denetler. Owned reuse belgesi
+önce status'tan exact kimlik almayı anlatır; bare stop uyumluluğu korunur.
+**3 focused CLI mock PASS / 0,003 s**:
+`data/owned-stop-session-controls-20260930.log`. Bu tur hiçbir süreç durdurulmadı.
+
+Development EN/TR yeni source-delivery kartı catalog/goal/readback/setup dilimleri
+ile Scientist/two-app kalan kapılarını gerçek kabul yüzdesinden ayrı gösterir.
+**1 isolated Chromium fixture PASS / 1,163 s**:
+`data/development-source-ui-20260930.log`; yalnız mocked capability GET ve Tasks
+navigation callback, sıfır POST/model/runtime. TypeScript geçti; live `ui/dist`
+değişmedi. W1–W6 kabulü hâlâ 0/6, yeni kartlar yüzdeyi artırmaz.
+
+Scientist read-only kaynak audit'i mevcut infer-only fixed broker wire'ı ve
+internal queued cancellation/quarantine drain'i doğruladı; yeni authenticated
+capability/reconciliation/cancel/drain transport'u bulunmadı. Free-goal 1024-token
+schema mevcut recovery/vision 512-token profillerine taşınamaz. Ayrıntı
+[karşı oturuma aktarım](SCIENTIST_HANDOFF.md); belirsiz intent fence kapalı kalır.
+
+## Adaptif paralel işçiler: bağımsız knowledge readback ve kurulum önkontrolü
+
+GPT-6.1 Sol/high işçisi bounded private journal ve native request/response
+acknowledgement readback'ini; GPT-6 Luna/medium işçisi salt okunur setup
+prerequisite raporunu tamamladı. Mevcut UI işçisi bağımsız saved-context raporunu
+Tasks paneline bağladı. Bu gözlenen worker seçimleridir; ana oturumun modelini
+hot-switch etme veya AOS runtime modelini değiştirme iddiası yoktur.
+
+`report-knowledge` Human kontrolünde de model, görev veya replay başlatmadan
+okunur. Typed response ve canonical schema çelişkili kanıt iddialarını reddeder;
+UI ham canonical üyelerin hash'lerini ve acknowledgement bağlantısını doğrular.
+Eski proposal veya `real_model` metadata'sı tek başına gerçek model kullanımını
+kanıtlamaz. Historical binding, güncel source hakları ve fresh planning admission
+ayrıdır; relevance, training, execution, activation ve GPU iddiası üretilmez.
+Setup `--prerequisites` bounded/no-follow manifest ve yalnız dosya/tool presence
+kontrolüdür; `presence_complete` runtime readiness değildir, Docker unprobed kalır.
+
+- **32 focused CPU/mock/store/setup PASS / 0,321 s**:
+  `data/adaptive-readback-final-20260930.log`. Canonical semantic consistency dahil;
+  ResourceWarning logda korunur. İlk yanlış import-path çağrısı düzeltilip
+  `PYTHONPATH=tests` ile çalıştırıldı; broad pool tekrar edilmedi.
+- **35 focused host/API/control PASS / 0,350 s**:
+  `data/knowledge-readback-host-controls-20260930.log`; synthetic store/journal ve
+  mocked model. Bu önceki focused snapshot ile yukarıdaki testler örtüşebilir;
+  toplam kabul sayısı olarak toplanmaz.
+- **5 isolated Chromium fixture PASS / 3,534 s**, TypeScript PASS:
+  `data/owned-web-goal-ui-readback-20260930.log`. Gerçek CPU/mock servisinden Python
+  float canonical üyeler, Human readback, legacy missing ack ve sahte
+  `training_ready=true` reddi. Canlı managed UI veya native/GPU koşusu değildir.
+- Yerel presence gözlemi:
+  `data/setup-local-prerequisites-final-20260930.json`; yeni install/build/deploy yok.
+
+Scientist referansı `31cd67dbcebb096e4e68e478470acbc07c74e62e`, tracked dirty diff
+SHA-256 `02c66b072ee7ed1c89782decb0735f8d7f618404ce0c67909c60f5d3daf5a31c`;
+AOS base `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`. Scientist salt okunur kaldı.
+Ortak capability/principal/cancel/drain uzlaşısı ve Scientist'in yöneteceği gerçek
+GPU kabulü hâlâ bekliyor: entegrasyon **kısmi**, mock başarısı gerçek kabul değildir.
+
+## Üç paralel geliştirme hattı ve gerçek host bağlantısı
+
+Üç ayrı ajan backend context/journal, Tasks panel fencing/knowledge UI ve setup
+receipt'lerini tamamladı; root gerçek startup/store/authenticated API bağlantısını
+birleştirdi. Free-goal artık catalog'la aynı application/tenant/role'deki reviewed
+belgeleri bounded lexical preview ile gösterebilir. Ayrı document-inference ve
+private-storage onayı olmadan model context'i veya proposal journal'ı oluşmaz.
+Yeni capability-pinned context mode, exact model request/response acknowledgement
+ve kaynak/control/workspace/revoke/expiry revalidation kullanır. Plain `1.0`
+korunur, knowledge-bound bundle `1.1`; normal finite S1 executor ve ayrı result
+oracle değişmedi. Scientist native fallback hâlâ kapalı.
+
+Tasks synchronous request fence çift tıklamayı engeller; stale recovery/report
+cevapları düşer. Explicit uncertain-start uyarısı, proposal/abstention/progress ve
+catalog-scope citation/expiry/hash gösterimi EN/TR bağlandı. Native inference,
+genel iki-app yürütme, semantic relevance veya GPU release kabulü değildir.
+
+- **33 focused CPU/ASGI/store/setup PASS / 0,341 s**:
+  `data/parallel-goal-knowledge-controls-20260930.log`. Gerçek local synthetic
+  publication/review/revoke ve private journal; model dispatch mock. İki unclosed
+  SQLite ResourceWarning logda korunur; test başarısızlığı yok, broad pool yok.
+- **4 isolated Chromium panel fixture PASS / 3,308 s**:
+  `data/owned-web-goal-ui-knowledge-20260930.log`. Python-generated Unicode
+  review/hash → exact iki-consent UI dispatch, query/control mutation, duplicate
+  recovery/report ve mobil görünüm. Canlı managed UI veya native görev değildir.
+- Setup receipt version/source/build proof ve failed-stage JSON yolu **11 focused
+  fixture PASS**; mevcut fresh environment/version ve dört staged artifact ayrıca
+  read-only gözlendi. Yeni installer revision'ıyla tekrar install/deploy yapılmadı;
+  önceki gerçek kurulum/build kanıtı alt bölümde tarihsel snapshot'tır.
+
+Yerel Codex seçim profilleri kullanıcı isteğiyle adaptif: rutin Luna/low, uygulama
+Sol6.1/medium, kritik Sol6.1/xhigh, mimari Astra/high. Preference/config kaydıdır;
+çalışan ana backend veya ajanların hot-switch edildiği iddia edilmez, runtime
+Decider/Bonsai değişmez. Global Codex config ve Scientist repo değiştirilmedi.
+
+## Tek komutla ayrı dependency kurulumu ve console staging
+
+`python3 -m scripts.setup_local` önce source manifest ve fresh path/tooling
+kontrolüyle yalnız plan gösterir. Explicit `--install` locked uv extras + pinned
+validation requirements + installed CLI help hazırlığı yapar; mevcut environment,
+ui/dist, node_modules veya runtime süreçlerini güncellemez. `--build-ui` source'u
+ayrı staging'e kopyalar ve frozen pnpm lock ile derler. Model/interpreter download,
+training, GPU görevi, Scientist admission veya deployment yok.
+
+Gerçek ayrı yeni venv kurulumu ve CLI import/help geçti:
+`data/setup-local-cpu-network-20260930.log` (28 locked application packages;
+2 MiB CPU dependency download). İlk offline deneme cache eksikliğiyle güvenli
+durdu: `data/setup-local-cpu-20260930.log`; fallback/reset yapılmadı.
+Ardından başka fresh environment + console staging **offline** geçti:
+`data/setup-local-console-20260930.log`; TypeScript/Vite build 133 ms,
+`data/setup-local/console-20260930/dist/`. Bu aynı mevcut CachyOS üzerindeki
+izole environment/build kabulüdür; temiz başka OS, rendered UI veya tam
+model/browser/desktop startup kabulü değildir. Dört bounded setup-control fixture
+testi 0,001 s geçti: `data/setup-local-controls-20260930.log`.
+[Kurulum](LOCAL_SETUP.md). Lisans/CI değişmedi; Scientist runtime kapıları ayrı.
+
+## Mevcut görev teyidini tekrar yürütmeden kurtarma
+
+Tasks EN/TR'de belirsiz start için mevcut timeline job ID ve ayrı onayla
+`recover-start` bağlandı. Fresh original session/runtime/lease/generation,
+immutable private review, gerçek stored task ve tek exact preview/job execution
+bağı ve kayıtlı start attempt'ten sonra oluşmuş execution kontrol edilir; eski
+aynı-preview işi kullanılamaz. Yalnız eksik receipt yazılır. Model/tool/start
+çağrısı yok. Wrong job, stale generation, repeat reddi ve private receipt readback
+4 kısa CPU/fixture kontrolünde geçti (son attempt-fence snapshot'ı 0,042 s):
+`data/web-goal-recovery-smoke-20260930.log`. TypeScript derlemesi geçti. Genel
+restart reconciliation, rendered yeni UI veya gerçek native/GPU/Scientist kabulü
+değildir. Çalışan kullanıcı uygulamasına deploy/restart yapılmadı.
+
+## Belirsiz görev başlangıcında tüm yerel admission kapanır
+
+Private start-review intent var ama exact accepted job receipt yoksa artık yalnız
+yeni goal planning değil, mevcut scheduler üzerinden normal task/model kabulü de
+bloklanır. Yalnız aynı immutable review'a bağlı senkron başlangıç scoped olarak
+kendi rezervasyonunu geçer; hata durumunda istisna kapanır. EN/TR Tasks uyarısı ve
+API cevabı timeline incelemesi ister; “görev başlamadı” veya otomatik retry iddiası
+yok. Cancel belirsiz intent'i silmez. Scientist ortak GPU kabulü değişmedi;
+çalışan kullanıcı uygulamasına deploy/restart yapılmadı. Dört hedefli CPU/fixture
+kontrolü 0,033 saniyede geçti: `data/web-goal-admission-smoke-20260930.log`.
+Nested/altered review reddi, start exception sonrası reservation ve exact receipt
+sonrası açılış kapsamıdır; gerçek model veya GPU kabulü değildir.
+
+## Goal görev sonuç döngüsü kaynakta kapatıldı
+
+Tasks EN/TR **Verify bound task result** → original private review/accepted job
+receipt → same desktop/session/task → existing independent candidate/trajectory
+audit bağlandı. Preview/source/recipe/release/selection ve exact case/parameter
+variant kontrol edilir; task succeeded veya model önerisi tek başına başarı değil.
+Human kontrolünde read-only kalır; consumed job metadata ile control change sonrası
+bağlı sonucu yeniden gösterir. Rapor scope owned synthetic recipe; training/GPU
+release iddiası yok. Hatalı private schema içeriksiz hata verir.
+
+Python/TypeScript ve **4 kısa CPU/fixture smoke / 0,028 s PASS**:
+`data/web-goal-result-smoke-20260930.log`. Private receipt readback, synthetic SQLite
+status/source/parameter projection; underlying oracle bu yeni projection testlerinde
+mock. Actual native planner→task→oracle, rendered yeni panel, geniş pool, GPU,
+Scientist veya managed deploy/restart çalıştırılmadı. Bu kaynak döngüsü kapandı;
+genel web/gerçek ortak runtime kabulü tamamlanmadı.
+
+## Serbest hedef → öneri → incelenmiş görev başlangıcı kaynakta bağlı
+
+Restored standalone owned oturumda mevcut native web goal planner, private intent/
+proposal journal, scheduler reservation/cancel ve Tasks EN/TR goal/consent/preview/
+ayrı start onayı bağlandı. Start mevcut altı-manuel-onaylı finite S1 executor'a
+gider; URL/tool modelden alınmaz. Exact catalog/bundle/preview ve current control/
+review/release/source tekrar doğrulanır. Private start-review intent önce,
+accepted job receipt sonra; lost receipt yeni planning'i bloklar, replay yok.
+Scientist-mode native ek planner reddedilir; shared runtime kabulü değişmedi.
+
+Python/TypeScript derleme ve **2 kısa CPU smoke / 0,025 s PASS**:
+`data/web-goal-planning-smoke-20260930.log`. İki example catalog/result fixture,
+gerçek private journal yazma/readback, stale selection/consent/cancel ve uncertain
+review gate kapsamıdır; actual task-start, browser, gerçek model/GPU/Scientist
+veya managed deployment kabulü değildir. 1941/276 geniş snapshot ve önceki manuel
+panel Chromium screenshot'ı bu yeni kodu içermez; tekrar full test çalıştırılmadı.
+[Güncel akış ve kalanlar](WEB_GOAL_PLANNING.md).
+
+## Güncel tüm-source CPU kapanış denetimi
+
+30 Eylül son backend/source snapshot'ında `check_capabilities.py --profile core`
+**1941 PASS / 276 SKIP / 0 FAIL / 0 ERROR**, runner **173,831 s**:
+`data/capability-check-kahp3qhu/report.json` ve `contracts.json`.
+Bu yeni snapshot cleanup/source-report/web bridge testlerini içerir; önceki
+1921/275 veya targeted sayılarla toplanmaz. Rapor doğru olarak `partial`:
+atlanan GPU/GUI/native/gerçek görev kabulleri tamamlanmadı. Yeni GPU havuzu,
+Scientist süreci, model, eğitim, deploy veya kullanıcı restart çalıştırılmadı.
+Read-only mevcut `127.0.0.1:8765/ui/` HTTP200 ve `/api/session`
+`local_auto_login:true` doğrulandı; bu eski managed instance'ın ulaşılabilirliğidir,
+son dirty kaynakların deployment kabulü değildir. İlk sürüm rehberindeki eski
+zorunlu token talimatları standart/token-policy modlarını ayıracak şekilde düzeltildi.
+
+O CPU kapanış gözleminde Scientist HEAD `01dab7d97a97c4402ce416cebc6506f22834c131`
+idi; sonraki readonly gözlemde **4e1bb41645bebd07338000f0c3c46d3975cdc286**
+(`Preserve attempted stop recovery ancestry and complete planned cells`) ve temiz
+tracked diff görüldü. Bu karşı tarafın ilerlemesidir; AOS oturumu o dosyaları
+değiştirmedi veya kabul testini çalıştırmadı. GPU/AOS ortak kabulünü kapatmaz.
+Yeni özellik açmadan sonraki runtime kapısı ortak capability/principal ve trusted
+cleanup sözleşmesidir; Scientist-owned gerçek koşu bunun ardından gelir.
+
+## Genel web hedefi — seçili owned kaynak köprüsü
+
+**UI kaynak bağlantısı:** Tasks EN/TR `Supported web skill` paneli explicit current catalog ve manuel message preview gösterir; inference/start yok. Runtime/lease/generation/reuse değişiminde state silinir; API öncesi/sonrası fresh control ve release/selection/recipe readback denetlenir. TypeScript ve **1 final synthetic Chromium test / 1,173 s PASS**, `data/owned-web-goal-ui-final-20260930.log`: EN/TR, mobil 390×844 no overflow, zero automatic API, unsupported text, stale control ve permission claim ret. Static route fixture; actual managed app/native model/site/Scientist denenmedi veya deploy edilmedi. Private mobil screenshot görsel incelendi.
+
+Current reuse/review/release/selection → stored profile/task/skill → bounded one-skill catalog → typed model proposal → existing deterministic preview kaynakta bağlandı. Yeni authenticated `/api/tasks/owned-web-goal/catalog` ve `/preview` body/schema/Origin/control denetimli; start veya inference yapmaz. Unicode/dış skill/stale selection/boolean generation/uncertain control normalize edilmez veya atlanmaz. Tek owned synthetic save-message recipe kapsamıdır, genel web kabulü değildir. **25 targeted CPU/mock + ASGI test / 0,193 s PASS**, `data/owned-web-goal-bridge-final-20260930.log`; source providers ve compiler results synthetic/mock, browser/real model/GPU yok. Managed UI/deploy, durable general proposal binding ve iki uygulamalı gerçek S1/oracle kabulü henüz yok. [WEB_GOAL_PLANNING](WEB_GOAL_PLANNING.md).
+
+## Scientist runtime önceliği — kısmi, GPU admission kapalı
+
+- **Transfer hızlandırma (30 Eylül):** `python -m scripts.scientist_source_report` salt okunur HEAD/diff ve seçili runtime dosya hash'lerini üretir; untracked worker/adapter da kapsanır. Source mutation, missing/symlink ve nested checkout negatifleri dahil **5 CPU test / 0,063 s PASS**, `data/scientist-source-report-tests-20260930.log`. Private status path/content basılmaz; whole-tree fingerprint veya Scientist preflight/admission değildir. Kısa karşı-taraf beklentileri [SCIENTIST_HANDOFF](SCIENTIST_HANDOFF.md) içinde. Bu turda GPU/Scientist deneyi veya canlı deploy yapılmadı; ortak capability/principal/reconcile/drain hâlâ açık.
+
+- **Owned local Lab shutdown:** client/service admission kapatılır, yalnız kendi local async kontrolüne cancellation sinyali verilir; exact HTTP worker + service result callbacks drain edilmeden CLI lifespan SQLite'ı kapatmaz. 1..10 s bounded wait, failed cleanup'ta closed kalma ve same-handle recheck var; new dispatch cancellation kontrolü ekli. Remote deney stop/GPU release veya reopen değil; pending intent korunur, POST/proposal replay yok.
+- **48 focused CPU/mock PASS / 21,219 s**, `data/scientist-runtime-local-close-20260930.log`; final closing-policy + actual ASGI startup/lifespan **3 PASS / 2,677 s**, `data/scientist-runtime-local-close-final-20260930.log`. Held POST/late response, shutdown admission, timeout/failure/recheck ve store-thread drain testli. Önceki core 1921/275 bu son cleanup regressions'ı içermez; toplanmadı. GPU/gerçek Scientist veya mevcut kullanıcı app restart/deploy yapılmadı. README root snapshot 15:37:27 Istanbul `tokensUsed=50750046`, `timeUsedSeconds=235496`; alt sayaç/maliyet/whole-project toplamı çıkarılmadı.
+
+- **Acceptance audit/restart fence:** yeni session, eski session lost-ACK Lab intent'ini atlayabiliyordu; önce regresyon failure kaydedildi (`data/scientist-runtime-restart-regression-before-20260930.log`). Lab queue/effect dispatch artık tüm store'daki unresolved intent'i fence eder; Scientist desktop start/resume Lab uncertainty'yi de kabul engeli sayar. Identity/intent reset/delete yok, yeni remote POST/job kabulü yok. Native/fixture engine replacement ve unbrokered knowledge/owned planning kapalı; read-only inventory invalid binding'de de çalışır, Lab uncertainty EN/TR görünür.
+- **Geniş pre-fence core 1921 PASS / 275 SKIP / 0 FAIL / 0 ERROR / 174,097 s**, `data/capability-check-kdxolsrg/report.json`. Sonraki final targeted **46 CPU/mock + gerçek Chromium/sentetik UI PASS / 17,943 s**, `data/scientist-runtime-restart-complete-20260930.log`; son metadata/pinned-engine assertions ayrıca **2 PASS / 0,655 s**, `data/scientist-runtime-restart-final-20260930.log`. Snapshot'lar toplanmaz; önceki focused ResourceWarning kanıtı korunur. Browser plugin yok, mevcut Python Playwright fallback; EN/TR desktop/mobile expanded metadata/no overflow/page error ve GET-only refresh geçti, TypeScript PASS. Private görüntü `data/scientist-ui-qa-lphwktz1/`, dış kopya `/tmp/aos-scientist-restart-20260930/`. Gerçek GPU/Scientist deneyi veya deploy yok. Önceki milestone maddelerinin açıkları tarihsel snapshot'tır; güncel dış kapı ortak capability/principal/reconcile/drain ve Scientist-only GPU kabulüdür.
+
+- **Lab host startup composition bağlandı:** frozen typed `ScientistLabStartup` + canonical schema, explicit loopback authority/private token file/principal/suites/program/context/bounded timeout. `serve_desktop.main` optional host config ve ayrı trusted Lab verifier ile existing actual controller/client/service'i console'a verir. Eksik config/policy, native mode, nonloopback/nonprivate credential runtime/DB/token creation öncesi reddedilir; yeni ortak endpoint/path yok, token değerleri CLI/model/export/inventory'ye girmez.
+- **27 CPU/mock PASS / 9,640 s**, `data/scientist-runtime-lab-startup-20260930.log`: actual startup → gerçek create_console/ASGI authentication → typed propose → ayrı exact insan onayı → start → bağımsız status → terminal report/hash/status → durable acknowledged inventory. Sunucu owned ephemeral SyntheticLabServer, Desktop FixtureDesktop, Docker/uvicorn mock; gerçek listener/GPU/model/Scientist deneyi yok. Credential shutdown'da silinmez, plaintext basılmaz. Önceki core 1904/275 bu yeni startup testlerini içermez; artırılmadı. Scientist HEAD **01dab7d** readonly, concurrent diff korunur. Common capability/principal/reconcile/drain ve Scientist-only GPU kabulü açık; canlı app deploy/restart yapılmadı.
+
+- **Desktop CLI source aktivasyonu:** `--engine scientist` + explicit absolute `--scientist-broker-socket`; standalone ortak provider olmadan token/DB/DesktopRuntime/listener yaratmadan açık hata verir. Trusted host embedding `main(scientist_confirm_runtime=...)` actual S1/opsiyonel vision S2 factory'yi console'a bağlar; boolean capability grant, unsafe/duplicate/nonobject manifest ve native reuse/prewarm/idle/owned-model path reddedilir. Yeni ortak endpoint/path uydurulmadı, knowledge native answer bu modda kurulmaz.
+- **10 CPU/mock PASS / 0,248 s**, `data/scientist-runtime-startup-20260930.log`: gerçek private temporary SQLite ve FixtureDesktop ile startup wiring, Docker/uvicorn mock, native engine constructor yok. Gerçek listener/Desktop/GPU/Scientist başlamadı; managed kullanıcı instance'ı değişmedi. Önceki core 1904/275 altı yeni startup testini içermez, sayılar eklenmedi. Lab API startup composition, shared reconciliation/cancel/drain/principal ve Scientist-only GPU kabulü hâlâ açık. Private frozen source tar ve diff/manifest teslimi `data/scientist-runtime-startup-handoff-20260930.json` içinde; source tar installer/deployment değildir.
+
+- **Lab HTTP event loop engeli giderildi:** actual console execute/status/report routes async service'i await eder. HTTP/token I/O worker thread'de; authority/approval/intent callback ve final SQLite acknowledgment owning loop thread'de. Aynı effect lock/attempt set, orijinal deadline ve bağımsız report readback korunur. Yerel await iptali remote deney/GPU release değildir; pending intent ve sticky uncertainty korunur, worker bitmeden yeni control yok.
+- **54 CPU/mock PASS / 23,458 s**, `data/scientist-runtime-lab-async-20260930.log`; final responsive/cancellation iki regression `data/scientist-runtime-lab-async-final-20260930.log`. Held POST sürerken actual ASGI inventory **300 ms altında** cevap verir; host callback thread identity/commit ve late stop ACK sonrası actual Human authority korunur. İlk sync race fixture main-thread takeover + held HTTP'ye taşındı. Wider focused koşuda mevcut SQLite ResourceWarning'leri var; warning-free denmez. Önceki core 1904/275 bu değişiklikleri içermez, sayılar eklenmedi. Scientist readonly HEAD **01dab7d** runtime_v1/historical_hooks source preflight ayrımını ekledi; dirty source ve joint admission hâlâ kapalı. Kullanıcı app'i/Scientist repo ve GPU süreçleri değiştirilmedi.
+
+- **GPU intent görünürlüğü:** mevcut authenticated Scientist jobs yanıtı current-session son 20 bounded metadata ve diğer session unresolved sayısını gösterir; prompt/image/model output/lease/token/peer private verileri çıkmaz. SQLite salt okunur; remote call/reset/release yok. EN/TR Tasks paneli pending/receipt_recorded, request/deployment digest ve açık cleanup/reconciliation engelini gösterir; boş envanter GPU release sayılmaz.
+- **19 initial CPU/mock + gerçek Chromium/sentetik UI PASS / 9,059 s**, `data/scientist-runtime-inventory-20260930.log`; son durable receipt/redaction testi dahil console/desktop **18 CPU PASS / 7,608 s**, `data/scientist-runtime-inventory-final-20260930.log`. Önceki core 1904/275 bu dört yeni testi içermez; sayılar eklenmedi. Browser plugin yok, mevcut Python Playwright/Chromium fallback; desktop1280x800/mobile390x844 EN/TR, expanded digest/no overflow/no page error, GET-only refresh. Private screenshots `data/scientist-ui-qa-icif60df/`, external copies `/tmp/aos-scientist-inventory-20260930/`. TypeScript/private Vite build PASS (`data/scientist-runtime-inventory-ui-build-20260930.log`); eski büyük chunk uyarısı var. Canlı UI dist/app restart/deploy edilmedi.
+
+- Desktop binding son source snapshot geniş core: **1904 PASS / 275 SKIP / 0 FAIL / 0 ERROR / 167,563 s**, `data/capability-check-kokf2aiw/report.json`. Core CPU sözleşme/negative test kapsamıdır; gerçek model/GPU/gerçek site kabulü değildir. README authoritative root gözlemi 14:26:46 Istanbul `tokensUsed=50406669`, `timeUsedSeconds=231256`; alt sayaç/cost/whole-project toplamı çıkarılmadı. Private teslim `data/scientist-runtime-desktop-handoff-20260930.json`.
+
+- **Explicit desktop startup binding:** yeni `create_scientist_desktop_scheduler`, existing console `scheduler=` girişine uygun typed S1/opsiyonel vision S2 + tek async broker + mevcut SQLite intent bağlamasını kurar. Joint capability host verifier default deny; yeni endpoint/scheduler/ownership yok. Gerçek controller/job/run/stored State/runtime ve mevcut knowledge/failure/web guards yeniden denetlenir. Eski session dahil store'daki tüm unresolved intent'ler start/resume öncesinde reddedilir; receipt GPU release sayılmaz.
+- **49 focused CPU/mock PASS / 2,309 s**, `data/scientist-runtime-desktop-20260930.log`: gerçek typed Operator/Controller/Scheduler → private SQLite intent → sentetik authenticated UDS → ayrı exact human approval → yetkili temporary hello dosyası → bağımsız file readback ve verification PASS. Sonraki job enqueue edilmeden reddedildi. Capability revoke hiç dispatch yapmaz; actual Human takeover sonrası late ACK karar/effect üretemez, pending intent korunur. Registry broker Bonsai'yi Decider sanıyordu; doğru Bonsai backend/weights/enabled=0 regresyonu geçti. Başlangıç fixture pin eksikleri gerçek registry bypass edilmeden düzeltildi. GPU/Scientist auth/model fixture'ları mock; çalışan kullanıcı app'i değiştirilmedi.
+
+- **S2 caller bağlantıları uygulandı:** `ScientistBonsaiSupervisor` recovery ve `ScientistBonsaiVisionSupervisor` describe akışları aynı async broker client'ını kullanır. Native schema/prompt/deployment identity korunur; iki payload gerçek current broker-worker validator'ından geçer. Current task/control callback varsayılan deny, pre/post receipt doğrulaması; truncated/foreign/duplicate JSON, foreign evidence, stale capture/state ve değişen deployment reddedilir. Local server spawn/native fallback yok.
+- **30 focused CPU/mock PASS / 0,503 s**, `data/scientist-runtime-supervisor-20260930.log`: 8 yeni Supervisor testi + 9 S1 + 13 broker worker. Önceki core 1891/275 bu 8 testi içermiyordu; toplamı yapay olarak artırılmadı. Vision input test PNG'si sentetik header/digest fixture'ıdır, gerçek ekran/model sonucu değildir. Scientist readonly HEAD **ba12a0c**; son commit broker/API dosyalarını değiştirmedi. Joint capability/reconciliation, explicit startup ve Scientist-owned gerçek GPU kabulü açık; app restart/deploy, GPU testi ve Scientist değişikliği yapılmadı.
+
+- **S1 caller bağlantısı uygulandı:** `ScientistDecisionEngine`, mevcut typed State/Option/Prediction karar sözleşmesini sabit Scientist Decider profiline bağlar; authority/deployment ve dispatch sonrası readback yeniden doğrulanır. Native GPU fallback yok. `ScientistAsyncTurnClient` socket I/O'yu ayrı thread'de, mevcut SQLite intent/receipt ve controller callbacks'i kendi event-loop thread'inde çalıştırır; UI/event loop model yanıtını beklerken bloklanmaz.
+- **İptal:** yerel bekleme/socket kapanır; unresolved intent ve sticky uncertainty yeni inference'ı engeller. Bu remote cancel veya GPU release değildir. Gerçek kullanıcı uygulaması değiştirilmedi; app/CLI startup, Bonsai caller, ortak capability ve trusted reconciliation açık.
+- **47 focused CPU/mock PASS / 2,347 s**, `data/scientist-runtime-decision-20260930.log`; gerçek private SQLite journal + sentetik UDS, callback thread identity, responsive loop, cancellation cleanup, lost ACK/no retry, stale state/deployment ve geçersiz prediction reddi. Geniş core **1891 PASS / 275 SKIP / 0 FAIL / 0 ERROR / 165,745 s**, `data/capability-check-g1pwinta/report.json`. Gerçek GPU veya Scientist kabul koşusu değildir. README root snapshot 14:05:26 Istanbul `tokensUsed=50254324`, `timeUsedSeconds=229976`.
+
+- **Gerçek checkout broker worker bridge:** mevcut Scientist fixed argv/env/ready-go kaynaklarına göre `services/decider/broker_worker.py`, `services/bonsai/broker_worker.py` ve shared stdlib runtime eklendi. İzole tarihi kopya kör kopyalanmadı; onun beklediği eksik `ModelSession.prepare_gpu` current native worker'a fresh/no-inference GPU activation olarak eklendi. Lease acquire/release/scheduler yok; mevcut Scientist tek otorite.
+- **47 CPU/mock PASS / 3,981 s**, `data/scientist-runtime-broker-workers-20260930.log`: wrong request/profile/nonce, cgroup/netns/offline/private file bounds, strict JSON/manifest drift/deadline, one-time mock CUDA load, exact ready/go/infer output, fixed Bonsai argv/private key ve failed cleanup'da stdout success yok. Gerçek CPU alt süreç broker scope dışında model yüklemeden reddedildi. Positive cgroup/CUDA/model/server fixture'ları mock; gerçek GPU/Decider/Bonsai sonucu değildir.
+- Worker output veya parent exit GPU release kanıtı değil; Scientist exact unit/cgroup/device drain/quarantine teyidi zorunlu. Caller-engine routing, admitted app/CLI activation, mutual capability/reconciliation ve Scientist-owned GPU kabulü açık. Kullanıcı app/worker'ları stop/restart/deploy edilmedi; Scientist dosyaları/testleri/süreçleri değiştirilmedi. Kaynak inceleme HEAD 2f66560, eşzamanlı local Director/CLI diff'i salt okunur kaldı.
+- Geniş core **1882 PASS / 275 SKIP / 0 FAIL / 0 ERROR / 165,019 s**, `data/capability-check-26bsaoro/report.json`. Scientist'in expired unsent stop kaynak bulgusu önceki migration 0020/focused testlerle zaten kapandı; yeni source bridge ortak admitted contract değildir. README root snapshot 13:40:25 Istanbul `tokensUsed=50167395`, `timeUsedSeconds=228475`; alt counters/billing/whole-project toplamı çıkarılmadı. Private teslim `data/scientist-runtime-broker-workers-handoff-20260930.json`.
+- Runtime source packaging allowlist shared helper ve yeni Bonsai worker'ı kapsayacak şekilde dar güncellendi; model/private artifact kapsamı genişletilmedi. **14 source-package test PASS / 0,104 s**, `data/scientist-runtime-broker-workers-source-package-tests-20260930.log`; bu son packaging değişikliği ayrıca test edildi, önceki core import snapshot'ına eklenmedi. Manifest **1237 source file / 4820 package check PASS**, `data/scientist-runtime-broker-workers-package-20260930.log`. Lisans/genel CI işi yapılmadı.
+
+- **Human takeover/stop tamamlandı (CPU/mock):** original Lab request/session/runtime/context/principal korunurken current DesktopController owner/lease/generation ile yeni control envelope oluşturulur; eski onay canlandırılmaz. Append-only migration **0020**, pending/approved unattempted onayı stale_controller/approval_expired gerekçesiyle audit-preserving reddeder; original approver korunur. Intent/acknowledged reset ve GPU lease/release yok. Farklı runtime/session/context'e adoption kapalı.
+- **59 focused PASS / 12,105 s**, `data/scientist-runtime-human-takeover-20260930.log`: actual controller takeover → eski stop ret → yeni Human status/stop onayı, Human start ret, expiry sonrası fresh stop; geç eski stop ACK Human authority'yi kapatmaz, intent unresolved kalır, readback açık/new effects kapalı. Capability/Lab API mock'tur. Migration 20 audit/review/backup canonical schema/version kontrolleri güncellendi; eski destekler korundu.
+- Geniş core **1868 PASS / 275 SKIP / 0 FAIL / 0 ERROR / 165,249 s**, `data/capability-check-xbyvfel3/report.json`; son ek late-stop-ACK regresyonu ayrıca focused kümesinde geçti, core import snapshot'ında yoktur. **2 Chromium/sentetik UI PASS / 1,907 s**, `data/scientist-runtime-human-takeover-ui-20260930.log`; EN/TR stale/expired açıklaması, exact scope/uncertain/no-retry, desktop/mobile/console/overlay kontrolleri. Private QA `data/scientist-ui-qa-7dqrtyx7/`. TypeScript/private Vite build PASS; canlı ui/dist veya uygulama değiştirilmedi.
+- Manifest **1233 source file / 4816 package check PASS**, `data/scientist-runtime-human-takeover-package-20260930.log`; private source-pair/diff/manifest teslimi `data/scientist-runtime-human-takeover-handoff-20260930.json`. Scientist readonly HEAD 29c0685, çalışan işleri veya dosyaları değiştirilmedi. Root sayaç 13:11:17 Istanbul `tokensUsed=49961055`, `timeUsedSeconds=226727`; counter kapsamı README'de korunur. Joint integration kısmi, GPU admission/gerçek kabul kapalı.
+
+- **Console/controller bağlantısı:** `ScientistLabService`, mevcut current DesktopController session/owner/runtime/lease/generation, migration 0019 durable journal ve authenticated console exact-envelope human approval'ı bağlar. Host-pinned program/suite, ayrı propose/approve/execute/stop/status/report API ve Tasks EN/TR paneli eklendi. Console farklı controller'ın servisine bağlanamaz; approve-all Lab onayını geçmez. Native foreground slot tutulmaz, ikinci GPU scheduler yok. Capability default deny; gerçek app/CLI activation, ortak sürüm/capability/reconciliation teyidi açık.
+- **Doğrulama:** ilk console/client/journal kümesi **35 PASS / 17,750 s**. Geniş core **1865 PASS / 275 SKIP / 0 FAIL / 0 ERROR / 165,409 s**, `data/capability-check-47nmcgqj/report.json`. Son controller-service identity guard testi ayrıca final **7 CPU ASGI + 2 gerçek Chromium/sentetik UI = 9 PASS / 5,088 s**, `data/scientist-runtime-console-final-20260930.log`; bu ek test core toplamına eklenmedi. Chromium yalnız private synthetic component harness'tır; gerçek Scientist/GPU/insan deneyi değildir.
+- **UI QA:** Browser plugin yok; mevcut Python Playwright + mevcut Chromium kullanıldı. Exact scope göster → ayrı onay → execute → HTTP409/unresolved intent → retry düğmesi yok. EN/TR, desktop1280×800/mobile390×844; blank/overlay/page error/taşma yok, console yalnız beklenen409. Stale approved sonucu uncertain hatası altında kalıyordu; yeni işlemde result temizlenerek giderildi. Private screenshot/console kanıtı `data/scientist-ui-qa-1_8r3oix/`. TypeScript ve ayrı private Vite build PASS (`data/scientist-runtime-console-build-20260930.log`), mevcut büyük bundle uyarısı korunur. Canlı `ui/dist` değiştirilmedi; kullanıcı uygulaması restart/deploy edilmedi.
+- Scientist readonly HEAD **29c0685**; yeni resume-stop CLI/test/kanıt commit'i mevcut broker ve Lab API DTO/routes kaynaklarını değiştirmedi. Bu oturum onun testlerini çalıştırmadı veya dosya/süreçlerini değiştirmedi. GPU kabulünün tek yürütücüsü Scientist oturumu. README root goal gözlemi 12:57:29 Istanbul `tokensUsed=49921751`, `timeUsedSeconds=225899`; whole-project/cost/model-specific toplam çıkarılmadı.
+- Console milestone manifest **1232 source file / 4815 package check PASS**, `data/scientist-runtime-console-package-20260930.log`; private teslim source pair/diff/manifest/kanıt kaydı `data/scientist-runtime-console-handoff-20260930.json`. Mock başarı gerçek joint integration diye sunulmaz.
+
+- Ayrı kalıcı Lab job/approval/action milestone: append-only migration **0019** ve `ScientistLabJournal`, mevcut private AOS DB üzerinde exact task/action/body/deadline/human approver pinlerini saklar. Authenticated human ve joint capability/current host state providers varsayılan deny; console/controller dispatch hâlâ açık. Approved → intent transaction'ı POST öncesi commit edilir; bağımsız read-only SQLite kontrolüyle test edilir. Remote run tek defa bağlanır; stop ACK GPU release değildir.
+- **11 CPU/HTTP/SQLite test PASS / 5,556 s**, `data/scientist-runtime-lab-journal-focused-20260930.log`: lost ACK/reopen, testin kendi CPU writer sürecinin commit sonrası SIGKILL/reopen kanıtı, disk-result failure, stale owner/generation, expiry/revoke, rejected/duplicate/changed-body approval, SQL identity/delete korumaları ve aynı session'daki başka preapproved işi unresolved intent sırasında reddetme. Human/capability fixtures mock'tur; canlı Scientist API veya GPU kullanılmadı. Migration 19 audit/backup/review uyumluluğu güncellendi; expired audit deadline yeni daha büyük schema üzerinde SQLite interrupt yerine mevcut resource-limit hatasına çevrildi. Odaklı journal/audit/review/backup **49 PASS / 6,768 s** (`data/scientist-runtime-lab-journal-20260930.log`); ilk migration-boundary hataları kaydedilip giderildi.
+- Scientist readonly HEAD **1d8e702** yeni doküman/kanıt commit'idir; broker/API runtime değişikliği yok. Scientist deposu, testleri veya süreçleri değiştirilmedi; gerçek GPU kabulünün tek yürütücüsü Scientist oturumu olarak kalır.
+- Geniş CPU core **1858 PASS / 273 SKIP / 0 FAIL / 0 ERROR / 158,868 s**, `data/capability-check-b57s51nq/report.json`; bu import snapshot'ında 10 Lab journal testi vardır. Son ek CPU crash testi ayrıca 11-test odaklı ve 49-test migration kümesinde geçti, bu core toplamına eklenmiş sayılmaz. Paket **1228 source file / 4811 check PASS**, `data/scientist-runtime-lab-journal-package-20260930.log`; private teslim `data/scientist-runtime-lab-journal-handoff-20260930.json`. README root sayaç gözlemi 12:37:01 Istanbul, `tokensUsed=49844276`, `timeUsedSeconds=224671`; alt sayaçlar toplanmadı.
+
+- Typed Lab boundary: `ScientistLabTask`, common Action envelope'undan ayrı finite `ScientistLabAction`, explicit host policy (`real_model=False`) ve dört lab.start/status/stop/report aracı eklendi. Current Scientist API kaynaklarından doğrulanan exact research routes, yalnız explicit literal loopback authority ve mode-0600 bounded token; token model/input/log'a girmez. Capability/principal/fresh control provider ile human approval + durable effect writer varsayılan **deny**. Bunlar çalışan approval DB veya AOS console/task dispatch değildir; native registry/Hello State değiştirilmedi.
+- CPU sentetik HTTP zinciri: bounded typed start → ayrı status readback → status → stop_requested ACK → terminal status/report/status ve canonical hash. Kayıp/foreign ACK, değiştirilmiş scope/principal/lease/state/selected tool, revoked provider, expired deadline, private token/alias/header injection, callback mutation ve replay retleri test edildi. Stop ACK GPU release değildir; effect sonrası belirsizlik yeni action/key'i de reddeder. `data/scientist-runtime-lab-client-20260930.log`; fixture izinleri gerçek insan onayı veya persistent workflow kanıtı değildir.
+- Lab boundary son odaklı koşu **18 CPU/HTTP test PASS / 9,034 s**. Beş canonical budget/start/handle/task/action schema typed modellere eşlenir. Human-control metadata status/stop için ayrılır; Human owner'ın start'ı reddedilir, gerçek Human control fence ve approval provider hâlâ zorunludur. Son code snapshot core **1848 PASS / 273 SKIP / 0 FAIL / 0 ERROR / 152,448 s**, `data/capability-check-fn5xkjkw/report.json`. Sadece CPU fixture; canlı API/token, gerçek kullanıcı işi veya GPU testi kullanılmadı.
+- Lab boundary manifest **1225 source file / 4808 package check PASS**, `data/scientist-runtime-lab-package-20260930.log`. Private teslim kanıtı `data/scientist-runtime-lab-handoff-20260930.json`; root usage gözlemi 12:11:05 Istanbul `tokensUsed=49732365`, `timeUsedSeconds=223115`. Scientist güncel `5da7c766` readonly kaynaklarından mevcut route/DTO doğrulandı; onun DB/süreç/dosyaları değiştirilmedi. Ortak GPU/capability/reconcile kabulü kapalı kalır.
+
+- Durable intent dilimi: yeni migration **0018**, mevcut AOS TrajectoryStore üzerinde exact request/hash, control owner/lease/generation/runtime/context pinleri, original deadline ve broker peer kaydını ayrı commit eder. SQL identity/deadline rewrite/delete ve stale session fence reddedilir. **11 journal CPU test PASS / 0,268 s**; private SQLite independent readback, reopen retention, pending replay, revoke ve synthetic Unix→DB intent/receipt zinciri. Ek gerçek CPU crash testi yalnız testin kendi writer alt sürecini commit sonrası SIGKILL ile kapatır; yeni store'da pending intent korunur. Receipt **receipt_recorded**, GPU release değil; gate restart sonrası da kapalı kalır. Trusted reconciliation/reopening yüzeyi henüz yok. Journal context hash'i insan onayı değildir. `data/scientist-runtime-intents-20260930.log`.
+- Transport receipt commit failure regression ile **27 CPU test PASS**; frame'de nested NaN/Infinity reddiyle protocol **13 CPU test PASS**. Schema/audit/review-journal/backup version 18'e eklendi; eski 7–17 destekleri korunur. Dataset audit **14**, recovery backup **9**, dataset review **15** odaklı test PASS. İlk broad run migration-boundary eksik güncellemelerini yakaladı: **1806 PASS / 273 SKIP / 2 FAIL / 18 ERROR**, `data/capability-check-f9qt9sks/report.json`; güncel canonical schema/backup/version assert'leri düzeltildi, source güvenlik kontrolleri gevşetilmedi.
+- Son code snapshot core: **1829 PASS / 273 SKIP / 0 FAIL / 0 ERROR**, `data/capability-check-pc1pv00i/report.json`. Arada çalışan eski import snapshot'ı journal exception sınıfı uyumsuzluğunu verdi (**1828 PASS / 1 ERROR**), `data/capability-check-zgk2318h/report.json`; typed admission error'a eşlendi ve güncel broad koşu geçti. Manifest **1218 source file / 4796 package check PASS**. Güncel özel kanıt `data/scientist-runtime-intents-handoff-20260930.json`; model/GPU/Scientist testleri veya kullanıcı servis restart/deploy yapılmadı.
+
+- Devam dilimi: `ScientistTurnClient` özel Unix socket/SO_PEERCRED → sabit systemd broker unit/PID/start-ticks/boot/invocation/cgroup bağlamasını ve callback-öncesi/sonrası authority kontrollerini ekler. Varsayılan admission ve intent writer **reddeder**; gerçek task/CLI/model akışına bağlanmadı. Frame/hash/deadline/peer durable writer seam'e gider; callback fixture'ı kalıcı DB kanıtı değildir. Gönderim sonrası belirsiz sonuçta tüm yeni işler kapanır, otomatik retry yoktur; client guard bellektedir, crash sonrası durable reconciliation hâlâ açık. **26 CPU/socket test PASS / 1,629 s**, `data/scientist-runtime-transport-20260930.log`; systemd lookup mock'tur. Gerçek broker/principal/GPU kabulü sayılmaz. Son code snapshot core: **1817 PASS / 273 SKIP / 0 FAIL / 0 ERROR / 141,326 s**, `data/capability-check-zo650cy3/report.json`. [Kapsam](SCIENTIST_RUNTIME_INTEGRATION.md).
+- Transport source manifest: **1214 dosya / 4791 package check PASS**, `data/scientist-runtime-transport-package-20260930.log`. Commit/fark/source hash ve kullanılmış root counter gözlemi `data/scientist-runtime-transport-handoff-20260930.json` içinde; önceki foundational handoff ayrı tarihsel kanıttır. Scientist'ın eşzamanlı principal-generation replay düzeltmesi yalnız salt okunur izlendi, AOS tarafından test/deploy edilmedi.
+
+- İlk inceleme snapshot'ında yalnız AOS değişti; Scientist kaynakları ve ayrı oturumun işleri salt okunur incelendi. O gözlemin pair'i AOS `ed6e857` / Scientist `14a2c83`; historical patched copy gerçek checkout değildi. O ilk snapshot'ta CLI, broker worker ve Lab task adaptörleri yoktu; güncel kaynakta bu yerel bağlantılar artık vardır, ortak admission hâlâ yoktur. [Kaynak ve aktarılacak sözleşme önerisi](SCIENTIST_RUNTIME_INTEGRATION.md).
+- `scientist_protocol.py` ve dört canonical schema, mevcut wire-v1 UTF-8 request hash/frame/correlation ve terminal report + ayrı status hash/readback sınırını uygular. **12 CPU test PASS**; bu authenticated transport, scheduler, principal/fencing doğrulaması veya GPU drain kanıtı değildir.
+- Reusable S1'in cleanup başarısızken process handle'ını erken kaybettiği hata önce iki regresyonla yakalandı (**13 testte 3 failure**, teardown dahil), sonra düzeltildi. Signal/communicate/5-saniye cleanup deadline hatasında exact handle korunur, yeni startup/request kapanır; explicit cleanup sonrası yeni CPU worker açılır. **14 lifecycle CPU test PASS**, **21 prewarm test PASS**, **11 dispatch test PASS**. Dispatch fixture artık gerçek communicate gibi returncode yazar; exit olmayan reply ayrı ret testiyle korunur.
+- İlk geniş core: **1779 PASS / 273 SKIP / 4 FAIL / 2 ERROR**, `data/capability-check-_hti6zey/report.json`; altı sonuç cleanup sonrası returncode yazmayan eski dispatch mock'larından geldi. Güvenlik kontrolü gevşetilmedi; fixture semantiği ve ayrı unproven-exit regresyonu güncellendi. Yeniden core: **1791 PASS / 273 SKIP / 0 FAIL / 0 ERROR / 139,541 s**, `data/capability-check-480n857d/report.json`. Skip'ler gerçek GPU/site/UI kabulü yapılmış sayılmaz. Odaklı özel loglar `data/scientist-runtime-{lifecycle,dispatch,protocol}-20260930.log`.
+- Scientist'ın kendi stop/fencing/cleanup/compatibility çalışmaları korunur. Sözleşme önerisi `aos-scientist-runtime.v1` henüz iki oturumca teyit edilmedi; gerçek GPU kabulünü **yalnız Scientist** yürütecek. Bu oturum model/GPU denemesi, push, merge, deploy veya kullanıcı servis restart'ı yapmadı. Typed authenticated start/status/stop/report orchestration ve bağımsız GPU release kabulü açık; entegrasyon **kısmi**.
+- Kaynak manifest yenilendi: **1212 dosya**; **4788 package check PASS**, `data/scientist-runtime-package-20260930.log`. README authoritative root goal gözlemi 10:43:17 Istanbul: `tokensUsed=49371268`, `timeUsedSeconds=217847` = 60 saat 30 dakika 47 saniye. Final source/diff/commit evidence `data/scientist-runtime-handoff-20260930.json`; özel loglar/payloadlar kaynak paketine girmez.
 
 ## Serbest goal → scoped skill/parametre önerisi — executor bağlantısı açık
 
@@ -2410,3 +5614,138 @@ HF cache'inde başlangıçta Decider/Bonsai bulunmadı. `/home/cachyos/.unsloth/
 ## Next Concrete Milestone
 
 Session/runtime bağı 6u ile salt okunur doğrulanır; sonraki runtime işi açık host yetkisine bağlı orphan yönetimi/continuation için ayrı admission ve effect sözleşmesidir. Kesin orphan kanıtı veya otomatik sahiplenme/silme mevcut rapordan türetilmez. Eksik read/verification ve receipt olmayan uncertain aralıklar kapalı kalmalıdır; eski lease/onay canlandırılmaz. Genel görev yürütme, Docker/browser/vision/sequence continuation, Wayland ve kurulabilir native dağıtım ayrı kabul gerektirir. S1 dataset bağlı loss artık 7k ile vardır; eğitim tarafında S2 hazırlığı/gerçek veri hattı, değerlendirmede geniş bağımsız held-out gerçek model karşılaştırması kalır. Gerçek/lisanslı veri, insan review ve held-out split sağlanmadan training-ready açılmaz.
+## 1 Ekim 2026 — Development ekranında anlaşılır teslim özeti
+
+Development açılışına üç kart eklendi: kullanılabilir arayüz akışları, ilk sürümün neden tamamlanmadığı ve bir sonraki somut teslim. Görevler düğmesi yalnız sekmeyi değiştirir; görev veya GPU işi başlatmaz. EN/TR ve dar ekran görünümü korunur. Bu özet canlı Codex iş durumu veya ürün tamamlanma yüzdesi değildir.
+
+TypeScript ve üç izole Chromium testi geçti (`data/development-summary-ui-20261001.log`). UI yeniden derlendi; mevcut backend yeniden başlatılmadı. Gerçek 8765 arayüzünde özet ve 390 px görünüm doğrulandı; yalnız yerel login yazımı gerçekleşti, task/model çağrısı yok. Özel ekran kanıtı `data/development-summary-live-20261001.png`. Ortak Scientist/GPU kabulü, güncel adayın tam runtime teslimi ve gerçek Mac bağlantısı bu UI çalışmasıyla tamamlanmış sayılmaz. Hedefin önceki blocked gözlemi tarihseldir; 07:45:37 UTC sayacı active olarak gözlendi.
+## 1 Ekim 2026 — Scientist güncel kaynak aktarımı, 07:47:38 UTC
+
+AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist HEAD `f9c9281e7e4f8981fae7f3700aa3605a9ca74fdf`. Scientist worktree'de belge/metrics değişiklikleri gözlendi; public inceleme dosyalarının hash'leri ve tracked diff hash'i `data/scientist-handoff-current-20261001.json` içinde ayrı kaydedildi. Scientist kodu çalıştırılmadı, private veri/config/process incelenmedi.
+
+Karşı taraf review103'ün üç farklı sözleşme katmanı ve workspace sahipliği beklentisi `SCIENTIST_HANDOFF.md` üstüne aktarıldı. Compatibility checker/config preparer hâlâ source60; configured factory iki yerde eski caller helper'ını kullanıyor. Source63/current-caller ve bağımsız enabled binding/task/oracle olmadan ortak runtime başlatılmadı. Bu kaynak uyumluluk gözlemidir; descriptor hash eşitliği, gerçek GPU veya ürün kabulü değildir. Mevcut source/config/admission kapıları açık kalır.
+## 1 Ekim 2026 — Dış entegrasyon kapısı nedeniyle hedef engelli, 07:58:35 UTC
+
+Kullanıcının çalışan 16 GB NVIDIA eylemci sistem hedefi korunur. Yerel gerçek model yolu ve mevcut Scientist factory/source kapıları incelendi; bunlar ortak GPU kabulünün kanıtı değildir. Yeniden devam edilen hedefte üç ardışık tur boyunca Scientist `f9c9281e7e4f8981fae7f3700aa3605a9ca74fdf` checker/config preparer/configured factory hash'leri değişmedi. Source63/current-caller ve bağımsız onaylı enabled runtime/task/oracle kapıları hâlâ açık. Scientist-only gerçek GPU yürütücüsü ve yalnız AOS değişikliği sınırları korunarak güvenli başka bir gerçek kabul adımı bulunamadı; hedef `blocked` kaydedildi, tamamlandı sayılmadı. Mevcut AOS kullanıcı oturumu durdurulmadı veya yeniden başlatılmadı. Sayaç gözlemi README'de; aktarılacak somut gereksinimler SCIENTIST_HANDOFF üst bölümünde.
+## 1 Ekim 2026 — Ayrı AOS opt-in workspace/runtime hazırlığı
+
+Kullanıcının Scientist aktarım isteğiyle `data/scientist-opt-in-20261001/workspace` ayrı 0700 AOS workspace olarak oluşturuldu. Aynı dizindeki `swapp-aos-joint-acceptance.service` 0600 user-unit tanımı, gerçek serve_desktop girişini ayrı DB/veri kökleri ve 18865 loopback portuyla kullanır. Engine ve vision disabled; bu fixture veya native model kabulü değildir. Unit kurulmadı/başlatılmadı, GPU alınmadı, aktif kullanıcı oturumuna dokunulmadı. systemd-analyze --user verify ve gerçek CLI --help geçti; port yalnız hazırlık anında bind/release ile boş bulundu, rezerve veya yayınlanmış değildir. Runtime/config envanteri ve source63 gözlemi özel aynı dizinde; bütün ağırlık/dependency incelemesi ve enabled Scientist factory wiring hâlâ açıktır. Scientist kodu çalıştırılmadı. Hazırlık dosyaları SCIENTIST_HANDOFF üst bölümünde listelenir.
+## 1 Ekim 2026 — Scientist104 somut AOS eksikleri kapatıldı
+
+Tam Scientist CPU/mock regresyonu `data/scientist-outer-deadline-20261001.log`: 618 kontrol, 611 PASS/7 SKIP, 118,556s; canlı GPU opt-in kapsamı değil. Son eklenen caller still_current forwarding kontrolüyle odaklı caller18 PASS ayrıca doğrulandı. Runtime/config envanteri canonical unit ve yeni source63 pinine göre güncellendi. Yeni selected-source SHA `6f84e8796059005be3704f25093b232127cdeedc87c8afede568525be369ce8d`; eski b56 pinli configuration receipt bu transport değişikliğini kapsamaz. Yeni source gözlemi `data/scientist-opt-in-20261001/source63-deadline-report.json`. Scientist kaynaklarından hiçbir launcher, factory veya test çalıştırılmadı; kullanıcı servisi değiştirilmedi.
+
+Scientist public104 ve güncel fcec2c61 kaynak incelemesi source63/native caller desteğini doğruluyor; Scientist kodu çalıştırılmadı. AOS staging unit adı canonical `swapp-aos-gpu-joint-acceptance.service` olarak düzeltildi, `swapp-gpu.slice` eklendi. Unit kurulmadı/başlatılmadı; eski ad superseded. Broker/caller authenticate ve still_current için optional absolute monotonic deadline eklendi; sorgu kalan outer/local bütçenin küçüğünü kullanır, eski/bozuk deadline ve geç tamamlanan sonuç reddedilir. 17 caller +30 transport CPU/mock testi geçti. Bu ölçüm gerçek servis/GPU veya hard-real-time kabulü değildir. Native launcher ve independently reviewed enabled config/artifact/current generation kapıları korunur; source63 yeni transport hash'iyle yeniden teyit ister.
+## 1 Ekim 2026 — GPU'suz native model static readback
+
+Mevcut native Decider worker'ın stdlib doğrulayıcıları ayrı model Python'unda çalıştırıldı; model import/load, CUDA veya Scientist kodu çalıştırılmadı. Decider manifestindeki 11 dosya/3.783.718.831 byte ile exact dependency VERSION haritası eşleşti. Bonsai model/runtime manifestindeki 86 dosya/8.381.226.038 byte eşleşti. CPU okuma 7,202s; özel kanıt `data/scientist-opt-in-20261001/static-artifact-readback.json`. Bu manifestteki dosya haritalarının gözlem anı doğrulamasıdır: bütün transitive dependency byte attestation, current generation/rights veya native Scientist artifact receipt yerine geçmez. Scheduler/GPU yetkisi oluşturulmadı; dosya freshness'i actual admission sırasında yeniden denetlenmelidir.
+## 1 Ekim 2026 — Infer çağrısının authentication deadline bağlantısı
+
+Scientist public104 yeni aktarımı AOS infer client'ın da original toplam deadline'ı taşımasını istedi. BrokerAuthenticator typed sözleşmesi ve ScientistTurnClient initial authenticate / pre-dispatch still_current / post-dispatch still_current çağrıları aynı effective request deadline'ını keyword olarak iletir. Legacy bütçe yenileyen TypeError fallback yok; custom trusted authenticator da bu keyword'ü desteklemelidir. 32 transport,19 startup,5 desktop,18 bootstrap,12 retained-host:86 CPU/mock kontrolü geçti. Same-deadline ve authentication başarısızlığında sıfır intent/dispatch yeni testlerle kanıtlandı; post-dispatch uncertainty ve replay-denial korunur. Native/GPU kabulü yapılmadı. Önceki 618-test raporu bir önceki transport kimliğine aittir; bu kaynak değişikliğinin kanıtı yukarıdaki odaklı koşudur.
+## 1 Ekim 2026 — Doğrudan Scientist koordinasyonu ve source outer deadline
+
+### 19:37 Europe/Istanbul — Gerçek görev reddi korunarak bounded exception tanısı
+
+Scientist yeni boot/source b16/client92a497 ile fresh native görevünü çalıştırdı; `job-ec919288…` / `run-27b9442d…` yaklaşık16,439s system1 error ile başarısız oldu. Karşı taraf canonical token17/idle ve0 GPU tahsisi bildirdi; bu sonuç frame staging CPU başarısının gerçek uçtan uca kabul olmadığını gösterir. Persist edilmiş bootstrap audit request `b0ab470bf9d942c0b7a450f0df132da7`, control `c0e9510c42d44d57ae79e81f975cc9f5`; orijinal audit/failed run korunur. Scientist yalnız kendi caller/broker/container cleanup'ını doğruladığını bildirdi. Root retry/GPU/service işlemi yapmadı. Exact exception zinciri mevcut runner dönüşümünde gizlendiğinden kalan nedeni yalnız toplam süre veya boş inference tablosundan çıkarmıyoruz.
+
+EvidenceClient'a dar başarısızlık tanısı eklendi: closed stage adı, attempted bool, en fazla8 exception türü ve tür başına8 function/line; isimler128 karakterle sınırlı. Exception mesajı, dosya yolu, source metni, locals, request/control ID, token veya body yazılmaz; mevcut original exception/uncertain wrapping ve tüm deadline/authorization/replay kontrolleri korunur. CPU regression private exception mesajı/path ve request ID'nin logda bulunmadığını, pre-send başarısızlığın frame göndermediğini doğrular. 72 birleşik client/bootstrap CPU testi8,274s'de geçti: `data/scientist-opt-in-20261001/evidence-frame-staging-diagnostic-cpu.log`. Gerçek broker/model/GPU testi değildir; actual yeni logun gözlenmesi ve asıl başarısız aşamanın kapatılması hâlâ gereklidir.
+
+Client raw SHA `9a1243bc1274162680ad1210615999096e565cce921def6871d7e8ebbe950b32`, test raw SHA `4306ef77a287978b9341be8905d6c48e3ee79d9e7528d3c7547cc74760623cd5`, selected63 `d2f846e6809bf80b296f3e7ab2aeaa0819f05d1f45a2168d6645569cc6e2e6be`. Eski b16/client92 source gözlemi tarihseldir; diagnostic-only delta yeniden pinlenmeden yeni native admission'a verilmez. Scientist probe EOF'un connection handler'da yakalanıp capacity bırakıldığını ve decode öncesi store/allocation olmadığını kaynak üzerinden teyit etti; bu gerçek model kabulü değildir. API18600'nin fresh boot/PID/startticks/unit/invocation/cgroup ve authenticated AOS GET eşliği root tarafından read öncesi/sonrası doğrulandı; proof `frame-fixed-fresh-API-independent-review.json` yalnız önceki repin/fresh API incelemesidir, son diagnostic delta veya GPU grant değildir. Entegrasyon **kısmi**.
+
+### 19:19 Europe/Istanbul — Control frame penceresi için evidence staging düzeltmesi
+
+Scientist'in ilk gerçek `hello` işi `job-7478caabcfde482c85389487d21ffa0b`, run `run-3e148c9f677f43caa575b30114421e94` başarısız oldu. Root yalnız opt-in `desktop-console.sqlite` read-only metadata'sında system1/error, 11870,4576ms ve NULL response gördü; inference intent/admission history/evidence controls tablosu boştu. Bunun bootstrap auditi olmadığı anlamına geldiği çıkarımı yanlıştı: aynı original DB'de `scientist_bootstrap_intent` desktop event'i, request `a0a1d2bfd2d14d98b70025f2dc1a3f58` için persist edilmişti. Scientist canonical token17/idle ve0 yeni GPU tahsisi raporladı; bu failed native task başarılı model/GPU kabulü değildir. Orijinal audit/failed run silinmedi veya tekrarlanmadı.
+
+EvidenceClient UDS'yi açtıktan sonra ağır authorize/durable bootstrap readback kontrollerini çalıştırıyordu; Scientist broker'ın accepted-connection frame penceresi bu sırada tüketilebiliyordu. Root gerçek private CPU UDS/sentetik peer ile .1s frame ve .3s durable persistence regresyonunu önce RED olarak yakaladı. Düzeltme: kısa probe bağlantısından actual SO_PEERCRED alınır ve probe kapanır; authenticate, mevcut full authorization, durable intent ve current checks açık frame bağlantısı dışında yapılır. Yeni dispatch bağlantısı tekrar actual peer credentials/authentication alır, full BrokerPeer generation eşliğini ve final fresh authorization/socket identity'yi doğrular; yalnız bundan sonra tek request frame gönderilir. Aynı overall deadline, control ID/no-replay, durable-before-send, partial-send uncertainty ve response/readback checks korunur. Broker FRAME_SECONDS veya wire/schema sürümü değiştirilmedi; bağımsız expected peer actual socket peer yerine geçirilmedi.
+
+20 client CPU testi ve51 bootstrap/async/factory/desktop CPU testi geçti. Yeni regression yavaş durable prep'in frame penceresini tüketmemesini; yeni bağlantının başka generation'ı benimsememesini; final authentication sırasında revoke'un sıfır gönderimle reddini sınar. Kanıtlar `data/scientist-opt-in-20261001/evidence-frame-staging-red.log`, `evidence-frame-staging-green.log`, `evidence-frame-staging-bootstrap-cpu.log`. Bunlar gerçek CPU sockets/synthetic peer testidir, Scientist broker veya GPU/model kabulü değildir. Kesilen test handle'ı artık yoktu; mevcut terminal log51PASS/OK ile doğrulandı, sırf gözlem kesildi diye test yeniden başlatılmadı.
+
+Değişen AOS runtime dosyası `src/aos/scientist_evidence_client.py`, raw SHA `92a4978b613e967d03c81a9f8981851038792a5787cb4ee8602dd47eb341abc8`; regression dosyası raw SHA `ecb99ec0cc620f1738891a4397dc8531381227f008ab70510284a94707a182d2`. Bu gerçek source değişimi önceki selected7ad snapshot'ını yeni admission için tarihsel yapar; yeni source63/policy/profile source fingerprint repin gerekir. AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, observed Scientist HEAD `7d9cc9f0b933920dc2be069c2a1cdff7584f9fc7`. Resume'da gerçek boot `3f14059f-60ac-4b8f-a4b5-e3adeaea19ce` önceki `9a4ceebb-0966-429c-ad1f-03eda96dc840` kimliğinden farklıydı; önceki API/caller/receipt/job handle'ları yeniden kullanılmaz. Root GPU, servis restart veya başka oturumun process/data değişikliğini yapmadı. Ortak gerçek GPU görev zinciri hâlâ açık, entegrasyon **kısmi**.
+
+### 15:50 Europe/Istanbul — Gerçek izole AOS startup ve owned cleanup geçti
+
+Scientist identity düzeltmesi AOS runtime kaynağını değiştirmeden recovery/vision türetilmiş deployment'larını raw artifact manifest hash'inden ayırdı. Root beş private girdi hash'ini, 107 runtime source hash'ini, üç profil için canonical config SHA/policy/static requirement eşliğini ve unchanged raw manifest/artifact/dependency requirements'ı bağımsız doğruladı. Decider kimliği değişmedi; Bonsai kimlikleri actual AOS metadata constructor readback'iyle eşleşti. Kanıt `data/scientist-opt-in-20261001/native-profile-identity-independent-review.json`. Scientist 2281PASS/7SKIP/121DESELECT/all7tool exit0 bildirdi; bu karşı taraf CPU raporudur, AOS root Scientist testlerini çalıştırmadı.
+
+Beşinci actual isolated AOS startup `648317` / invocation `338c6e47ca7f41a3a0e5e13c6523e375` ile factory/source/profile gates ve Docker XFCE Desktop oluşturmayı geçti. Scientist actual authenticated `/api/state` okuması AGENT/running ve `network=false` bildirdi; root cleanup'tan önce canlı GET yapmadı ve bu authenticated state sonucunu karşı taraf kanıtı olarak ayırır. Root shared proof raw SHA `1910caaf6e40689dfd3dbbb25fd1e61cc2de9e60ac2c4e11c100864003b79e7c`, exact caller-bound fresh receipt raw SHA `af9e873b21cfd3ae894c6e5926063f1b35731955f114e6a9973a70dcffa769c7`, üç original caller binding'i ve before/after snapshot hash eşliğini bağımsız doğruladı. Exact invocation'ın 14 journal kaydı içinde `Application startup complete` ve `Application shutdown complete` görüldü.
+
+Scientist kendi service/runtime cleanup'ını yaptı. Root mevcut original native PID648317/broker PID647961 yokluğunu, original native cgroup yokluğunu ve exact container `d2947d2639fe62568231ef5fb0edad7bfabc070601d37a6b01bf677be6932947` kaldırılmış olmasını bağımsız okudu; servis stop, container removal veya GPU işi başlatmadı. Kanıt `fifth-native-independent-proof-and-cleanup-review.json`. Bu CPU startup lifecycle kabulüdür: model/task/GPU ve Lab execute sayıları karşı tarafça0 raporlandı; root canonical SQL tahsisini veya GPU release'i bağımsız doğrulamadı. Ölü caller'ın receipt'i tarihsel kanıttır, yeni admission'da kullanılamaz.
+
+Observed source pair AOS `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist `7d9cc9f0b933920dc2be069c2a1cdff7584f9fc7`; gerçek fifth identity runtime source commit'i `fa59b0c` ve gözden geçirilen source hashes private kanıtlardadır. AOS selected63 `7ad46783d1d0f93c9fd8f721c97b8c58b20c8a343e49f86505c0bd3ecd9a1950` değişmedi. Daha yeni docs/usage diff'i actual runtime source değişimi veya grant değildir. **Entegrasyon kısmi:** gerçek ortak native model görevi→GPU devri→sınırlı Scientist deney/bağımsız puanlama→AOS sonuç readback→GPU cleanup hâlâ çalıştırılmadı. Scientist tek GPU yürütücüsü; sonraki koşu fresh API/native caller/current reservation ister. Aktif kullanıcı AOS oturumu ve model manifestleri değiştirilmedi.
+
+### 15:35 Europe/Istanbul — Bonsai profil-kimliği uyuşmazlığı bağımsız doğrulandı
+
+Scientist tanı launcher'ı aynı fail-closed exception'ı yeniden fırlatarak yalnız bounded exception türü/function/line konumlarını gösterir; mesaj, path, source veya locals yazılmaz. Root salt okunur source delta incelemesinde yanlış private policy nesting'ini başlangıçtan önce yakaladı: launcher source hash'i `source_files.scientist` yerine üçüncü root key'e yazılmıştı. Hazırlık reddi gerçek native failure olarak sunulmaz. Düzeltilmiş policy/launch map'leri exact `aos`/`scientist`, 107 source ve12 config hash'iyle bağımsız eşleşti; `confirm-diagnostic-policy-denied-review.json` ve `confirm-diagnostic-nested-independent-review.json` kanıtları private opt-in dizinindedir. Eski reddedilmiş girdiler kullanılmadı.
+
+Scientist'in gate'i önce `/tmp`16GiB tmpfs/20GiB reserve, ardından uzun owned TMPDIR/AF_UNIX path sınırından reddedildi. Bunlar ürün korumalarını gevşeterek kapatılmadı; kısa Scientist-owned host filesystem temp root'uyla karşı taraf2277PASS/7SKIP/121DESELECT ve7tool exit0 bildirdi. Bu karşı taraf test raporudur; AOS root Scientist testlerini çalıştırmadı. İncelenen Scientist HEAD `0d0af50a6dfbcf7e0be23bf5ae6afadcaea443bb`.
+
+Dördüncü gerçek AOS generation `5bedf2e68a954646b51d9098e2e87d55` exit2/PID0 ile `Bootstrap runtime deployment differs from reviewed pins` kontrolünde reddedildi. Scientist actual tanısı source/provider çağrısından önce deployment eşliğinin bozulduğunu gösterir. Root original AOS `ScientistBonsaiSupervisor` ve `ScientistBonsaiVisionSupervisor` constructor'larını `client=None` ile yalnız metadata için çalıştırdı: ham manifest digest `d4a55a3e47b9575c336127605ddc0c98e4f43633f30bd6aa7717ee1b488f1280`, recovery profil digest `ad66723f4779bf2fa74db02038084b4199aae69693b8a6a38baccdc98e87d2ae`, vision profil digest `a13700c4ddcd91e1e3d5edaa17b9cc83ad00a2356090b0fa59c5edda0ba87627`. Recovery schema/protocol ve vision schema/protocol türetilmiş profil kimliğine girer; raw artifact hash'i ile logical profile digest aynı değildir. Aktif manifest değişmedi, model/client/GPU çağrısı yoktur. Kanıt `bonsai-native-profile-identity-readback.json`; Scientist kendi preparer/configured factory hesaplarını mevcut source/schema pinleriyle hizalar. AOS guard bypass veya yeni scheduler eklenmedi.
+
+18598 API generation GET eşliği son bağımsız kontrolde doğruydu, fakat kalan1141,98s, seçilmiş900s Lab task + startup/cleanup için agreed1200s tabanını karşılamadı. Sonraki başlangıç Scientist tarafından yalnız CPU tanısı olarak sınırlandı; gerçek model/Lab kabulünden önce fresh API generation ve typed refs gerekir. Entegrasyon hâlâ **kısmi**, gerçek ortak GPU veya tamamlanmış araştırma kabulü değildir. README authoritative kullanım snapshot'ı yenilendi; selected63 runtime source sabit tutulur, metadata-only full-diff gözlemleri ayrı kaydedilir.
+
+### 15:16 Europe/Istanbul — Scientist doğrudan koordinasyonu ve gerçek startup sınırı
+
+Scientist oturumuyla doğrudan mesajlaşma mevcut; kullanıcı mesaj taşımak zorunda değildir. Scientist ortak GPU koşusunun tek yürütücüsüdür. AOS root yalnız kaynak/config incelemesi, authenticated API GET ve salt okunur process/unit kontrolü yaptı; Scientist modülü veya testi çalıştırmadı, servis başlatmadı/durdurmadı, GPU işi göndermedi. Aktif kullanıcı AOS oturumu değiştirilmedi. İncelenen kaynak çifti AOS `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`, Scientist `51b2464333885e0de06d9da505475ae2e7374da0`; yerel değişiklikler vardır, HEAD tek başına çalışan kaynak kanıtı değildir. AOS selected63 `7ad46783d1d0f93c9fd8f721c97b8c58b20c8a343e49f86505c0bd3ecd9a1950` runtime kaynağı sabittir; bu belge ve kullanım sayacı yenilemesi yalnız metadata değişimidir.
+
+Mevcut Bonsai manifestindeki optional producer projection pini yoktur; `projection_verified=false` doğru kalır. Scientist `profile_output_v2` raw allowlist doğrulaması sonrası actual runtime receipt'ini narrow response/usage biçimine projekte eder ve ancak ardından sonucu saklar; AOS stored receipt bu dar biçimi doğrular. Bu kaynak zinciri için aktif model manifestini değiştirmek gerekmez. Gerçek mevcut producer yanıtının uyumluluğu henüz kanıtlanmadı. Kanıt: `data/scientist-opt-in-20261001/bonsai-v2-projection-source-review.json`.
+
+Ayrı API18598 generation'ı, token hash'i ve gerçek AOS authenticated GET capability eşliği bağımsız doğrulandı; özel DSN içerikleri okunmadı. Final API ve interpreter/config delta kanıtları aynı private dizindeki `final-execution-api-independent-review.json`, `interpreter-fixed-independent-review.json`, `config-fixed-independent-review.json` içindedir. Static bracket snapshot'ın 107 source stat/hash kaydı ve iki interpreter'ın configured/target stat/hash'i bağımsız eşleşti; dependency sürümleri yeniden çalıştırılmadı, model dosya ağacı tekrar hash'lenmedi. Bu alt küme canlı admission veya GPU release kanıtı değildir: `static-bracket-independent-subset-review.json`.
+
+Scientist'in gerçek izole başlangıçlarında: private policy0644 reddi korunup kendi dosyaları0600 yapıldı; ilk AOS generation `bfbbbb7edefb417c83c00082df859165` Decider Python binary'sinin 30.929.576 byte olup genel8MiB sınırını aşmasıyla durdu. Scientist yalnız interpreter için32MiB finite sınır ekledi, source/config8MiB sınırı korundu. İkinci generation `7475916b2bff4030b8185a001af6309d`, policy'nin independent config listesine ayrıca eklenmesiyle AOS guard'ında reddedildi; yalnız yinelenen policy config girdisi kaldırıldı, ayrı policy hash'i ve12 model/profile/output pini korundu. Yeni receipt output eski ölü generation receipt'ini kullanmaz. Üçüncü generation `aa0e0a0d19bd4120adf4a8d997891dcd` gerçek early runtime confirmation'da exit2 ile reddedildi; alttaki exception zincirinin teşhisi Scientist'e iletildi. Bu girişimler çalışan Desktop, native görev veya ortak GPU kabulü olarak sunulmaz. Entegrasyon **kısmi**; gerçek AOS görev→GPU devri→sınırlı Scientist deney/bağımsız puanlama→AOS readback→cleanup zinciri açıktır.
+
+### 14:15 Europe/Istanbul — Opt-in noVNC asset izolasyonu
+
+Scientist karşı incelemesi `serve_desktop.py` içinde her açılışta ortak `data/desktop-console-assets/<image>` hedefine Docker copy yapıldığını yakaladı. Yeni explicit `--console-assets-root`, opt-in runtime'ın kendi dizinine kopyalamayı sağlar; belirtilmediğinde mevcut kullanıcı varsayılanı korunur. Relative/symlink root ve symlink image hedefi kopyadan önce reddedilir. Native unit önerisine özel console-assets root ve Bonsai vision CLI guard'ının gerektirdiği `--browser-tasks` eklendi. Aktif kullanıcı servisi, cache'i ve processes değiştirilmedi.
+
+5 CPU/sentetik asset testi ve 19 Scientist startup testi geçti; private hedefte sentetik kopyanın shared sentinel'i değiştirmemesi ve gerçek main argümanının console hedefini bağlaması doğrulandı. Kanıtlar `data/scientist-opt-in-20261001/console-assets-isolation-cpu.log` ve `console-assets-startup-cpu.log`. Docker copy fixture'dır; gerçek Docker/native/GPU startup kabulü değildir. Opt-in unit syntax kontrolü geçti; install/reload/start yapılmadı.
+
+Ayrı Scientist API18596 için root, gerçek PID/start ticks/boot/cgroup/invocation, 14 source/config hash'i, normalize token hash'i ve original AOS typed istemcisiyle authenticated GET capability eşliğini doğruladı. 3 private DSN içeriği okunmadı; bu kısmın hash incelemesi Scientist'e aittir. `api-acceptance-preparation-independent-readback.json` kanıtı yalnız API scope'udur; broker grant veya POST/deney/GPU değildir. API expiry ve generation eventual startup'ta yeniden doğrulanmalı. Scientist0ebf stop raporunun hash'i ile eski worker PID/cgroup/UDS yokluğu bağımsız incelendi; `scientist-stop-terminal-independent-readback.json` ortak GPU kabulü veya tamamlanmış araştırma olarak sunulmaz.
+
+Bu gerçek entrypoint değişikliği önceki cc62 selected-source pin'ini tarihsel yaptı; Scientist yeni kaynak/policy/static/typed-launch pin'lerini karşılıklı incelemeden aday runtime'ı başlatamaz. NoVNC fix dışında runtime yetkileri, canonical scheduler, model weights ve migration'lar değiştirilmedi. Kullanım snapshot'ı README'de yenilendi.
+
+### 13:18 Europe/Istanbul — Karşılıklı kapalı runtime incelemesi
+
+Doğrudan Scientist oturumuyla 107 gerçek kaynak hash'i, 6 native doğrulama girdisi ve kapalı policy/profile eşliği salt okunur kontrol edildi; fark bulunmadı. Yerel kanıt `data/scientist-opt-in-20261001/scientist-amended-static-review.json`: static input bda78a441cd81ba46a78dedbd0c7113d17eedab50f83aecf6215f3fda0e8982e; disabled policy643624ae0410795a9e799e7bbb9b29e829c194e2836927d6cabf9bbabf0414e8. İnceleme deployment veya runtime admission değildir.
+
+Scientist launcher2e12c967ad125678336b81afc17f5085d1e03af91d7bc4b2b5d1f6285430d5ed ve Lab hooke540d2f67b3c1ca06ee7b46cf42cb58ca1e12c0d1b5ae5d196bc5e490744f429 üzerinde iki önceki bulgunun kaynak düzeltmesi gözlendi: unreaped leader sahipliği korunarak signal-before-reap ve constructor'ın inherited deadline'ı kullanması. Ortak inceleme bu helper'ı bağımsız pinli, process spawn etmeyen güvenilen native verifier ile sınırlar. Original-session scan farklı session'a kaçan keyfi descendant'ların veya gerçek GPU worker'ın bırakıldığını kanıtlamaz; interpreter startup hooks/transitive dependency bytes attested değildir. Kanıt `data/scientist-opt-in-20261001/amended-launch-review.md`.
+
+AOS selected source cc62d4955b125ea30f46936d416d42b09798f103f2d5f9560c40f7e52794e90f değişmedi. Scientist kendi terminal SQL/Scorer finalizer düzeltmesini bağımsız ilerletir. Exact launch/joint Lab rights girdileri, gerçek inflight stop terminal kabulü ve tek Scientist yürütücüsünün ortak GPU koşusu hâlâ açık. Aktif AOS kullanıcı oturumuna müdahale, Scientist kodu/testi çalıştırma, servis activation, GPU, eğitim, push veya deploy yapılmadı. Kullanım sayacı README'de güncellendi; bu metadata-only yenileme yeni runtime başarısı değildir.
+
+Scientist thread 01a0d270-b9b5-7173-83fe-2a269645bbf0 mesajı alındı ve send_message_to_thread aracından doğrudan yanıt verildi. Önceki “doğrudan mesaj aracı yok” gözlemi artık tarihsel; yeni tool discovery gerçek mesaj aracını gösterdi. Karşı tarafın source verifier5s bütçe yenileme bildirimi üzerine __call__ optional absolute monotonic deadline eklendi; min(5s,kalan outer), invalid/expired erken deny, aynı tüm-read bütçesi. 19 source/16 bootstrap factory/7 bootstrap desktop:42 CPU/mock PASS. Native source callback için deadline-aware consumer wrapper ve runtime callback'in mevcut enclosing scope'u Scientist'e iletildi. GPU/native kabul yapılmadı. Scientist kendi inflight iptal koşusunu yönettiğini bildirdi; bu AOS'un bağımsız doğrulaması değildir ve AOS GPU başlatmaz. Yeni model/ajan workflow yok; yalnız AOS dosyaları değiştirildi.
+## 2 Ekim 2026, 04:54 UTC — Fresh APIv5 AOS raw kaynak eşliği doğrulandı
+
+Scientist disabled preparation paketi raw SHA `38fb6a7844516fb6707a1200025fd45bd4e2843a5ef056f039cf301d63aa1fa3`: seçili **68/68 AOS dosyası** bağımsız raw-byte SHA ile eşleşti; mismatch0. Paket `execution_authorized=false`; servis, DB, token veya GPU yetkisi vermez. Canonical `scientist_successful_resolution.schema.json` SHA `7fd8f60a84ad023bcbbcac376c29b761adf3f13a5f03ec1e9eefe3c36e2d521e` listede henüz yok; karşı tarafa eklenmesi bildirildi. Runtime source pinleri değiştirilmedi. Genel tracked diff README/kabul kaydı güncellemesiyle değişir; fresh packet için ayrıca yeniden pinlenmelidir. Private inceleme receipt'i `data/scientist-opt-in-20261001/native-coordinated-review-v7/api-v5-source-review.private.json` içindedir.
+
+Development'ın tek kabul kaydı son native subset/owner-loop CPU ilerlemesine hizalandı; tam entegrasyon hâlâ kısmi. Arayüz erişim kontrolünde8765 listener yok, önceki plain oturum `needs_inspection/different_boot`; aserdargun Desktop Commander cihazı offline. Mac tüneli açılamadı, kullanıcı runtime'ı yeniden başlatılmadı. **18765 önerisi yanlıştı:** mevcut Host politikasına uygun default URL `http://127.0.0.1:8765/ui/`, SSH forwarding her iki uçta8765 olmalıdır. Ortak AOS/broker unit'leri readonly gözlemde inactive/MainPID0; bu yeni GPU cleanup kabulü değildir.
+## 2 Ekim 2026, 05:01 UTC — Development özeti güncel; APIv5 kaynak listesi69/69 eşleşti
+
+Development'ın EN/TR üst özeti gerçek dosya→sınırlı deney→rapor kabulünü, DISCARD/no improvement araştırma sonucunu, uygulanmış kapanış bağlantısını ve açık tekrarlı görev/GPU sırası/iptal kabulünü gösterir. Altı aşamanın geniş completion/delivery bayrakları yükseltilmedi. GPU kapalı izole Chromium'da masaüstü1280×900 ve mobil390×844 görünümü, dil değiştirme ve Tasks yönlendirmesi geçti; API yazma isteği veya browser pageerror yok. Browser plugin bulunmadığı için mevcut Playwright harness kullanıldı. Üç browser testi ve altı snapshot testi toplam **9 PASS / 1,262 saniye**; TypeScript geçti. Log `/tmp/aos-development-native-checkpoint-ui.log`, SHA `b175128f6c9694f0a99c9a4a9db6e6f41b4e54f77cf7d86089428ec67674150f`. Screenshot alınmadı; bu kullanıcı oturumuna deployment kabulü değildir.
+
+Scientist v2 preparation packet SHA `f3df21c593fc3246be255c476055e13ecf2349640946f985387425938025ab7a`: canonical successful-resolution şeması dahil **69/69 AOS raw kaynak dosyası** eşleşti, mismatch0. AOS HEAD `ed6e857b0e61e9c19c8ba63933e2cc9f318fe444`; Scientist HEAD `3988a1936455f0d9aebe3c68110a6a7d56d32d04`. Source-only review kabul edildi, runtime yetkisi verilmedi. Receipt `data/scientist-opt-in-20261001/native-coordinated-review-v7/api-v5-source-review-v2.private.json`. Yeni boot `d05101ff-b772-42f3-a880-762099ef2167`; önceki boot kanıtları fresh caller yetkisi değildir. Source/schema runtime pinleri aynı, genel diff UI/dokümantasyon nedeniyle güncellenecek. Entegrasyon kısmi; tek GPU yürütücüsü Scientist.
+## 2 Ekim 2026, 05:05 UTC — İstenen kullanıcı arayüzü güvenli toparlanmayla açıldı
+
+Kullanıcının mevcut başlatma isteği kapsamında plain kullanıcı oturumu incelendi: iki kayıtlı process önceki boot'taydı,8765 boştu. Doctor'da yalnız frontend build eskiydi; `ui/pnpm build` geçti. Mevcut `aos-v1 restart --expected-session app-d5c3ca811c844dd3adb129575fcce7ac` fenced recovery yoluyla eski lifecycle/DB geçmişini koruyarak yeni `app-681d4fdf0bbe40dd87536576da6a1d76` oturumunu açtı; backend/supervisor same_process, phase running. Başlangıç CPU Decider hazırlığı yapar, GPU inference başlatmaz; root hiçbir görev, knowledge inference veya Scientist GPU testi başlatmadı.
+
+Canlı `http://127.0.0.1:8765/ui/` HTTP200; local_auto_login true. GPU kapalı Chromium ile varsayılan Development ve EN/TR güncel özetler gerçek serviste doğrulandı; pageerror0, taskjob0, busyfalse. Tek POST `/api/login/local`; task POST yok. Arayüz index SHA `d2f87fc2ad58430e12792afadb18ccfc632f0cf99a26a86e5b9837ef083e7c54`, JS SHA `8d61e077cbf2e0aa309b7eafc04dc0273c6fd3d07f4f22085effeff5a2a933d5`. Private screenshot/receipt `data/scientist-opt-in-20261001/native-coordinated-review-v7/` altında, kaynak paketinden hariçtir. Bu yerel arayüz teslimidir; gerçek Mac bağlantısı, görev veya tam ürün kabulü değildir.
+
+Yetkili Mac Tailscale'de online olarak görüldü; Desktop Commander offline olması bilgisayarın offline olduğunu kanıtlamaz. Doğrudan SSH denemesi yetkili Mac port22 üzerinde connection refused döndürdü, tünel kurulmadı. Kullanıcı Mac terminalinde `ssh -N -o ExitOnForwardFailure=yes -L 127.0.0.1:8765:127.0.0.1:8765 AOS_USER@AOS_HOST` ile tüneli açabilir. Host politikası her iki uçta8765 gerektirir. Scientist ortak GPU kabulü ayrı opt-in oturumunda devam eder; kullanıcı oturumu bu koşuda kullanılmaz.
+## 2 Ekim 2026, 05:12 UTC — Native paket73/73 kaynak eşliği; bir HTTP kaynak pini eklenmeli
+
+Scientist native-v7 disabled preparation SHA `c719e8a45d02693261fac0c0f683421d8fcb26db9f7d2800b6bdd41bdd9864b5`, source map SHA `5f5fdb603df629ebb6fd575494af2307c3336ef77bc6e62757f5a78824886a4c`: dört ek AOS dosyası desktop/lifecycle/computer/workspace_identity dahil73/73 raw dosya eşleşti; önceki69 pin aynı. Preparation output hash'leri eşleşti, authorized/runnable/runtime_started false. Private source-only receipt `native-coordinated-review-v7/native-v7-source-review.private.json` raw `b1fc69ac28caac9918fe43a6a64ef69f914e484033c35b084a1aa338148c5fbd`; bu live config veya GPU kabulü değildir.
+
+Astra6/max sınırlı bağımsız incelemesi, daha önce düzeltilmiş HTTP admission sınırı `src/aos/desktop_console.py` SHA `ff36943ac9e8da884339a05969d2e7b602d54c4df8fc29e2085ff10c8085c773` dosyasının seçili73 listesi/config/static-artifact/model girdilerinde pinlenmediğini buldu. Source verifier yalnız sayılan dosyaları doğrular. Scientist'in final native paketine bu tek mevcut dosyayı ve buna bağlı fingerprint'leri eklemesi istenir; yeni verifier veya geniş kaynak incelemesi gerektirmez. Önceki73-file kabul korunur, final runtime paketi henüz kabul edilmedi. Kullanıcı8765 oturumu ayrı çalışır; idle görünmesi Scientist için GPU rezervasyonu değildir.
+## 2 Ekim 2026, 05:18 UTC — Fresh Scientist API canlı kimliği bağımsız doğrulandı
+
+Scientist'in root provision kanıtı `2a0680d9168c071189c636c6b4d4c9da78df6010e0cf56acdd6b5de6f00d0a72` alındı. AOS yalnız read-only API kontrolü yaptı: APIv5 unit active, PID14002/start_ticks181282, invocation `1d10da00eed84a4a91ea8d9be50daa00`, aynı yeni boot ve exact cgroup GET öncesi/sonrası eşleşti. `http://127.0.0.1:18605/v1/aos-capability/<reviewed-suite>` authenticated GET200, yanıt pinli receipt capability ile aynı; owner/origin/suite/program bağları ve `scientist.lab-capability.v1` eşleşti. Token içeriği paylaşılmadı. Original issued→expiry3600 saniye, gözlem1940,0525..1940,0694 BOOTTIME expiry5380,2112 içinde; süre yenilenmedi. Bu API readback GPU release veya native kabulü değildir. Private bağımsız receipt `native-coordinated-review-v7/api-v5-independent-readback.private.json` SHA `ae959780c7cb10f9b67ac3ac8755d0b68a84e811225dfb7ce6818f702c037a56`.
+
+Görev API'sinin önceden eklenen JSON409 `reconciliation_required` cevabı artık UI kaynaklarında EN/TR açıklanır: yeni görev kabul edilmedi, önceki kapanış/oturum kayıtları doğrulanmalı, otomatik tekrar yapılmadı. Yalnız POST `/api/tasks` +409+bilinen kod tanınır; özel backend detail gösterilmez, diğer/bozuk cevaplar genel hatada kalır. Mevcut izole GPU-disabled Chromium harness'ında **4 PASS / 1,518 saniye**; iki dil, özel detayın gösterilmemesi, bilinmeyen kod/HTML/500 fallback ve her manuel tıklamada tek istek doğrulandı. TypeScript geçti. Log SHA `4d19182abdde5887c8233f1d1cb50446eb16a82448069da7896f9ff047aa60fa`. Bu yeni hata açıklaması kaynak düzeyindedir; kullanıcı oturumu tekrar başlatılmadı. Native backend pinleri değişmedi.
+## 2 Ekim 2026, 05:25 UTC — Disabled nativev7 adayına koşullu kaynak/config kabulü
+
+Scientist preparation `122cf34ec38743ac225b464cfd1847f64b90f3c03307476001b5f2cba946877f` bağımsız incelendi:140 seçili kaynak dosyası, launch12/retained13 config (ek control policy), static artifact145 kaynak girdisi ve bütün candidate/input hash'leri eşleşti. V7 kapsamındaki11 klasör hâlâ boş/UID1000/0700; iki DB yok; argv13 yol ile aynı, port18865/engineScientist, kullanıcı8765 kapsamı kullanılmıyor. Yeni token'ın exact dosya/process/lifecycle bağının yetkili gerçek launch'ta kaydedilmesi gerekir.
+
+Astra6/max yetki incelemesi original APIv5 boot ve1780,211217774→5380,211217774 BOOTTIME aralığını, sekiz hedef sınırını, owner/request/context/deadline/iptal ve immutable intent bağlarını doğruladı. Lab bütçesi1 deney/30000 token/900 saniye, geçmiş APIv4 yalnız provenance. Policy/retained/Lab disabled. Sonuç **conditional_pass**: daha önce bildirilen `desktop_console.py` pini ve bağımlı fingerprint/receipt güncellemesi tek paket düzeltmesidir. Yeni güvenlik kapısı veya geniş CPU koşusu istenmedi. Bu inceleme yürütme yetkisi vermez; Scientist'in ayrı explicit promotion ve fresh runtime/cleanup kabulü açık. Özel ayrıntılar `native-coordinated-review-v7/native-v7-candidate-v1-review.private.json` içinde, gerçek GPU koşusu başlatılmadı.
+## 2 Ekim 2026, 05:34 UTC — Ortak enabled paket kabul edildi; Scientist gerçek koşuya geçebilir
+
+Eksik HTTP admission pini eklendi. Promotion receipt `4bffd1c95d22a47a7e00e153e52ae1b331560c8c62047f3e2774195287514008`: **74 AOS +67 Scientist** kaynak eşleşti, önceki140 pin aynı. Launch12 config, static artifact146 girdi, bütün enabled dosya/cross-reference hash'leri geçti. V7 yazma kapsamında yalnız authorized false→true değişti; aynı11 boş0700 klasör/iki yok DB/13argv yolu, port18865 ve engineScientist. Token'ın exact yeni dosya/generation/lifecycle bağını Scientist startup'ta kaydeder. Astra6/max bağımsız delta incelemesi owner/profil/hedef/operasyon/bütçe kapsamının ve özgün1780,211217774→5380,211217774 süresinin aynı olduğunu doğruladı. AOS readback sırasında API14002/invocation eşleşip active kaldı; gözlemde2520,206 saniye kalmıştı.
+
+**AOS kaynak/config/kapsam teyidi PASS; yeni AOS inceleme engeli yok.** Mevcut kullanıcı yetkisi içindeki sınırlı ortak kabulü tek yürütücü Scientist gerçekleştirir; bu teyit GPU tahsisi veya gerçekleşmiş native başarı değildir. Private receipt `native-coordinated-review-v7/native-v7-enabled-v1-review.private.json` SHA `e3a848fae96603ed08b8bc68f8d52e5559d0b3ddf2cab5099191ae60c0f47edb`. İlk kontrol script'inde scope schema adının da değişeceği varsayımı yanlıştı; gerçek diff yalnız authorized alanıydı, düzeltildikten sonra kapsam eşliği geçti. Paket kusuru veya yetki genişlemesi bulunmadı.
+
+Tek kabul kaydından ortak kaynak/config engeli çıkarıldı; actual native caller ve tekrarlı görev/fairness/iptal/cleanup kabulü açık. Kullanıcı8765 oturumu ayrıca çalışır; yeni görevleriyle çakışma mevcut rezervasyon ve kullanıcı işi kontrollerinde değerlendirilir. Root native/GPU testi başlatmadı; canlı UI build'ine bu kayıt değişikliği henüz aktarılmadı.

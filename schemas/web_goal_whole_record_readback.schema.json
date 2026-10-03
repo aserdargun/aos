@@ -1,0 +1,125 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "execution_performed": {
+      "const": false,
+      "default": false,
+      "title": "Execution Performed",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "web_goal_whole_record_readback",
+      "title": "Kind",
+      "type": "string"
+    },
+    "binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Sha256",
+      "type": "string"
+    },
+    "confirmation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirmation Sha256",
+      "type": "string"
+    },
+    "oracle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Oracle Sha256",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Request Sha256",
+      "type": "string"
+    },
+    "response_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Sha256",
+      "type": "string"
+    },
+    "observed_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Observed Record Sha256",
+      "type": "string"
+    },
+    "record_values_matched": {
+      "const": true,
+      "title": "Record Values Matched",
+      "type": "boolean"
+    },
+    "verification_scope": {
+      "const": "host_reader_record_binding_only",
+      "title": "Verification Scope",
+      "type": "string"
+    },
+    "execution_receipt_bound": {
+      "const": false,
+      "title": "Execution Receipt Bound",
+      "type": "boolean"
+    },
+    "real_model_verified": {
+      "const": false,
+      "title": "Real Model Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "binding_sha256",
+    "confirmation_sha256",
+    "oracle_sha256",
+    "source_sha256",
+    "request_sha256",
+    "response_sha256",
+    "observed_record_sha256",
+    "record_values_matched",
+    "verification_scope",
+    "execution_receipt_bound",
+    "real_model_verified"
+  ],
+  "title": "WebGoalWholeRecordReadback",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_whole_record_readback.schema.json"
+}

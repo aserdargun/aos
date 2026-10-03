@@ -381,6 +381,7 @@ class OwnedFormFixtureIsolationTests(unittest.TestCase):
 
     def test_each_manual_audit_rechecks_sources_instead_of_trusting_cached_report(self):
         scheduler = object.__new__(DesktopScheduler)
+        scheduler.web_goal_planning = None
         report = json.loads((REPO_ROOT / 'examples/site_skill_form_invocation_audit.json').read_text())['report']
         scheduler.owned_skill_planning = None
         run_id = 'synthetic-owned-audit-run'

@@ -20,11 +20,15 @@ class PackageHandoffTests(unittest.TestCase):
             (self.root / directory).mkdir(parents=True, exist_ok=True)
             (self.root / directory / 'README.md').write_text('synthetic directory source\n')
         for name in (*handoff.ROOT_FILES, *handoff.EXPLICIT_FILES, 'scripts/aos-v1',
-                     'src/aos/example.py', 'services/laya/worker.py'):
+                     'scripts/aos-parameter-project',
+                     'scripts/aos-parameter-skill',
+                     'src/aos/example.py', 'services/laya/worker.py', 'services/bonsai/broker_worker.py'):
             path = self.root / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text('explicitly synthetic source\n')
         (self.root / 'scripts/aos-v1').chmod(0o751)
+        (self.root / 'scripts/aos-parameter-project').chmod(0o755)
+        (self.root / 'scripts/aos-parameter-skill').chmod(0o755)
         self.output = self.root.parent / 'handoff.tar'
         self.manifest()
 
@@ -51,7 +55,12 @@ class PackageHandoffTests(unittest.TestCase):
             self.assertIn('MANIFEST.sha256', names)
             self.assertIn('CLAUDE.md', names)
             self.assertIn('services/laya/worker.py', names)
+            self.assertIn('services/broker_runtime.py', names)
+            self.assertIn('services/bonsai_projection.py', names)
+            self.assertIn('services/bonsai/broker_worker.py', names)
             self.assertEqual(archive.getmember('scripts/aos-v1').mode, 0o755)
+            self.assertEqual(archive.getmember('scripts/aos-parameter-project').mode, 0o755)
+            self.assertEqual(archive.getmember('scripts/aos-parameter-skill').mode, 0o755)
             self.assertEqual(archive.getmember('README.md').mode, 0o644)
             self.assertTrue(all(member.isfile() and member.uid == member.gid == member.mtime == 0
                                 for member in archive.getmembers()))

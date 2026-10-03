@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "aos-scientist-control-evidence.v2"
+        },
+        "version": {
+          "type": "integer",
+          "const": 2
+        },
+        "control_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}$",
+          "minLength": 32,
+          "maxLength": 32
+        },
+        "profile_id": {
+          "type": "string",
+          "enum": [
+            "aos.decider.turn.v1",
+            "aos.bonsai.recovery.v1",
+            "aos.bonsai.vision.v1"
+          ]
+        },
+        "deployment_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "target": {
+          "type": "object",
+          "properties": {
+            "request_id": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "minLength": 32,
+              "maxLength": 32
+            },
+            "request_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            "original_peer_generation_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            }
+          },
+          "required": [
+            "request_id",
+            "request_sha256",
+            "original_peer_generation_sha256"
+          ],
+          "additionalProperties": false
+        },
+        "evidence_schema_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "transport_schema_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "op": {
+          "type": "string",
+          "const": "capability"
+        },
+        "expected_capability_sha256": {
+          "type": "null"
+        }
+      },
+      "required": [
+        "schema",
+        "version",
+        "control_id",
+        "profile_id",
+        "deployment_digest",
+        "target",
+        "evidence_schema_sha256",
+        "transport_schema_sha256",
+        "op",
+        "expected_capability_sha256"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "aos-scientist-control-evidence.v2"
+        },
+        "version": {
+          "type": "integer",
+          "const": 2
+        },
+        "control_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}$",
+          "minLength": 32,
+          "maxLength": 32
+        },
+        "profile_id": {
+          "type": "string",
+          "enum": [
+            "aos.decider.turn.v1",
+            "aos.bonsai.recovery.v1",
+            "aos.bonsai.vision.v1"
+          ]
+        },
+        "deployment_digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "target": {
+          "type": "object",
+          "properties": {
+            "request_id": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{32}$",
+              "minLength": 32,
+              "maxLength": 32
+            },
+            "request_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            },
+            "original_peer_generation_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$",
+              "minLength": 64,
+              "maxLength": 64
+            }
+          },
+          "required": [
+            "request_id",
+            "request_sha256",
+            "original_peer_generation_sha256"
+          ],
+          "additionalProperties": false
+        },
+        "evidence_schema_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "transport_schema_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        },
+        "op": {
+          "type": "string",
+          "const": "reconcile"
+        },
+        "expected_capability_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "minLength": 64,
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "schema",
+        "version",
+        "control_id",
+        "profile_id",
+        "deployment_digest",
+        "target",
+        "evidence_schema_sha256",
+        "transport_schema_sha256",
+        "op",
+        "expected_capability_sha256"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

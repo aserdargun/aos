@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_planning_request.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "lease_id", "generation"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "lease_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9_-]+$"},
+    "generation": {"type": "integer", "minimum": 0},
+    "goal": {"type": "string", "minLength": 1, "maxLength": 4096},
+    "inference_consent": {"type": "boolean", "const": true},
+    "confirm_catalog_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "confirm_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "preview_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "confirm_preview_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "dependentRequired": {"preview_sha256": ["confirm_preview_sha256", "bundle_sha256", "confirm_bundle_sha256"],
+    "confirm_preview_sha256": ["preview_sha256", "bundle_sha256", "confirm_bundle_sha256"]},
+  "oneOf": [
+    {"required": ["goal", "inference_consent", "confirm_catalog_sha256"], "not": {"anyOf": [{"required": ["bundle_sha256"]}, {"required": ["confirm_bundle_sha256"]}]}},
+    {"required": ["bundle_sha256", "confirm_bundle_sha256"], "not": {"anyOf": [{"required": ["goal"]}, {"required": ["inference_consent"]}, {"required": ["confirm_catalog_sha256"]}]}}
+  ]
+}

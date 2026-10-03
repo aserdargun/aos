@@ -1,0 +1,95 @@
+{
+  "synthetic": true,
+  "request": {
+    "request_id": "synthetic-drain",
+    "session_id": "desktop-session-11111111111111111111111111111111",
+    "runtime_id": "runtime-synthetic",
+    "owner": "AGENT",
+    "lease_id": "lease-synthetic",
+    "generation": 0
+  },
+  "observation": {
+    "version": "1",
+    "request": {
+      "request_id": "synthetic-drain",
+      "session_id": "desktop-session-11111111111111111111111111111111",
+      "runtime_id": "runtime-synthetic",
+      "owner": "AGENT",
+      "lease_id": "lease-synthetic",
+      "generation": 0
+    },
+    "admission_closed": true,
+    "local_controls_drained": false,
+    "blockers": [
+      "lab.active_control"
+    ],
+    "cleanup_controls_closed": false,
+    "gpu_release_verified": false,
+    "remote_jobs_stopped_verified": false,
+    "native_gpu_excluded": false
+  },
+  "receipt": {
+    "version": "1",
+    "process": {
+      "boot_id": "00000000-0000-0000-0000-000000000001",
+      "pid": 12345,
+      "start_ticks": 1,
+      "pid_namespace": 1,
+      "uid": 1000
+    },
+    "observation": {
+      "version": "1",
+      "request": {
+        "request_id": "synthetic-drain",
+        "session_id": "desktop-session-11111111111111111111111111111111",
+        "runtime_id": "runtime-synthetic",
+        "owner": "AGENT",
+        "lease_id": "lease-synthetic",
+        "generation": 0
+      },
+      "admission_closed": true,
+      "local_controls_drained": false,
+      "blockers": [
+        "lab.active_control"
+      ],
+      "cleanup_controls_closed": false,
+      "gpu_release_verified": false,
+      "remote_jobs_stopped_verified": false,
+      "native_gpu_excluded": false
+    }
+  },
+  "saved_observation": {
+    "receipt_id": "event-22222222222222222222222222222222",
+    "receipt_sha256": "e041bf379c6b9a47bb85c156a03efab60a41baa81221b88553f83442422e09e5",
+    "receipt": {
+      "version": "1",
+      "process": {
+        "boot_id": "00000000-0000-0000-0000-000000000001",
+        "pid": 12345,
+        "start_ticks": 1,
+        "pid_namespace": 1,
+        "uid": 1000
+      },
+      "observation": {
+        "version": "1",
+        "request": {
+          "request_id": "synthetic-drain",
+          "session_id": "desktop-session-11111111111111111111111111111111",
+          "runtime_id": "runtime-synthetic",
+          "owner": "AGENT",
+          "lease_id": "lease-synthetic",
+          "generation": 0
+        },
+        "admission_closed": true,
+        "local_controls_drained": false,
+        "blockers": [
+          "lab.active_control"
+        ],
+        "cleanup_controls_closed": false,
+        "gpu_release_verified": false,
+        "remote_jobs_stopped_verified": false,
+        "native_gpu_excluded": false
+      }
+    }
+  }
+}

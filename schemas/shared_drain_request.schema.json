@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "session_id": {
+      "pattern": "^desktop-session-[a-f0-9]{32}$",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "runtime_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Runtime Id",
+      "type": "string"
+    },
+    "owner": {
+      "const": "AGENT",
+      "title": "Owner",
+      "type": "string"
+    },
+    "lease_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "request_id",
+    "session_id",
+    "runtime_id",
+    "owner",
+    "lease_id",
+    "generation"
+  ],
+  "title": "SharedDrainRequest",
+  "type": "object"
+}

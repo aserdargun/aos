@@ -11,7 +11,7 @@ from typing import Literal
 from pydantic import Field
 
 from .contracts import TypedModel, canonical, digest
-from .dataset_audit import AUDIT_TIMEOUT_SECONDS, MAX_SNAPSHOT_BYTES, audit_snapshot, expected_schema, schema_signature
+from .dataset_audit import AUDIT_TIMEOUT_SECONDS, MAX_SNAPSHOT_BYTES, SupportedSchemaVersion, audit_snapshot, expected_schema, schema_signature
 from .dataset_review_journal import private_directory, private_file, read_private_json
 
 
@@ -24,7 +24,7 @@ class BackupManifest(TypedModel):
     journal_mode: Literal['rollback'] = 'rollback'
     database_bytes: int = Field(gt=0, le=MAX_SNAPSHOT_BYTES)
     schema_sha256: str = Field(pattern='^[a-f0-9]{64}$')
-    schema_version_number: Literal[7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+    schema_version_number: SupportedSchemaVersion
     migrations: dict[str, str]
     captured_at: str
     execution_authorized: Literal[False] = False

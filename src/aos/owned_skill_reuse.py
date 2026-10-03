@@ -47,11 +47,16 @@ def _paths(previous_session_directory, previous_state, owned_root, database):
     previous_session_directory = Path(previous_session_directory).absolute()
     owned_root, database = Path(owned_root).absolute(), Path(database).absolute()
     base = previous_session_directory.parent
+    project = getattr(previous_state, 'project', None)
+    project_base = re.fullmatch(r'local-app-project-([a-z0-9][a-z0-9-]{0,47})', base.name)
     source_session = (getattr(previous_state, 'owned_skill_source_session', None)
                       or previous_state.session)
     if (base.parent != REPO_ROOT / 'data'
+            or (project_base is not None and project != project_base.group(1))
+            or (project_base is None and project is not None)
             or not (base.name == 'local-app-v1'
-                    or re.fullmatch(r'local-app-test-[a-f0-9]{32}', base.name))
+                    or re.fullmatch(r'local-app-test-[a-f0-9]{32}', base.name)
+                    or re.fullmatch(r'local-app-project-[a-z0-9][a-z0-9-]{0,47}', base.name))
             or previous_session_directory.name != previous_state.session
             or _SESSION.fullmatch(source_session) is None
             or owned_root != base / source_session / 'owned-form'

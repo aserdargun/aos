@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 from aos.contracts import REPO_ROOT, canonical
 from aos.dataset import validator
+from aos.dataset_audit import CURRENT_SCHEMA_VERSION, SUPPORTED_SCHEMA_VERSIONS
 from aos.recovery import recovery_inventory
 from aos.recovery_backup import BackupManifest, backup_database, restore_backup, verify_backup
 from aos.storage import TrajectoryStore
@@ -33,7 +34,7 @@ class RecoveryBackupTests(unittest.TestCase):
         before = {path: path.read_bytes() for path in paths}
         output = self.backup()
         report = verify_backup(output)
-        self.assertEqual(report['schema_version_number'], 17)
+        self.assertEqual(report['schema_version_number'], CURRENT_SCHEMA_VERSION)
         self.assertFalse(report['resume_authorized'])
         self.assertFalse(report['runtime_assets_included'])
         self.assertFalse(report['review_journal_included'])
@@ -115,7 +116,8 @@ class RecoveryBackupTests(unittest.TestCase):
         manifest_path = output / 'manifest.json'
         original = manifest_path.read_bytes()
         for change in ({'database_sha256': 'f' * 64}, {'source_snapshot_sha256': 'f' * 64},
-                       {'schema_sha256': 'f' * 64}, {'migrations': {}}, {'execution_authorized': True}):
+                       {'schema_sha256': 'f' * 64}, {'migrations': {}}, {'execution_authorized': True},
+                       {'schema_version_number': CURRENT_SCHEMA_VERSION - 1}):
             manifest_path.write_text(canonical({**json.loads(original), **change}))
             with self.assertRaises(ValueError):
                 verify_backup(output)
@@ -171,14 +173,19 @@ class RecoveryBackupTests(unittest.TestCase):
 
     def test_canonical_schema_and_synthetic_fixture(self):
         schema = json.loads((REPO_ROOT / 'schemas/recovery_backup.schema.json').read_text())
+        self.assertEqual(tuple(schema['properties']['schema_version_number']['enum']), SUPPORTED_SCHEMA_VERSIONS)
         self.assertEqual(schema, {'$schema': 'https://json-schema.org/draft/2020-12/schema', **BackupManifest.model_json_schema()})
         fixture = json.loads((REPO_ROOT / 'examples/recovery_backup.json').read_text())
         self.assertTrue(fixture['synthetic'])
         validator('recovery_backup').validate(fixture['manifest'])
         output = self.backup()
         manifest = json.loads((output / 'manifest.json').read_text())
+        self.assertEqual(manifest['schema_version_number'], CURRENT_SCHEMA_VERSION)
+        self.assertEqual(len(manifest['migrations']), CURRENT_SCHEMA_VERSION)
         validator('recovery_backup').validate(manifest)
-        for change in ({'execution_authorized': True}, {'resume_authorized': True}, {'database_file': '../outside'}, {'raw_state': 'secret'}):
+        self.assertEqual(verify_backup(output)['schema_version_number'], CURRENT_SCHEMA_VERSION)
+        for change in ({'execution_authorized': True}, {'resume_authorized': True}, {'database_file': '../outside'},
+                       {'raw_state': 'secret'}, {'schema_version_number': CURRENT_SCHEMA_VERSION + 1}):
             self.assertFalse(validator('recovery_backup').is_valid({**manifest, **change}))
 
 

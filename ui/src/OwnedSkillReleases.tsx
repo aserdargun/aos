@@ -223,7 +223,7 @@ export function OwnedSkillReleases({source, snapshot, tasks, reviewHash, onSelec
           && reuseGuide?.familySha256 === group.family_sha256
           && group.selection_sha256 === reuseGuide.release.selection_sha256
           && group.selected_release_sha256 === reuseGuide.release.release_sha256
-          ? <OwnedSkillReuseGuide release={reuseGuide.release}/> : null}
+          ? <OwnedSkillReuseGuide release={reuseGuide.release} managerScope={tasks.manager_scope}/> : null}
         {group.releases.map(entry => <div key={entry.release_sha256} data-testid="release-entry" data-release={entry.release_sha256}>
           <p>v{entry.release.revision} · {entry.review_status} · <code>{entry.release_sha256}</code></p>
           <p>{t('Recipe SHA-256:')} <code>{entry.release.recipe_sha256}</code></p>

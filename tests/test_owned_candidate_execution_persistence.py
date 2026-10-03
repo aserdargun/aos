@@ -510,6 +510,7 @@ class OwnedCandidateReviewedStartTests(unittest.TestCase):
             'remote_form_candidate_admission', 'remote_form_owned_target',
             'remote_form_owned_fixture')
         scheduler = DesktopScheduler.__new__(DesktopScheduler)
+        scheduler.web_goal_planning = None
         scheduler.owned_skill_planning = None
         scheduler.task = None
         scheduler.sequences = SimpleNamespace(reserved=False)

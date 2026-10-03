@@ -1,0 +1,82 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "web_goal_knowledge_acknowledgement",
+      "title": "Kind",
+      "type": "string"
+    },
+    "planning_id": {
+      "pattern": "^planning-[a-f0-9]{32}$",
+      "title": "Planning Id",
+      "type": "string"
+    },
+    "bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bundle Sha256",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    },
+    "review_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Review Sha256",
+      "type": "string"
+    },
+    "context_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Context Sha256",
+      "type": "string"
+    },
+    "model_request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Model Request Sha256",
+      "type": "string"
+    },
+    "model_response_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Model Response Sha256",
+      "type": "string"
+    },
+    "deployment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Sha256",
+      "type": "string"
+    },
+    "real_model": {
+      "title": "Real Model",
+      "type": "boolean"
+    },
+    "acknowledgement_code_path": {
+      "const": "bonsai-web-goal-native-last-request-response-v1",
+      "title": "Acknowledgement Code Path",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "planning_id",
+    "bundle_sha256",
+    "intent_sha256",
+    "review_sha256",
+    "context_sha256",
+    "model_request_sha256",
+    "model_response_sha256",
+    "deployment_sha256",
+    "real_model",
+    "acknowledgement_code_path"
+  ],
+  "title": "WebGoalKnowledgeAcknowledgement",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_knowledge_acknowledgement.schema.json"
+}

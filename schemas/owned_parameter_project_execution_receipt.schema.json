@@ -1,0 +1,542 @@
+{
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    },
+    "SiteSkillFormInvocationStageEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "open_entry",
+            "read_state_before",
+            "fill_form",
+            "submit_form",
+            "read_receipt",
+            "read_state_after"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "action_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Action Ref",
+          "type": "string"
+        },
+        "decision_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Decision Ref",
+          "type": "string"
+        },
+        "approval_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Approval Ref",
+          "type": "string"
+        },
+        "decision_state_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Decision State Ref",
+          "type": "string"
+        },
+        "execute_state_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Execute State Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "action_ref",
+        "decision_ref",
+        "approval_ref",
+        "decision_state_ref",
+        "execute_state_ref"
+      ],
+      "title": "SiteSkillFormInvocationStageEvidence",
+      "type": "object"
+    },
+    "SiteSkillFormRecipeAuditReport": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "status": {
+          "const": "executable_recipe_execution_verified",
+          "title": "Status",
+          "type": "string"
+        },
+        "invocation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Invocation Sha256",
+          "type": "string"
+        },
+        "skill_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Sha256",
+          "type": "string"
+        },
+        "skill_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Plan Sha256",
+          "type": "string"
+        },
+        "case_inputs_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Case Inputs Sha256",
+          "type": "string"
+        },
+        "case_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        },
+        "form_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Form Plan Sha256",
+          "type": "string"
+        },
+        "state_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Plan Sha256",
+          "type": "string"
+        },
+        "field_binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Binding Sha256",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "source_snapshot_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Snapshot Sha256",
+          "type": "string"
+        },
+        "initial_state_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Initial State Ref",
+          "type": "string"
+        },
+        "terminal_state_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Terminal State Ref",
+          "type": "string"
+        },
+        "stages": {
+          "items": {
+            "$ref": "#/$defs/SiteSkillFormInvocationStageEvidence"
+          },
+          "title": "Stages",
+          "type": "array"
+        },
+        "consumed_approval_count": {
+          "const": 6,
+          "title": "Consumed Approval Count",
+          "type": "integer"
+        },
+        "submit_count": {
+          "const": 1,
+          "title": "Submit Count",
+          "type": "integer"
+        },
+        "transport_readback_verified": {
+          "const": true,
+          "title": "Transport Readback Verified",
+          "type": "boolean"
+        },
+        "declared_state_readback_verified": {
+          "const": true,
+          "title": "Declared State Readback Verified",
+          "type": "boolean"
+        },
+        "invocation_persisted_before_actions": {
+          "const": true,
+          "title": "Invocation Persisted Before Actions",
+          "type": "boolean"
+        },
+        "invocation_consistent_across_states": {
+          "const": true,
+          "title": "Invocation Consistent Across States",
+          "type": "boolean"
+        },
+        "invocation_execution_verified": {
+          "const": true,
+          "title": "Invocation Execution Verified",
+          "type": "boolean"
+        },
+        "symbolic_skill_steps_executed": {
+          "const": true,
+          "title": "Symbolic Skill Steps Executed",
+          "type": "boolean"
+        },
+        "skill_executed": {
+          "const": true,
+          "title": "Skill Executed",
+          "type": "boolean"
+        },
+        "site_outcome_verified": {
+          "const": false,
+          "title": "Site Outcome Verified",
+          "type": "boolean"
+        },
+        "held_out_independence_verified": {
+          "const": false,
+          "title": "Held Out Independence Verified",
+          "type": "boolean"
+        },
+        "reviewed": {
+          "const": false,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "recipe_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Recipe Sha256",
+          "type": "string"
+        },
+        "symbolic_step_keys": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+            "type": "string"
+          },
+          "title": "Symbolic Step Keys",
+          "type": "array"
+        },
+        "step_observation_refs": {
+          "items": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "title": "Step Observation Refs",
+          "type": "array"
+        },
+        "executable_recipe_executed": {
+          "const": true,
+          "title": "Executable Recipe Executed",
+          "type": "boolean"
+        },
+        "skill_validated": {
+          "const": false,
+          "title": "Skill Validated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "synthetic",
+        "status",
+        "invocation_sha256",
+        "skill_sha256",
+        "skill_plan_sha256",
+        "case_inputs_sha256",
+        "case_key",
+        "profile_sha256",
+        "task_sha256",
+        "form_plan_sha256",
+        "state_plan_sha256",
+        "field_binding_sha256",
+        "run_ref",
+        "source_snapshot_sha256",
+        "initial_state_ref",
+        "terminal_state_ref",
+        "stages",
+        "consumed_approval_count",
+        "submit_count",
+        "transport_readback_verified",
+        "declared_state_readback_verified",
+        "invocation_persisted_before_actions",
+        "invocation_consistent_across_states",
+        "invocation_execution_verified",
+        "symbolic_skill_steps_executed",
+        "skill_executed",
+        "site_outcome_verified",
+        "held_out_independence_verified",
+        "reviewed",
+        "activation_authorized",
+        "training_ready",
+        "recipe_sha256",
+        "symbolic_step_keys",
+        "step_observation_refs",
+        "executable_recipe_executed",
+        "skill_validated"
+      ],
+      "title": "SiteSkillFormRecipeAuditReport",
+      "type": "object"
+    },
+    "WebGoalExecutionRunIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "pattern": "^task-[a-f0-9]{32}$",
+          "title": "Task Id",
+          "type": "string"
+        },
+        "run_id": {
+          "pattern": "^run-[a-f0-9]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "deployment_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Deployment Id",
+          "type": "string"
+        },
+        "owner_lease_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Owner Lease Id",
+          "type": "string"
+        },
+        "skill_invocation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Invocation Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "run_id",
+        "runtime_id",
+        "deployment_id",
+        "owner_lease_id",
+        "skill_invocation_sha256"
+      ],
+      "title": "WebGoalExecutionRunIdentity",
+      "type": "object"
+    },
+    "WebGoalWholeRecordObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "record": {
+          "maxProperties": 8,
+          "minProperties": 1,
+          "patternProperties": {
+            "^[A-Za-z_][A-Za-z0-9_]{0,63}$": {
+              "type": "string"
+            }
+          },
+          "title": "Record",
+          "type": "object"
+        },
+        "reported_post_count": {
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Reported Post Count",
+          "type": "integer"
+        },
+        "effect_status": {
+          "enum": [
+            "committed",
+            "unknown",
+            "not_committed"
+          ],
+          "title": "Effect Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "scope",
+        "record",
+        "reported_post_count",
+        "effect_status"
+      ],
+      "title": "WebGoalWholeRecordObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "released_skill_verified": {
+      "const": false,
+      "default": false,
+      "title": "Released Skill Verified",
+      "type": "boolean"
+    },
+    "native_model_verified": {
+      "const": false,
+      "default": false,
+      "title": "Native Model Verified",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "replay_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Replay Authorized",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "owned_parameter_project_manual_bootstrap_receipt",
+      "title": "Kind",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    },
+    "run_binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Binding Sha256",
+      "type": "string"
+    },
+    "run_identity": {
+      "$ref": "#/$defs/WebGoalExecutionRunIdentity"
+    },
+    "recipe_audit": {
+      "$ref": "#/$defs/SiteSkillFormRecipeAuditReport"
+    },
+    "recipe_audit_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Recipe Audit Sha256",
+      "type": "string"
+    },
+    "observation": {
+      "$ref": "#/$defs/WebGoalWholeRecordObservation"
+    },
+    "observation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Observation Sha256",
+      "type": "string"
+    },
+    "terminal_status": {
+      "const": "succeeded",
+      "title": "Terminal Status",
+      "type": "string"
+    },
+    "verification_scope": {
+      "const": "synthetic_manual_bootstrap_run_and_whole_record",
+      "title": "Verification Scope",
+      "type": "string"
+    },
+    "task_terminal_verified": {
+      "const": true,
+      "title": "Task Terminal Verified",
+      "type": "boolean"
+    },
+    "recipe_execution_verified": {
+      "const": true,
+      "title": "Recipe Execution Verified",
+      "type": "boolean"
+    },
+    "record_outcome_verified": {
+      "const": true,
+      "title": "Record Outcome Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "intent_sha256",
+    "run_binding_sha256",
+    "run_identity",
+    "recipe_audit",
+    "recipe_audit_sha256",
+    "observation",
+    "observation_sha256",
+    "terminal_status",
+    "verification_scope",
+    "task_terminal_verified",
+    "recipe_execution_verified",
+    "record_outcome_verified"
+  ],
+  "title": "OwnedParameterProjectExecutionReceipt",
+  "type": "object"
+}

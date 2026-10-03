@@ -1,0 +1,95 @@
+{
+  "$defs": {
+    "ScientistLabBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "experiments": {
+          "maximum": 35,
+          "minimum": 1,
+          "title": "Experiments",
+          "type": "integer"
+        },
+        "wall_seconds": {
+          "maximum": 14400,
+          "minimum": 1,
+          "title": "Wall Seconds",
+          "type": "integer"
+        },
+        "model_tokens": {
+          "maximum": 350000,
+          "minimum": 0,
+          "title": "Model Tokens",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "experiments",
+        "wall_seconds",
+        "model_tokens"
+      ],
+      "title": "ScientistLabBudget",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "idempotency_key": {
+      "maxLength": 128,
+      "minLength": 16,
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "track": {
+      "enum": [
+        "anomaly",
+        "mode"
+      ],
+      "title": "Track",
+      "type": "string"
+    },
+    "suite": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:-]*$",
+      "title": "Suite",
+      "type": "string"
+    },
+    "budget": {
+      "$ref": "#/$defs/ScientistLabBudget"
+    },
+    "program_version": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Program Version",
+      "type": "string"
+    },
+    "external_task_id": {
+      "pattern": "^task-[a-f0-9]{32}$",
+      "title": "External Task Id",
+      "type": "string"
+    },
+    "external_run_id": {
+      "pattern": "^run-[a-f0-9]{32}$",
+      "title": "External Run Id",
+      "type": "string"
+    },
+    "external_action_id": {
+      "pattern": "^action-[a-f0-9]{32}$",
+      "title": "External Action Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "idempotency_key",
+    "track",
+    "suite",
+    "budget",
+    "program_version",
+    "external_task_id",
+    "external_run_id",
+    "external_action_id"
+  ],
+  "title": "ScientistLabStart",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

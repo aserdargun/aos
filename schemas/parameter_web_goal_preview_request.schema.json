@@ -1,0 +1,30 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "lease_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "lease_id",
+    "generation"
+  ],
+  "title": "ParameterWebGoalPreviewRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "parameter_web_goal_preview_request.schema.json"
+}

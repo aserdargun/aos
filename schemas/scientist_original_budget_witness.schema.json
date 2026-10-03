@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "ScientistBudgetTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "request_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Request Sha256",
+          "type": "string"
+        },
+        "original_peer_generation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Original Peer Generation Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "request_id",
+        "request_sha256",
+        "original_peer_generation_sha256"
+      ],
+      "title": "ScientistBudgetTarget",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "aos-scientist-original-budget-witness.v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "version": {
+      "const": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "target": {
+      "$ref": "#/$defs/ScientistBudgetTarget"
+    },
+    "profile_id": {
+      "enum": [
+        "aos.decider.turn.v1",
+        "aos.bonsai.recovery.v1",
+        "aos.bonsai.vision.v1"
+      ],
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "deployment_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Digest",
+      "type": "string"
+    },
+    "profile_config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Profile Config Sha256",
+      "type": "string"
+    },
+    "response_schema_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Schema Sha256",
+      "type": "string"
+    },
+    "original_admission_binding_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Original Admission Binding Sha256"
+    },
+    "original_cleanup_authorization_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Original Cleanup Authorization Sha256"
+    },
+    "allocation_binding_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Allocation Binding Sha256"
+    },
+    "budget_canonical": {
+      "maxLength": 16384,
+      "minLength": 1,
+      "title": "Budget Canonical",
+      "type": "string"
+    },
+    "budget_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Budget Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "version",
+    "target",
+    "profile_id",
+    "deployment_digest",
+    "profile_config_sha256",
+    "response_schema_sha256",
+    "original_admission_binding_sha256",
+    "original_cleanup_authorization_sha256",
+    "allocation_binding_sha256",
+    "budget_canonical",
+    "budget_sha256"
+  ],
+  "title": "ScientistOriginalBudgetWitness",
+  "type": "object"
+}

@@ -31,9 +31,28 @@ class LocalAppTests(unittest.TestCase):
         self.assertIn('--owned-synthetic-form-invocation', help_text)
         self.assertIn('synthetic learning pilot', help_text)
         self.assertIn('Exact stopped-source preview SHA-256', help_text)
+        self.assertIn('--expected-session', help_text)
         self.assertNotIn('--owned-learning-lock-fd', help_text)
         start.assert_not_called()
         read_state.assert_not_called()
+
+    def test_stop_cli_forwards_exact_session_guard(self):
+        session = 'app-' + 'b' * 32
+        with (patch('sys.argv', ['aos-v1', 'stop', '--expected-session', session]),
+              patch('aos.local_app.stop', return_value={'phase': 'stopped'}) as stop,
+              patch('sys.stdout', new_callable=StringIO) as output):
+            local_app.main()
+        stop.assert_called_once_with(expected_session=session)
+        self.assertEqual(json.loads(output.getvalue()), {'phase': 'stopped'})
+
+    def test_expected_session_option_is_restricted_to_stop(self):
+        with (patch('sys.argv', ['aos-v1', 'status', '--expected-session', 'app-' + 'c' * 32]),
+              patch('aos.local_app.current_status') as status,
+              patch('sys.stderr', new_callable=StringIO) as error,
+              self.assertRaises(SystemExit)):
+            local_app.main()
+        self.assertIn('valid only with stop', error.getvalue())
+        status.assert_not_called()
 
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()

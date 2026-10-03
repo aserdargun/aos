@@ -1,0 +1,284 @@
+{
+  "$defs": {
+    "NativeInhibitFileIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "NativeInhibitFileIdentity",
+      "type": "object"
+    },
+    "NativeInhibitStore": {
+      "additionalProperties": false,
+      "properties": {
+        "record": {
+          "$ref": "#/$defs/NativeInhibitStoreRecord"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record",
+        "content_sha256"
+      ],
+      "title": "NativeInhibitStore",
+      "type": "object"
+    },
+    "NativeInhibitStoreRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "1",
+          "default": "1",
+          "title": "Version",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^native-[a-z0-9][a-z0-9-]{0,63}$",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "directory": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Directory",
+          "type": "string"
+        },
+        "directory_identity": {
+          "$ref": "#/$defs/WorkspaceIdentity"
+        },
+        "lock_identity": {
+          "$ref": "#/$defs/NativeInhibitFileIdentity"
+        },
+        "metadata_identity": {
+          "$ref": "#/$defs/NativeInhibitFileIdentity"
+        },
+        "initial_lock_mtime_ns": {
+          "minimum": 0,
+          "title": "Initial Lock Mtime Ns",
+          "type": "integer"
+        },
+        "initial_lock_ctime_ns": {
+          "minimum": 0,
+          "title": "Initial Lock Ctime Ns",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "scope_id",
+        "directory",
+        "directory_identity",
+        "lock_identity",
+        "metadata_identity",
+        "initial_lock_mtime_ns",
+        "initial_lock_ctime_ns"
+      ],
+      "title": "NativeInhibitStoreRecord",
+      "type": "object"
+    },
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "profile": {
+      "const": "native-decider-lifetime-entry-v1",
+      "default": "native-decider-lifetime-entry-v1",
+      "title": "Profile",
+      "type": "string"
+    },
+    "enabled": {
+      "const": true,
+      "default": true,
+      "title": "Enabled",
+      "type": "boolean"
+    },
+    "store": {
+      "$ref": "#/$defs/NativeInhibitStore"
+    },
+    "python_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Python Path",
+      "type": "string"
+    },
+    "python_real_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Python Real Path",
+      "type": "string"
+    },
+    "python_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Python Sha256",
+      "type": "string"
+    },
+    "python_links": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "maxProperties": 8,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Python Links",
+      "type": "object"
+    },
+    "worker_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Worker Path",
+      "type": "string"
+    },
+    "worker_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Worker Sha256",
+      "type": "string"
+    },
+    "manifest_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Manifest Path",
+      "type": "string"
+    },
+    "manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Manifest Sha256",
+      "type": "string"
+    },
+    "source_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 256,
+      "minProperties": 1,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Source Files",
+      "type": "object"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "config_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 256,
+      "minProperties": 1,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Config Files",
+      "type": "object"
+    },
+    "config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Config Sha256",
+      "type": "string"
+    },
+    "shared_launch_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Shared Launch Authorized",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "store",
+    "python_path",
+    "python_real_path",
+    "python_sha256",
+    "python_links",
+    "worker_path",
+    "worker_sha256",
+    "manifest_path",
+    "manifest_sha256",
+    "source_files",
+    "source_sha256",
+    "config_files",
+    "config_sha256"
+  ],
+  "title": "NativeDeciderEntryConfig",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

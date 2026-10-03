@@ -1,0 +1,45 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    },
+    "confirm_candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Candidate Sha256",
+      "type": "string"
+    },
+    "human_confirmation": {
+      "const": "PUBLISH_MANUAL_CANDIDATE",
+      "title": "Human Confirmation",
+      "type": "string"
+    },
+    "lease_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,128}$",
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "intent_sha256",
+    "confirm_candidate_sha256",
+    "human_confirmation",
+    "lease_id",
+    "generation"
+  ],
+  "title": "OwnedParameterSkillPublishRequest",
+  "type": "object"
+}

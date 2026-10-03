@@ -1,0 +1,225 @@
+{
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "else": {
+        "properties": {
+          "receipt_sha256": {
+            "type": "null"
+          },
+          "reserved": {
+            "const": true
+          },
+          "task_terminal_verified": {
+            "const": false
+          },
+          "record_outcome_verified": {
+            "const": false
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "accepted_verified"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "run_binding_sha256": {
+            "type": "string"
+          },
+          "run_ref": {
+            "type": "string"
+          },
+          "receipt_sha256": {
+            "type": "string"
+          },
+          "reserved": {
+            "const": false
+          },
+          "task_terminal_verified": {
+            "const": true
+          },
+          "record_outcome_verified": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "else": {
+        "properties": {
+          "run_binding_sha256": {
+            "type": "string"
+          },
+          "run_ref": {
+            "type": "string"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "status": {
+            "const": "uncertain_before_run_binding"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "run_binding_sha256": {
+            "type": "null"
+          },
+          "run_ref": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "web_goal_execution_journal_status",
+      "title": "Kind",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    },
+    "binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Sha256",
+      "type": "string"
+    },
+    "confirmation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirmation Sha256",
+      "type": "string"
+    },
+    "authority_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authority Sha256",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "run_binding_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Run Binding Sha256"
+    },
+    "run_ref": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Run Ref"
+    },
+    "receipt_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Receipt Sha256"
+    },
+    "status": {
+      "enum": [
+        "uncertain_before_run_binding",
+        "awaiting_independent_verification",
+        "accepted_verified"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "reserved": {
+      "title": "Reserved",
+      "type": "boolean"
+    },
+    "confirmation_consumed": {
+      "const": true,
+      "title": "Confirmation Consumed",
+      "type": "boolean"
+    },
+    "task_terminal_verified": {
+      "title": "Task Terminal Verified",
+      "type": "boolean"
+    },
+    "record_outcome_verified": {
+      "title": "Record Outcome Verified",
+      "type": "boolean"
+    },
+    "replay_authorized": {
+      "const": false,
+      "title": "Replay Authorized",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "intent_sha256",
+    "binding_sha256",
+    "confirmation_sha256",
+    "authority_sha256",
+    "source_sha256",
+    "run_binding_sha256",
+    "run_ref",
+    "receipt_sha256",
+    "status",
+    "reserved",
+    "confirmation_consumed",
+    "task_terminal_verified",
+    "record_outcome_verified",
+    "replay_authorized",
+    "site_outcome_verified",
+    "training_ready",
+    "gpu_release_verified"
+  ],
+  "title": "WebGoalExecutionJournalStatus",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_execution_journal_status.schema.json"
+}

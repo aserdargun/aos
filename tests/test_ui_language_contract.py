@@ -12,7 +12,9 @@ class LanguageContractTests(unittest.TestCase):
     def test_static_translation_keys_have_unambiguous_english_values(self):
         directory = REPO_ROOT / 'ui/src'
         translations = {}
-        for filename in ('translations_core.ts', 'translations_tasks.ts'):
+        modules = re.findall(r"from './(translations_[a-z_]+)'", (directory / 'i18n.ts').read_text())
+        self.assertTrue(modules, 'Runtime translation imports are required')
+        for filename in (module + '.ts' for module in modules):
             source = (directory / filename).read_text()
             for match in re.finditer(f'({LITERAL})\\s*:\\s*({LITERAL})', source):
                 key, value = (ast.literal_eval(item) for item in match.groups())

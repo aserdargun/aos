@@ -1,0 +1,208 @@
+{
+  "$defs": {
+    "ScientistIntentBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "authorization_context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Authorization Context Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "authorization_context_sha256"
+      ],
+      "title": "ScientistIntentBinding",
+      "type": "object"
+    },
+    "ScientistLabBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "experiments": {
+          "maximum": 35,
+          "minimum": 1,
+          "title": "Experiments",
+          "type": "integer"
+        },
+        "wall_seconds": {
+          "maximum": 14400,
+          "minimum": 1,
+          "title": "Wall Seconds",
+          "type": "integer"
+        },
+        "model_tokens": {
+          "maximum": 350000,
+          "minimum": 0,
+          "title": "Model Tokens",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "experiments",
+        "wall_seconds",
+        "model_tokens"
+      ],
+      "title": "ScientistLabBudget",
+      "type": "object"
+    },
+    "ScientistLabStart": {
+      "additionalProperties": false,
+      "properties": {
+        "idempotency_key": {
+          "maxLength": 128,
+          "minLength": 16,
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "track": {
+          "enum": [
+            "anomaly",
+            "mode"
+          ],
+          "title": "Track",
+          "type": "string"
+        },
+        "suite": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:-]*$",
+          "title": "Suite",
+          "type": "string"
+        },
+        "budget": {
+          "$ref": "#/$defs/ScientistLabBudget"
+        },
+        "program_version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Program Version",
+          "type": "string"
+        },
+        "external_task_id": {
+          "pattern": "^task-[a-f0-9]{32}$",
+          "title": "External Task Id",
+          "type": "string"
+        },
+        "external_run_id": {
+          "pattern": "^run-[a-f0-9]{32}$",
+          "title": "External Run Id",
+          "type": "string"
+        },
+        "external_action_id": {
+          "pattern": "^action-[a-f0-9]{32}$",
+          "title": "External Action Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "idempotency_key",
+        "track",
+        "suite",
+        "budget",
+        "program_version",
+        "external_task_id",
+        "external_run_id",
+        "external_action_id"
+      ],
+      "title": "ScientistLabStart",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "scientist_lab",
+      "default": "scientist_lab",
+      "title": "Kind",
+      "type": "string"
+    },
+    "binding": {
+      "$ref": "#/$defs/ScientistIntentBinding"
+    },
+    "authority_url": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Authority Url",
+      "type": "string"
+    },
+    "principal_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Principal Id",
+      "type": "string"
+    },
+    "state_version": {
+      "minimum": 0,
+      "title": "State Version",
+      "type": "integer"
+    },
+    "request": {
+      "$ref": "#/$defs/ScientistLabStart"
+    },
+    "lab_run_id": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Lab Run Id"
+    }
+  },
+  "required": [
+    "binding",
+    "authority_url",
+    "principal_id",
+    "state_version",
+    "request"
+  ],
+  "title": "ScientistLabTask",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

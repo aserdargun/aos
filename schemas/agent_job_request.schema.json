@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "AgentAuthority": {
+      "additionalProperties": false,
+      "properties": {
+        "principal": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Principal",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "principal",
+        "runtime_id",
+        "lease_id",
+        "owner",
+        "generation"
+      ],
+      "title": "AgentAuthority",
+      "type": "object"
+    },
+    "AgentBudget": {
+      "additionalProperties": false,
+      "properties": {
+        "wall_seconds": {
+          "description": "Reserved wall-clock seconds, not measured or billed usage",
+          "maximum": 86400,
+          "minimum": 1,
+          "title": "Wall Seconds",
+          "type": "integer"
+        },
+        "model_tokens": {
+          "description": "Reserved model tokens, not a runtime GPU grant",
+          "maximum": 10000000,
+          "minimum": 0,
+          "title": "Model Tokens",
+          "type": "integer"
+        },
+        "experiments": {
+          "description": "Reserved experiment count; zero for non-experiment operations",
+          "maximum": 10000,
+          "minimum": 0,
+          "title": "Experiments",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "wall_seconds",
+        "model_tokens",
+        "experiments"
+      ],
+      "title": "AgentBudget",
+      "type": "object"
+    },
+    "JsonValue": {}
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "job_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+      "title": "Job Id",
+      "type": "string"
+    },
+    "agent_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+      "title": "Agent Id",
+      "type": "string"
+    },
+    "agent_version": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+      "title": "Agent Version",
+      "type": "string"
+    },
+    "operation": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+      "title": "Operation",
+      "type": "string"
+    },
+    "authority": {
+      "$ref": "#/$defs/AgentAuthority"
+    },
+    "budget": {
+      "$ref": "#/$defs/AgentBudget"
+    },
+    "dependencies": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+        "type": "string"
+      },
+      "maxItems": 64,
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "payload": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "title": "Payload",
+      "type": "object"
+    },
+    "delegated_by": {
+      "const": "supervisor",
+      "default": "supervisor",
+      "title": "Delegated By",
+      "type": "string"
+    },
+    "executed_by": {
+      "const": "operator",
+      "default": "operator",
+      "title": "Executed By",
+      "type": "string"
+    }
+  },
+  "required": [
+    "job_id",
+    "agent_id",
+    "agent_version",
+    "operation",
+    "authority",
+    "budget",
+    "payload"
+  ],
+  "title": "AgentJobRequest",
+  "type": "object"
+}

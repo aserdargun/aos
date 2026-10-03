@@ -1,0 +1,112 @@
+{
+  "$defs": {
+    "AgentAuthority": {
+      "additionalProperties": false,
+      "properties": {
+        "principal": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Principal",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "principal",
+        "runtime_id",
+        "lease_id",
+        "owner",
+        "generation"
+      ],
+      "title": "AgentAuthority",
+      "type": "object"
+    },
+    "AgentHandle": {
+      "additionalProperties": false,
+      "properties": {
+        "job_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "request_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Request Sha256",
+          "type": "string"
+        },
+        "authority": {
+          "$ref": "#/$defs/AgentAuthority"
+        },
+        "handle_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Handle Id",
+          "type": "string"
+        },
+        "payload": {
+          "additionalProperties": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "title": "Payload",
+          "type": "object"
+        }
+      },
+      "required": [
+        "job_id",
+        "request_sha256",
+        "authority",
+        "handle_id",
+        "payload"
+      ],
+      "title": "AgentHandle",
+      "type": "object"
+    },
+    "JsonValue": {}
+  },
+  "additionalProperties": false,
+  "properties": {
+    "handle": {
+      "$ref": "#/$defs/AgentHandle"
+    },
+    "ready": {
+      "title": "Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "handle",
+    "ready"
+  ],
+  "title": "AgentPrepared",
+  "type": "object"
+}

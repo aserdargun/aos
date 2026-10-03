@@ -1,0 +1,119 @@
+{
+  "$defs": {
+    "NativeInhibitFileIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "NativeInhibitFileIdentity",
+      "type": "object"
+    },
+    "NativeMaintenanceStoreRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "1",
+          "default": "1",
+          "title": "Version",
+          "type": "string"
+        },
+        "directory": {
+          "title": "Directory",
+          "type": "string"
+        },
+        "directory_identity": {
+          "$ref": "#/$defs/WorkspaceIdentity"
+        },
+        "lock_identity": {
+          "$ref": "#/$defs/NativeInhibitFileIdentity"
+        },
+        "metadata_identity": {
+          "$ref": "#/$defs/NativeInhibitFileIdentity"
+        }
+      },
+      "required": [
+        "directory",
+        "directory_identity",
+        "lock_identity",
+        "metadata_identity"
+      ],
+      "title": "NativeMaintenanceStoreRecord",
+      "type": "object"
+    },
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "record": {
+      "$ref": "#/$defs/NativeMaintenanceStoreRecord"
+    },
+    "content_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Content Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "record",
+    "content_sha256"
+  ],
+  "title": "NativeMaintenanceStore",
+  "type": "object"
+}

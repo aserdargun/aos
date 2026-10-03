@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "review_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Review Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "review_sha256"
+  ],
+  "title": "OwnedParameterSkillReviewReadRequest",
+  "type": "object"
+}

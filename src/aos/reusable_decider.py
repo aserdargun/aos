@@ -32,6 +32,8 @@ class ReusableDeciderEngine(DeciderEngine):
         self.job_active = False
         self.claimed_preparation = None
         self.closing = None
+        self.cleanup_pending = False
+        self.cleanup_task = None
 
     def prewarm_status(self):
         state = 'inactive'
@@ -158,6 +160,8 @@ class ReusableDeciderEngine(DeciderEngine):
         self.preparation_metrics = response
 
     async def start(self):
+        if self.cleanup_pending or self.process is not None:
+            raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Previous worker requires verified cleanup before startup')
         idle_argument = ([f'--idle-seconds={math.ceil(max(75, self.idle_seconds + 30, self.gpu_idle_seconds + 30))}']
                          if self.cpu_prewarm else [])
         spawning = asyncio.create_task(asyncio.create_subprocess_exec(
@@ -202,20 +206,33 @@ class ReusableDeciderEngine(DeciderEngine):
                 self.closing = None
 
     async def stop_process(self):
-        process, self.process = self.process, None
+        process = self.process
         if process is None:
             return
+        self.cleanup_pending = True
         if process.returncode is None:
             with suppress(ProcessLookupError):
                 os.killpg(process.pid, signal.SIGKILL)
         if process.stdin:
             process.stdin.close()
-        draining = asyncio.create_task(process.communicate())
+        draining = self.cleanup_task
+        if draining is None or draining.done():
+            draining = asyncio.create_task(process.communicate())
+            self.cleanup_task = draining
         try:
-            await asyncio.shield(draining)
+            await asyncio.wait_for(asyncio.shield(draining), 5)
         except asyncio.CancelledError:
-            await draining
+            await asyncio.wait_for(asyncio.shield(draining), 5)
+            if process.returncode is not None and self.process is process:
+                self.process = None
+                self.cleanup_pending = False
+                self.cleanup_task = None
             raise
+        if process.returncode is None or self.process is not process:
+            raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Worker cleanup identity or exit is unproven')
+        self.process = None
+        self.cleanup_pending = False
+        self.cleanup_task = None
 
     async def decide(self, state, options):
         self.last_request = None
@@ -235,6 +252,8 @@ class ReusableDeciderEngine(DeciderEngine):
             raise
 
     async def request(self, body):
+        if self.cleanup_pending:
+            raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Worker cleanup is unproven; new requests are blocked')
         if self.lock.locked():
             raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Reusable Decider requires one active request')
         async with self.lock:

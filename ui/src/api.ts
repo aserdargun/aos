@@ -186,7 +186,24 @@ export interface RemoteLearningConsentReport {
   roles: ('system1' | 'system2')[]; expires_at: string;
   metadata_only: true; external_rights_verified: false; training_authorized: false;
 }
+export type ParameterWebGoalStatus = {
+  available: true; status: 'review_required'; binding_sha256: string; confirm_sha256: string;
+  field_count: number; unresolved_intent: boolean; independently_verified: false;
+  training_ready: false; gpu_release_verified: false;
+} | {
+  schema_version: '1.0'; kind: 'web_goal_execution_journal_status';
+  intent_sha256: string; binding_sha256: string; confirmation_sha256: string;
+  authority_sha256: string; source_sha256: string; run_binding_sha256: string | null;
+  run_ref: string | null; receipt_sha256: string | null;
+  status: 'uncertain_before_run_binding' | 'awaiting_independent_verification' | 'accepted_verified';
+  reserved: boolean; confirmation_consumed: true; task_terminal_verified: boolean;
+  record_outcome_verified: boolean; replay_authorized: false; site_outcome_verified: false;
+  training_ready: false; gpu_release_verified: false;
+};
+
 export interface Tasks {
+  manager_scope?: {project: string; port: number};
+  manager_session?: string;
   knowledge_available?: boolean;
   knowledge_answer_available?: boolean;
   task_knowledge_available?: boolean;
@@ -201,6 +218,9 @@ export interface Tasks {
   owned_form_invocation?: OwnedFormInvocation | null;
   owned_form_candidate_execution?: CandidateExecutionStatus | null;
   owned_skill_planning?: PlanningStatus;
+  owned_web_goal_planning?: PlanningStatus;
+  parameter_web_goal_execution?: ParameterWebGoalStatus | null;
+  owned_parameter_project_execution?: unknown;
   owned_episode_learning?: {available: boolean; state?: 'disabled' | 'collecting' | 'reviewable' | 'failed' | 'cancelled' | 'needs_human';
     episode_id?: string; counts?: {system1: number; system2: number}; training_ready: false;
     adaptation?: AdaptationStatus;
@@ -363,13 +383,26 @@ export interface Trace {
   model_calls: {call_id: string; role: string; status: string; latency_ms: number | null}[];
 }
 export class ApiError extends Error {
-  constructor(public status: number) { super(`${t('İstek reddedildi')} (${status}). ${t('Oturumu ve runtime durumunu kontrol edin.')}`); }
+  constructor(public status: number, public code?: 'reconciliation_required') {
+    super(code === 'reconciliation_required'
+      ? t('Scientist yeni görevi kabul etmedi. Önceki görevin kapanışı ve oturum kayıtları doğrulanmalı. Görev otomatik tekrarlanmadı.')
+      : `${t('İstek reddedildi')} (${status}). ${t('Oturumu ve runtime durumunu kontrol edin.')}`);
+  }
 }
 export async function api<Result>(path: string, body?: unknown, signal?: AbortSignal): Promise<Result> {
   const response = await fetch(path, {
     signal, credentials: 'same-origin',
     ...(body === undefined ? {} : {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)})
   });
-  if (!response.ok) throw new ApiError(response.status);
+  if (!response.ok) {
+    if (path === '/api/tasks' && body !== undefined && response.status === 409) {
+      const failure: unknown = await response.json().catch(() => null);
+      if (failure !== null && typeof failure === 'object' && !Array.isArray(failure)
+          && 'code' in failure && failure.code === 'reconciliation_required') {
+        throw new ApiError(response.status, 'reconciliation_required');
+      }
+    }
+    throw new ApiError(response.status);
+  }
   return response.json();
 }

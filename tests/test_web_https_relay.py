@@ -123,6 +123,10 @@ from aos.web_https_form_state_probe import (ExactHTTPSFormStateProbe,
 from test_desktop_mcp import worker_namespace
 
 
+LATEST_MIGRATION = max(int(path.name.split('_', 1)[0])
+                       for path in (REPO_ROOT / 'database/migrations').glob('*.sql'))
+
+
 class SyntheticEntry(BaseHTTPRequestHandler):
     body = b'<html><title>Relay fixture</title><h1>Synthetic entry</h1></html>'
 
@@ -2987,7 +2991,7 @@ class WebHTTPSRelayTests(unittest.TestCase):
             {'url': self.profile.allowed_origins[0] + '/assets/app.js',
              'content_type': 'application/javascript'}])
         self.assertEqual(store.connection.execute(
-            'SELECT max(version) FROM schema_migrations').fetchone()[0], 17)
+            'SELECT max(version) FROM schema_migrations').fetchone()[0], LATEST_MIGRATION)
         with store.connection:
             store.insert('tasks', task_id='task', original_goal='synthetic',
                          normalized_goal='synthetic', success_criteria_json='[]',
@@ -3030,7 +3034,7 @@ class WebHTTPSRelayTests(unittest.TestCase):
         store = TrajectoryStore(self.root / 'binding.sqlite')
         self.addCleanup(store.close)
         created = '2026-09-23T00:00:00Z'
-        self.assertEqual(store.connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0], 17)
+        self.assertEqual(store.connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0], LATEST_MIGRATION)
         with store.connection:
             store.insert('tasks', task_id='task', original_goal='synthetic', normalized_goal='synthetic',
                          success_criteria_json='[]', workspace_scope_json='[]', created_at=created)
@@ -3080,7 +3084,7 @@ class WebHTTPSRelayTests(unittest.TestCase):
         connection.close()
         store = TrajectoryStore(database)
         self.addCleanup(store.close)
-        self.assertEqual(store.connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0], 17)
+        self.assertEqual(store.connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0], LATEST_MIGRATION)
         self.assertEqual(store.connection.execute('SELECT status FROM desktop_approvals').fetchone()[0], 'consumed')
         self.assertEqual(store.connection.execute('SELECT profile_sha256 FROM desktop_web_profile_bindings').fetchone()[0], self.checksum)
         self.assertEqual(store.connection.execute('PRAGMA foreign_key_check').fetchall(), [])
@@ -3250,7 +3254,7 @@ class WebHTTPSRelayTests(unittest.TestCase):
         store = TrajectoryStore(database)
         self.addCleanup(store.close)
         self.assertEqual(store.connection.execute(
-            'SELECT max(version) FROM schema_migrations').fetchone()[0], 17)
+            'SELECT max(version) FROM schema_migrations').fetchone()[0], LATEST_MIGRATION)
         self.assertEqual(store.connection.execute(
             'SELECT status FROM desktop_approvals').fetchone()[0], 'consumed')
         self.assertEqual(store.connection.execute(
@@ -3286,7 +3290,7 @@ class WebHTTPSRelayTests(unittest.TestCase):
         connection.close()
         store = TrajectoryStore(database)
         self.addCleanup(store.close)
-        self.assertEqual(store.connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0], 17)
+        self.assertEqual(store.connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0], LATEST_MIGRATION)
         self.assertEqual(store.connection.execute('SELECT status FROM desktop_approvals').fetchone()[0], 'consumed')
         self.assertEqual(store.connection.execute(
             'SELECT binding_sha256 FROM desktop_remote_entry_bindings').fetchone()[0],

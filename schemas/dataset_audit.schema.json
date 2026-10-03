@@ -41,7 +41,7 @@
         "migrations": {
           "type": "object",
           "minProperties": 7,
-          "maxProperties": 17,
+          "maxProperties": 28,
           "additionalProperties": {
             "type": "string",
             "pattern": "^[a-f0-9]{64}$"

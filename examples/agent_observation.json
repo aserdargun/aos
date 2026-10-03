@@ -1,0 +1,19 @@
+{
+  "handle": {
+    "job_id": "synthetic-job",
+    "request_sha256": "5c8619978f38df682472e7baf14b573f01dc952c79406c9f21a307b53a7ff6e1",
+    "authority": {
+      "principal": "synthetic-principal",
+      "runtime_id": "synthetic-runtime",
+      "lease_id": "synthetic-lease",
+      "owner": "AGENT",
+      "generation": 1
+    },
+    "handle_id": "synthetic-job",
+    "payload": {
+      "synthetic": true
+    }
+  },
+  "state": "succeeded",
+  "detail": "Synthetic contract example; not runtime evidence"
+}

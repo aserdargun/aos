@@ -1,0 +1,12 @@
+{
+  "version": "1",
+  "preparation_only": true,
+  "execution_authorized": false,
+  "runtime_started": false,
+  "runtime_authority": false,
+  "plan_sha256": "8cc82184a747d80cb59dffb30c670ba84594d02fc20ccf24c260d811e8f99dd8",
+  "app_session": "app-11111111111111111111111111111111",
+  "boot_id": "00000000-0000-0000-0000-000000000001",
+  "provision_sha256": "09c4966b5497ec768100e1b8c946ce8b2b00b3b3397f1106142601e46ddc90aa",
+  "activation_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+}

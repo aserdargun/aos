@@ -1,0 +1,114 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "reviewed_launch_input_path": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Reviewed Launch Input Path",
+      "type": "string"
+    },
+    "reviewed_launch_input_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Reviewed Launch Input Sha256",
+      "type": "string"
+    },
+    "source_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 256,
+      "minProperties": 1,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Source Files",
+      "type": "object"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "config_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 256,
+      "minProperties": 1,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Config Files",
+      "type": "object"
+    },
+    "config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Config Sha256",
+      "type": "string"
+    },
+    "boot_id": {
+      "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+      "title": "Boot Id",
+      "type": "string"
+    },
+    "clock": {
+      "const": "CLOCK_BOOTTIME",
+      "default": "CLOCK_BOOTTIME",
+      "title": "Clock",
+      "type": "string"
+    },
+    "issued_monotonic": {
+      "description": "CLOCK_BOOTTIME seconds, including suspend",
+      "minimum": 0,
+      "title": "Issued Monotonic",
+      "type": "number"
+    },
+    "expires_monotonic": {
+      "description": "CLOCK_BOOTTIME expiry; never renewed from an inert plan",
+      "exclusiveMinimum": 0,
+      "title": "Expires Monotonic",
+      "type": "number"
+    },
+    "capability_proof_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Capability Proof Sha256",
+      "type": "string"
+    },
+    "source_proof_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Proof Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "plan_sha256",
+    "reviewed_launch_input_path",
+    "reviewed_launch_input_sha256",
+    "source_files",
+    "source_sha256",
+    "config_files",
+    "config_sha256",
+    "boot_id",
+    "issued_monotonic",
+    "expires_monotonic",
+    "capability_proof_sha256",
+    "source_proof_sha256"
+  ],
+  "title": "SharedDesktopActivation",
+  "type": "object"
+}

@@ -9,7 +9,7 @@ In Tasks → **Load version catalog**, use **Prepare new-session reuse** for the
 The start template already contains the selected release and selection hashes. Replace its literal `PREVIEW_SHA256` with the exact checksum returned by the separate stopped-source preview; the template is not runnable authorization. Do not stop an unrelated session, delete `current.json`, omit the confirmation, or start a fresh baseline between stopping the source and reusing it. The existing macOS port-8765 tunnel stays the same; obtain the new token after a successful start.
 
 1. In an owned-v1 session, complete the demonstration, save a candidate, execute and audit fresh development evidence, accept its review, then publish and explicitly select a [skill release](OWNED_SKILL_RELEASES.md).
-2. Stop that owned session cleanly. Do not stop an unrelated ordinary session to use this workflow. A live, failed, unresolved, or uninspectable previous session is rejected; there is no automatic orphan cleanup.
+2. Read `./scripts/aos-v1 status` and copy its exact `session` value. Stop that owned session cleanly with `./scripts/aos-v1 stop --expected-session SESSION_ID`; the CLI rechecks that the current manager still names this session before it signals the recorded supervisor. A changed session is refused without signaling. Do not stop an unrelated ordinary session to use this workflow. A live, failed, unresolved, or uninspectable previous session is rejected; there is no automatic orphan cleanup.
 3. On CachyOS, obtain a read-only preview using the exact release and selection hashes:
 
    ```sh

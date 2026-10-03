@@ -1,7 +1,53 @@
-import {locale, t} from './i18n';
-import type {ImageDraftCapability, StaticQueryCapability, Overview, RemoteFormRepeatReport, RetentionStatus, Tasks, WebApplicationReport} from './api';
+import {useEffect, useId, useState} from 'react';
+import {locale, t, useLanguage} from './i18n';
+import type {ImageDraftCapability, StaticQueryCapability, Overview, RemoteFormRepeatReport, RetentionStatus, Snapshot, Tasks, WebApplicationReport} from './api';
 import {CapabilityEvidence} from './CapabilityEvidence';
+import {DevelopmentJournal, validDevelopmentCheckpoint, type DevelopmentCheckpoint} from './DevelopmentJournal';
+import releaseAcceptanceSnapshot from '../../docs/release_acceptance.json';
+import {releaseAcceptanceLabels} from './translations_core';
 import './development.css';
+
+const acceptanceStageIds = ['candidate', 'scientist', 'native_workflow', 'user_delivery', 'learning', 'swapp'] as const;
+type AcceptanceStage = {id: typeof acceptanceStageIds[number]; title_key: string;
+  source: 'pending' | 'partial' | 'implemented'; verification: 'pending' | 'cpu_verified' | 'historical_native';
+  delivery: 'pending' | 'not_delivered' | 'historical'; blockers: string[]; next_action_key: string; evidence: string[]};
+type ReleaseAcceptance = {schema_version: '1.0' | '1.1'; observed_at: string; scope: 'manual_source_acceptance_snapshot';
+  runtime_authority: false; product_complete: false; stages: AcceptanceStage[]; checkpoint?: DevelopmentCheckpoint};
+const acceptanceObject = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
+const acceptanceExact = (value: Record<string, unknown>, keys: string[]) => Object.keys(value).length === keys.length
+  && keys.every(key => Object.hasOwn(value, key));
+export function validReleaseAcceptance(value: unknown): value is ReleaseAcceptance {
+  if (!acceptanceObject(value)) return false;
+  const keys = ['schema_version', 'observed_at', 'scope', 'runtime_authority', 'product_complete', 'stages'];
+  if (value.schema_version === '1.1') keys.push('checkpoint');
+  if (!acceptanceExact(value, keys) || !['1.0', '1.1'].includes(String(value.schema_version))
+    || (value.schema_version === '1.1' && !validDevelopmentCheckpoint(value.checkpoint))
+    || value.scope !== 'manual_source_acceptance_snapshot'
+    || value.runtime_authority !== false || value.product_complete !== false
+    || typeof value.observed_at !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(value.observed_at)
+    || !Number.isFinite(Date.parse(value.observed_at)) || new Date(value.observed_at).toISOString().replace('.000Z', 'Z') !== value.observed_at
+    || !Array.isArray(value.stages) || value.stages.length !== acceptanceStageIds.length) return false;
+  return value.stages.every((stage, index) => acceptanceObject(stage)
+    && acceptanceExact(stage, ['id', 'title_key', 'source', 'verification', 'delivery', 'blockers', 'next_action_key', 'evidence'])
+    && stage.id === acceptanceStageIds[index] && stage.title_key === 'release_acceptance.' + stage.id + '.title'
+    && stage.next_action_key === 'release_acceptance.' + stage.id + '.next'
+    && typeof stage.source === 'string' && ['pending', 'partial', 'implemented'].includes(stage.source)
+    && typeof stage.verification === 'string' && ['pending', 'cpu_verified', 'historical_native'].includes(stage.verification)
+    && typeof stage.delivery === 'string' && ['pending', 'not_delivered', 'historical'].includes(stage.delivery)
+    && Array.isArray(stage.blockers) && stage.blockers.length <= 16 && new Set(stage.blockers).size === stage.blockers.length
+    && stage.blockers.every(key => typeof key === 'string' && key.startsWith('release_acceptance.blocker.')
+      && Object.hasOwn(releaseAcceptanceLabels, key))
+    && Array.isArray(stage.evidence) && stage.evidence.length >= 1 && stage.evidence.length <= 8
+    && new Set(stage.evidence).size === stage.evidence.length
+    && stage.evidence.every(path => typeof path === 'string' && path.length <= 240
+      && /^(?:docs|data)\/[A-Za-z0-9_./-]+$/.test(path) && !path.split('/').some(part => part === '..' || part === '.' || part === '')));
+}
+const acceptanceCandidate: unknown = releaseAcceptanceSnapshot;
+const releaseAcceptance = validReleaseAcceptance(acceptanceCandidate) ? acceptanceCandidate : null;
+const nextAcceptanceGate = releaseAcceptance?.stages.find(stage => stage.blockers.length > 0);
+const acceptanceStatusLabels = {pending: 'Bekliyor', partial: 'Kısmen uygulandı', implemented: 'Uygulandı',
+  cpu_verified: 'CPU / sentetik kabul kanıtı', historical_native: 'Tarihsel native kanıt; güncel aday kabulü değil',
+  not_delivered: 'Bu aday teslim edilmedi', historical: 'Yalnız tarihsel teslim'};
 
 const formStageLabels: Record<string, string> = {
   'browser.form.open': 'Giriş sayfası',
@@ -307,13 +353,6 @@ const openGates = [
   'W6 · Tek uygulamada tekrarlı uçtan uca başarı ve hız kabulü'
 ] as const;
 
-const releaseGates = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6'] as const;
-const checklistTotal = completed.length + openGates.length;
-const completedPercent = Number((completed.length / checklistTotal * 100).toFixed(1));
-const openPercent = Number((openGates.length / checklistTotal * 100).toFixed(1));
-const acceptedReleaseGates = 0;
-const releasePercent = Math.round(acceptedReleaseGates / releaseGates.length * 100);
-
 interface Props {
   tasks: Tasks | null;
   overview: Overview | null;
@@ -323,14 +362,40 @@ interface Props {
   imageDraftCapability: ImageDraftCapability;
   staticQueryCapability: StaticQueryCapability;
   refreshKey?: number;
-  onNavigate: (tab: 'Görevler' | 'Çalışmalar' | 'Web uygulamaları') => void;
+  snapshot?: Snapshot | null;
+  runtimeObservedAt?: number | null;
+  runtimeError?: boolean;
+  refreshing?: boolean;
+  onRefresh?: () => void;
+  onNavigate: (tab: 'Görevler' | 'Çalışmalar' | 'Web uygulamaları' | 'Bilgisayar' | 'Scientist') => void;
 }
 
-export function Development({tasks, overview, retention, formRepeats, webApplications, imageDraftCapability, staticQueryCapability, refreshKey = 0, onNavigate}: Props) {
+const stageOwners = {
+  candidate: 'AOS geliştirme', scientist: 'AOS + Scientist', native_workflow: 'AOS geliştirme',
+  user_delivery: 'AOS + kullanıcı', learning: 'Veri ve model incelemesi', swapp: 'Yetkili intranet kullanıcısı'
+};
+
+export function Development({tasks, overview, retention, formRepeats, webApplications, imageDraftCapability, staticQueryCapability,
+  refreshKey = 0, snapshot = null, runtimeObservedAt = null, runtimeError = false, refreshing = false, onRefresh, onNavigate}: Props) {
+  const language = useLanguage();
+  const panelId = useId();
+  const [view, setView] = useState<'overview' | 'release' | 'history'>('overview');
+  const [clock, setClock] = useState(Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setClock(Date.now()), 5000);
+    return () => clearInterval(timer);
+  }, []);
+  const runtimeStale = runtimeObservedAt !== null && clock - runtimeObservedAt > 15000;
+  const runtimeUnavailable = runtimeError || runtimeStale || runtimeObservedAt === null || tasks === null;
+  const runtimeFresh = !runtimeUnavailable && !runtimeStale && runtimeObservedAt !== null;
+  const runtimeStatus = runtimeError ? 'Durum okunamadı' : runtimeStale ? 'Eski gözlem'
+    : tasks === null ? 'Oturum gözlemi bekleniyor' : runtimeObservedAt === null ? 'Gözlem zamanı bilinmiyor' : 'Güncel gözlem';
   const recentJobs = tasks?.jobs ?? [];
   const recentRuns = overview?.trajectory.available ? overview.trajectory.runs : undefined;
   const verifiedRuns = recentRuns?.filter(run => run.status === 'succeeded' && run.passed > 0 && run.failed === 0).length;
   const latestJob = recentJobs[0];
+  const activeJob = tasks?.busy ? recentJobs.find(job => !['succeeded', 'failed', 'cancelled'].includes(job.status)) : null;
+  const checkpoint = releaseAcceptance?.checkpoint;
   const elapsedMilliseconds = latestJob?.progress?.elapsed_ms;
   const elapsedText = typeof elapsedMilliseconds === 'number' && Number.isFinite(elapsedMilliseconds) && elapsedMilliseconds >= 0
     ? elapsedMilliseconds < 1000
@@ -369,7 +434,6 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
           : 'Pinli kapsamı Görevler ekranında inceleyin; yalnız yetkili görevi başlatıp bağımsız sonucu doğrulayın.';
   const repeatReport = formRepeats !== null && typeof formRepeats === 'object' ? formRepeats : null;
   const formatDuration = (milliseconds: number) => new Intl.NumberFormat(locale(), {maximumFractionDigits: 1}).format(milliseconds);
-  const formatPercent = (value: number) => new Intl.NumberFormat(locale(), {maximumFractionDigits: 1}).format(value);
   const latencyText = (role: 'system1' | 'system2') => {
     const summary = modelCallLatency?.[role];
     if (!summary || !Number.isInteger(summary.samples) || summary.samples < 1 || summary.samples > 256
@@ -380,18 +444,126 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
     return `${format.format(summary.p50_ms)} / ${format.format(summary.p95_ms)} ms · n=${summary.samples}`;
   };
   return <section className="panel development" data-testid="development-status">
-    <div className="development-heading"><div><h2>{t('Geliştirme durumu')}</h2><p className="caption">{t('Tarihli kod/test özeti ve ayrı canlı oturum kayıtları')}</p></div><span className="badge">{t('İlk web sürümü tamamlanmadı')}</span></div>
-    <p className="caption">{t('Bu kartlar uygulanmış ve doğrulanmış dar dilimleri açık kapılardan ayırır. Sentetik fixture veya metadata gerçek hedef uygulama başarısı değildir.')}</p>
-    <p className="development-release" data-testid="development-release-acceptance">{t('İlk web sürümü W1–W6 kabulü:')} <strong>{acceptedReleaseGates}/{releaseGates.length} · {releasePercent}%</strong></p>
-    <h3>{t('Tarihli kontrol listesi · ürün hazır olma ölçüsü değil')}</h3>
-    <p className="caption" data-testid="development-checklist-date">{t('Kontrol listesi gözlemi: 30 Eylül 2026. Dar kabul kanıtları STATUS içinde tarihli tutulur.')}</p>
-    <div className="development-progress" aria-label={t('İş listesi yüzdeleri')}>
-      <div className="development-progress-row" data-testid="development-completed-percent"><div><strong>{t('Tamamlananlar')}</strong><span>{completed.length}/{checklistTotal} · {formatPercent(completedPercent)}%</span></div><progress value={completed.length} max={checklistTotal} aria-label={t('Tamamlananlar')}/></div>
-      <div className="development-progress-row" data-testid="development-open-percent"><div><strong>{t('Yapılacaklar')}</strong><span>{openGates.length}/{checklistTotal} · {formatPercent(openPercent)}%</span></div><progress value={openGates.length} max={checklistTotal} aria-label={t('Yapılacaklar')}/></div>
-    </div>
-    <p className="caption">{t('Yüzdeler yalnız listelenen maddeleri eşit ağırlıkla sayar; süre, zorluk veya ürün hazır olma tahmini değildir.')}</p>
-    <p className="development-release" data-testid="development-work-order">{t('Önce yerel AOS geliştirmeleri. SWAPP intranet/tünel bağlantısı ve gerçek-site kabulü son aşamaya ertelendi; diğer işleri engellemez ve tamamlanmış sayılmaz.')}</p>
+    <header className="development-heading development-intro"><div><h1>{t('Kontrol merkezi')}</h1>
+      <p>{t('Ne çalışıyor, ne değişti, sırada ne var?')}</p></div>
+      {onRefresh ? <button type="button" disabled={refreshing} onClick={onRefresh}>{t('Durumu yenile')}</button> : null}</header>
+      <section className="development-runtime" data-testid="development-runtime" aria-busy={refreshing}>
+        <div className="development-heading"><div><h3>{t('Canlı oturum')}</h3>
+          <p role="status" data-testid="development-runtime-status" className={runtimeFresh ? 'runtime-fresh' : 'runtime-unknown'}>{t(runtimeStatus)}</p></div>
+          <button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button></div>
+        {runtimeError || runtimeStale ? <p className="development-runtime-warning">{t('Son gözlem güncel durum değildir. Yenileyin; veri yokluğunu boşta kabul etmeyin.')}</p> : null}
+        <dl className="development-runtime-strip">
+          <div><dt>{t('Görev etkinliği')}</dt><dd>{runtimeUnavailable ? t('Kullanılamıyor') : tasks.restart_quiesced ? t('Toparlanma kilidi')
+            : !tasks.available ? t('Görev motoru kapalı') : tasks.paused ? t('Duraklatıldı') : tasks.busy ? t('İş sürüyor') : tasks.reserved ? t('Kaynak rezervasyonu') : t('Kayıtlı aktif iş yok')}</dd></div>
+          <div><dt>{t('Güncel görev')}</dt><dd>{runtimeUnavailable ? t('Kullanılamıyor') : activeJob ? <><code>{activeJob.kind}</code><small>{activeJob.progress?.phase ?? activeJob.status}</small></> : tasks.busy ? t('İş ayrıntısı sunulmadı') : t('Aktif görev yok')}</dd></div>
+          <div><dt>{t('Eylem onayı')}</dt><dd>{runtimeUnavailable ? t('Kullanılamıyor') : tasks.approval ? t('Onay bekliyor') : t('Bekleyen onay yok')}</dd></div>
+          <div><dt>{t('Sistem durumu')}</dt><dd>{runtimeUnavailable || !snapshot ? t('Kullanılamıyor')
+            : <>{snapshot.control.owner}<small>{snapshot.control.status} · {snapshot.runtime.running ? t('Masaüstü çalışıyor') : t('Masaüstü kapalı')}</small></>}</dd></div>
+        </dl>
+        <div className="development-runtime-meta"><span>{t('Son başarılı gözlem:')} {runtimeObservedAt === null ? t('Bilinmiyor') : new Date(runtimeObservedAt).toLocaleString(locale())}</span>
+          <span>{t('Oturum verisi; geliştirme ajanlarının etkinliği değildir.')}</span></div>
+        <details className="development-session-details"><summary>{t('Oturum kimliği ve kapsamı')}</summary><div className="development-runtime-meta">
+          <span>{t('Oturum:')} <code>{tasks?.manager_scope?.project ?? tasks?.manager_session ?? t('Kimlik sunulmadı')}</code></span>
+          <span>Runtime: <code>{snapshot?.runtime.runtime_id ?? t('Kimlik sunulmadı')}</code></span>
+          <span>{t('Bu arayüz:')} <code>{window.location.origin + window.location.pathname}</code></span>
+          <span>{t('Build kimliği: sunulmadı')}</span></div></details>
+        {latestJob && !activeJob ? <p className="development-last-result">{t('Son kayıt · aktif görev değildir:')} <code>{latestJob.kind}</code> · {latestJob.status}</p> : null}
+      </section>
+    <nav className="development-views" aria-label={t('Kontrol merkezi görünümleri')}>
+      {([['overview', 'Genel durum'], ['release', 'Sürüm kontrol listesi'], ['history', 'Kanıt ve uygulama geçmişi']] as const).map(([key, label]) =>
+        <button type="button" key={key} aria-pressed={view === key} aria-controls={panelId + '-' + key}
+          onClick={() => setView(key)}>{t(label)}</button>)}
+    </nav>
+    <div className="development-layout" hidden={view === 'history'}><div className="development-primary">
+    <section id={panelId + '-overview'} hidden={view !== 'overview'} aria-label={t('Genel durum')}>
+      {checkpoint ? <DevelopmentJournal checkpoint={checkpoint}/>
+        : <p role="status">{t('Geliştirme özeti sunulmadı; sürüm kontrol listesini inceleyin.')}</p>}
+    </section>
+    <section id={panelId + '-release'} hidden={view !== 'release'} data-testid="development-acceptance">
+      <article className="development-focus" data-testid="development-current-focus">
+        <div><h3>{t('Şu an neredeyiz?')}</h3>
+          <p>{t('Uygulama temelleri mevcut. Güncel native entegrasyon ve kullanıcı teslimi kabul bekliyor.')}</p>
+          <h3>{t('Sıradaki açık sürüm kapısı')}</h3>
+          <p data-testid="development-checkpoint-next">{nextAcceptanceGate
+            ? t(releaseAcceptanceLabels[nextAcceptanceGate.next_action_key]) : t('Kabul kaydını inceleyin; tamamlanma varsayılmaz.')}</p>
+        </div><div className="development-snapshot"><strong>{t('Geliştirme kaydı')}</strong>
+          <p data-testid="development-acceptance-date">{releaseAcceptance
+            ? <time dateTime={releaseAcceptance.observed_at}>{releaseAcceptance.observed_at.replace('T', ' ').replace('Z', ' UTC')}</time> : '—'}</p>
+          <p className="caption">{t('Tarihli manuel kayıt; canlı ajan sağlığı değildir.')}</p>
+          <span>{t('Ürün kabulü açık')}</span></div>
+      </article>
+      <h3>{t('Sürüm kabulü · altı ayrı aşama')}</h3>
+      <p className="caption">{t('Bu, elle incelenmiş tarihli kaynak kaydıdır; canlı runtime durumu, yürütme izni veya toplam tamamlanma yüzdesi değildir.')}</p>
+      {!releaseAcceptance ? <p role="alert">{t('Kabul kaydı doğrulanamadı; tamamlanma veya yetki varsayılmaz.')}</p> : <>
+        <div className="development-ledger">{releaseAcceptance.stages.map((stage, index) => <details className="development-stage"
+          key={stage.id} data-testid={'development-acceptance-' + stage.id}>
+          <summary><span className="development-stage-number">{String(index + 1).padStart(2, '0')}</span>
+            <span className="development-stage-title"><strong>{t(releaseAcceptanceLabels[stage.title_key])}</strong>
+              <small>{t(stageOwners[stage.id])} · {t('Kabul kapısı açık')}</small></span>
+            <span className={'development-stage-state ' + stage.source}>{t(acceptanceStatusLabels[stage.source])}</span>
+            <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20"><path d="m5 7 5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg></summary>
+          <div className="development-stage-body">
+          <p data-testid="acceptance-source"><strong>{t('Kaynak')}:</strong> {t(acceptanceStatusLabels[stage.source])}</p>
+          <p data-testid="acceptance-verification"><strong>{t('Kabul doğrulaması')}:</strong> {t(acceptanceStatusLabels[stage.verification])}</p>
+          <p data-testid="acceptance-delivery"><strong>{t('Teslim')}:</strong> {t(acceptanceStatusLabels[stage.delivery])}</p>
+          <p><strong>{t('Engeller')}</strong></p>
+          {stage.blockers.length ? <ul data-testid="acceptance-blockers">{stage.blockers.map(key => <li key={key}>{t(releaseAcceptanceLabels[key])}</li>)}</ul>
+            : <p>{t('Kayıtlı engel yok; tek başına tamamlanma değildir.')}</p>}
+          <p data-testid="acceptance-next"><strong>{t('Sonraki kabul adımı')}:</strong> {t(releaseAcceptanceLabels[stage.next_action_key])}</p>
+          <p><strong>{t('Kanıt başvuruları')}</strong></p>
+          <ul data-testid="acceptance-evidence">{stage.evidence.map(path => <li key={path}><code style={{overflowWrap: 'anywhere'}}>{path}</code></li>)}</ul>
+          </div></details>)}</div>
+      </>}
+    </section>
+    </div><aside className="development-rail">
+      <section><h3>{t('Sürüm hazırlığı')}</h3><strong>{t('Ürün kabulü açık')}</strong>
+        <p>{t('Altı aşama; kaynak, doğrulama ve teslim ayrı izlenir.')}</p>
+        <button type="button" onClick={() => setView('release')}>{t('Sürüm kontrol listesini aç')}</button>
+        <p className="caption">{t('Durum yenileme yalnız oturumu okur. Geliştirme kaydı bu UI derlemesine aittir.')}</p></section>
+      <section data-testid="development-blocker"><h3>{t('Kayıtlı engel')}</h3>
+        <p>{checkpoint?.blocker[language] ?? t('Kabul kaydını inceleyin; tamamlanma varsayılmaz.')}</p>
+        {checkpoint ? <small><time dateTime={checkpoint.recorded_at}>{new Date(checkpoint.recorded_at).toLocaleString(locale())}</time></small> : null}</section>
+      <section><h3>{t('Çalışma alanı ve ajanlar')}</h3>
+        <button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button>
+        <button type="button" onClick={() => onNavigate('Scientist')}>{t('Scientist Lab aç')}</button>
+        <button type="button" onClick={() => onNavigate('Bilgisayar')}>{t('Bilgisayarı aç')}</button></section>
+    </aside></div>
+    <section id={panelId + '-history'} hidden={view !== 'history'} className="development-history" data-testid="development-history"><h3>{t('Kanıt ve uygulama geçmişi')}</h3>
+    <p className="caption">{t('Geçmiş kayıtlar dar kapsamını korur. Yenileme test, model veya görev başlatmaz.')}</p>
+    <p className={runtimeFresh ? 'caption' : 'development-runtime-warning'} data-testid="development-history-observation">
+      <strong>{t(runtimeStatus)}</strong> · {t('Son başarılı gözlem:')} {runtimeObservedAt === null ? t('Bilinmiyor') : new Date(runtimeObservedAt).toLocaleString(locale())}
+      <br/>{t('Oturum kayıtları son gözlemdir; canlı iş veya geliştirme ajanı etkinliği sayılmaz.')}
+    </p>
     <CapabilityEvidence refreshKey={refreshKey}/>
+    <div className="development-card" data-testid="development-source-delivery">
+      <h3>{t('Son kaynak geliştirmeleri · 1 Ekim 2026')}</h3>
+      <p className="caption">{t('Kaynakta uygulandı ve CPU/mock ile doğrulandı. Bu tarihsel kayıt çalışan oturumun build kimliğini veya sürüm kabulünü kanıtlamaz.')}</p>
+      <ul>
+        <li>{t('Serbest hedef zinciri: scoped catalog → öneri → ayrı onay → sonlu görev → bağımsız sonuç; belirsiz başlangıç yalnız mevcut işten kurtarılır, tekrar yürütülmez.')}</li>
+        <li>{t('Bilgi kullanım raporu: tarihsel bağ, güncel kaynak hakları ve native acknowledgement ayrı denetlenir. Eski proposal veya model etiketi gerçek kullanım kanıtı değildir.')}</li>
+        <li>{t('Kurulum: ayrı fresh CPU environment ve UI staging; salt okunur prerequisite kontrolü runtime veya GPU hazır demek değildir.')}</li>
+        <li>{t('Çok alanlı manuel bootstrap: original kabul edilmiş run ve whole-record receipt → yeniden denetlenen özel skill adayı. CLI ve Tasks exact hash/onay ile bağlı; model olayı uydurulmaz.')}</li>
+        <li>{t('Skill yaşam döngüsü: DB-anchored insan incelemesi ve iptal geçmişi; fresh süreç eksik kayıtları reddeder. Exact recovery yalnız önceden yetkili kaydı geri koyar; görev tekrarı, release, aktivasyon veya eğitim değildir.')}</li>
+        <li>{t('İncelenmiş skill sürümleri: exact parent/seçim hash’i, ayrı insan onayı ve geri alma CLI/Tasks’a bağlı. Yeni parametrelerle görev yürütme ayrı kapıdır; seçim aktivasyon değildir.')}</li>
+        <li>{t('Skill ile yeni görev: seçilmiş manuel sürüm, yeni parametreler ve ayrı onay; özgün bootstrap korunur. Ayrı yürütücüde altı action onayı, tek POST ve bağımsız readback CPU/TLS ile geçti; native GPU kabulü değildir.')}</li>
+        <li>{t('Ardışık skill görevleri: aynı oturumda iki yeni görev, exact önceki sonuç bağı ve ayrı onaylarla CPU/TLS ve Chromium arayüzünde geçti. Takılan temizlik yeni görevi engeller; eski sonuçlar okunabilir. Canlı deployment ve native GPU kabulü değildir.')}</li>
+        <li>{t('Scientist sonuç bağı: pinli Bonsai yanıt adaptörü ve journal öncesi Decider/recovery/vision kontrolü; original request, evidence/capture ve usage korunur. 133 CPU testi geçti; ortak GPU kabulü ve deployment değildir.')}</li>
+        <li>{t('Scientist original kimlik geçmişi: request ile aynı transaction’da stable admission hash’i ve ayrı capability gözlemi; Tasks salt okunur hash gösterir. Legacy kayıt ve belirsizlik kilidi korunur; terminal çözümleme ve gerçek GPU kabulü açık.')}</li>
+        <li>{t('Scientist sürümlü kabul: yeni kayıt 2.0 ve exact çıktı bundle pini; eski kayıtlar değişmez. Yanlış pin GPU isteği göndermez. Ortak terminal sözleşmesi ve gerçek GPU kabulü henüz açık; canlı deployment yapılmadı.')}</li>
+        <li>{t('Scientist terminal kanıtı: özgün kayıt ve sonuç hash’i bağımsız doğrulanır. GPU bırakımı için ayrıca güvenilir süreç/fencing kanıtı gerekir; idle veya stop ACK yeterli değildir. Belirsizlik kilidi otomatik kaldırılmaz.')}</li>
+        <li>{t('Scientist kanıt socket istemcisi: exact hedef yetkisi ve gönderim öncesi kalıcı kontrol kaydı; kimlik değişimi, iptal veya kayıp yanıtta otomatik tekrar yok. Sağlayıcılar varsayılan kapalı; canlı GPU kabulü değildir.')}</li>
+        <li>{t('Scientist kalıcı kontrol günlüğü: original DB ve kabul 2.0 bağı, gönderim öncesi istek ve ayrı değişmez yanıt; yeniden açılış bekleyen kontrolü atlayamaz. AGENT/HUMAN cleanup ayrı yetki ister. Yanıt veya sıfır sayaç GPU bırakımı değildir.')}</li>
+        <li>{t('Scientist canlı durum görünümü: açık panelde envanter 5 saniyede bir salt okunur yenilenir; son yenileme ve eski bilgi uyarısı görünür. Otomatik deney, tekrar veya GPU devri başlatılmaz.')}</li>
+        <li>{t('Scientist tek başlangıç bağlantısı: aynı controller ve DB üzerindeki kabul, peer ve çıktı pinleri tek trusted factory ile bağlı. Bootstrap ağ okuması iptal edilebilir ve UI thread dışında çalışır; gönderim öncesi kalıcı audit GPU yetkisi değildir.')}</li>
+        <li>{t('Scientist kaynak doğrulaması: gerçek yapılandırma ve bağımlılık hakları bağımsız incelenmeden canlı bağlantı açılmaz. CPU testleri model veya GPU devrini kanıtlamaz; çalışan oturum otomatik güncellenmez.')}</li>
+        <li data-testid="development-scientist-report-history">{t('Scientist rapor geçmişi: bağımsız doğrulanmış rapor ayrı exact-hash isteğiyle özel DB’ye kaydedilir; EN/TR Tasks geçmişi yalnız ayrıca açılır. 128 CPU/sentetik kontrol ve 7 izole arayüz testi geçti; geçmiş güncel durum, eğitim veya GPU bırakımı değildir. Canlı oturum güncellenmedi.')}</li>
+        <li data-testid="development-isolated-learning-project">{t('İzole öğrenme projesi: ad ve port ayrı private oturuma bağlı; kendi UI derlemesi, giriş cookie’si ve scoped komutları vardır. İki gerçek CPU fixture oturumu açılıp temiz kapandı; native model, öğrenme veya GPU kabulü değildir. Varsayılan canlı oturum değişmedi.')}</li>
+        <li data-testid="development-public-cpu-applications">{t('Public proje akışı: iki ayrı sentetik CRM ve inventory uygulaması, belgelenmiş komutlar ve gerçek CPU tarayıcısıyla çalıştı. Her görev altı ayrı onay, tek POST ve bütün alanların bağımsız makbuz doğrulamasını tamamladı. Model kararları fixture; native S1/S2, öğrenilmiş skill veya genel iki-uygulama kabulü değildir.')}</li>
+        <li data-testid="development-skill-record-recovery">{t('Skill sürüm kaydı kurtarma: eksik release veya selection dosyası, original DB kaydı ve ayrı exact insan onayıyla CLI veya Tasks/API üzerinden geri konur. Kaynak yeniden denetlenir; seçim, görev, model ve DB değişmez. Belirsiz yanıt otomatik tekrar edilmez. Canlı deployment değildir.')}</li>
+      </ul>
+      <p>{t('Kalan entegrasyon: Scientist ortak capability/principal/cancel/drain sözleşmesi ve yalnız Scientist oturumunun yürüteceği gerçek GPU kabulü; iki uygulamalı genel görev kabulü de açık.')}</p>
+      <button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button>
+    </div>
     <div className="development-card" data-testid="development-backend-capability">
       <h3>{t('Canlı backend · görsel plan taslağı')}</h3>
       <p>{imageDraftCapability === 'checking' ? t('Backend yeteneği kontrol ediliyor…')
@@ -409,14 +581,22 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
         : 'Yalnız boşta hazırlık durumudur; görev sırasındaki GPU kullanımı veya model başarısı bu alandan çıkarılamaz.')}</p>
     </div>
     {latestJob ? <div className="development-card development-task-progress" data-testid="development-task-progress">
-      <div className="development-heading"><h3>{t('Son görevin canlı durumu')}</h3><button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button></div>
+      <div className="development-heading"><h3>{t('Son gözlemlenen görev')}</h3><button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button></div>
       <p data-testid="development-current-job"><code>{latestJob.kind}</code> · {latestJob.status}</p>
       <p>{t('Kalıcı evre:')} <strong data-testid="development-task-phase">{latestJob.progress?.phase ?? '—'}</strong> · {t('Geçen süre:')} <strong data-testid="development-task-elapsed">{elapsedText}</strong></p>
       {latestJob.status === 'failed' && latestJob.progress?.failure_code ? <p data-testid="development-task-failure">{t('Doğrulanmış hata kodu:')} <code>{latestJob.progress.failure_code}</code></p> : null}
       {latestJob.status === 'waiting_approval' ? <p role="status">{t('Görev eylem onayı bekliyor; ayrıntılar Görevler ekranında.')}</p> : null}
       <p className="caption">{t('Evre ve süre sunucu kaydından gelir; tamamlanma yüzdesi veya uygulama sonucu değildir.')}</p>
     </div> : null}
-    {tasks?.restart_quiesced === true ? <p className="development-release" data-testid="development-restart-quiesced">{t('Restart görev kabul kilidi açık: yeni görevler ve kontroller reddedilir. Manager durumunu inceleyin; güvenliyse hostta ./scripts/aos-v1 release-restart çalıştırın.')}</p> : null}
+    {tasks?.restart_quiesced === true ? <p className="development-release" data-testid="development-restart-quiesced">{tasks.manager_scope
+      ? <>{t('Yalnız bu adlandırılmış proje ve exact oturum için restart kilidini kaldırın; varsayılan oturumun komutunu kullanmayın.')}
+        {/^[a-z0-9][a-z0-9-]{0,47}$/.test(tasks.manager_scope.project)
+          && Number.isInteger(tasks.manager_scope.port) && tasks.manager_scope.port >= 1024
+          && tasks.manager_scope.port <= 65535 && tasks.manager_scope.port !== 8765
+          && typeof tasks.manager_session === 'string' && /^app-[a-f0-9]{32}$/.test(tasks.manager_session)
+          ? <code>{`./scripts/aos-v1 release-restart --project ${tasks.manager_scope.project} --project-port ${tasks.manager_scope.port} --expected-session ${tasks.manager_session}`}</code>
+          : <span>{t('Manager oturum kimliği doğrulanmadı; kapsam dışı komut gösterilmez.')}</span>}</>
+      : t('Restart görev kabul kilidi açık: yeni görevler ve kontroller reddedilir. Manager durumunu inceleyin; güvenliyse hostta ./scripts/aos-v1 release-restart çalıştırın.')}</p> : null}
     <div className="development-card development-onboarding" data-testid="development-onboarding">
       <h3>{t('İlk web uygulaması kurulumu')}</h3>
       <p>{webApplications === null ? t('Profil taslakları yükleniyor…') : webApplications === 'unavailable' ? t('Bu backend profil envanterini sunmuyor.') : webApplications.length === 0 ? t('Kayıtlı hedef profil taslağı yok.') : <>{t('Kayıtlı profil taslağı:')} {webApplications.length}. {t('Taslaklar yürütme veya veri hakkı değildir.')}</>}</p>
@@ -426,7 +606,7 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
       {remoteTaskPinned ? <button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button> : null}
       <p className="caption">{t('Profil kaydı veya görev pini W1 kabulü değildir; hedef URL, yetkili hesap, izinli görev ve bağımsız sonuç kanıtı gerekir.')}</p>
     </div>
-    <div className="development-heading"><h3>{t('Bu oturumdan canlı kanıt')}</h3>{!latestJob ? <button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button> : null}</div>
+    <div className="development-heading"><h3>{t('Son gözlemlenen oturum kanıtı')}</h3>{!latestJob ? <button type="button" onClick={() => onNavigate('Görevler')}>{t('Görevleri aç')}</button> : null}</div>
     <p className="caption">{t('Bu sayılar mevcut sunucu yanıtından okunur; görev kapsamı veya ürün kabul yüzdesi değildir.')}</p>
     <div className="development-live" data-testid="development-live-evidence">
       <article><span>{t('Sunulan sabit görev türleri')}</span><strong>{tasks ? tasks.available ? tasks.kinds?.length ?? 0 : 0 : '—'}</strong><small>{t('Sunulması başarı kanıtı değildir.')}</small></article>
@@ -496,10 +676,14 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
     </div>
     {!latestJob ? <p className="caption" data-testid="development-current-job">{t('En son görev:')} {t('Bu oturumda görev kaydı yok veya henüz yüklenmedi.')}</p> : null}
     <button type="button" onClick={() => onNavigate('Çalışmalar')}>{t('Çalışma kayıtlarını aç')}</button>
-    <h3>{t('Tamamlanan dar dilimler')}</h3>
+    <details data-testid="development-historical-checklist"><summary>{t('Tarihsel dar dilimler · 30 Eylül 2026')}</summary>
+    <p className="caption" data-testid="development-checklist-date">{t('Kontrol listesi gözlemi: 30 Eylül 2026. Dar kabul kanıtları STATUS içinde tarihli tutulur.')}</p>
     <div className="development-grid">{completed.map(item => <article className="development-card" key={item.title}><span className="development-state">{t('Uygulandı / dar kapsamda doğrulandı')}</span><h4>{t(item.title)}</h4><p>{t(item.detail)}</p><small>{t(item.evidence)}</small></article>)}</div>
-    <h3>{t('Yapılacaklar · gerçek web sürümü kapıları')}</h3>
+    </details>
+    <h3 data-testid="development-swapp-deferred">{t('SWAPP W1–W6 · ayrı ve ertelenmiş kabul; tamamlanmadı')}</h3>
     <ul className="development-gates">{openGates.map(item => <li key={item}>{t(item)}</li>)}</ul>
     <p className="caption">{t('Ayrıntılı test kanıtı: docs/STATUS.md. Tarihli kontrol listesi statiktir; canlı oturum sayıları sunucudan gelir, yenileme test çalıştırmaz.')}</p>
+    </section>
+    <p className="development-release" data-testid="development-work-order">{t('Önce yerel AOS geliştirmeleri. SWAPP intranet/tünel bağlantısı ve gerçek-site kabulü son aşamaya ertelendi; diğer işleri engellemez ve tamamlanmış sayılmaz.')}</p>
   </section>;
 }

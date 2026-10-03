@@ -1,0 +1,42 @@
+{
+  "version": "1",
+  "preparation_only": true,
+  "execution_authorized": false,
+  "runtime_started": false,
+  "runtime_authority": false,
+  "plan_sha256": "8cc82184a747d80cb59dffb30c670ba84594d02fc20ccf24c260d811e8f99dd8",
+  "template_sha256": "43b13ec560d191eb8ec67461b1aa75a35794d2f76171b13d5d083283fadb490d",
+  "app_session": "app-11111111111111111111111111111111",
+  "boot_id": "00000000-0000-0000-0000-000000000001",
+  "manager_base": "/workspace/synthetic/shared-desktop/manager",
+  "session_directory": "/workspace/synthetic/shared-desktop/manager/app-11111111111111111111111111111111",
+  "workspace": "/workspace/synthetic/shared-desktop/manager/app-11111111111111111111111111111111/workspace",
+  "database": "/workspace/synthetic/shared-desktop/manager/app-11111111111111111111111111111111/trajectory.sqlite3",
+  "directory_mode": "0700",
+  "manager_identity": {
+    "version": "descriptor-workspace-v1",
+    "path_sha256": "dbd290f9ac24a5a15536846a234300392302c50c032ef710b92d27bfbd35011c",
+    "device": 1,
+    "inode": 2,
+    "owner_uid": 1000
+  },
+  "session_identity": {
+    "version": "descriptor-workspace-v1",
+    "path_sha256": "a7988a2fbbc15b33b495460d65a601d8372952148ed0d5f4b458bd6d431af1fc",
+    "device": 1,
+    "inode": 3,
+    "owner_uid": 1000
+  },
+  "workspace_identity": {
+    "version": "descriptor-workspace-v1",
+    "path_sha256": "3bb4914e1151dd218b70e96e46b977707e343073fb16a85ef6f017107a0f719d",
+    "device": 1,
+    "inode": 4,
+    "owner_uid": 1000
+  },
+  "database_absent": true,
+  "token_absent": true,
+  "socket_absent": true,
+  "lifecycle_absent": true,
+  "workspace_empty": true
+}

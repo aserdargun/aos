@@ -1,0 +1,120 @@
+{
+  "$defs": {
+    "WebGoalExecutionRunIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "pattern": "^task-[a-f0-9]{32}$",
+          "title": "Task Id",
+          "type": "string"
+        },
+        "run_id": {
+          "pattern": "^run-[a-f0-9]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "deployment_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Deployment Id",
+          "type": "string"
+        },
+        "owner_lease_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Owner Lease Id",
+          "type": "string"
+        },
+        "skill_invocation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Invocation Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "run_id",
+        "runtime_id",
+        "deployment_id",
+        "owner_lease_id",
+        "skill_invocation_sha256"
+      ],
+      "title": "WebGoalExecutionRunIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "released_skill_verified": {
+      "const": false,
+      "default": false,
+      "title": "Released Skill Verified",
+      "type": "boolean"
+    },
+    "native_model_verified": {
+      "const": false,
+      "default": false,
+      "title": "Native Model Verified",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "replay_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Replay Authorized",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "owned_parameter_project_manual_bootstrap_run_binding",
+      "title": "Kind",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    },
+    "run_identity": {
+      "$ref": "#/$defs/WebGoalExecutionRunIdentity"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "intent_sha256",
+    "run_identity"
+  ],
+  "title": "OwnedParameterProjectExecutionRunBinding",
+  "type": "object"
+}

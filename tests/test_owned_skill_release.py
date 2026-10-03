@@ -146,6 +146,7 @@ class OwnedSkillReleaseTests(unittest.TestCase):
             'b' * 64: receipt_b,
         }
         scheduler = DesktopScheduler.__new__(DesktopScheduler)
+        scheduler.web_goal_planning = None
         scheduler.owned_skill_planning = None
         scheduler.task = None
         scheduler.sequences = SimpleNamespace(reserved=False)
@@ -178,6 +179,7 @@ class OwnedSkillReleaseTests(unittest.TestCase):
         from aos.desktop_tasks import DesktopScheduler
 
         scheduler = DesktopScheduler.__new__(DesktopScheduler)
+        scheduler.web_goal_planning = None
         scheduler.owned_skill_planning = None
         scheduler.task = None
         scheduler.sequences = SimpleNamespace(reserved=False)

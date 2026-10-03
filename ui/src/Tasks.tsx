@@ -10,8 +10,16 @@ import {RemoteSkillSource} from './RemoteSkillSource';
 import {OwnedSkillCandidate} from './OwnedSkillCandidate';
 import {OwnedCandidateExecution} from './OwnedCandidateExecution';
 import {OwnedSkillPlanning} from './OwnedSkillPlanning';
+import {OwnedWebGoalCatalog} from './OwnedWebGoalCatalog';
+import {ParameterWebGoal} from './ParameterWebGoal';
+import {OwnedParameterProject, ownedParameterProjectCanStart, ownedParameterProjectAcceptedIntent} from './OwnedParameterProject';
+import {OwnedParameterSkill} from './OwnedParameterSkill';
+import {OwnedParameterSkillReview} from './OwnedParameterSkillReview';
+import {OwnedParameterSkillRelease} from './OwnedParameterSkillRelease';
+import {OwnedParameterSkillReuse} from './OwnedParameterSkillReuse';
 import {FailureImprovement} from './FailureImprovement';
 import {TaskKnowledge} from './TaskKnowledge';
+import {ScientistLab} from './ScientistLab';
 
 const catalog: Record<string, {label: string; scope: string; button: string}> = {
   hello: {label: 'Hello dosyası', scope: '/workspace/hello.txt oluşturulur; exact içerik ayrı okunur. Farklı içerik üzerine yazılmaz.', button: 'Hello görevi başlat'},
@@ -368,6 +376,11 @@ export function Tasks({tasks, snapshot, busy, action, showTrace}: Props) {
         key={ownedInvocationSignature + ':' + latest.job_id}
         invocation={ownedInvocation} runtimeId={snapshot.runtime.runtime_id} jobId={latest.job_id}
         disabled={busy || Boolean(tasks?.busy || tasks?.reserved)} onStored={setStoredCandidate}/> : null}
+    {kind === 'browser_remote_form' && snapshot && tasks?.parameter_web_goal_execution ? <ParameterWebGoal
+      snapshot={snapshot} status={tasks.parameter_web_goal_execution} disabled={busy || Boolean(tasks.busy || tasks.reserved)}/> : null}
+    {ownedInvocation?.reuse_admission_sha256 && kind === 'browser_remote_form' && snapshot && tasks ? <OwnedWebGoalCatalog
+      source={ownedInvocation} snapshot={snapshot} planning={tasks.owned_web_goal_planning}
+      disabled={busy || Boolean(tasks.busy || tasks.reserved)}/> : null}
     {ownedInvocation?.reuse_admission_sha256 && kind === 'browser_remote_form' && snapshot && tasks ? <OwnedSkillPlanning
       key={snapshot.runtime.runtime_id + ':' + ownedInvocation.reuse_admission_sha256}
       source={ownedInvocation} snapshot={snapshot} tasks={tasks} disabled={busy}/> : null}
@@ -439,8 +452,10 @@ export function Tasks({tasks, snapshot, busy, action, showTrace}: Props) {
       <p className="caption">{t('Bu seçenek gerçek site verisi toplamaz; incelenmiş örnek, dataset veya fine-tune yetkisi üretmez.')}</p>
     </div>
     <button className="primary" data-testid="start-task" disabled={busy || !tasks?.available || !tasks.kinds?.includes(kind) || tasks.reserved || snapshot?.control.owner !== 'AGENT' || snapshot.control.status !== 'running'
+      || Boolean(kind === 'browser_remote_form' && tasks?.parameter_web_goal_execution)
+      || Boolean(tasks?.owned_parameter_project_execution != null && !ownedParameterProjectCanStart(tasks.owned_parameter_project_execution))
       || Boolean(kind === 'browser_remote_form' && ownedInvocation && (ownedInvocation.lifecycle !== 'ready' || !ownedInvocationOptIn))
-      || Boolean(kind === 'browser_remote_form' && ownedInvocationSupported && ownedInvocationValue !== null && !ownedInvocation)} onClick={() => void action(async () => {
+      || Boolean(kind === 'browser_remote_form' && tasks?.owned_parameter_project_execution == null && ownedInvocationSupported && ownedInvocationValue !== null && !ownedInvocation)} onClick={() => void action(async () => {
       if (!snapshot) return;
       await api('/api/tasks', {kind, lease_id: snapshot.control.lease_id, generation: snapshot.control.generation,
         ...(!navigation && approveAll && tasks?.supports_approve_all ? {approve_all: true} : {}),
@@ -451,6 +466,17 @@ export function Tasks({tasks, snapshot, busy, action, showTrace}: Props) {
     })}>{kind === 'browser_remote_form' && ownedInvocation ? t(ownedInvocation.lifecycle === 'ready' ? ownedRecipe ? 'Sahipli sentetik skill’i başlat' : 'Sahipli sentetik çağrıyı başlat' : 'Sahipli sentetik çağrı tek kullanımlıktır') : t(taskCatalog(kind).button)}</button>
     {visibleDesktop ? <details className="task-options"><summary>{t("Önizleme ve sıralı görev seçenekleri")}</summary><GoalPreview busy={busy} action={action}/><Sequences tasks={tasks} snapshot={snapshot} busy={busy} action={action}/></details> : <Sequences tasks={tasks} snapshot={snapshot} busy={busy} action={action}/>}
     <h3>{t("Bu oturumdaki görevler")}</h3>
+    {tasks?.owned_parameter_project_execution != null && <OwnedParameterProject status={tasks.owned_parameter_project_execution}/>}
+    {tasks?.owned_parameter_project_execution != null && snapshot && <OwnedParameterSkillReuse
+      snapshot={snapshot} disabled={busy || Boolean(tasks.busy || tasks.reserved)}/>}
+    {tasks?.owned_parameter_project_execution != null && snapshot && <OwnedParameterSkillRelease
+      snapshot={snapshot} disabled={busy || Boolean(tasks.busy || tasks.reserved)} />}
+    {tasks?.owned_parameter_project_execution != null && snapshot && <OwnedParameterSkillReview
+      snapshot={snapshot} disabled={busy || Boolean(tasks.busy || tasks.reserved)} />}
+    {tasks?.owned_parameter_project_execution != null && snapshot && <OwnedParameterSkill
+      intentSha256={ownedParameterProjectAcceptedIntent(tasks.owned_parameter_project_execution)}
+      snapshot={snapshot} disabled={busy || Boolean(tasks.busy || tasks.reserved)}/>}
+    <ScientistLab/>
     <div className="event-list">{tasks?.jobs.map(job => <div key={job.job_id} data-testid="task-row">
       <span>{job.kind} · {job.real_model ? t('Gerçek model') : t('Sentetik')}</span><strong>{job.status}</strong>
       {job.run_id ? <button onClick={() => showTrace(job.run_id!)}>{t("İzi aç")}</button> : null}

@@ -1,0 +1,89 @@
+{
+  "synthetic_cpu_fixture": true,
+  "runtime_admission": false,
+  "native_gpu_verified": false,
+  "description": "Public synthetic schema example only. Invented process generations, capability and source pins grant no authority; no model or GPU ran. Capability seconds are historical fixture BOOTTIME, not wall time.",
+  "request": {
+    "version": 1,
+    "op": "infer",
+    "request_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_id": "aos.decider.turn.v1",
+    "deployment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "payload": {
+      "text": "Explicitly synthetic CPU admission fixture; no model call"
+    }
+  },
+  "intent_binding": {
+    "session_id": "synthetic-session",
+    "runtime_id": "synthetic-runtime",
+    "lease_id": "synthetic-lease",
+    "generation": 0,
+    "owner": "AGENT",
+    "authorization_context_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "record": {
+    "admission_binding": {
+      "server_generation": {
+        "uid": 1000,
+        "pid": 1234,
+        "start_ticks": 42,
+        "boot_id": "00000000-0000-0000-0000-000000000001",
+        "unit": "swapp-lab-gpu-broker.service",
+        "invocation_id": "cccccccccccccccccccccccccccccccc",
+        "control_group": "/synthetic/swapp-lab-gpu-broker.service"
+      },
+      "caller_generation": {
+        "uid": 1000,
+        "pid": 1235,
+        "start_ticks": 43,
+        "boot_id": "00000000-0000-0000-0000-000000000001",
+        "unit": "swapp-aos-gpu-caller.service",
+        "invocation_id": "dddddddddddddddddddddddddddddddd",
+        "control_group": "/synthetic/aos-caller",
+        "parent_pid": 1236,
+        "parent_start_ticks": 44
+      },
+      "policy_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "source_fingerprints": {
+        "scientist": "2222222222222222222222222222222222222222222222222222222222222222",
+        "aos": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "profile_id": "aos.decider.turn.v1",
+      "profile_pin": {
+        "deployment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "manifest_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "config_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+        "response_schema_sha256": "6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      "infer_schema": {
+        "version": 1,
+        "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+        "name": "aos-scientist-runtime.v1"
+      },
+      "control_schema": {
+        "version": 1,
+        "sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+        "name": "aos-scientist-control.v1"
+      },
+      "terminal_schema": {
+        "version": 1,
+        "sha256": "9999999999999999999999999999999999999999999999999999999999999999",
+        "name": "aos-scientist-terminal.v1"
+      }
+    },
+    "capability_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "capability_freshness": {
+      "boot_id": "00000000-0000-0000-0000-000000000001",
+      "issued_boottime": 90,
+      "expires_boottime": 160
+    },
+    "schema_version": "1.0",
+    "request_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "request_sha256": "2456913c89c5cf3c2001c25e3c0e390db90e4c143b64830fe36aa9e635d682a4",
+    "session_id": "synthetic-session",
+    "intent_binding_sha256": "89d4c57b0a557db3f21e788ddee0c7db965454c8b224ccc64f54a28a21262b45",
+    "admission_binding_sha256": "155f7e20f8e675dbd2f8b63d976c4d539b514845d4028901479640e8ad29b045",
+    "captured_boottime": 100
+  },
+  "record_sha256": "2004221a96866d446177b256102a8ebe74b3d85df46885f6b549a1f3f4e4423c"
+}

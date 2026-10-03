@@ -78,8 +78,8 @@ class _Assets(HTMLParser):
             self.assets.append(values.get('href', ''))
 
 
-def _frontend():
-    root = REPO_ROOT / 'ui/dist'
+def _frontend(root=None):
+    root = REPO_ROOT / 'ui/dist' if root is None else Path(root).absolute()
     index = root / 'index.html'
     _require(index.is_file() and not index.is_symlink() and index.stat().st_size <= 262144)
     parser = _Assets()
@@ -180,15 +180,18 @@ def _bonsai():
     BonsaiSupervisor(manifest).verify_pins()
 
 
-def check_local(mode='real') -> dict:
+def check_local(mode='real', *, frontend_root=None) -> dict:
     if mode not in ('real', 'fixture'):
         raise ValueError('mode must be real or fixture')
     checks = []
     specifications = [
         ('application', _application, 'Yerel .venv uygulama konumu ve bağımlılık sürümleri sabit gereksinimlerle eşleşiyor.',
          '.venv ve pyproject.toml içindeki browser/desktop/dataset bağımlılıklarını açıkça hazırlayın.'),
-        ('frontend', _frontend, 'Yerel UI giriş dosyası ve referansları mevcut; kaynak tarihleri build tarihini aşmıyor.',
-         'ui dizininde pnpm build çalıştırın; doctor kendiliğinden build yapmaz.'),
+        ('frontend', _frontend if frontend_root is None else lambda: _frontend(frontend_root), 'Yerel UI giriş dosyası ve referansları mevcut; kaynak tarihleri build tarihini aşmıyor.',
+         ('ui dizininde pnpm build çalıştırın; doctor kendiliğinden build yapmaz.'
+          if frontend_root is None else
+          'Durdurulmuş proje için yalnız kendi private ui dizinine açık staging yapın; '
+          'docs/ISOLATED_LEARNING_PROJECTS.md yolunu izleyin. Shared ui/dist değiştirilmez; doctor build yapmaz.')),
         ('desktop', _desktop, 'Non-root Linux ve mevcut Docker image/source kimliği doğrulandı; container başlatılmadı.',
          'Docker erişimini ve models/desktop-manifest.json sabit image/source eşleşmesini inceleyin; otomatik rebuild yok.'),
         ('browser', _browser, 'Bubblewrap ve sabit Chromium dosya hashleri mevcut; izolasyon handshake henüz çalıştırılmadı.',

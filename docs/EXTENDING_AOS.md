@@ -1,9 +1,10 @@
 # Extending AOS
 
-This is an implementation guide, not a promise of a stable plugin API. AOS is a typed application with narrow seams; third-party extension compatibility is not yet versioned. Start by identifying the product behavior, permission boundary, failure modes, and evidence needed for acceptance.
+This is an implementation guide, not a promise of a stable plugin API. AOS is a typed application with narrow seams. An opt-in versioned delegated-job contract now exists; general third-party host compatibility is not yet delivered. Start by identifying the product behavior, permission boundary, failure modes, and evidence needed for acceptance.
 
 ## Current integration seams
 
+- [Delegated-agent runner v1](AGENT_ORCHESTRATION.md) provides explicit registration, dependencies, bounded instance reservations, exact authority fences, cancellation and verified result/cleanup. Its fixed synthetic CPU adapter executes real isolated processes; the Scientist adapter preserves the original Lab service, human approval and no-replay journal. It is not a second GPU scheduler, an arbitrary-code sandbox or an activated live-console plugin API.
 - `src/aos/contracts.py` defines canonical state, options, predictions, actions, error types, and serialization helpers. Persisted changes require coordinated model/schema/example/validator updates and, when necessary, a new migration.
 - `src/aos/supervisor.py` exposes the `Supervisor` protocol (`plan(problem, evidence)`) and a pinned Bonsai implementation. A supervisor proposes plans; it does not directly execute tools.
 - `src/aos/web_goal_planner.py` adds proposal-only free-text goal matching against one scoped, immutable skill catalog and bounded string parameters. Its host freshness callback is not a built-in profile/release/ACL verifier. Keep it separate from effect admission; registry/catalog and console/executor integration remain open. [Boundary](WEB_GOAL_PLANNING.md).

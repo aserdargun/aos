@@ -1,0 +1,23 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bundle Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "bundle_sha256"
+  ],
+  "title": "WebGoalKnowledgeReportRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_knowledge_report_request.schema.json"
+}

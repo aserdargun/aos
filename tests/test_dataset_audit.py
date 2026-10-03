@@ -184,7 +184,8 @@ class DatasetAuditTests(unittest.TestCase):
             self.store.connection.execute("DELETE FROM schema_migrations WHERE version=7")
         with self.assertRaisesRegex(ValueError, "unsupported_database_migrations"):
             audit_database(self.database)
-        self.assertEqual(self.store.connection.execute("SELECT count(*) FROM schema_migrations").fetchone()[0], 16)
+        self.assertEqual(self.store.connection.execute("SELECT count(*) FROM schema_migrations").fetchone()[0],
+                         len(list((REPO_ROOT / 'database/migrations').glob('*.sql'))) - 1)
 
     def test_foreign_key_corruption_fails_instead_of_reporting_ready(self):
         self.store.connection.execute("PRAGMA foreign_keys=OFF")

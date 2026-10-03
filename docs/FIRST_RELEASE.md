@@ -2,13 +2,46 @@
 
 Çalışan pilotu Mac’ten denemek için [Hızlı pilot başlangıcı](PILOT_QUICKSTART.md) adımlarını izleyin.
 
+Yeni source checkout için ayrı [locked dependency ve console staging kurulumu](LOCAL_SETUP.md)
+mevcut ortamı değiştirmeden hazırlık yapar; modeller/runtime ve explicit promotion
+ayrı kalır. Hazırlanmış dependency ortamı tamamlanmış genel installer değildir.
+
+## Güncel kapanış kaydı
+
+Kaynak, doğrulama ve kullanıcı teslimi ayrı izlenir. Tek güncel kapanış kaydı
+[RELEASE_ACCEPTANCE](RELEASE_ACCEPTANCE.md) / [release_acceptance.json](release_acceptance.json)
+dosyasıdır; aşağıdaki eski test/deploy kayıtları yeni kaynakların kullanıcının
+oturumuna taşındığını göstermez. Named CPU iki-app akışı gerçek browser/tool
+kabulüdür, native/Scientist veya Mac donanım kabulü değildir. Bu kullanım rehberi
+yeni izin, otomatik restart veya tamamlanmış installer iddiası oluşturmaz.
+
+## Tarihsel kapanış gözlemi — 30 Eylül 2026
+
+Yeni özellik sayısı veya eski Development checklist yüzdesi release kabulü
+değildir. Aşağıdaki tablo o tarihin kanıt sınırlarını saklar; güncel iş sırası
+değildir. Tam proje hedefi ve açık kapılar tek kapanış kaydında korunur.
+
+| Kabul | Güncel kanıt / kalan |
+|---|---|
+| Son kaynak CPU regresyonu | `data/capability-check-kahp3qhu/report.json`: 1941 geçti, 276 atlandı, 0 hata/başarısızlık; runner 173,831 s. `partial`, çünkü atlanan GPU/GUI/gerçek görev testleri geçilmiş sayılmaz. Önceki test toplamlarına eklenmez. |
+| Mevcut kullanıcı uygulaması | Salt okunur HTTP kontrolü: `/ui/` 200; `/api/session` `local_auto_login: true`. Yeni kodun deployment veya model/GPU kabulü değildir; instance durdurulmadı/yeniden başlatılmadı. |
+| AOS–Scientist kaynak/control-plane | Worker/caller/CLI/Lab onay-intent/readback ve cleanup CPU/mock testli. Ortak capability/principal/reconciliation/drain/release teyidi yok; standalone Scientist startup fail-closed. |
+| Ortak gerçek GPU kabulü | Çalıştırılmadı. Scientist tek yürütücü; scheduler reservation, boş/uygun tahsis ve cleanup kanıtı olmadan başlatılmaz. AOS idle veya stop ACK release değildir. |
+| Genel web hedefi ve öğrenme | Selected owned skill ve özel bilgi dilimleri var. İki farklı uygulamalı genel free-text→S1→oracle, held-out relevance, portable skill ve S2 eğitim/promotion kabulü açık; yeni dar preview paneli bunları kapatmaz. |
+| Genel teslim / şirket fork'u | Source-only paket ve continuation belgeleri var; temiz makine kurulum/başlatma ve gerçek Mac bağlantı kabulü açık. SWAPP intranet/oracle en son, 0/6 gerçek-site kabulü. Lisans seçimi runtime işinden ayrı kalır. |
+
+Karşı oturuma aktarılacak kısa runtime beklentisi:
+[Scientist handoff](SCIENTIST_HANDOFF.md). Güncel altı aşamalı kapanış:
+[RELEASE_ACCEPTANCE](RELEASE_ACCEPTANCE.md). Mock başarısı veya UI HTTP200 gerçek GPU,
+model kalitesi, eğitim sonucu veya kaynakların public olarak yayımlandığı anlamına gelmez.
+
 **Knowledge / Bilgi:** belge metni veya seçtiğiniz UTF-8 dosyası için kapsam → ayrı yayın izni → ayrı inceleme → kaynak/chunk atıflı arama akışı vardır. Bu deterministik lexical retrieval'dır; henüz canlı modele RAG bağlamı eklemez veya eğitim başlatmaz. [Adımlar ve sınırlar](DOCUMENT_KNOWLEDGE.md).
 
-30 Eylül kontrollü idle restart sonrasında yeni backend'de Knowledge/guidance/reuse etkinleştirildi. Eski tarayıcı session'ı geçerli değilse sayfayı yenileyip CachyOS terminalinde `./scripts/aos-v1 token` ile yeni anahtarı alın. Anahtarı kaynaklara veya sohbet kayıtlarına koymayın. Development yine varsayılan açılıştır; bu port8765 deployment kabulü Mac tünelinin açıldığını kanıtlamaz.
+30 Eylül tarihsel kontrollü idle restart sonrasında Knowledge/guidance/reuse etkinleştirildi. Bu geçmiş deployment kaydıdır; sonraki kaynak değişikliklerinin canlıya taşındığını kanıtlamaz. Standart managed oturumda sayfayı yenilemek otomatik yerel girişe yeterlidir; yalnız token isteyen deneysel/raw modda `./scripts/aos-v1 token` kullanılır. Development varsayılan açılıştır; port8765 deployment kabulü Mac tünelinin açıldığını kanıtlamaz.
 
 Knowledge bölüm 4 ayrı exact izinle incelenmiş kaynakları yerel Bonsai'ye sorabilir; yanıt doğrulanmış alıntılardır, serbest chatbot cevabı veya otomatik görev değildir. Bu adapter'ın Python backend aktivasyonu ayrıca kontrollü idle restart ister. [Kullanım ve kanıt sınırı](DOCUMENT_KNOWLEDGE_ANSWERS.md).
 
-30 Eylül son kontrollü geçişte model-answer capability'si de gerçek managed backend'de açıldı; readonly `idle` ve EN/TR mobil panel doğrulandı. Yeni session anahtarı gerekir: `./scripts/aos-v1 token`. Kullanıcı corpus'una otomatik belge eklenmedi veya model çağrısı yapılmadı.
+30 Eylül tarihsel kontrollü geçişte model-answer capability'si gerçek managed backend'de açıldı; readonly `idle` ve EN/TR mobil panel doğrulandı. Yeni kaynak dilimlerinin deployment kabulü değildir. Standart yerel giriş token istemez; özel token politikalı modlar ayrı kalır. Kullanıcı corpus'una otomatik belge eklenmedi veya model çağrısı yapılmadı.
 
 Arayüz varsayılan olarak İngilizcedir. **English / Türkçe** düğmeleriyle dil değiştirilir ve tercih bu tarayıcıda hatırlanır. Aşağıdaki Türkçe düğme adları için **Türkçe** seçin; İngilizcede Görevler=Tasks, Onayla=Approve, Reddet=Reject. Dil değişimi görev veya onay göndermez; kullanıcı girdileri ve teknik kimlikler çevrilmez.
 
@@ -92,7 +125,7 @@ Opsiyonel HTML durum geçişi gerekiyorsa aynı exact public form seçeneklerine
 
 Yetkili hedef statik Cookie gerektiriyorsa `data/` altındaki owner-only `0600` dosyaya yalnız `name=value; other=value` biçimindeki **Cookie başlık değerini** son satır sonu olmadan koyun. Aynı exact profil/görev/form-plan/alan/değer seçenekleri ve `--remote-form-public-plan-sha256 <form_plan_sha256>` ile `./scripts/aos-v1 plan-remote-form-cookie --remote-form-cookie-file data/<özel-cookie>.txt` çalıştırın; yalnız hash döner. `preview-remote-form-cookie` ve güvenli yeni `start` için aynı seçeneklere `--remote-form-cookie-sha256 <çıkan-hash>` ekleyin. Plan/preview hedefe bağlanmaz; start özel kopyayı pinler ve yalnız ayrı onaylı exact aynı-origin form/durum istekleri bu statik Cookie'yi kullanır. Çerez değeri argv, UI, onay veya DB'ye yazılmaz; UI yalnız hash'i gösterir. Login, Set-Cookie yenileme, CSRF yönetimi, hesap/tenant doğrulaması ve bağımsız uygulama sonucu bu seçenekle tamamlanmaz. Mevcut canlı oturum yükseltilmez. [Ayrıntılı sınır](WEB_HTTPS_FORM_TRANSPORT.md).
 
-Tarayıcı adresi **http://127.0.0.1:8765/ui/**. `token` komutunun çıktısını girişteki **Yerel oturum anahtarı** alanına yapıştırın. Token URL'ye eklenmez, kaynak veya localStorage'a yazılmaz; tam durdurmada silinir. Token'ı paylaşmayın veya issue/log dosyasına kopyalamayın. `open` yalnız varsayılan tarayıcıyı açar; otomatik giriş/onay yapmaz.
+Tarayıcı adresi **http://127.0.0.1:8765/ui/**. Standart managed oturum otomatik yerel giriş yapar ve Development açılır. Yalnız token isteyen deneysel/raw modda `token` çıktısını **Yerel oturum anahtarı** alanına yapıştırın. Token URL'ye eklenmez, kaynak veya localStorage'a yazılmaz; tam durdurmada silinir. Token'ı paylaşmayın veya issue/log dosyasına kopyalamayın. `open` yalnız varsayılan tarayıcıyı açar; kendi başına giriş veya görev onayı göndermez.
 
 Kayıtlı staging/production profili için **Web uygulamaları → Tek HTTPS giriş kontrolü** bölümünde profili seçip saklanan exact giriş URL'sini ve profil SHA-256 değerini yeniden girin. Yetkili olduğunuz bu hedefe tek GET yapılabileceğini ve GET'in yan etkili olabileceğini kabul eden kutuyu işaretlemeden düğme açılmaz. Bu eylem tarayıcıyı sürmez veya görev başlatmaz; başarısız ağ denemesi de aynı sunucu sürecindeki tek deneme hakkını tüketebilir. Yalnız içeriksiz TLS/HTML raporu döner; gerçek uygulama sonucu veya hesap doğrulaması değildir. [Sınırlar](WEB_HTTPS_PREFLIGHT.md).
 
@@ -114,13 +147,13 @@ ssh -N -o ExitOnForwardFailure=yes -L 127.0.0.1:8765:127.0.0.1:8765 AOS_HOST
 
 CachyOS kullanıcısının parolasını girdikten sonra terminalin sessiz beklemesi normaldir; tünel terminalini açık bırakın. Mac tarayıcısında tam olarak **http://127.0.0.1:8765/ui/** adresini açın. **Mac 8765 → CachyOS 8765** eşleşmesi gereklidir: farklı yerel port veya `localhost`, backend'in exact Host/Origin kontrolünde reddedilir. `Invalid host` hatasını gidermek için bu güvenlik kontrolünü kapatmayın. `Address already in use` varsa önce mevcut tüneli ve aynı adresi kontrol edin; bilinmeyen port sahibini sonlandırmayın.
 
-Giriş anahtarını tüneli kapatmadan ikinci bir Mac terminalinde alın:
+Standart managed oturum token istemez. Yalnız token isteyen deneysel/raw modda, tüneli kapatmadan ikinci bir Mac terminalinde alın:
 
 ```bash
 ssh AOS_HOST 'cd /path/to/aos && ./scripts/aos-v1 token'
 ```
 
-Anahtarı yalnız konsolun giriş alanına yapıştırın; sohbet, kaynak dosyası veya ekran görüntüsünde paylaşmayın. Yeni managed oturumda anahtar değişir. Giriş sonrası varsayılan Development ekranı açılır. Tüneli kapatmak için yalnız tünel terminalinde `Ctrl+C` kullanın; bu işlem CachyOS'taki uygulamayı kapatmaz.
+Token isteyen modda anahtarı yalnız konsolun giriş alanına yapıştırın; sohbet, kaynak dosyası veya ekran görüntüsünde paylaşmayın. Giriş sonrası varsayılan Development ekranı açılır. Tüneli kapatmak için yalnız tünel terminalinde `Ctrl+C` kullanın; bu işlem CachyOS'taki uygulamayı kapatmaz. Tek komutlu önerilen bağlantı için [pilot rehberindeki Mac launcher](PILOT_QUICKSTART.md) kullanılır.
 
 ## İlk deneme sırası
 

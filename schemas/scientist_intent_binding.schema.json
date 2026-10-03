@@ -1,0 +1,52 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "session_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Session Id",
+      "type": "string"
+    },
+    "runtime_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Runtime Id",
+      "type": "string"
+    },
+    "lease_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    },
+    "owner": {
+      "enum": [
+        "AGENT",
+        "HUMAN"
+      ],
+      "title": "Owner",
+      "type": "string"
+    },
+    "authorization_context_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Context Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "session_id",
+    "runtime_id",
+    "lease_id",
+    "generation",
+    "owner",
+    "authorization_context_sha256"
+  ],
+  "title": "ScientistIntentBinding",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -8,7 +8,7 @@ import time
 
 from .contracts import canonical, digest, now
 from .dataset import validator
-from .dataset_audit import AUDIT_TIMEOUT_SECONDS, MAX_SNAPSHOT_BYTES, expected_schema, schema_signature
+from .dataset_audit import AUDIT_TIMEOUT_SECONDS, MAX_SNAPSHOT_BYTES, SUPPORTED_SCHEMA_VERSIONS, expected_schema, schema_signature
 from .dataset_reviewer import decode_json
 from .dataset_reviews import _stored_receipt
 
@@ -92,11 +92,8 @@ class ReceiptStore:
             actual_versions = [tuple(row) for row in self.connection.execute(
                 "SELECT version,name FROM schema_migrations ORDER BY version")]
             known_schema = any(actual_signature == signature and actual_versions == versions
-                               for signature, versions, _ in (expected_schema(8), expected_schema(9),
-                                                              expected_schema(10), expected_schema(11),
-                                                              expected_schema(12), expected_schema(13),
-                                                              expected_schema(14), expected_schema(15),
-                                                              expected_schema(16), expected_schema(17)))
+                               for signature, versions, _ in (expected_schema(version)
+                                                              for version in SUPPORTED_SCHEMA_VERSIONS if version >= 8))
             if (not known_schema
                     or [tuple(row) for row in self.connection.execute("PRAGMA integrity_check")] != [("ok",)]
                     or self.connection.execute("PRAGMA foreign_key_check").fetchone()):

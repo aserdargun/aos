@@ -1,0 +1,102 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "step_id": {
+      "title": "Step Id",
+      "type": "string"
+    },
+    "action_id": {
+      "title": "Action Id",
+      "type": "string"
+    },
+    "runtime_id": {
+      "title": "Runtime Id",
+      "type": "string"
+    },
+    "state_version": {
+      "title": "State Version",
+      "type": "integer"
+    },
+    "owner_lease_id": {
+      "title": "Owner Lease Id",
+      "type": "string"
+    },
+    "tool": {
+      "enum": [
+        "lab.start",
+        "lab.status",
+        "lab.stop",
+        "lab.report"
+      ],
+      "title": "Tool",
+      "type": "string"
+    },
+    "arguments": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "integer"
+          }
+        ]
+      },
+      "title": "Arguments",
+      "type": "object"
+    },
+    "expected_effect": {
+      "title": "Expected Effect",
+      "type": "string"
+    },
+    "verification": {
+      "default": "independent_read_equals",
+      "title": "Verification",
+      "type": "string"
+    },
+    "deadline": {
+      "title": "Deadline",
+      "type": "number"
+    },
+    "idempotency_key": {
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "selected_option": {
+      "title": "Selected Option",
+      "type": "string"
+    }
+  },
+  "required": [
+    "task_id",
+    "run_id",
+    "step_id",
+    "action_id",
+    "runtime_id",
+    "state_version",
+    "owner_lease_id",
+    "tool",
+    "arguments",
+    "expected_effect",
+    "deadline",
+    "idempotency_key",
+    "selected_option"
+  ],
+  "title": "ScientistLabAction",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

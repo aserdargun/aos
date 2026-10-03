@@ -14,11 +14,12 @@ import tarfile
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_DIRECTORIES = ('docs', 'database', 'schemas', 'examples', 'config', 'benchmarks',
-                      'training/recipes', 'src/aos', 'services/decider', 'services/laya', 'tests', 'scripts',
+                      'training/recipes', 'src/aos', 'services/decider', 'services/laya', 'services/bonsai', 'tests', 'scripts',
                       'computer', 'ui/src', 'ui/src-tauri/src')
 ROOT_FILES = ('README.md', 'CODEX_KICKOFF.md', 'AGENTS.md', 'CLAUDE.md', 'CONTRIBUTING.md',
               'SECURITY.md', '.gitignore', 'requirements-validation.txt', 'pyproject.toml', 'uv.lock')
 EXPLICIT_FILES = (
+    'services/broker_runtime.py', 'services/bonsai_projection.py',
     'ui/package.json', 'ui/pnpm-lock.yaml', 'ui/pnpm-workspace.yaml', 'ui/tsconfig.json',
     'ui/vite.config.ts', 'ui/index.html', 'ui/src-tauri/Cargo.toml', 'ui/src-tauri/Cargo.lock',
     'ui/src-tauri/build.rs', 'ui/src-tauri/tauri.conf.json', 'ui/app-icon.svg',
@@ -54,7 +55,7 @@ def source_name_allowed(name):
         return False
     if parts[-1].lower() in ('secrets.json', 'credentials.json', 'token.json', 'tokens.json'):
         return False
-    if name in ('scripts/aos-v1', 'computer/Dockerfile',
+    if name in ('scripts/aos-v1', 'scripts/aos-parameter-project', 'scripts/aos-parameter-skill', 'computer/Dockerfile',
                 'examples/system1_choice.jsonl', 'examples/system2_supervisor.jsonl'):
         return True
     return PurePosixPath(name).suffix in SOURCE_SUFFIXES

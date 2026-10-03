@@ -1,0 +1,128 @@
+{
+  "$defs": {
+    "OwnedParameterProjectExecutionStatusEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "intent_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Intent Sha256",
+          "type": "string"
+        },
+        "job_id": {
+          "pattern": "^job-[a-f0-9]{32}$",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "unresolved",
+            "accepted_verified"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "receipt_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Receipt Sha256"
+        }
+      },
+      "required": [
+        "intent_sha256",
+        "job_id",
+        "manifest_sha256",
+        "status",
+        "receipt_sha256"
+      ],
+      "title": "OwnedParameterProjectExecutionStatusEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "released_skill_verified": {
+      "const": false,
+      "default": false,
+      "title": "Released Skill Verified",
+      "type": "boolean"
+    },
+    "native_model_verified": {
+      "const": false,
+      "default": false,
+      "title": "Native Model Verified",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "replay_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Replay Authorized",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "owned_parameter_project_manual_bootstrap_status",
+      "title": "Kind",
+      "type": "string"
+    },
+    "entries": {
+      "items": {
+        "$ref": "#/$defs/OwnedParameterProjectExecutionStatusEntry"
+      },
+      "maxItems": 32,
+      "title": "Entries",
+      "type": "array"
+    },
+    "reserved": {
+      "title": "Reserved",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "entries",
+    "reserved"
+  ],
+  "title": "OwnedParameterProjectExecutionStatus",
+  "type": "object"
+}

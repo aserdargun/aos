@@ -1,0 +1,31 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "experiments": {
+      "maximum": 35,
+      "minimum": 1,
+      "title": "Experiments",
+      "type": "integer"
+    },
+    "wall_seconds": {
+      "maximum": 14400,
+      "minimum": 1,
+      "title": "Wall Seconds",
+      "type": "integer"
+    },
+    "model_tokens": {
+      "maximum": 350000,
+      "minimum": 0,
+      "title": "Model Tokens",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "experiments",
+    "wall_seconds",
+    "model_tokens"
+  ],
+  "title": "ScientistLabBudget",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

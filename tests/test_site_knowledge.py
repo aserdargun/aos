@@ -6,12 +6,13 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import jsonschema
 
 from aos.contracts import REPO_ROOT, digest
 from aos.site_knowledge import SiteKnowledgeStore, SitePageDraft
-from aos.remote_page_draft_seed import private_seed_output, read_private_seed, write_private_draft
+from aos.remote_page_draft_seed import private_seed_output, read_private_seed, seed_output_path, write_private_draft
 from aos.web_application import WebApplicationProfile, WebApplicationProfiles, profile_report
 
 
@@ -59,7 +60,11 @@ class SiteKnowledgeTests(unittest.TestCase):
             private.chmod(0o755)
             with self.assertRaises(ValueError):
                 write_private_draft(private / 'other.json', self.page)
-        with self.assertRaises(ValueError):
+        fake_repository = self.root / 'fake-repository'
+        fake_repository.mkdir(mode=0o700)
+        (fake_repository / 'data').mkdir(mode=0o700)
+        with (patch('aos.remote_page_draft_seed.REPO_ROOT', fake_repository),
+              self.assertRaises(ValueError)):
             write_private_draft(self.root / 'outside.json', self.page)
 
     def test_route_seed_ui_output_is_profile_scoped_and_private(self):
@@ -88,6 +93,75 @@ class SiteKnowledgeTests(unittest.TestCase):
                 private_seed_output(root, '0' * 63, 'entry')
         with self.assertRaises(ValueError):
             private_seed_output(self.root / 'outside', self.profile_sha256, 'entry')
+
+    def test_managed_session_seed_roots_write_and_read_private_synthetic_drafts(self):
+        data = self.root / 'data'
+        data.mkdir(mode=0o700)
+        with patch('aos.remote_page_draft_seed.REPO_ROOT', self.root):
+            for manager in ('local-app-v1', 'local-app-project-synthetic'):
+                session = data / manager / ('app-' + 'a' * 32)
+                session.parent.mkdir(mode=0o700)
+                session.mkdir(mode=0o700)
+                for leaf in ('site-page-seeds', 'json-page-seeds'):
+                    with self.subTest(manager=manager, leaf=leaf):
+                        root = session / leaf
+                        output = private_seed_output(root, self.profile_sha256, 'entry')
+                        self.assertEqual(output, root / self.profile_sha256 / 'entry.json')
+                        self.assertEqual(root.stat().st_mode & 0o777, 0o700)
+                        self.assertEqual(output.parent.stat().st_mode & 0o777, 0o700)
+                        write_private_draft(output, self.page)
+                        self.assertEqual(output.stat().st_mode & 0o777, 0o600)
+                        self.assertEqual(read_private_seed(output, self.checksum), self.page)
+
+    def test_nested_seed_scope_rejects_nonmanager_session_leaf_traversal_and_symlinks(self):
+        data = self.root / 'data'
+        data.mkdir(mode=0o700)
+        manager = data / 'local-app-v1'
+        manager.mkdir(mode=0o700)
+        session = manager / ('app-' + 'a' * 32)
+        session.mkdir(mode=0o700)
+        seed_root = session / 'site-page-seeds'
+        seed_root.mkdir(mode=0o700)
+        manager_alias = data / 'local-app-project-alias'
+        manager_alias.symlink_to(manager, target_is_directory=True)
+        session_alias = manager / ('app-' + 'b' * 32)
+        session_alias.symlink_to(session, target_is_directory=True)
+        leaf_alias = session / 'json-page-seeds'
+        leaf_alias.symlink_to(seed_root, target_is_directory=True)
+        with patch('aos.remote_page_draft_seed.REPO_ROOT', self.root):
+            for root in (
+                data / 'other' / session.name / 'site-page-seeds',
+                data / 'local-app-test-' / session.name / 'site-page-seeds',
+                data / 'local-app-project-INVALID' / session.name / 'site-page-seeds',
+                manager / 'app-invalid' / 'site-page-seeds',
+                manager / ('app-' + 'A' * 32) / 'site-page-seeds',
+                session / 'other-seeds', seed_root / 'nested',
+                session / '..' / session.name / 'site-page-seeds',
+                manager_alias / session.name / 'site-page-seeds',
+                session_alias / 'site-page-seeds', leaf_alias,
+            ):
+                with self.subTest(root=root), self.assertRaises(ValueError):
+                    private_seed_output(root, self.profile_sha256, 'entry')
+            self.assertEqual(list(seed_root.iterdir()), [])
+
+    def test_managed_seed_parent_requires_private_owner_before_creation(self):
+        data = self.root / 'data'
+        data.mkdir(mode=0o700)
+        manager = data / 'local-app-v1'
+        manager.mkdir(mode=0o700)
+        session = manager / ('app-' + 'a' * 32)
+        session.mkdir(mode=0o700)
+        seed_root = session / 'site-page-seeds'
+        with patch('aos.remote_page_draft_seed.REPO_ROOT', self.root):
+            for directory in (manager, session):
+                directory.chmod(0o755)
+                with self.assertRaises(ValueError):
+                    private_seed_output(seed_root, self.profile_sha256, 'entry')
+                directory.chmod(0o700)
+            other_uid = os.getuid() + 1
+            with patch('aos.lifecycle.os.getuid', return_value=other_uid), self.assertRaises(ValueError):
+                seed_output_path(seed_root, self.profile_sha256, 'entry')
+            self.assertFalse(seed_root.exists())
 
     def test_private_immutable_registration_restart_and_stale_signal(self):
         self.assertEqual(self.store.register(self.page, confirm_sha256=self.checksum), self.checksum)

@@ -1,0 +1,909 @@
+{
+  "$defs": {
+    "LifecycleInspection": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "mode": {
+          "const": "read_only_desktop_lifecycle",
+          "default": "read_only_desktop_lifecycle",
+          "title": "Mode",
+          "type": "string"
+        },
+        "journal_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Journal Sha256",
+          "type": "string"
+        },
+        "birth_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Birth Ref",
+          "type": "string"
+        },
+        "runtime_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Runtime Ref",
+          "type": "string"
+        },
+        "workspace_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Workspace Sha256",
+          "type": "string"
+        },
+        "image_id": {
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "title": "Image Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "recorded_stage": {
+          "enum": [
+            "intent",
+            "created",
+            "started",
+            "removed"
+          ],
+          "title": "Recorded Stage",
+          "type": "string"
+        },
+        "owner_observation": {
+          "enum": [
+            "same_process",
+            "not_observed",
+            "different_process",
+            "different_boot",
+            "incomparable",
+            "unavailable"
+          ],
+          "title": "Owner Observation",
+          "type": "string"
+        },
+        "workspace_busy": {
+          "title": "Workspace Busy",
+          "type": "boolean"
+        },
+        "container_observation": {
+          "enum": [
+            "not_queried",
+            "missing",
+            "created",
+            "running",
+            "exited"
+          ],
+          "title": "Container Observation",
+          "type": "string"
+        },
+        "observation_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observation Sha256"
+        },
+        "inspected_at": {
+          "title": "Inspected At",
+          "type": "string"
+        },
+        "orphan_confirmed": {
+          "const": false,
+          "default": false,
+          "title": "Orphan Confirmed",
+          "type": "boolean"
+        },
+        "model_deployment_verified": {
+          "const": false,
+          "default": false,
+          "title": "Model Deployment Verified",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "resume_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Resume Authorized",
+          "type": "boolean"
+        },
+        "cleanup_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Cleanup Authorized",
+          "type": "boolean"
+        },
+        "automatic_replay_allowed": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Replay Allowed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "journal_sha256",
+        "birth_ref",
+        "runtime_ref",
+        "workspace_sha256",
+        "image_id",
+        "source_sha256",
+        "recorded_stage",
+        "owner_observation",
+        "workspace_busy",
+        "container_observation",
+        "observation_sha256",
+        "inspected_at"
+      ],
+      "title": "LifecycleInspection",
+      "type": "object"
+    },
+    "NativeControlSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "pattern": "^desktop-session-[a-f0-9]{32}$",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN",
+            "PAUSED"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "running",
+            "paused",
+            "stopped"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "status"
+      ],
+      "title": "NativeControlSnapshot",
+      "type": "object"
+    },
+    "NativeEndpointObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "enum": [
+            "/api/state",
+            "/api/tasks",
+            "/api/session/binding",
+            "/api/scientist/jobs"
+          ],
+          "title": "Path",
+          "type": "string"
+        },
+        "response_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Response Sha256"
+        },
+        "available": {
+          "title": "Available",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "available"
+      ],
+      "title": "NativeEndpointObservation",
+      "type": "object"
+    },
+    "NativeHandoverStep": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "consent",
+            "fence",
+            "drain",
+            "interrupt_ui",
+            "physical_cleanup",
+            "scientist_reservation",
+            "shared_launch"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "instruction": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Instruction",
+          "type": "string"
+        },
+        "command_argv": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 8,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Command Argv"
+        },
+        "executed": {
+          "const": false,
+          "default": false,
+          "title": "Executed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "stage",
+        "instruction"
+      ],
+      "title": "NativeHandoverStep",
+      "type": "object"
+    },
+    "NativeScientistSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "lab_configured": {
+          "title": "Lab Configured",
+          "type": "boolean"
+        },
+        "inference_configured": {
+          "title": "Inference Configured",
+          "type": "boolean"
+        },
+        "observed_lab_job_count": {
+          "maximum": 1000,
+          "minimum": 0,
+          "title": "Observed Lab Job Count",
+          "type": "integer"
+        },
+        "unresolved_count": {
+          "minimum": 0,
+          "title": "Unresolved Count",
+          "type": "integer"
+        },
+        "unresolved_lab_effect_count": {
+          "minimum": 0,
+          "title": "Unresolved Lab Effect Count",
+          "type": "integer"
+        },
+        "pending_control_count": {
+          "minimum": 0,
+          "title": "Pending Control Count",
+          "type": "integer"
+        },
+        "other_session_count": {
+          "minimum": 0,
+          "title": "Other Session Count",
+          "type": "integer"
+        },
+        "truncated": {
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "local_cleanup_pending": {
+          "title": "Local Cleanup Pending",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "lab_configured",
+        "inference_configured",
+        "observed_lab_job_count",
+        "unresolved_count",
+        "unresolved_lab_effect_count",
+        "pending_control_count",
+        "other_session_count",
+        "truncated",
+        "local_cleanup_pending"
+      ],
+      "title": "NativeScientistSnapshot",
+      "type": "object"
+    },
+    "NativeTaskSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "busy": {
+          "title": "Busy",
+          "type": "boolean"
+        },
+        "reserved": {
+          "title": "Reserved",
+          "type": "boolean"
+        },
+        "pending_approval": {
+          "title": "Pending Approval",
+          "type": "boolean"
+        },
+        "auto_approval": {
+          "title": "Auto Approval",
+          "type": "boolean"
+        },
+        "observed_job_count": {
+          "maximum": 20,
+          "minimum": 0,
+          "title": "Observed Job Count",
+          "type": "integer"
+        },
+        "unfinished_job_count": {
+          "maximum": 20,
+          "minimum": 0,
+          "title": "Unfinished Job Count",
+          "type": "integer"
+        },
+        "restart_quiesced": {
+          "title": "Restart Quiesced",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "busy",
+        "reserved",
+        "pending_approval",
+        "auto_approval",
+        "observed_job_count",
+        "unfinished_job_count",
+        "restart_quiesced"
+      ],
+      "title": "NativeTaskSnapshot",
+      "type": "object"
+    },
+    "ObservedNativeProcess": {
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/ProcessIdentity"
+        },
+        "discovery_parent_pid": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Discovery Parent Pid"
+        },
+        "cgroups": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 32,
+          "title": "Cgroups",
+          "type": "array"
+        },
+        "ownership_verified": {
+          "const": false,
+          "default": false,
+          "title": "Ownership Verified",
+          "type": "boolean"
+        },
+        "signal_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Signal Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "identity",
+        "cgroups"
+      ],
+      "title": "ObservedNativeProcess",
+      "type": "object"
+    },
+    "ProcessIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "minimum": 1,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "pid_namespace": {
+          "minimum": 1,
+          "title": "Pid Namespace",
+          "type": "integer"
+        },
+        "uid": {
+          "minimum": 1,
+          "title": "Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "boot_id",
+        "pid",
+        "start_ticks",
+        "pid_namespace",
+        "uid"
+      ],
+      "title": "ProcessIdentity",
+      "type": "object"
+    },
+    "SessionInspection": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "mode": {
+          "const": "read_only_desktop_session",
+          "default": "read_only_desktop_session",
+          "title": "Mode",
+          "type": "string"
+        },
+        "snapshot_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Snapshot Sha256",
+          "type": "string"
+        },
+        "session_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Session Ref",
+          "type": "string"
+        },
+        "binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Binding Sha256",
+          "type": "string"
+        },
+        "session_status": {
+          "enum": [
+            "running",
+            "paused",
+            "stopped"
+          ],
+          "title": "Session Status",
+          "type": "string"
+        },
+        "session_owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN",
+            "PAUSED"
+          ],
+          "title": "Session Owner",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "job_count": {
+          "maximum": 10000,
+          "minimum": 0,
+          "title": "Job Count",
+          "type": "integer"
+        },
+        "unresolved_inputs": {
+          "minimum": 0,
+          "title": "Unresolved Inputs",
+          "type": "integer"
+        },
+        "lifecycle": {
+          "$ref": "#/$defs/LifecycleInspection"
+        },
+        "job": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SessionJobInspection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "inspected_at": {
+          "title": "Inspected At",
+          "type": "string"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "resume_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Resume Authorized",
+          "type": "boolean"
+        },
+        "cleanup_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Cleanup Authorized",
+          "type": "boolean"
+        },
+        "automatic_replay_allowed": {
+          "const": false,
+          "default": false,
+          "title": "Automatic Replay Allowed",
+          "type": "boolean"
+        },
+        "lease_restored": {
+          "const": false,
+          "default": false,
+          "title": "Lease Restored",
+          "type": "boolean"
+        },
+        "approval_restored": {
+          "const": false,
+          "default": false,
+          "title": "Approval Restored",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "snapshot_sha256",
+        "session_ref",
+        "binding_sha256",
+        "session_status",
+        "session_owner",
+        "generation",
+        "job_count",
+        "unresolved_inputs",
+        "lifecycle",
+        "inspected_at"
+      ],
+      "title": "SessionInspection",
+      "type": "object"
+    },
+    "SessionJobInspection": {
+      "additionalProperties": false,
+      "properties": {
+        "job_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Job Ref",
+          "type": "string"
+        },
+        "run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Run Ref",
+          "type": "string"
+        },
+        "deployment_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Deployment Sha256",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "waiting_approval",
+            "paused",
+            "waiting_human",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "run_status": {
+          "enum": [
+            "created",
+            "running",
+            "paused",
+            "waiting_human",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ],
+          "title": "Run Status",
+          "type": "string"
+        },
+        "unresolved_actions": {
+          "minimum": 0,
+          "title": "Unresolved Actions",
+          "type": "integer"
+        },
+        "pending_approvals": {
+          "minimum": 0,
+          "title": "Pending Approvals",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "job_ref",
+        "run_ref",
+        "deployment_sha256",
+        "status",
+        "run_status",
+        "unresolved_actions",
+        "pending_approvals"
+      ],
+      "title": "SessionJobInspection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "const": "native_handover_preview",
+      "default": "native_handover_preview",
+      "title": "Mode",
+      "type": "string"
+    },
+    "recorded_at": {
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "manager_scope": {
+      "const": "default",
+      "default": "default",
+      "title": "Manager Scope",
+      "type": "string"
+    },
+    "manager_base": {
+      "title": "Manager Base",
+      "type": "string"
+    },
+    "origin": {
+      "const": "http://127.0.0.1:8765",
+      "default": "http://127.0.0.1:8765",
+      "title": "Origin",
+      "type": "string"
+    },
+    "expected_session": {
+      "pattern": "^app-[a-f0-9]{32}$",
+      "title": "Expected Session",
+      "type": "string"
+    },
+    "current_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Current State Sha256",
+      "type": "string"
+    },
+    "supervisor": {
+      "$ref": "#/$defs/ProcessIdentity"
+    },
+    "backend": {
+      "$ref": "#/$defs/ProcessIdentity"
+    },
+    "observed_descendants": {
+      "items": {
+        "$ref": "#/$defs/ObservedNativeProcess"
+      },
+      "maxItems": 64,
+      "title": "Observed Descendants",
+      "type": "array"
+    },
+    "endpoint_observations": {
+      "items": {
+        "$ref": "#/$defs/NativeEndpointObservation"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "title": "Endpoint Observations",
+      "type": "array"
+    },
+    "control": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NativeControlSnapshot"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tasks": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NativeTaskSnapshot"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "scientist": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NativeScientistSnapshot"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "session_binding": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SessionInspection"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "snapshot_continuity_verified": {
+      "title": "Snapshot Continuity Verified",
+      "type": "boolean"
+    },
+    "local_idle_observed": {
+      "title": "Local Idle Observed",
+      "type": "boolean"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "minItems": 1,
+      "title": "Blockers",
+      "type": "array"
+    },
+    "procedure": {
+      "items": {
+        "$ref": "#/$defs/NativeHandoverStep"
+      },
+      "maxItems": 7,
+      "minItems": 7,
+      "title": "Procedure",
+      "type": "array"
+    },
+    "preparation_only": {
+      "const": true,
+      "default": true,
+      "title": "Preparation Only",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "user_transition_authorization_required": {
+      "const": true,
+      "default": true,
+      "title": "User Transition Authorization Required",
+      "type": "boolean"
+    },
+    "native_exclusion_verified": {
+      "const": false,
+      "default": false,
+      "title": "Native Exclusion Verified",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "scientist_reservation_verified": {
+      "const": false,
+      "default": false,
+      "title": "Scientist Reservation Verified",
+      "type": "boolean"
+    },
+    "cgroup_ownership_verified": {
+      "const": false,
+      "default": false,
+      "title": "Cgroup Ownership Verified",
+      "type": "boolean"
+    },
+    "automatic_native_fallback_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Native Fallback Allowed",
+      "type": "boolean"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "recorded_at",
+    "manager_base",
+    "expected_session",
+    "current_state_sha256",
+    "supervisor",
+    "backend",
+    "observed_descendants",
+    "endpoint_observations",
+    "control",
+    "tasks",
+    "scientist",
+    "session_binding",
+    "snapshot_continuity_verified",
+    "local_idle_observed",
+    "blockers",
+    "procedure",
+    "limitations"
+  ],
+  "title": "NativeHandoverPreview",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -10,6 +10,8 @@ import {SessionBinding} from './SessionBinding';
 import {FirstUse} from './FirstUse';
 import {WorkflowNotice} from './WorkflowNotice';
 import {Development} from './Development';
+import {hasCurrentSessionStatus, hasCurrentTaskStatus, hasOverviewTelemetry, hasResourceTelemetry} from './controlCenterStatus';
+import {ScientistLab} from './ScientistLab';
 import {WebApplicationDrafts} from './WebApplicationDrafts';
 import {Knowledge} from './Knowledge';
 import {locale, setLanguage, t, useLanguage} from './i18n';
@@ -17,7 +19,7 @@ import './style.css';
 import './language.css';
 
 const controls: [Control, string][] = [['pause', 'Duraklat'], ['stop', 'Durdur'], ['take-control', 'Kontrolü al'], ['return-control', 'Ajana geri ver'], ['resume', 'Devam et'], ['restart', 'Yeniden başlat']];
-const tabs = ['Geliştirme', 'Bilgisayar', 'Görevler', 'Plan', 'Çalışmalar', 'Web uygulamaları', 'Bilgi', 'Kurtarma', 'Modeller', 'Kaynaklar'] as const;
+const tabs = ['Geliştirme', 'Bilgisayar', 'Görevler', 'Scientist', 'Plan', 'Çalışmalar', 'Web uygulamaları', 'Bilgi', 'Kurtarma', 'Modeller', 'Kaynaklar'] as const;
 type Tab = typeof tabs[number];
 const defaultTab: Tab = 'Geliştirme';
 
@@ -40,16 +42,26 @@ function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [reload, setReload] = useState(0);
+  const [runtimeObservedAt, setRuntimeObservedAt] = useState<number | null>(null);
+  const [runtimeError, setRuntimeError] = useState(false);
+  const [runtimeRefreshing, setRuntimeRefreshing] = useState(false);
   const computer = useRef<ComputerHandle>(null);
   const actionLock = useRef(false);
   const epoch = useRef(0);
   const visibleTasks = tab === 'Görevler' && (tasks?.browser_display === 'desktop' || tasks?.vision_display === 'desktop');
+
+  useEffect(() => {
+    if (tab !== 'Scientist') return;
+    const panel = document.querySelector<HTMLDetailsElement>('[data-testid="scientist-lab"]');
+    if (panel) panel.open = true;
+  }, [tab]);
 
   function reset() {
     epoch.current += 1;
     setTab(defaultTab);
     setImageDraftCapability('checking');
     setStaticQueryCapability('checking');
+    setRuntimeObservedAt(null); setRuntimeError(false); setRuntimeRefreshing(false);
     setAuthenticated(false); setSnapshot(null); setOverview(null); setResources(null); setRetention(null); setFormRepeats(null); setTrace(null); setTasks(null); setWebApplications(null);
   }
   function failed(failure: unknown) {
@@ -80,24 +92,40 @@ function App() {
     let nextInspection = 0;
     async function refresh() {
       let delay = 3000;
+      setRuntimeRefreshing(true);
       try {
         let taskStatus: TaskStatus;
         if (performance.now() >= nextInspection) {
-          const [next, records, limits, currentTasks] = await Promise.all([
-            api<Snapshot>('/api/state', undefined, abort.signal),
-            api<Overview>('/api/overview', undefined, abort.signal),
-            api<Resources>('/api/resources', undefined, abort.signal),
-            api<TaskStatus>('/api/tasks', undefined, abort.signal)
+          const [essential, telemetry] = await Promise.all([
+            Promise.all([api<unknown>('/api/state', undefined, abort.signal),
+              api<unknown>('/api/tasks', undefined, abort.signal)]),
+            Promise.allSettled([api<Overview>('/api/overview', undefined, abort.signal),
+              api<Resources>('/api/resources', undefined, abort.signal)])
           ]);
+          const [next, currentTasks] = essential;
+          if (!hasCurrentSessionStatus(next) || !hasCurrentTaskStatus(currentTasks)) {
+            throw new Error(t('Oturum durumu doğrulanamadı; güncel kabul edilmedi.'));
+          }
+          const [records, limits] = telemetry;
+          const unauthorized = telemetry.find(result => result.status === 'rejected'
+            && result.reason instanceof ApiError && result.reason.status === 401);
+          if (unauthorized?.status === 'rejected') throw unauthorized.reason;
           taskStatus = currentTasks;
           nextInspection = performance.now() + 3000;
-          if (!abort.signal.aborted) { setSnapshot(next); setOverview(records); setResources(limits); }
+          if (!abort.signal.aborted) {
+            setSnapshot(next);
+            setOverview(records.status === 'fulfilled' && hasOverviewTelemetry(records.value) ? records.value : null);
+            setResources(limits.status === 'fulfilled' && hasResourceTelemetry(limits.value) ? limits.value : null);
+          }
         } else {
-          taskStatus = await api<TaskStatus>('/api/tasks', undefined, abort.signal);
+          const currentTasks = await api<unknown>('/api/tasks', undefined, abort.signal);
+          if (!hasCurrentTaskStatus(currentTasks)) throw new Error(t('Oturum durumu doğrulanamadı; güncel kabul edilmedi.'));
+          taskStatus = currentTasks;
         }
-        if (!abort.signal.aborted) setTasks(taskStatus);
+        if (!abort.signal.aborted) { setTasks(taskStatus); setRuntimeObservedAt(Date.now()); setRuntimeError(false); }
         if (taskStatus.busy || taskStatus.decider_preparation?.state === 'preparing') delay = 500;
-      } catch (failure) { if (!abort.signal.aborted) failed(failure); }
+      } catch (failure) { if (!abort.signal.aborted) { setRuntimeError(true); failed(failure); } }
+      finally { if (!abort.signal.aborted) setRuntimeRefreshing(false); }
       if (!abort.signal.aborted) timer = setTimeout(refresh, delay);
     }
     void refresh();
@@ -233,12 +261,12 @@ function App() {
     } catch (failure) { if (epoch.current === requestedEpoch) failed(failure); }
   }
 
-  return <div className="app">
+  return <div className={'app' + (authenticated && tab === 'Geliştirme' ? ' control-center-app' : '')}>
     <header className="topbar"><div className="brand">AOS<span>LOCAL COMPUTER</span></div><span className="environment">{t("Yerel · ağsız çalışma alanı")}</span><div className="language-switch" role="group" aria-label={t('Dil')}><button type="button" lang="en" aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>English</button><button type="button" lang="tr" aria-pressed={language === 'tr'} onClick={() => setLanguage('tr')}>Türkçe</button></div><span className={`owner ${snapshot?.control.owner.toLowerCase() ?? ''}`} data-testid="owner">{authenticated ? snapshot?.control.owner ?? t("Bağlanıyor") : t("Oturum kapalı")}</span></header>
     {!authenticated ? <main className="login"><span className="eyebrow">{t("KONTROL MERKEZİ / 01")}</span><h1>{t("Bilgisayarınız.")}<br/>{t("Sınırları belli.")}</h1><p>{t("İzole masaüstünü görüntüleyin, kontrolü devralın ve doğrulanmış çalışma kayıtlarını inceleyin.")}</p>{!ready ? <p role="status">{t('Yerel oturuma bağlanıyor…')}</p> : localLogin ? <button className="primary" disabled={busy} onClick={() => void openLocalSession()}>{t('Yerel oturumu aç')}</button> : <form onSubmit={login}><label htmlFor="token">{t("Yerel oturum anahtarı")}</label><input id="token" name="token" type="password" autoComplete="off" required/><p className="caption">{t("Backend terminalinde belirtilen 0600 izinli dosyadan alınır. Tarayıcı depolamasına kaydedilmez.")}</p><button className="primary" disabled={busy}>{t("Giriş yap")}</button></form>}</main> : <>
       <div className="controlbar" aria-label={t("Kalıcı kontrol çubuğu")}>{controls.map(([command, label]) => <button key={command} className={command === 'stop' ? 'danger' : ''} disabled={busy || !snapshot || (snapshot.control.status === 'stopped' && command !== 'restart')} onClick={() => void control(command)}>{t(label)}</button>)}<button className="logout" disabled={busy} onClick={() => void action(async () => { await computer.current?.disconnect(); await api('/api/logout', {}); reset(); })}>{t("Çıkış")}</button></div>
       <div className="workspace"><aside className="sidebar"><p className="eyebrow">{t("ÇALIŞMA ALANI")}</p><nav aria-label={t("Paneller")}>{tabs.map(name => <button key={name} aria-current={tab === name ? 'page' : undefined} onClick={() => setTab(name)}>{t(name)}</button>)}</nav><div className="scope"><span className="dot"/>{t("Sınırlı kabul ortamı")}<p>{t("Yalnız sabit görevler onayla çalışır. Genel komut veya otomatik eğitim yoktur.")}</p></div></aside><main className="content">
-        <div className="page-heading"><div><p className="eyebrow">AOS / {t(tab).toLocaleUpperCase(locale())}</p><h1>{tab === 'Bilgisayar' ? t("İzole çalışma alanı") : t(tab)}</h1></div><button disabled={busy} onClick={() => { setReload(value => value + 1); setError(''); }}>{t("Yenile")}</button></div>
+        <div className={'page-heading' + (tab === 'Geliştirme' ? ' control-center-page-heading' : '')}><div><p className="eyebrow">AOS / {t(tab).toLocaleUpperCase(locale())}</p><h1>{tab === 'Bilgisayar' ? t("İzole çalışma alanı") : t(tab)}</h1></div><button disabled={busy} onClick={() => { setReload(value => value + 1); setError(''); }}>{t("Yenile")}</button></div>
         {!snapshot ? <p role="status">{t("Runtime bilgisi alınıyor…")}</p> : null}
         <WorkflowNotice snapshot={snapshot} tasks={tasks} showApproval={() => { setTab('Görevler'); window.scrollTo(0, 0); }}/>
         {tab === 'Bilgisayar' ? <FirstUse tasks={tasks} navigate={setTab}/> : null}
@@ -248,8 +276,11 @@ function App() {
         </div>
         {tab === 'Kurtarma' ? <><Recovery onError={failed}/>{snapshot ? <SessionBinding key={`${snapshot.runtime.runtime_id}:${snapshot.control.generation}`} onError={failed}/> : null}</> : null}
         {tab === 'Plan' ? <><Plan onError={failed}/><CompoundPlan key={`${snapshot?.runtime.runtime_id}:${snapshot?.control.generation}`} onError={failed} snapshot={snapshot} tasks={tasks} busy={busy} action={action}/></> : null}
-        {tab === 'Geliştirme' ? <Development tasks={tasks} overview={overview} retention={retention} formRepeats={formRepeats} webApplications={webApplications} imageDraftCapability={imageDraftCapability} staticQueryCapability={staticQueryCapability} onNavigate={setTab} refreshKey={reload}/> : null}
-        {tab === 'Web uygulamaları' ? <WebApplicationDrafts inventory={webApplications} imageDraftCapability={imageDraftCapability} staticQueryCapability={staticQueryCapability} onRegistered={() => setReload(value => value + 1)} onError={failed}/> : null}
+        {tab === 'Geliştirme' ? <Development tasks={tasks} overview={overview} retention={retention} formRepeats={formRepeats} webApplications={webApplications} imageDraftCapability={imageDraftCapability} staticQueryCapability={staticQueryCapability} onNavigate={setTab} refreshKey={reload}
+          snapshot={snapshot} runtimeObservedAt={runtimeObservedAt} runtimeError={runtimeError} refreshing={busy || runtimeRefreshing}
+          onRefresh={() => { setReload(value => value + 1); setError(''); }}/>: null}
+        {tab === 'Scientist' ? <ScientistLab/> : null}
+        {tab === 'Web uygulamaları' ? <WebApplicationDrafts inventory={webApplications} managerScope={tasks?.manager_scope} imageDraftCapability={imageDraftCapability} staticQueryCapability={staticQueryCapability} onRegistered={() => setReload(value => value + 1)} onError={failed}/> : null}
         {tab === 'Bilgi' ? <Knowledge tasks={tasks} snapshot={snapshot} busy={busy} refreshKey={reload}/> : null}
         {tab === 'Modeller' && overview?.trajectory.available && !overview.trajectory.models?.length && !overview.trajectory.deployments?.length ? <p>{t("Henüz model/deployment kaydı yok.")}</p> : null}
         {snapshot && tab === 'Bilgisayar' ? <section className="panel"><div className="panel-heading"><h2>{t("Kontrol izi")}</h2><button disabled={busy || snapshot.control.owner !== 'AGENT' || snapshot.control.status !== 'running'} onClick={() => void action(async () => {

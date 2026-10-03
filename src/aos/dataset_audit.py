@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import sqlite3
 import time
+from typing import Literal, get_args
 
 from .contracts import REPO_ROOT, canonical, digest, now
 from .dataset import validator
@@ -15,6 +16,10 @@ from .dataset import validator
 MAX_SNAPSHOT_BYTES = 128 * 1024 * 1024
 MAX_RUNS = 10000
 AUDIT_TIMEOUT_SECONDS = 10
+SupportedSchemaVersion = Literal[7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                                 21, 22, 23, 24, 25, 26, 27, 28]
+SUPPORTED_SCHEMA_VERSIONS = get_args(SupportedSchemaVersion)
+CURRENT_SCHEMA_VERSION = max(SUPPORTED_SCHEMA_VERSIONS)
 SYNTHETIC_POLICIES = {"hello-policy-v1", "browser-form-policy-v1", "vision-canvas-policy-v1",
                       "browser-local-navigation-policy-v1", "browser-staging-workflow-policy-v1"}
 VERIFIERS = {"independent_read_equals": "aos-exact-bytes-v1", "independent_dom_equals": "aos-browser-form-v1",
@@ -33,9 +38,9 @@ def schema_signature(connection: sqlite3.Connection) -> str:
 
 
 @lru_cache
-def expected_schema(version: int = 17) -> tuple:
+def expected_schema(version: int = CURRENT_SCHEMA_VERSION) -> tuple:
     migrations = sorted((REPO_ROOT / "database/migrations").glob("*.sql"))
-    if version not in {7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17} or [int(path.name.split("_", 1)[0]) for path in migrations] != list(range(1, 18)):
+    if version not in SUPPORTED_SCHEMA_VERSIONS or [int(path.name.split("_", 1)[0]) for path in migrations] != list(range(1, CURRENT_SCHEMA_VERSION + 1)):
         raise ValueError("unsupported_migration_set")
     migrations = migrations[:version]
     with closing(sqlite3.connect(":memory:")) as reference:
@@ -57,6 +62,8 @@ def audit_snapshot(path: Path):
         source.execute("PRAGMA foreign_keys=ON")
         source.execute("PRAGMA query_only=ON")
         source.execute("PRAGMA trusted_schema=OFF")
+        if time.monotonic() >= deadline:
+            raise ValueError("snapshot_resource_limit")
         source.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
         source.execute("BEGIN")
         source.execute("SELECT count(*) FROM sqlite_master").fetchone()
@@ -77,7 +84,7 @@ def audit_snapshot(path: Path):
         snapshot.execute("PRAGMA trusted_schema=OFF")
         snapshot.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
         signature = schema_signature(snapshot)
-        expected = next((expected_schema(version) for version in (7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17) if expected_schema(version)[0] == signature), None)
+        expected = next((expected_schema(version) for version in SUPPORTED_SCHEMA_VERSIONS if expected_schema(version)[0] == signature), None)
         if expected is None:
             raise ValueError("unsupported_database_schema")
         signature, versions, migrations = expected

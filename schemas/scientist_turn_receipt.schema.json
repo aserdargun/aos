@@ -1,0 +1,90 @@
+{
+  "$defs": {
+    "ScientistWorkerGeneration": {
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "pattern": "^swapp-aos-gpu-turn-[a-f0-9]{32}\\.service$",
+          "title": "Unit",
+          "type": "string"
+        },
+        "invocation_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Invocation Id",
+          "type": "string"
+        },
+        "main_pid": {
+          "exclusiveMinimum": 1,
+          "title": "Main Pid",
+          "type": "integer"
+        },
+        "control_group": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Control Group",
+          "type": "string"
+        }
+      },
+      "required": [
+        "unit",
+        "invocation_id",
+        "main_pid",
+        "control_group"
+      ],
+      "title": "ScientistWorkerGeneration",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "request_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "profile_id": {
+      "enum": [
+        "aos.decider.turn.v1",
+        "aos.bonsai.recovery.v1",
+        "aos.bonsai.vision.v1"
+      ],
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "deployment_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Digest",
+      "type": "string"
+    },
+    "generation": {
+      "$ref": "#/$defs/ScientistWorkerGeneration"
+    },
+    "response": {
+      "additionalProperties": true,
+      "title": "Response",
+      "type": "object"
+    },
+    "usage": {
+      "additionalProperties": true,
+      "title": "Usage",
+      "type": "object"
+    }
+  },
+  "required": [
+    "version",
+    "request_id",
+    "profile_id",
+    "deployment_digest",
+    "generation",
+    "response",
+    "usage"
+  ],
+  "title": "ScientistTurnReceipt",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

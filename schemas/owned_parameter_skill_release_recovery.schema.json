@@ -1,0 +1,704 @@
+{
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        },
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    },
+    "OwnedParameterSkillRelease": {
+      "additionalProperties": false,
+      "properties": {
+        "account_scope_verified": {
+          "const": false,
+          "default": false,
+          "title": "Account Scope Verified",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "actor": {
+          "const": "local_authenticated_user",
+          "title": "Actor",
+          "type": "string"
+        },
+        "candidate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "database_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "development_only": {
+          "const": true,
+          "title": "Development Only",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "family": {
+          "$ref": "#/$defs/OwnedParameterSkillReleaseFamily"
+        },
+        "family_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Family Sha256",
+          "type": "string"
+        },
+        "gpu_release_verified": {
+          "const": false,
+          "default": false,
+          "title": "Gpu Release Verified",
+          "type": "boolean"
+        },
+        "held_out_independence_verified": {
+          "const": false,
+          "default": false,
+          "title": "Held Out Independence Verified",
+          "type": "boolean"
+        },
+        "kind": {
+          "const": "owned_parameter_skill_manual_release",
+          "title": "Kind",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "model_calls": {
+          "const": 0,
+          "default": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        },
+        "native_model_verified": {
+          "const": false,
+          "default": false,
+          "title": "Native Model Verified",
+          "type": "boolean"
+        },
+        "parent_release_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Parent Release Sha256"
+        },
+        "purpose": {
+          "const": "development_release",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "recipe_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Recipe Sha256",
+          "type": "string"
+        },
+        "release_directory_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Release Directory Sha256",
+          "type": "string"
+        },
+        "release_parent_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "released_skill_verified": {
+          "const": false,
+          "default": false,
+          "title": "Released Skill Verified",
+          "type": "boolean"
+        },
+        "replay_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Replay Authorized",
+          "type": "boolean"
+        },
+        "review_directory_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Directory Sha256",
+          "type": "string"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "reviewed": {
+          "const": true,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "revision": {
+          "maximum": 64,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "runtime_started": {
+          "const": false,
+          "default": false,
+          "title": "Runtime Started",
+          "type": "boolean"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "site_outcome_verified": {
+          "const": false,
+          "default": false,
+          "title": "Site Outcome Verified",
+          "type": "boolean"
+        },
+        "source_fingerprint_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Fingerprint Sha256",
+          "type": "string"
+        },
+        "source_run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Run Ref",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "default": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "synthetic",
+        "development_only",
+        "schema_version",
+        "reviewed",
+        "review_sha256",
+        "candidate_sha256",
+        "source_fingerprint_sha256",
+        "scope",
+        "family_sha256",
+        "release_directory_sha256",
+        "release_parent_identity",
+        "database_identity",
+        "actor",
+        "kind",
+        "purpose",
+        "family",
+        "revision",
+        "parent_release_sha256",
+        "review_directory_sha256",
+        "manifest_sha256",
+        "source_run_ref",
+        "recipe_sha256"
+      ],
+      "title": "OwnedParameterSkillRelease",
+      "type": "object"
+    },
+    "OwnedParameterSkillReleaseFamily": {
+      "additionalProperties": false,
+      "properties": {
+        "field_binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Binding Sha256",
+          "type": "string"
+        },
+        "outcome_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Outcome Sha256",
+          "type": "string"
+        },
+        "provenance_kind": {
+          "const": "manual_authored_synthetic_project",
+          "title": "Provenance Kind",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "task_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Task Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provenance_kind",
+        "scope",
+        "task_key",
+        "field_binding_sha256",
+        "outcome_sha256"
+      ],
+      "title": "OwnedParameterSkillReleaseFamily",
+      "type": "object"
+    },
+    "OwnedParameterSkillSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "account_scope_verified": {
+          "const": false,
+          "default": false,
+          "title": "Account Scope Verified",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "actor": {
+          "const": "local_authenticated_user",
+          "title": "Actor",
+          "type": "string"
+        },
+        "candidate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "database_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "development_only": {
+          "const": true,
+          "title": "Development Only",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "family_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Family Sha256",
+          "type": "string"
+        },
+        "gpu_release_verified": {
+          "const": false,
+          "default": false,
+          "title": "Gpu Release Verified",
+          "type": "boolean"
+        },
+        "held_out_independence_verified": {
+          "const": false,
+          "default": false,
+          "title": "Held Out Independence Verified",
+          "type": "boolean"
+        },
+        "kind": {
+          "const": "owned_parameter_skill_manual_selection",
+          "title": "Kind",
+          "type": "string"
+        },
+        "model_calls": {
+          "const": 0,
+          "default": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        },
+        "native_model_verified": {
+          "const": false,
+          "default": false,
+          "title": "Native Model Verified",
+          "type": "boolean"
+        },
+        "operation": {
+          "enum": [
+            "select",
+            "rollback"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "previous_release_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous Release Sha256"
+        },
+        "previous_selection_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous Selection Sha256"
+        },
+        "purpose": {
+          "const": "development_selected",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "release_directory_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Release Directory Sha256",
+          "type": "string"
+        },
+        "release_parent_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "release_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Release Sha256",
+          "type": "string"
+        },
+        "released_skill_verified": {
+          "const": false,
+          "default": false,
+          "title": "Released Skill Verified",
+          "type": "boolean"
+        },
+        "replay_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Replay Authorized",
+          "type": "boolean"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "reviewed": {
+          "const": true,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "runtime_started": {
+          "const": false,
+          "default": false,
+          "title": "Runtime Started",
+          "type": "boolean"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "sequence": {
+          "maximum": 64,
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "site_outcome_verified": {
+          "const": false,
+          "default": false,
+          "title": "Site Outcome Verified",
+          "type": "boolean"
+        },
+        "source_fingerprint_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Fingerprint Sha256",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "default": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "synthetic",
+        "development_only",
+        "schema_version",
+        "reviewed",
+        "review_sha256",
+        "candidate_sha256",
+        "source_fingerprint_sha256",
+        "scope",
+        "family_sha256",
+        "release_directory_sha256",
+        "release_parent_identity",
+        "database_identity",
+        "actor",
+        "kind",
+        "purpose",
+        "operation",
+        "sequence",
+        "previous_selection_sha256",
+        "previous_release_sha256",
+        "release_sha256"
+      ],
+      "title": "OwnedParameterSkillSelection",
+      "type": "object"
+    },
+    "StoreIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 0,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "mode": {
+          "minimum": 0,
+          "title": "Mode",
+          "type": "integer"
+        },
+        "owner": {
+          "minimum": 0,
+          "title": "Owner",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner",
+        "mode"
+      ],
+      "title": "StoreIdentity",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "account_scope_verified": {
+      "const": false,
+      "default": false,
+      "title": "Account Scope Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "database_identity": {
+      "$ref": "#/$defs/StoreIdentity"
+    },
+    "development_only": {
+      "const": true,
+      "title": "Development Only",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "family_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Family Sha256",
+      "type": "string"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "held_out_independence_verified": {
+      "const": false,
+      "default": false,
+      "title": "Held Out Independence Verified",
+      "type": "boolean"
+    },
+    "kind": {
+      "const": "owned_parameter_skill_release_recovery",
+      "title": "Kind",
+      "type": "string"
+    },
+    "model_calls": {
+      "const": 0,
+      "default": 0,
+      "title": "Model Calls",
+      "type": "integer"
+    },
+    "native_model_verified": {
+      "const": false,
+      "default": false,
+      "title": "Native Model Verified",
+      "type": "boolean"
+    },
+    "operation": {
+      "const": "restore_anchored_release_record",
+      "title": "Operation",
+      "type": "string"
+    },
+    "record": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/OwnedParameterSkillRelease"
+        },
+        {
+          "$ref": "#/$defs/OwnedParameterSkillSelection"
+        }
+      ],
+      "title": "Record"
+    },
+    "record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Sha256",
+      "type": "string"
+    },
+    "record_stage": {
+      "enum": [
+        "release",
+        "selection"
+      ],
+      "title": "Record Stage",
+      "type": "string"
+    },
+    "release_directory_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Release Directory Sha256",
+      "type": "string"
+    },
+    "release_parent_identity": {
+      "$ref": "#/$defs/StoreIdentity"
+    },
+    "release_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Release Sha256",
+      "type": "string"
+    },
+    "release_store_identity": {
+      "$ref": "#/$defs/StoreIdentity"
+    },
+    "released_skill_verified": {
+      "const": false,
+      "default": false,
+      "title": "Released Skill Verified",
+      "type": "boolean"
+    },
+    "replay_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Replay Authorized",
+      "type": "boolean"
+    },
+    "reviewed": {
+      "const": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "runtime_started": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Started",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/KnowledgeScope"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "synthetic",
+    "development_only",
+    "schema_version",
+    "kind",
+    "operation",
+    "reviewed",
+    "record_sha256",
+    "record_stage",
+    "record",
+    "release_sha256",
+    "family_sha256",
+    "scope",
+    "database_identity",
+    "release_directory_sha256",
+    "release_parent_identity",
+    "release_store_identity"
+  ],
+  "title": "OwnedParameterSkillReleaseRecovery",
+  "type": "object"
+}

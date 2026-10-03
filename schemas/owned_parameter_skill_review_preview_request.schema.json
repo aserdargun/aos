@@ -1,0 +1,21 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "candidate_sha256"
+  ],
+  "title": "OwnedParameterSkillReviewPreviewRequest",
+  "type": "object"
+}

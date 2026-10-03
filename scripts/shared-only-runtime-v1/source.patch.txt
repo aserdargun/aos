@@ -1,0 +1,784 @@
+--- a/scripts/compare_decider_laya.py
++++ b/scripts/compare_decider_laya.py
+@@ -28,6 +28,7 @@
+ 
+ 
+ async def sample(root, kind, model, model_manifest, model_python, browser_manifest):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     root.mkdir(mode=0o700, parents=True, exist_ok=False)
+     settings = Settings(workspace=root / "workspace", database=root / "trajectory.db")
+     engine = (ReusableDeciderEngine(model_manifest, model_python, cpu_prewarm=False)
+@@ -71,6 +72,7 @@
+ 
+ 
+ async def choice_probe(model, manifest, model_python, state, options):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     engine = (ReusableDeciderEngine(manifest, model_python, cpu_prewarm=False)
+               if model == "decider" else LayaCandidateEngine(manifest, model_python))
+     choices = []
+@@ -88,6 +90,7 @@
+ 
+ 
+ async def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description="Private same-task AOS S1 candidate comparison")
+     parser.add_argument("--output", type=Path, required=True)
+     parser.add_argument("--model-python", type=Path, default=Path("/home/cachyos/.venv/bin/python"))
+--- a/scripts/native_decider_entry.py
++++ b/scripts/native_decider_entry.py
+@@ -9,6 +9,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description='Staged native-only Decider lifetime entry; fixed reviewed config required')
+     parser.add_argument('--entry-config-sha256', required=True)
+     parser.add_argument('worker_arguments', nargs=argparse.REMAINDER)
+--- a/scripts/probe_bonsai.py
++++ b/scripts/probe_bonsai.py
+@@ -9,6 +9,7 @@
+ 
+ 
+ def inspect_response(*arguments, **keywords):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     response = original_request(*arguments, **keywords)
+     if "choices" in response:
+         print(json.dumps({"finish_reason": response["choices"][0].get("finish_reason"),
+@@ -20,6 +21,7 @@
+ 
+ 
+ async def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     supervisor.request_json = inspect_response
+     engine = supervisor.BonsaiSupervisor(Path("models/bonsai-manifest.json"))
+     result = await engine.plan("Create and verify the authorized /workspace/hello.txt containing Hello from the local agent. followed by a newline. The initial read failed because the file is absent. No overwrite, host access or other files are authorized.",
+--- a/scripts/serve_desktop.py
++++ b/scripts/serve_desktop.py
+@@ -198,6 +198,8 @@
+                         help='Permit per-task opt-in synthetic metadata only in this private outbox')
+     parser.add_argument('--bonsai-manifest', type=Path, default=REPO_ROOT / 'models/bonsai-manifest.json')
+     arguments = parser.parse_args()
++    if arguments.engine != 'scientist':
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     owned_parameter_startup = None
+     project_options = (arguments.owned_parameter_project_directory,
+                        arguments.owned_parameter_project_manifest_sha256)
+--- a/services/decider/broker_worker.py
++++ b/services/decider/broker_worker.py
+@@ -4,7 +4,7 @@
+ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+ 
+ from broker_runtime import TurnGate, clock, encoded, object_json
+-from worker import ModelSession, validate_request, verify_environment
++from worker import BrokerModelSession as ModelSession, validate_request, verify_environment
+ 
+ 
+ def main():
+--- a/services/decider/calibration_smoke.py
++++ b/services/decider/calibration_smoke.py
+@@ -20,6 +20,7 @@
+ 
+ 
+ def run(request, manifest: Path):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if (set(request) != {'mode', 'examples', 'source_sha256', 'input_sha256',
+                          'train_sample_ref', 'heldout_sample_ref', 'runner_sha256',
+                          'token_budget', 'step_size'}
+@@ -132,6 +133,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1048577)
+         if len(payload) > 1048576 or len(sys.argv) != 2:
+--- a/services/decider/dataset_adapter_replay.py
++++ b/services/decider/dataset_adapter_replay.py
+@@ -46,6 +46,7 @@
+ 
+ 
+ def run(request: dict, manifest: Path, artifact: Path) -> dict:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if (set(request) != {'mode', 'examples', 'split_counts', 'max_tokens', 'dataset_manifest_sha256',
+                          'artifact_sha256', 'deployment_manifest_sha256'}
+             or request['mode'] != 'dataset_s1_adapter_replay_v1'):
+@@ -167,6 +168,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1048577)
+         if len(payload) > 1048576 or len(sys.argv) != 3:
+--- a/services/decider/dataset_adapter_runtime_probe.py
++++ b/services/decider/dataset_adapter_runtime_probe.py
+@@ -24,6 +24,7 @@
+ 
+ 
+ def run(request, manifest: Path, artifact: Path):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if (not isinstance(request, dict)
+             or set(request) != {'mode', 'artifact_sha256', 'dataset_manifest_sha256',
+                                 'input_sha256', 'deployment_manifest_sha256',
+@@ -136,6 +137,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1048577)
+         if len(payload) > 1048576 or len(sys.argv) != 3:
+--- a/services/decider/dataset_gradient_probe.py
++++ b/services/decider/dataset_gradient_probe.py
+@@ -50,6 +50,7 @@
+ 
+ 
+ def run(request, manifest: Path, output: Path | None = None):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     candidate = output is not None
+     expected_keys = {'mode', 'examples', 'split_counts', 'max_tokens'}
+     if candidate:
+@@ -188,6 +189,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1048577)
+         if len(payload) > 1048576 or len(sys.argv) not in (2, 3):
+--- a/services/decider/dataset_loss_probe.py
++++ b/services/decider/dataset_loss_probe.py
+@@ -17,6 +17,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1048577)
+         if len(payload) > 1048576:
+--- a/services/decider/loss_probe.py
++++ b/services/decider/loss_probe.py
+@@ -17,6 +17,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(65537)
+         if len(payload) > 65536:
+--- a/services/decider/owned_adapter_worker.py
++++ b/services/decider/owned_adapter_worker.py
+@@ -159,6 +159,7 @@
+         self.calls = 0
+ 
+     def infer(self, request):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         before_manifest, before_artifact = _source_bytes(
+             self.manifest, self.artifact, self.binding, self.pins)
+         previous_calls = self.calls
+@@ -188,6 +189,7 @@
+ 
+ 
+ def create_inference(manifest, artifact, binding):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     manifest_bytes = read_manifest(manifest)
+     manifest_sha = hashlib.sha256(manifest_bytes).hexdigest()
+     pins, _expected = private_manifest_pins(manifest_bytes)
+@@ -233,6 +235,7 @@
+ 
+ 
+ def serve(inference, descriptor):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     buffer = b''
+     request_ids = set()
+     try:
+@@ -251,6 +254,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         if len(sys.argv) != 5 or sys.argv[4] != '--serve' or len(sys.argv[3]) > 4096:
+             raise ValueError('owned_adapter_usage_invalid')
+--- a/services/decider/owned_episode_adapter_replay.py
++++ b/services/decider/owned_episode_adapter_replay.py
+@@ -23,6 +23,7 @@
+ 
+ 
+ def run(request, manifest: Path, artifact: Path) -> dict:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     validate_request(request, replay=True)
+     manifest_bytes = read_manifest(manifest)
+     pins, _expected = private_manifest_pins(manifest_bytes)
+@@ -129,6 +130,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1_048_577)
+         if len(payload) > 1_048_576 or len(sys.argv) != 3:
+--- a/services/decider/owned_episode_adapter_train.py
++++ b/services/decider/owned_episode_adapter_train.py
+@@ -27,6 +27,7 @@
+ 
+ 
+ def run(request, manifest: Path, output: Path):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     validate_request(request, replay=False)
+     manifest_bytes = read_manifest(manifest)
+     pins, _expected = private_manifest_pins(manifest_bytes)
+@@ -175,6 +176,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1_048_577)
+         if len(payload) > 1_048_576 or len(sys.argv) != 3:
+--- a/services/decider/row_candidate.py
++++ b/services/decider/row_candidate.py
+@@ -47,6 +47,7 @@
+ 
+ 
+ def run(request, manifest: Path, output: Path):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if (set(request) != {'mode', 'examples', 'source_sha256', 'input_sha256',
+                          'train_sample_ref', 'heldout_sample_ref', 'runner_sha256',
+                          'token_budget', 'step_size'}
+@@ -178,6 +179,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1048577)
+         if len(payload) > 1048576 or len(sys.argv) != 3:
+--- a/services/decider/row_replay.py
++++ b/services/decider/row_replay.py
+@@ -60,6 +60,7 @@
+ 
+ 
+ def run(request: dict, manifest: Path, artifact: Path) -> dict:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     expected = {'mode', 'source_sha256', 'input_sha256', 'deployment_manifest_sha256',
+                 'artifact_sha256', 'runner_sha256', 'heldout_sample_ref', 'heldout', 'token_ids'}
+     if (not isinstance(request, dict) or set(request) != expected
+@@ -171,6 +172,7 @@
+ 
+ 
+ def main() -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         payload = sys.stdin.buffer.read(1048577)
+         if len(payload) > 1048576 or len(sys.argv) != 3:
+--- a/services/decider/worker.py
++++ b/services/decider/worker.py
+@@ -59,7 +59,7 @@
+     return labels
+ 
+ 
+-class ModelSession:
++class BrokerModelSession:
+     def __init__(self, model_root, pins):
+         self.model_root = model_root
+         self.pins = pins
+@@ -202,6 +202,11 @@
+         return {"deployment_digest": self.deployment_digest, "prediction": prediction, "metrics": metrics}
+ 
+ 
++class ModelSession(BrokerModelSession):
++    def __init__(self, *arguments, **keywords):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
++
++
+ class RequestLines:
+     def __init__(self, descriptor, idle_seconds=75):
+         if type(idle_seconds) not in (int, float) or not 0 < idle_seconds <= 630:
+@@ -238,6 +243,7 @@
+ 
+ 
+ def serve(session, descriptor, idle_seconds=75):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     lines = RequestLines(descriptor, idle_seconds=idle_seconds)
+     request_ids = set()
+     for request_number in range(256):
+@@ -273,6 +279,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if len(sys.argv) not in {2, 3, 4} or len(sys.argv) >= 3 and sys.argv[-1] != "--serve":
+         raise ValueError("Usage: worker.py MANIFEST [--idle-seconds=1..630] --serve")
+     idle_seconds = 75
+--- a/services/laya/worker.py
++++ b/services/laya/worker.py
+@@ -93,6 +93,7 @@
+ 
+ 
+ def infer(agent, request, reused):
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     import torch
+ 
+     options = validate_request(request)
+@@ -129,6 +130,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if len(sys.argv) != 2:
+         raise ValueError('laya_candidate_manifest_required')
+     pins, model = verify_manifest(sys.argv[1])
+--- a/src/aos/cli.py
++++ b/src/aos/cli.py
+@@ -32,6 +32,8 @@
+     parser.add_argument("--runtime", choices=["workspace", "desktop"], default="workspace")
+     parser.add_argument("--desktop-manifest", type=Path, default=REPO_ROOT / "models/desktop-manifest.json")
+     arguments = parser.parse_args()
++    if arguments.command != 'export':
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     logging.basicConfig(level=logging.INFO, format="%(message)s")
+     if arguments.command != "export" and arguments.engine == "decider" and arguments.manifest is None:
+         parser.error("Gerçek Decider için --manifest gerekli; test motoru için açıkça --engine fixture kullanın.")
+--- a/src/aos/dataset_adapter_candidate.py
++++ b/src/aos/dataset_adapter_candidate.py
+@@ -225,6 +225,7 @@
+ def create_candidate(dataset: Path, manifest: Path, model_python: Path, *,
+                      include_synthetic: bool = False, write_candidate: bool = False,
+                      output_root: Path = OUTPUT_ROOT, max_tokens: int = 1536) -> DatasetAdapterCandidateReport:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if not include_synthetic or not write_candidate:
+         raise ValueError('explicit_synthetic_candidate_opt_in_required')
+     if type(max_tokens) is not int or not 64 <= max_tokens <= 1536:
+@@ -335,6 +336,7 @@
+ 
+ 
+ def main() -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description='Synthetic private S1 adapter candidate with independent replay', allow_abbrev=False)
+     parser.add_argument('--dataset', type=Path, required=True)
+     parser.add_argument('--manifest', type=Path, required=True)
+--- a/src/aos/dataset_adapter_runtime_probe.py
++++ b/src/aos/dataset_adapter_runtime_probe.py
+@@ -92,6 +92,7 @@
+ 
+ def probe_runtime(dataset: Path, manifest: Path, report_path: Path, model_python: Path, *,
+                   include_synthetic: bool = False, runtime_smoke: bool = False) -> AdapterRuntimeProbeReport:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if not include_synthetic or not runtime_smoke:
+         raise ValueError('adapter_runtime_explicit_opt_in_required')
+     candidate = verify_published_candidate(dataset, manifest, report_path)
+@@ -152,6 +153,7 @@
+ 
+ 
+ def main() -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description='Isolated synthetic S1 adapter runtime smoke', allow_abbrev=False)
+     parser.add_argument('--dataset', type=Path, required=True)
+     parser.add_argument('--manifest', type=Path, required=True)
+--- a/src/aos/dataset_bound_loss.py
++++ b/src/aos/dataset_bound_loss.py
+@@ -95,6 +95,7 @@
+ def dataset_loss_preflight(dataset: Path, manifest: Path, python: Path, source: Path, *,
+                            include_synthetic: bool = False, forward_only: bool = False,
+                            max_tokens: int = 1536) -> DatasetLossReport:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if not include_synthetic or not forward_only:
+         raise ValueError('explicit_synthetic_forward_opt_in_required')
+     if type(max_tokens) is not int or not 64 <= max_tokens <= 1536:
+@@ -134,6 +135,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description='Dataset bağlı gerçek S1 forward/loss; gradient, optimizer veya eğitim yok')
+     parser.add_argument('--dataset', type=Path, required=True)
+     parser.add_argument('--manifest', type=Path, required=True)
+--- a/src/aos/dataset_gradient_probe.py
++++ b/src/aos/dataset_gradient_probe.py
+@@ -84,6 +84,7 @@
+ def gradient_probe(dataset: Path, manifest: Path, model_python: Path, *,
+                    include_synthetic: bool = False, gradient_smoke: bool = False,
+                    max_tokens: int = 1536) -> DatasetGradientReport:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if not include_synthetic or not gradient_smoke:
+         raise ValueError('explicit_synthetic_gradient_opt_in_required')
+     if type(max_tokens) is not int or not 64 <= max_tokens <= 1536:
+@@ -116,6 +117,7 @@
+ 
+ 
+ def main() -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description='Synthetic dataset-bound S1 model gradient compatibility; no checkpoint or promotion', allow_abbrev=False)
+     parser.add_argument('--dataset', type=Path, required=True)
+     parser.add_argument('--manifest', type=Path, required=True)
+--- a/src/aos/dataset_loss.py
++++ b/src/aos/dataset_loss.py
+@@ -18,6 +18,7 @@
+ 
+ 
+ def loss_preflight(manifest: Path, python: Path, source: Path, *, include_synthetic: bool = False, forward_only: bool = False) -> dict:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if not include_synthetic or not forward_only:
+         raise ValueError("explicit_synthetic_forward_opt_in_required")
+     result = subprocess.run([str(python.absolute()), str(REPO_ROOT / "services/decider/loss_probe.py"),
+@@ -33,6 +34,7 @@
+ 
+ 
+ def main():
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description="Sentetik gerçek Decider forward/loss; gradient/optimizer/eğitim yok")
+     parser.add_argument("--include-synthetic", action="store_true")
+     parser.add_argument("--forward-only", action="store_true")
+--- a/src/aos/decider_calibration_smoke.py
++++ b/src/aos/decider_calibration_smoke.py
+@@ -101,6 +101,7 @@
+ 
+ def calibration_smoke(manifest: Path, model_python: Path, *,
+                       include_synthetic: bool = False, optimizer_smoke: bool = False) -> CalibrationReport:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if not include_synthetic or not optimizer_smoke:
+         raise ValueError('explicit_calibration_opt_in_required')
+     binding, examples = synthetic_input()
+@@ -135,6 +136,7 @@
+ 
+ 
+ def main(argv: list[str] | None = None) -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description='Synthetic frozen-Decider transient calibration diagnostic', allow_abbrev=False)
+     parser.add_argument('--manifest', type=Path, required=True)
+     parser.add_argument('--model-python', type=Path, required=True)
+--- a/src/aos/decider_row_candidate.py
++++ b/src/aos/decider_row_candidate.py
+@@ -113,6 +113,7 @@
+ def row_candidate_smoke(manifest: Path, model_python: Path, *,
+                         include_synthetic: bool = False, train_candidate: bool = False,
+                         output_root: Path = OUTPUT_ROOT) -> RowCandidateReport:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if not include_synthetic or not train_candidate:
+         raise ValueError('explicit_row_candidate_opt_in_required')
+     binding, examples = synthetic_input()
+@@ -177,6 +178,7 @@
+ 
+ 
+ def main(argv: list[str] | None = None) -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description='Synthetic private Decider option-row candidate diagnostic', allow_abbrev=False)
+     parser.add_argument('--manifest', type=Path, required=True)
+     parser.add_argument('--model-python', type=Path, required=True)
+--- a/src/aos/decider_row_replay.py
++++ b/src/aos/decider_row_replay.py
+@@ -58,6 +58,7 @@
+ 
+ def replay_row_candidate(manifest: Path, model_python: Path, artifact: Path, *,
+                          include_synthetic: bool = False) -> RowReplayReport:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if not include_synthetic:
+         raise ValueError('explicit_synthetic_row_replay_required')
+     artifact = artifact.absolute()
+@@ -112,6 +113,7 @@
+ 
+ 
+ def main(argv: list[str] | None = None) -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     parser = argparse.ArgumentParser(description='Read-only synthetic Decider row candidate replay',
+                                      allow_abbrev=False)
+     parser.add_argument('--manifest', type=Path, required=True)
+--- a/src/aos/decision.py
++++ b/src/aos/decision.py
+@@ -47,6 +47,7 @@
+         self.before_decision_dispatch = None
+ 
+     async def decide(self, state: State, options: list[Option]) -> Prediction:
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         self.last_request = None
+         self.last_response = None
+         request = decision_request(state, options)
+--- a/src/aos/knowledge_answer_model.py
++++ b/src/aos/knowledge_answer_model.py
+@@ -152,6 +152,7 @@
+         }
+ 
+     async def plan(self, question: str, evidence: list[dict]) -> KnowledgeAnswerSelection:
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         admitted = _host_answer_inputs(question, evidence)
+         return await super().plan(question, admitted)
+ 
+--- a/src/aos/laya_candidate.py
++++ b/src/aos/laya_candidate.py
+@@ -12,6 +12,7 @@
+                          "kind": "laya_candidate", "real_model": True, "pins": self.pins}
+ 
+     async def start(self):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         spawning = asyncio.create_task(asyncio.create_subprocess_exec(
+             str(self.python), str(REPO_ROOT / "services/laya/worker.py"), str(self.manifest),
+             stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL,
+--- a/src/aos/local_app.py
++++ b/src/aos/local_app.py
+@@ -1308,6 +1308,7 @@
+           remote_form_public_state_plan_sha256: str | None = None,
+           remote_form_cookie_file: Path | None = None,
+           remote_form_cookie_sha256: str | None = None) -> dict:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if current_instance().project is not None:
+         read_state()
+     reuse_pins = (owned_skill_release_sha256, owned_skill_selection_sha256,
+@@ -1664,6 +1665,7 @@
+                             remote_form_fields_sha256: str | None = None,
+                             remote_form_state_plan_sha256: str | None = None,
+                             remote_form_cookie_sha256: str | None = None) -> list[str]:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     reuse_source_directory = None
+     project = prepare_owned_parameter_project(
+         owned_parameter_project_directory, owned_parameter_project_manifest_sha256)
+@@ -1875,6 +1877,7 @@
+               remote_form_fields_sha256: str | None = None,
+               remote_form_state_plan_sha256: str | None = None,
+               remote_form_cookie_sha256: str | None = None) -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if current_instance().project is not None:
+         read_state()
+         with socket.socket(fileno=os.dup(listen_fd)) as listener:
+@@ -2414,6 +2417,7 @@
+ 
+ 
+ def require_idle_restart(state: LocalAppState) -> None:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     try:
+         _assert_named_state(state)
+         if state.backend is None or observe_process(state.backend) != 'same_process':
+@@ -2452,6 +2456,7 @@
+ 
+ 
+ def release_restart_quiesce(*, expected_session: str | None = None) -> dict:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     state = read_state()
+     _check_expected_session(state, expected_session)
+     if state is not None and state.version == '2':
+@@ -2492,6 +2497,7 @@
+ 
+ 
+ def restart(*, expected_session: str | None = None) -> dict:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     state = read_state()
+     _check_expected_session(state, expected_session)
+     if state is None:
+--- a/src/aos/native_decider_entry.py
++++ b/src/aos/native_decider_entry.py
+@@ -186,6 +186,7 @@
+ 
+ 
+ def exec_native_decider_entry(expected_sha256: str, arguments: list[str]) -> NoReturn:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     if sys.executable != str(AOS_PYTHON_PATH) or os.execve not in os.supports_fd:
+         raise ValueError('Staged entry requires fixed AOS Python and Linux descriptor exec support')
+     config = load_native_decider_entry(expected_sha256)
+--- a/src/aos/owned_adapter_engine.py
++++ b/src/aos/owned_adapter_engine.py
+@@ -76,6 +76,7 @@
+             raise ValueError('owned_adapter_source_validator_must_be_sync')
+ 
+     async def start(self):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if self.worker_started:
+             raise AOSFault(ErrorCode.MODEL_FAILURE, 'Owned adapter worker cannot restart within a task')
+         self.worker_started = True
+@@ -95,6 +96,7 @@
+             raise
+ 
+     async def decide(self, state, options):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if self.decision_count >= 6:
+             raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Owned adapter decision budget exhausted')
+         self.decision_count += 1
+--- a/src/aos/owned_adapter_evaluation.py
++++ b/src/aos/owned_adapter_evaluation.py
+@@ -21,6 +21,7 @@
+         self.validate_source = validate_source
+ 
+     async def decide(self, state, options):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         self.validate_source()
+         response = await super().decide(state, options)
+         self.validate_source()
+@@ -106,6 +107,7 @@
+ 
+     def start(self, episode_id, pair_sha256, arm, lease_id, generation,
+               confirm_sha256, experimental_runtime_authorized):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if arm not in ARMS or experimental_runtime_authorized is not True or confirm_sha256 != pair_sha256:
+             raise ValueError('owned_adapter_pair_explicit_arm_required')
+         record = self.load(episode_id, pair_sha256)
+@@ -176,6 +178,7 @@
+             self._audit_scope = previous
+ 
+     def base_engine(self, job_id):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         self.validate_job(job_id)
+         active = self.jobs[job_id]
+         if active['receipt']['arm'] != 'base':
+--- a/src/aos/owned_adapter_runtime.py
++++ b/src/aos/owned_adapter_runtime.py
+@@ -70,6 +70,7 @@
+ 
+     def start(self, episode_id, authorization_sha256, case_key, development_value,
+               lease_id, generation, confirm_sha256, experimental_runtime_authorized):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if experimental_runtime_authorized is not True:
+             raise ValueError('owned_adapter_runtime_separate_consent_required')
+         preview = self.preview(episode_id, authorization_sha256, case_key, development_value,
+@@ -128,6 +129,7 @@
+             raise ValueError('owned_adapter_runtime_source_changed')
+ 
+     def engine_for_job(self, job_id):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if self.active is None or self.active['job_id'] != job_id:
+             raise ValueError('owned_adapter_runtime_job_missing')
+         admission = self.active['admission']
+--- a/src/aos/owned_episode_adaptation.py
++++ b/src/aos/owned_episode_adaptation.py
+@@ -126,6 +126,7 @@
+ 
+     def start(self, episode_id, conversion_sha256, confirm_sha256, lease_id, generation,
+               rights_redaction_reviewed, experimental_training_authorized):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if rights_redaction_reviewed is not True or experimental_training_authorized is not True:
+             raise ValueError('episode_adaptation_separate_authorization_required')
+         preview = self.preview(episode_id, conversion_sha256, lease_id, generation)
+@@ -155,6 +156,7 @@
+         return examples, engine, pins
+ 
+     async def worker(self, script, engine, artifact, request):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         process = None
+         raw = canonical(request).encode()
+         if len(raw) > 1048576:
+@@ -223,6 +225,7 @@
+                 raise ValueError('episode_adaptation_authorization_changed')
+ 
+     async def _run(self, current, authorization):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         try:
+             from .reusable_decider import ReusableDeciderEngine
+ 
+--- a/src/aos/owned_skill_planner.py
++++ b/src/aos/owned_skill_planner.py
+@@ -197,6 +197,7 @@
+         }
+ 
+     async def plan(self, problem: str, evidence: list[dict], *, request_context=None) -> OwnedSkillPlan:
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         _host_plan_inputs(problem, evidence)
+         if request_context is None:
+             plan = await super().plan(problem, evidence)
+--- a/src/aos/reusable_decider.py
++++ b/src/aos/reusable_decider.py
+@@ -72,6 +72,7 @@
+             await self.close()
+ 
+     def begin_job(self):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if not self.cpu_prewarm:
+             return
+         if self.job_active:
+@@ -91,6 +92,7 @@
+         self.preparation = asyncio.create_task(self.prepare_job(previous, idle, self.closing))
+ 
+     async def prepare_gpu_job(self, idle, closing):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if closing is not None:
+             await asyncio.shield(closing)
+         if idle is not None:
+@@ -107,6 +109,7 @@
+         self.preparation_metrics = {**self.preparation_metrics, **response}
+ 
+     async def park_gpu(self):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if (not self.gpu_idle_seconds or not self.job_active or self.gpu_idle
+                 or self.process is None or self.process.returncode is not None
+                 or self.preparation is not None and not self.preparation.done()):
+@@ -126,6 +129,7 @@
+         self.idle = asyncio.create_task(self.expire_idle(None, self.gpu_idle_seconds))
+ 
+     async def prepare_job(self, previous, idle, closing):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if closing is not None:
+             await asyncio.shield(closing)
+         if idle is not None:
+@@ -146,11 +150,13 @@
+         self.preparation_metrics = {**self.preparation_metrics, **response}
+ 
+     def prepare_in_background(self):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if self.preparation is not None or self.process is not None:
+             raise AOSFault(ErrorCode.UNSAFE_ACTION, 'CPU preparation requires a fresh worker')
+         self.preparation = asyncio.create_task(self.prepare_cpu())
+ 
+     async def prepare_cpu(self, *, idle=False):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         response = await self.request({'operation': 'prepare_idle_cpu' if idle else 'prepare_cpu'})
+         if (response.get('deployment_digest') != digest(self.pins) or response.get('prepared_cpu') is not True
+                 or response.get('cuda_initialized') is not False
+@@ -160,6 +166,7 @@
+         self.preparation_metrics = response
+ 
+     async def start(self):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if self.cleanup_pending or self.process is not None:
+             raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Previous worker requires verified cleanup before startup')
+         idle_argument = ([f'--idle-seconds={math.ceil(max(75, self.idle_seconds + 30, self.gpu_idle_seconds + 30))}']
+@@ -235,6 +242,7 @@
+         self.cleanup_task = None
+ 
+     async def decide(self, state, options):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         self.last_request = None
+         self.last_response = None
+         try:
+@@ -252,6 +260,7 @@
+             raise
+ 
+     async def request(self, body):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         if self.cleanup_pending:
+             raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Worker cleanup is unproven; new requests are blocked')
+         if self.lock.locked():
+--- a/src/aos/supervisor.py
++++ b/src/aos/supervisor.py
+@@ -75,6 +75,7 @@
+ 
+ 
+ def request_json(port: int, token: str, route: str, body: dict | None = None, timeout: float = 5) -> dict:
++    raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+     connection = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
+     try:
+         connection.request("POST" if body is not None else "GET", route,
+@@ -166,6 +167,7 @@
+         await asyncio.to_thread(self.verify_pins)
+ 
+     async def plan(self, problem: str, evidence: list[dict], *, request_context=None) -> RecoveryPlan:
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         started = time.perf_counter()
+         self.last_metrics = {}
+         self.last_request = None
+--- a/src/aos/vision.py
++++ b/src/aos/vision.py
+@@ -168,6 +168,7 @@
+         self.identity = {**self.identity, "deployment_id": "bonsai-" + digest(self.pins), "pins": self.pins}
+ 
+     async def describe(self, capture: Capture, state_version: int) -> VisionScene:
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         capture.image_bytes()
+         return await self.plan("Describe the visible controls in this synthetic screenshot.",
+                                [{"capture": capture.model_dump(), "state_version": state_version}])
+--- a/src/aos/web_goal_planner.py
++++ b/src/aos/web_goal_planner.py
+@@ -198,6 +198,7 @@
+     async def plan(self, problem, evidence, *, inference_consent=False,
+                    current_catalog: Callable[[], WebGoalCatalog] | None = None,
+                    request_context=None, current_knowledge=None):
++        raise RuntimeError('Shared-only runtime profile: native/unbrokered entry disabled')
+         self.request_body(problem, evidence, request_context=request_context)
+         if inference_consent is not True or not callable(current_catalog) or self._planning:
+             raise AOSFault(ErrorCode.UNSAFE_ACTION, 'Explicit consent and idle current catalog required')

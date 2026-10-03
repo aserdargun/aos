@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "SharedDrainRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "request_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "session_id": {
+          "pattern": "^desktop-session-[a-f0-9]{32}$",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "owner": {
+          "const": "AGENT",
+          "title": "Owner",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "request_id",
+        "session_id",
+        "runtime_id",
+        "owner",
+        "lease_id",
+        "generation"
+      ],
+      "title": "SharedDrainRequest",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "request": {
+      "$ref": "#/$defs/SharedDrainRequest"
+    },
+    "admission_closed": {
+      "title": "Admission Closed",
+      "type": "boolean"
+    },
+    "local_controls_drained": {
+      "title": "Local Controls Drained",
+      "type": "boolean"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 128,
+      "title": "Blockers",
+      "type": "array"
+    },
+    "cleanup_controls_closed": {
+      "default": false,
+      "title": "Cleanup Controls Closed",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "remote_jobs_stopped_verified": {
+      "const": false,
+      "default": false,
+      "title": "Remote Jobs Stopped Verified",
+      "type": "boolean"
+    },
+    "native_gpu_excluded": {
+      "const": false,
+      "default": false,
+      "title": "Native Gpu Excluded",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "request",
+    "admission_closed",
+    "local_controls_drained",
+    "blockers"
+  ],
+  "title": "SharedDrainObservation",
+  "type": "object"
+}

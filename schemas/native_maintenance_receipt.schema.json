@@ -1,0 +1,637 @@
+{
+  "$defs": {
+    "NativeAbsenceObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "1",
+          "default": "1",
+          "title": "Version",
+          "type": "string"
+        },
+        "recorded_at": {
+          "title": "Recorded At",
+          "type": "string"
+        },
+        "boot_id": {
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "retired_processes": {
+          "items": {
+            "$ref": "#/$defs/ProcessIdentity"
+          },
+          "maxItems": 64,
+          "minItems": 2,
+          "title": "Retired Processes",
+          "type": "array"
+        },
+        "scan_sha256": {
+          "items": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Scan Sha256",
+          "type": "array"
+        },
+        "native_processes_absent": {
+          "const": true,
+          "default": true,
+          "title": "Native Processes Absent",
+          "type": "boolean"
+        },
+        "scope": {
+          "const": "repository-managed-entrypoints",
+          "default": "repository-managed-entrypoints",
+          "title": "Scope",
+          "type": "string"
+        },
+        "arbitrary_owner_code_excluded": {
+          "const": true,
+          "default": true,
+          "title": "Arbitrary Owner Code Excluded",
+          "type": "boolean"
+        },
+        "active_model_interpreter_coexistence_supported": {
+          "const": false,
+          "default": false,
+          "title": "Active Model Interpreter Coexistence Supported",
+          "type": "boolean"
+        },
+        "gpu_release_verified": {
+          "const": false,
+          "default": false,
+          "title": "Gpu Release Verified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "recorded_at",
+        "boot_id",
+        "retired_processes",
+        "scan_sha256"
+      ],
+      "title": "NativeAbsenceObservation",
+      "type": "object"
+    },
+    "NativeControlSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "pattern": "^desktop-session-[a-f0-9]{32}$",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN",
+            "PAUSED"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "running",
+            "paused",
+            "stopped"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "status"
+      ],
+      "title": "NativeControlSnapshot",
+      "type": "object"
+    },
+    "NativeInhibitFileIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "NativeInhibitFileIdentity",
+      "type": "object"
+    },
+    "NativeMaintenanceRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "1",
+          "default": "1",
+          "title": "Version",
+          "type": "string"
+        },
+        "request_id": {
+          "pattern": "^native-maintenance-[a-f0-9]{32}$",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "store": {
+          "$ref": "#/$defs/NativeMaintenanceStore"
+        },
+        "principal": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:-]{0,127}$",
+          "title": "Principal",
+          "type": "string"
+        },
+        "owner_uid": {
+          "minimum": 1,
+          "title": "Owner Uid",
+          "type": "integer"
+        },
+        "expected_session": {
+          "pattern": "^app-[a-f0-9]{32}$",
+          "title": "Expected Session",
+          "type": "string"
+        },
+        "handover_path": {
+          "title": "Handover Path",
+          "type": "string"
+        },
+        "handover_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Handover Sha256",
+          "type": "string"
+        },
+        "original_state_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Original State Sha256",
+          "type": "string"
+        },
+        "shared_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Shared Plan Sha256",
+          "type": "string"
+        },
+        "candidate_manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Manifest Sha256",
+          "type": "string"
+        },
+        "candidate_patch_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Patch Sha256",
+          "type": "string"
+        },
+        "source_files": {
+          "additionalProperties": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "maxProperties": 512,
+          "minProperties": 1,
+          "title": "Source Files",
+          "type": "object"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "config_files": {
+          "additionalProperties": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "maxProperties": 512,
+          "minProperties": 1,
+          "title": "Config Files",
+          "type": "object"
+        },
+        "config_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Config Sha256",
+          "type": "string"
+        },
+        "native_python_real_paths": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Native Python Real Paths",
+          "type": "array"
+        },
+        "native_server_paths": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "minItems": 1,
+          "title": "Native Server Paths",
+          "type": "array"
+        },
+        "gpu_uuid": {
+          "pattern": "^GPU-[a-fA-F0-9]{8}(-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$",
+          "title": "Gpu Uuid",
+          "type": "string"
+        },
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "clock": {
+          "const": "CLOCK_BOOTTIME",
+          "default": "CLOCK_BOOTTIME",
+          "title": "Clock",
+          "type": "string"
+        },
+        "issued_boottime": {
+          "minimum": 0,
+          "title": "Issued Boottime",
+          "type": "number"
+        },
+        "expires_boottime": {
+          "minimum": 0,
+          "title": "Expires Boottime",
+          "type": "number"
+        }
+      },
+      "required": [
+        "request_id",
+        "store",
+        "principal",
+        "owner_uid",
+        "expected_session",
+        "handover_path",
+        "handover_sha256",
+        "original_state_sha256",
+        "shared_plan_sha256",
+        "candidate_manifest_sha256",
+        "candidate_patch_sha256",
+        "source_files",
+        "source_sha256",
+        "config_files",
+        "config_sha256",
+        "native_python_real_paths",
+        "native_server_paths",
+        "gpu_uuid",
+        "boot_id",
+        "issued_boottime",
+        "expires_boottime"
+      ],
+      "title": "NativeMaintenanceRequest",
+      "type": "object"
+    },
+    "NativeMaintenanceStore": {
+      "additionalProperties": false,
+      "properties": {
+        "record": {
+          "$ref": "#/$defs/NativeMaintenanceStoreRecord"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record",
+        "content_sha256"
+      ],
+      "title": "NativeMaintenanceStore",
+      "type": "object"
+    },
+    "NativeMaintenanceStoreRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "1",
+          "default": "1",
+          "title": "Version",
+          "type": "string"
+        },
+        "directory": {
+          "title": "Directory",
+          "type": "string"
+        },
+        "directory_identity": {
+          "$ref": "#/$defs/WorkspaceIdentity"
+        },
+        "lock_identity": {
+          "$ref": "#/$defs/NativeInhibitFileIdentity"
+        },
+        "metadata_identity": {
+          "$ref": "#/$defs/NativeInhibitFileIdentity"
+        }
+      },
+      "required": [
+        "directory",
+        "directory_identity",
+        "lock_identity",
+        "metadata_identity"
+      ],
+      "title": "NativeMaintenanceStoreRecord",
+      "type": "object"
+    },
+    "ProcessIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "minimum": 1,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "pid_namespace": {
+          "minimum": 1,
+          "title": "Pid Namespace",
+          "type": "integer"
+        },
+        "uid": {
+          "minimum": 1,
+          "title": "Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "boot_id",
+        "pid",
+        "start_ticks",
+        "pid_namespace",
+        "uid"
+      ],
+      "title": "ProcessIdentity",
+      "type": "object"
+    },
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "store": {
+      "$ref": "#/$defs/NativeMaintenanceStore"
+    },
+    "request": {
+      "$ref": "#/$defs/NativeMaintenanceRequest"
+    },
+    "request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Request Sha256",
+      "type": "string"
+    },
+    "handover_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Handover Sha256",
+      "type": "string"
+    },
+    "shared_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Shared Plan Sha256",
+      "type": "string"
+    },
+    "original_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Original State Sha256",
+      "type": "string"
+    },
+    "stopped_state_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Stopped State Sha256",
+      "type": "string"
+    },
+    "controller": {
+      "$ref": "#/$defs/NativeControlSnapshot"
+    },
+    "supervisor": {
+      "$ref": "#/$defs/ProcessIdentity"
+    },
+    "backend": {
+      "$ref": "#/$defs/ProcessIdentity"
+    },
+    "observed_workers": {
+      "items": {
+        "$ref": "#/$defs/ProcessIdentity"
+      },
+      "maxItems": 62,
+      "title": "Observed Workers",
+      "type": "array"
+    },
+    "retired_processes": {
+      "items": {
+        "$ref": "#/$defs/ProcessIdentity"
+      },
+      "maxItems": 64,
+      "minItems": 2,
+      "title": "Retired Processes",
+      "type": "array"
+    },
+    "source_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 512,
+      "minProperties": 1,
+      "title": "Source Files",
+      "type": "object"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "config_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 512,
+      "minProperties": 1,
+      "title": "Config Files",
+      "type": "object"
+    },
+    "config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Config Sha256",
+      "type": "string"
+    },
+    "cleanup": {
+      "$ref": "#/$defs/NativeAbsenceObservation"
+    },
+    "lifecycle_sha256": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 1000,
+      "minProperties": 1,
+      "title": "Lifecycle Sha256",
+      "type": "object"
+    },
+    "boot_id": {
+      "title": "Boot Id",
+      "type": "string"
+    },
+    "issued_boottime": {
+      "minimum": 0,
+      "title": "Issued Boottime",
+      "type": "number"
+    },
+    "expires_boottime": {
+      "minimum": 0,
+      "title": "Expires Boottime",
+      "type": "number"
+    },
+    "recorded_at": {
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "shared_only_promoted": {
+      "const": true,
+      "default": true,
+      "title": "Shared Only Promoted",
+      "type": "boolean"
+    },
+    "gpu_quiet_observed_during_maintenance": {
+      "const": true,
+      "default": true,
+      "title": "Gpu Quiet Observed During Maintenance",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "shared_launch_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Shared Launch Authorized",
+      "type": "boolean"
+    },
+    "automatic_native_restart_allowed": {
+      "const": false,
+      "default": false,
+      "title": "Automatic Native Restart Allowed",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "store",
+    "request",
+    "request_sha256",
+    "handover_sha256",
+    "shared_plan_sha256",
+    "original_state_sha256",
+    "stopped_state_sha256",
+    "controller",
+    "supervisor",
+    "backend",
+    "observed_workers",
+    "retired_processes",
+    "source_files",
+    "source_sha256",
+    "config_files",
+    "config_sha256",
+    "cleanup",
+    "lifecycle_sha256",
+    "boot_id",
+    "issued_boottime",
+    "expires_boottime",
+    "recorded_at"
+  ],
+  "title": "NativeMaintenanceReceipt",
+  "type": "object"
+}

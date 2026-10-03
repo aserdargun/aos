@@ -1,0 +1,18 @@
+export const translationsParameterWebGoal: Record<string, string> = {
+  'Parametreli web görevi': 'Parameter web task',
+  'Yalnız sunucunun sabitlediği sentetik uygulama ve değerler. Model çıkarımı yok; altı eylem ayrı onay gerektirir.': 'Only host-pinned synthetic application and values. No model inference; six actions require separate approval.',
+  'Parametreleri önizle': 'Preview parameters',
+  'Uygulama / kiracı / rol': 'Application / tenant / role',
+  'Bu tam parametre haritasını ayrı insan onayıyla başlatmayı kabul ediyorum.': 'I explicitly confirm starting this exact parameter map.',
+  'İncelenen görevi başlat': 'Start reviewed task',
+  'İşlem sürüyor; tekrar gönderilmez.': 'Request pending; no repeated submission.',
+  'Başlatma sonucu belirsiz. Tekrar başlatmayın; kayıt raporunu okuyun.': 'Start outcome uncertain. Do not restart; read the journal report.',
+  'Kayıt raporunu oku': 'Read journal report',
+  'Başlatma kaydı henüz bilinmiyor; Tasks durumundan kurtarma bekleniyor.': 'Start intent is not yet known; waiting for recovery from Tasks status.',
+  'Görev başlatıldı; eylemleri Tasks üzerinden ayrı ayrı onaylayın.': 'Task started; approve each action separately in Tasks.',
+  'Bağımsız doğrulama bekleniyor; onay tüketildi, tekrar yok.': 'Independent verification pending; confirmation consumed, no replay.',
+  'Görev sonlanması ve tüm kayıt değerleri bağımsız doğrulandı.': 'Task termination and whole-record values independently verified.',
+  'Bu rapor gerçek model, GPU bırakımı, öğrenme veya genel site kabulü kanıtı değildir.': 'This report does not prove real-model use, GPU release, learning or general site acceptance.',
+  'Kontrol veya kaynak değişti; önizleme ve onay temizlendi.': 'Control or source changed; preview and confirmation cleared.',
+  'Sunucu yanıtı incelenen sözleşmeyle eşleşmiyor.': 'Server response does not match the reviewed contract.',
+};

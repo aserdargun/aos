@@ -1,0 +1,384 @@
+{
+  "$defs": {
+    "NativeControlSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN",
+            "PAUSED"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "session_id": {
+          "pattern": "^desktop-session-[a-f0-9]{32}$",
+          "title": "Session Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "running",
+            "paused",
+            "stopped"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "status"
+      ],
+      "title": "NativeControlSnapshot",
+      "type": "object"
+    },
+    "NativeExclusionLegacy": {
+      "additionalProperties": false,
+      "properties": {
+        "backend": {
+          "$ref": "#/$defs/ProcessIdentity"
+        },
+        "controller": {
+          "$ref": "#/$defs/NativeControlSnapshot"
+        },
+        "manager_session": {
+          "pattern": "^app-[a-f0-9]{32}$",
+          "title": "Manager Session",
+          "type": "string"
+        },
+        "observed_workers": {
+          "items": {
+            "$ref": "#/$defs/ProcessIdentity"
+          },
+          "maxItems": 62,
+          "title": "Observed Workers",
+          "type": "array"
+        },
+        "original_state_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Original State Sha256",
+          "type": "string"
+        },
+        "stopped_state_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Stopped State Sha256",
+          "type": "string"
+        },
+        "supervisor": {
+          "$ref": "#/$defs/ProcessIdentity"
+        }
+      },
+      "required": [
+        "manager_session",
+        "original_state_sha256",
+        "stopped_state_sha256",
+        "controller",
+        "supervisor",
+        "backend",
+        "observed_workers"
+      ],
+      "title": "NativeExclusionLegacy",
+      "type": "object"
+    },
+    "ProcessIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "pid_namespace": {
+          "minimum": 1,
+          "title": "Pid Namespace",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "minimum": 1,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "uid": {
+          "minimum": 1,
+          "title": "Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "boot_id",
+        "pid",
+        "start_ticks",
+        "pid_namespace",
+        "uid"
+      ],
+      "title": "ProcessIdentity",
+      "type": "object"
+    },
+    "SharedServiceBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "control_group": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Control Group",
+          "type": "string"
+        },
+        "invocation_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Invocation Id",
+          "type": "string"
+        },
+        "process": {
+          "$ref": "#/$defs/ProcessIdentity"
+        },
+        "unit": {
+          "const": "swapp-aos-gpu-shared-desktop-default.service",
+          "default": "swapp-aos-gpu-shared-desktop-default.service",
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "invocation_id",
+        "process",
+        "control_group"
+      ],
+      "title": "SharedServiceBinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "absence_observation_sha256": {
+      "items": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "title": "Absence Observation Sha256",
+      "type": "array"
+    },
+    "allocation_authority": {
+      "const": false,
+      "default": false,
+      "title": "Allocation Authority",
+      "type": "boolean"
+    },
+    "boot_id": {
+      "pattern": "^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+      "title": "Boot Id",
+      "type": "string"
+    },
+    "candidate_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Manifest Sha256",
+      "type": "string"
+    },
+    "candidate_patch_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Patch Sha256",
+      "type": "string"
+    },
+    "config_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 512,
+      "minProperties": 1,
+      "title": "Config Files",
+      "type": "object"
+    },
+    "config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Config Sha256",
+      "type": "string"
+    },
+    "effective_deadline_boottime": {
+      "minimum": 0,
+      "title": "Effective Deadline Boottime",
+      "type": "number"
+    },
+    "expires_boottime": {
+      "minimum": 0,
+      "title": "Expires Boottime",
+      "type": "number"
+    },
+    "expiry_reopens_native": {
+      "const": false,
+      "default": false,
+      "title": "Expiry Reopens Native",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "handover_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Handover Sha256",
+      "type": "string"
+    },
+    "issued_boottime": {
+      "minimum": 0,
+      "title": "Issued Boottime",
+      "type": "number"
+    },
+    "legacy": {
+      "$ref": "#/$defs/NativeExclusionLegacy"
+    },
+    "legacy_workers_absent": {
+      "const": true,
+      "default": true,
+      "title": "Legacy Workers Absent",
+      "type": "boolean"
+    },
+    "maintenance_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Maintenance Receipt Sha256",
+      "type": "string"
+    },
+    "maintenance_request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Maintenance Request Sha256",
+      "type": "string"
+    },
+    "native_admission_disabled": {
+      "const": true,
+      "default": true,
+      "title": "Native Admission Disabled",
+      "type": "boolean"
+    },
+    "observed_boottime": {
+      "minimum": 0,
+      "title": "Observed Boottime",
+      "type": "number"
+    },
+    "owner_uid": {
+      "minimum": 1,
+      "title": "Owner Uid",
+      "type": "integer"
+    },
+    "principal": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$",
+      "title": "Principal",
+      "type": "string"
+    },
+    "profile": {
+      "const": "shared-only-runtime-v1",
+      "default": "shared-only-runtime-v1",
+      "title": "Profile",
+      "type": "string"
+    },
+    "recorded_at": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "request_id": {
+      "pattern": "^native-maintenance-[a-f0-9]{32}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "aos.native-exclusion.v1",
+      "default": "aos.native-exclusion.v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scope": {
+      "const": "repository-managed-entrypoints",
+      "default": "repository-managed-entrypoints",
+      "title": "Scope",
+      "type": "string"
+    },
+    "shared_caller": {
+      "$ref": "#/$defs/SharedServiceBinding"
+    },
+    "shared_launch_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Shared Launch Authorized",
+      "type": "boolean"
+    },
+    "shared_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Shared Plan Sha256",
+      "type": "string"
+    },
+    "source_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 512,
+      "minProperties": 1,
+      "title": "Source Files",
+      "type": "object"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "recorded_at",
+    "request_id",
+    "principal",
+    "owner_uid",
+    "boot_id",
+    "issued_boottime",
+    "expires_boottime",
+    "effective_deadline_boottime",
+    "observed_boottime",
+    "maintenance_request_sha256",
+    "maintenance_receipt_sha256",
+    "handover_sha256",
+    "shared_plan_sha256",
+    "candidate_manifest_sha256",
+    "candidate_patch_sha256",
+    "source_files",
+    "source_sha256",
+    "config_files",
+    "config_sha256",
+    "legacy",
+    "shared_caller",
+    "absence_observation_sha256"
+  ],
+  "title": "NativeExclusionEvidence",
+  "type": "object"
+}

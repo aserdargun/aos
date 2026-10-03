@@ -1,0 +1,45 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Sha256",
+      "type": "string"
+    },
+    "confirm_recovery_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Recovery Sha256",
+      "type": "string"
+    },
+    "human_confirmation": {
+      "const": "RESTORE_ANCHORED_REVIEW_RECORD",
+      "title": "Human Confirmation",
+      "type": "string"
+    },
+    "lease_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,128}$",
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema_version",
+    "record_sha256",
+    "confirm_recovery_sha256",
+    "human_confirmation",
+    "lease_id",
+    "generation"
+  ],
+  "title": "OwnedParameterSkillReviewRecoverRequest",
+  "type": "object"
+}

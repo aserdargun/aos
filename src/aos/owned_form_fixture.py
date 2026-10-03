@@ -1,7 +1,11 @@
 """Private, single-use HTTPS fixture capability for synthetic form tasks."""
 
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from html import escape
+from html.parser import HTMLParser
 import hashlib
+import json
+from http.client import HTTPResponse
 import os
 import secrets
 import socket
@@ -10,7 +14,9 @@ import stat
 import tempfile
 import threading
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit
+
+from .contracts import canonical
 
 
 HOST = 'w3-owned-form.aos.invalid'
@@ -22,6 +28,135 @@ RECEIPT_BODY = b'<html><title>Owned receipt</title><h1 id="receipt">Saved synthe
 STATE_BEFORE = b'<html><h1 id="outcome">Empty synthetic state</h1></html>'
 STATE_AFTER = b'<html><h1 id="outcome">alpha</h1></html>'
 _FACTORY_KEY = object()
+WHOLE_RECORD_ID = 'aos-whole-record'
+
+
+def _record_config(config):
+    if type(config) is not dict or set(config) != {'scope', 'fields', 'outcome_field', 'marker_id'}:
+        raise ValueError('owned_record_form_config_invalid')
+    scope = config['scope']
+    if (type(scope) is not dict or set(scope) != {'application_id', 'tenant_id', 'account_role'}
+            or any(type(value) is not str or not 1 <= len(value) <= 64
+                   or not value.isprintable() for value in scope.values())):
+        raise ValueError('owned_record_form_scope_invalid')
+    fields = config['fields']
+    if not isinstance(fields, list) or not 2 <= len(fields) <= 8:
+        raise ValueError('owned_record_form_fields_invalid')
+    normalized = []
+    names = set()
+    for item in fields:
+        if type(item) is not dict or set(item) != {'name', 'label', 'value'}:
+            raise ValueError('owned_record_form_field_invalid')
+        name, label, value = item['name'], item['label'], item['value']
+        if (type(name) is not str or not name.isascii() or not name.replace('_', 'a').isalnum()
+                or not name[0].isalpha() or len(name) > 64 or name in names
+                or type(label) is not str or not 1 <= len(label) <= 80 or not label.isprintable()
+                or type(value) is not str or not value or not value.isprintable()
+                or len(value.encode('utf-8')) > 256):
+            raise ValueError('owned_record_form_field_invalid')
+        names.add(name)
+        normalized.append({'name': name, 'label': label, 'value': value})
+    outcome_field = config['outcome_field']
+    if type(outcome_field) is not str or outcome_field not in names:
+        raise ValueError('owned_record_form_outcome_field_invalid')
+    if config['marker_id'] != 'outcome':
+        raise ValueError('owned_record_form_marker_invalid')
+    return {'scope': dict(scope), 'fields': normalized, 'outcome_field': outcome_field,
+            'marker_id': 'outcome'}
+
+
+def _whole_record_observation(config, actual_record=None):
+    record = actual_record if actual_record is not None else {
+        item['name']: item['value'] for item in config['fields']}
+    return {'schema_version': '1.0', 'scope': config['scope'], 'record': record,
+            'reported_post_count': 1, 'effect_status': 'committed'}
+
+
+def _after_state(config, record=None):
+    values = record if record is not None else {item['name']: item['value'] for item in config['fields']}
+    outcome = values[config['outcome_field']]
+    observation = canonical(_whole_record_observation(config, values))
+    safe_json = observation.replace('&', r'\u0026').replace('<', r'\u003c').replace('>', r'\u003e')
+    return (f'<html><h1 id="{config["marker_id"]}">{escape(outcome)}</h1>'
+            f'<script id="{WHOLE_RECORD_ID}" type="application/json">{safe_json}</script></html>').encode()
+
+
+def owned_record_form_bodies(record_config):
+    config = _record_config(record_config)
+    fields = ''.join(f'<label for="{escape(item["name"], quote=True)}">{escape(item["label"])}</label>'
+                     f'<input id="{escape(item["name"], quote=True)}" name="{escape(item["name"], quote=True)}" required>'
+                     for item in config['fields'])
+    entry = (f'<html><title>Owned synthetic form</title><h1>Owned form</h1>'
+             f'<form method="post" action="/submit">{fields}<button type="submit">Save draft</button></form></html>').encode()
+    before = f'<html><h1 id="{config["marker_id"]}">Empty synthetic state</h1></html>'.encode()
+    after = _after_state(config)
+    form_body = urlencode([(item['name'], item['value']) for item in config['fields']]).encode('ascii')
+    if len(entry) > 8192 or len(after) > 8192 or len(form_body) > 4096:
+        raise ValueError('owned_record_form_size_invalid')
+    return {'entry': entry, 'before': before, 'after': after, 'form_body': form_body}
+
+
+class _WholeRecordParser(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=False)
+        self.matches = 0
+        self.payload = []
+        self.in_record = False
+        self.closed_record = False
+        self.invalid = False
+
+    def handle_starttag(self, tag, attributes):
+        values = dict(attributes)
+        if len(values) != len(attributes) and any(value == WHOLE_RECORD_ID for _, value in attributes):
+            self.invalid = True
+        if values.get('id') == WHOLE_RECORD_ID:
+            self.matches += 1
+            if self.matches != 1 or tag != 'script' or values.get('type') != 'application/json':
+                self.invalid = True
+            self.in_record = tag == 'script' and values.get('type') == 'application/json'
+
+    def handle_endtag(self, tag):
+        if self.in_record and tag == 'script':
+            self.in_record = False
+            self.closed_record = True
+
+    def handle_data(self, data):
+        if self.in_record:
+            self.payload.append(data)
+
+    def handle_entityref(self, _name):
+        if self.in_record:
+            self.invalid = True
+
+
+def extract_owned_whole_record(html_body):
+    if type(html_body) is not bytes or not 1 <= len(html_body) <= 8192:
+        raise ValueError('owned_record_form_readback_invalid')
+    try:
+        parser = _WholeRecordParser()
+        parser.feed(html_body.decode('utf-8', 'strict'))
+        parser.close()
+        if parser.matches != 1 or parser.invalid or parser.in_record or not parser.closed_record:
+            raise ValueError('owned_record_form_readback_invalid')
+        payload = ''.join(parser.payload).encode('utf-8')
+        if not 1 <= len(payload) <= 4096:
+            raise ValueError('owned_record_form_readback_invalid')
+        value = json.loads(payload, object_pairs_hook=_unique_json_pairs)
+        canonical_payload = canonical(value).replace('&', r'\u0026').replace('<', r'\u003c').replace('>', r'\u003e').encode('utf-8')
+        if type(value) is not dict or canonical_payload != payload:
+            raise ValueError('owned_record_form_readback_invalid')
+        return canonical(value).encode('utf-8')
+    except Exception:
+        raise ValueError('owned_record_form_readback_invalid') from None
+
+
+def _unique_json_pairs(pairs):
+    value = {}
+    for key, item in pairs:
+        if key in value:
+            raise ValueError('duplicate_json_key')
+        value[key] = item
+    return value
 
 
 def _url_origin(url: str) -> tuple[str, str, int]:
@@ -133,13 +268,17 @@ class OwnedFormFixtureTarget:
 
 
 class _FixtureState:
-    def __init__(self, expected_body: bytes, request_token: str, state_after: bytes):
+    def __init__(self, expected_body: bytes, request_token: str, state_after: bytes,
+                 record_config=None):
         if not isinstance(expected_body, bytes) or not expected_body:
             raise ValueError('owned_form_fixture_body_required')
         if not isinstance(state_after, bytes) or not 1 <= len(state_after) <= 8192:
             raise ValueError('owned_form_fixture_after_state_required')
         self.expected_body = expected_body
         self.state_after = state_after
+        self.record_config = record_config
+        self.entry_body = ENTRY_BODY if record_config is None else owned_record_form_bodies(record_config)['entry']
+        self.before_body = STATE_BEFORE if record_config is None else owned_record_form_bodies(record_config)['before']
         self.request_token = request_token
         self._lock = threading.Lock()
         self.entry_seen = False
@@ -147,6 +286,8 @@ class _FixtureState:
         self.submitted = False
         self.receipt_seen = False
         self.after_seen = False
+        self.whole_record_seen = False
+        self.committed_record = None
 
     def complete(self) -> bool:
         with self._lock:
@@ -254,16 +395,23 @@ def _handler(state: _FixtureState, origin: str):
                     self._send(421, b'')
                 elif self.path == '/entry' and not state.entry_seen and not state.submitted:
                     state.entry_seen = True
-                    self._send(200, ENTRY_BODY)
+                    self._send(200, state.entry_body)
                 elif self.path == '/state' and state.entry_seen and not state.before_seen and not state.submitted:
                     state.before_seen = True
-                    self._send(200, STATE_BEFORE)
+                    self._send(200, state.before_body)
                 elif self.path == '/receipt' and state.submitted and not state.receipt_seen:
                     state.receipt_seen = True
                     self._send(200, RECEIPT_BODY)
                 elif self.path == '/state' and state.receipt_seen and not state.after_seen:
                     state.after_seen = True
-                    self._send(200, state.state_after)
+                    if state.record_config is None:
+                        self._send(200, state.state_after)
+                    else:
+                        self._send(200, _after_state(state.record_config, state.committed_record))
+                elif (self.path == '/state' and state.after_seen and state.record_config is not None
+                      and state.committed_record is not None and not state.whole_record_seen):
+                    state.whole_record_seen = True
+                    self._send(200, _after_state(state.record_config, state.committed_record))
                 else:
                     self._send(404, b'')
 
@@ -286,13 +434,28 @@ def _handler(state: _FixtureState, origin: str):
                 self._send(400, b'')
                 return
             with state._lock:
+                parsed_record = None
+                if state.record_config is not None:
+                    try:
+                        pairs = parse_qsl(body.decode('ascii', 'strict'), keep_blank_values=True,
+                                          strict_parsing=True, encoding='utf-8', errors='strict',
+                                          max_num_fields=8)
+                        parsed_record = _unique_json_pairs(pairs)
+                    except Exception:
+                        parsed_record = None
+                    expected_names = {item['name'] for item in state.record_config['fields']}
+                    expected_values = {item['name']: item['value'] for item in state.record_config['fields']}
                 if (not self._host_ok() or self.path != '/submit'
                         or not state.before_seen or state.submitted
                         or body != state.expected_body
+                        or state.record_config is not None and (parsed_record is None
+                            or set(parsed_record) != expected_names or parsed_record != expected_values)
                         or self.headers.get('Content-Type') != 'application/x-www-form-urlencoded'):
                     self._send(409, b'')
                     return
                 state.submitted = True
+                if state.record_config is not None:
+                    state.committed_record = dict(parsed_record)
                 self._send(303, b'', location=origin + '/receipt')
 
         def do_HEAD(self):
@@ -312,7 +475,8 @@ class OwnedFormFixture:
                  form_plan_sha256: str, state_plan_sha256: str, entry_url: str,
                  submit_url: str, receipt_url: str, state_url: str,
                  expected_body: bytes, certificate_file: Path, key_file: Path,
-                 certificate_sha256: str, state_after: bytes = STATE_AFTER):
+                 certificate_sha256: str, state_after: bytes | None = None,
+                 record_config=None):
         if type(listener_fd) is not int or listener_fd < 0:
             raise ValueError('owned_form_fixture_listener_required')
         listener = socket.socket(fileno=os.dup(listener_fd))
@@ -338,7 +502,17 @@ class OwnedFormFixture:
             if hashlib.sha256(certificate_pem).hexdigest() != certificate_sha256:
                 raise ValueError('owned_form_fixture_manifest_mismatch')
             request_token = secrets.token_hex(32)
-            state = _FixtureState(expected_body, request_token, state_after)
+            normalized_record = None if record_config is None else _record_config(record_config)
+            if normalized_record is not None:
+                generated = owned_record_form_bodies(normalized_record)
+                if expected_body != generated['form_body']:
+                    raise ValueError('owned_record_form_expected_body_mismatch')
+                if state_after is not None and state_after != generated['after']:
+                    raise ValueError('owned_record_form_after_state_mismatch')
+                state_after = generated['after']
+            elif state_after is None:
+                state_after = STATE_AFTER
+            state = _FixtureState(expected_body, request_token, state_after, normalized_record)
             with tempfile.TemporaryDirectory(prefix='aos-owned-form-tls-') as temp_dir:
                 os.chmod(temp_dir, 0o700)
                 cert_path = Path(temp_dir) / 'fixture.pem'
@@ -367,12 +541,18 @@ class OwnedFormFixture:
                                             name='aos-owned-form-fixture', daemon=True)
             self._closed = False
             self._thread.start()
+            self._readback_lock = threading.Lock()
+            self._readback_used = False
         except BaseException:
             if server is not None:
                 server.server_close()
             if listener is not None:
                 listener.close()
             raise
+
+    @property
+    def record_mode(self) -> bool:
+        return self._state.record_config is not None
 
     def close(self):
         if self._closed:
@@ -391,6 +571,38 @@ class OwnedFormFixture:
     def verify_complete(self):
         if not self._state.complete():
             raise ValueError('owned_form_fixture_execution_incomplete')
+
+    def read_whole_record(self, *, profile_sha256: str, form_plan_sha256: str,
+                          state_plan_sha256: str) -> bytes:
+        self.target.assert_plan(profile_sha256, form_plan_sha256)
+        self.target.assert_state_plan(state_plan_sha256)
+        with self._readback_lock:
+            if self._readback_used or self._state.record_config is None or not self._state.after_seen:
+                raise ValueError('owned_record_form_readback_unavailable')
+            self._readback_used = True
+        url = self.target.state_url
+        token = self.target.request_authorization('GET', url)
+        with self.target.connect(profile_sha256, form_plan_sha256, state_plan_sha256,
+                                 'GET', url, timeout=2) as secure:
+            request = (f'GET {urlsplit(url).path} HTTP/1.1\r\n'
+                       f'Host: {urlsplit(url).netloc}\r\n'
+                       f'X-AOS-Owned-Form: {token}\r\nConnection: close\r\n\r\n')
+            secure.sendall(request.encode('ascii'))
+            response = HTTPResponse(secure)
+            try:
+                response.begin()
+                if response.status != 200:
+                    raise ValueError('owned_record_form_readback_unavailable')
+                payload = response.read(8193)
+                if len(payload) > 8192:
+                    raise ValueError('owned_record_form_readback_invalid')
+            finally:
+                response.close()
+        result = extract_owned_whole_record(payload)
+        if json.loads(result) != _whole_record_observation(
+                self._state.record_config, self._state.committed_record):
+            raise ValueError('owned_record_form_readback_mismatch')
+        return result
 
     def __enter__(self):
         return self

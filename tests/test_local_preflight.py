@@ -149,6 +149,24 @@ class LocalPreflightTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             local_preflight._frontend()
 
+    def test_project_frontend_is_checked_without_refreshing_shared_dist(self):
+        shared = self.frontend()
+        original = shared.read_bytes()
+        self.file('ui/src/main.tsx', 'changed source')
+        os.utime(self.root / 'ui/src/main.tsx', ns=(shared.stat().st_mtime_ns + 1000000,) * 2)
+        project = self.root / 'data/local-app-project-learning-demo/ui'
+        self.file(str((project / 'assets/index.js').relative_to(self.root)), 'synthetic')
+        self.file(str((project / 'assets/index.css').relative_to(self.root)), 'synthetic')
+        index = self.file(str((project / 'index.html').relative_to(self.root)), original.decode())
+        os.utime(index, ns=(shared.stat().st_mtime_ns + 2000000,) * 2)
+        local_preflight._frontend(project)
+        self.assertEqual(shared.read_bytes(), original)
+        with self.assertRaises(ValueError):
+            local_preflight._frontend()
+        (project / 'assets/index.js').unlink()
+        with self.assertRaises(ValueError):
+            local_preflight._frontend(project)
+
     def test_desktop_only_inspects_immutable_image_and_source(self):
         source = self.file('computer/synthetic.txt')
         sources = {source.name: hashlib.sha256(source.read_bytes()).hexdigest()}

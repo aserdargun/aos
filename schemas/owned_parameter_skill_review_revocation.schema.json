@@ -1,0 +1,225 @@
+{
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    },
+    "StoreIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 0,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner": {
+          "minimum": 0,
+          "title": "Owner",
+          "type": "integer"
+        },
+        "mode": {
+          "minimum": 0,
+          "title": "Mode",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner",
+        "mode"
+      ],
+      "title": "StoreIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "released_skill_verified": {
+      "const": false,
+      "default": false,
+      "title": "Released Skill Verified",
+      "type": "boolean"
+    },
+    "native_model_verified": {
+      "const": false,
+      "default": false,
+      "title": "Native Model Verified",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "replay_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Replay Authorized",
+      "type": "boolean"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "development_only": {
+      "const": true,
+      "title": "Development Only",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "account_scope_verified": {
+      "const": false,
+      "default": false,
+      "title": "Account Scope Verified",
+      "type": "boolean"
+    },
+    "held_out_independence_verified": {
+      "const": false,
+      "default": false,
+      "title": "Held Out Independence Verified",
+      "type": "boolean"
+    },
+    "runtime_started": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Started",
+      "type": "boolean"
+    },
+    "model_calls": {
+      "const": 0,
+      "default": 0,
+      "title": "Model Calls",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "owned_parameter_skill_manual_review_revocation",
+      "title": "Kind",
+      "type": "string"
+    },
+    "decision": {
+      "const": "revoke",
+      "title": "Decision",
+      "type": "string"
+    },
+    "review_scope": {
+      "const": "synthetic_manual_recipe_review",
+      "title": "Review Scope",
+      "type": "string"
+    },
+    "reviewer": {
+      "const": "local_authenticated_user",
+      "title": "Reviewer",
+      "type": "string"
+    },
+    "reviewed": {
+      "const": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "review_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Review Sha256",
+      "type": "string"
+    },
+    "candidate_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Candidate Sha256",
+      "type": "string"
+    },
+    "source_fingerprint_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Fingerprint Sha256",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/KnowledgeScope"
+    },
+    "review_directory_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Review Directory Sha256",
+      "type": "string"
+    },
+    "review_parent_identity": {
+      "$ref": "#/$defs/StoreIdentity"
+    }
+  },
+  "required": [
+    "synthetic",
+    "development_only",
+    "schema_version",
+    "kind",
+    "decision",
+    "review_scope",
+    "reviewer",
+    "reviewed",
+    "review_sha256",
+    "candidate_sha256",
+    "source_fingerprint_sha256",
+    "scope",
+    "review_directory_sha256",
+    "review_parent_identity"
+  ],
+  "title": "OwnedParameterSkillReviewRevocation",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aos.local/schemas/owned_parameter_skill_review_revocation.schema.json"
+}

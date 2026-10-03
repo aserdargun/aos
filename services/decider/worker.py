@@ -107,6 +107,22 @@ class ModelSession:
         return {'deployment_digest': self.deployment_digest, 'job_admitted': True,
                 'cuda_initialized': False, 'pin_verify_ms': (time.perf_counter() - started) * 1000}
 
+    def prepare_gpu(self):
+        if self.model is not None or self.device is not None or self.inferences or self.idle_prepared:
+            raise ValueError('GPU activation requires a fresh model session')
+        started = time.perf_counter()
+        with contextlib.redirect_stdout(sys.stderr):
+            import torch
+            from decider.infer import Decider
+
+            if not torch.cuda.is_available():
+                raise ValueError('CUDA required for broker model activation')
+            self.model = Decider(str(self.model_root), device='cuda', use_graphs=False)
+            self.device = 'cuda'
+            torch.cuda.synchronize()
+        return {'deployment_digest': self.deployment_digest,
+                'load_ms': (time.perf_counter() - started) * 1000}
+
     def prepare_idle_gpu(self):
         import torch
 

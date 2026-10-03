@@ -1,10 +1,15 @@
 import {useSyncExternalStore} from 'react';
 import {translationsCore} from './translations_core';
 import {translationsTasks} from './translations_tasks';
+import {translationsParameterWebGoal} from './translations_parameter_web_goal';
+import {translationsOwnedParameterSkill} from './translations_owned_parameter_skill';
+import {translationsOwnedParameterSkillReview} from './translations_owned_parameter_skill_review';
+import {translationsOwnedParameterSkillRelease} from './translations_owned_parameter_skill_release';
+import {translationsOwnedParameterSkillReuse} from './translations_owned_parameter_skill_reuse';
 
 export type Language = 'en' | 'tr';
 const storageKey = 'aos.ui.language';
-const translations: Record<string, string> = {...translationsCore, ...translationsTasks};
+const translations: Record<string, string> = {...translationsCore, ...translationsTasks, ...translationsParameterWebGoal, ...translationsOwnedParameterSkill, ...translationsOwnedParameterSkillReview, ...translationsOwnedParameterSkillRelease, ...translationsOwnedParameterSkillReuse};
 const listeners = new Set<() => void>();
 
 function storedLanguage(): Language {

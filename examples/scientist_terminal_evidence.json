@@ -1,0 +1,263 @@
+{
+  "synthetic_cpu_fixture": true,
+  "runtime_admission": false,
+  "physical_proof_verified": false,
+  "resolution_authorized": false,
+  "description": "Explicitly synthetic CPU schema data. Invented process identities, budgets, allocation/drain hashes and output are not physical GPU proof, capability, cleanup authority or journal resolution. No callback authorization is supplied by this example.",
+  "descriptor_sha256": "4d4981728ddaae6c9b8f0fd0b64cd0ff07374f59d864c1b9db64dccdc37584c2",
+  "local_schema_sha256": "5c3dd6fcffcf773dd13c2f64e56c4c539435d5b51153e3d997d1aee12aa7ddc2",
+  "request": {
+    "version": 1,
+    "op": "infer",
+    "request_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "profile_id": "aos.decider.turn.v1",
+    "deployment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "payload": {
+      "request": {
+        "state": "Synthetic CPU receipt validation; no model call.",
+        "question": "Which allowed action?",
+        "options": [
+          {
+            "id": "write_file",
+            "label": "Write"
+          },
+          {
+            "id": "ask_human",
+            "label": "Ask"
+          }
+        ]
+      }
+    }
+  },
+  "original_admission": {
+    "admission_binding": {
+      "server_generation": {
+        "uid": 1000,
+        "pid": 1234,
+        "start_ticks": 42,
+        "boot_id": "11111111-1111-1111-1111-111111111111",
+        "unit": "swapp-lab-gpu-broker.service",
+        "invocation_id": "cccccccccccccccccccccccccccccccc",
+        "control_group": "/synthetic/swapp-lab-gpu-broker.service"
+      },
+      "caller_generation": {
+        "uid": 1000,
+        "pid": 1235,
+        "start_ticks": 43,
+        "boot_id": "11111111-1111-1111-1111-111111111111",
+        "unit": "swapp-aos-gpu-caller.service",
+        "invocation_id": "dddddddddddddddddddddddddddddddd",
+        "control_group": "/synthetic/aos-caller",
+        "parent_pid": 1236,
+        "parent_start_ticks": 44
+      },
+      "policy_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "source_fingerprints": {
+        "scientist": "2222222222222222222222222222222222222222222222222222222222222222",
+        "aos": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "profile_id": "aos.decider.turn.v1",
+      "profile_pin": {
+        "deployment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "manifest_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "config_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+        "response_schema_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+        "output_contract": {
+          "name": "aos-scientist-profile-output.v2",
+          "version": 2,
+          "bundle_sha256": "ab94aaf3fa70a82cde3971b16c325bc87bf3813d7e20c7dd4cea5d3e12e3962e"
+        }
+      },
+      "infer_schema": {
+        "version": 1,
+        "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+        "name": "aos-scientist-runtime.v1"
+      },
+      "control_schema": {
+        "version": 1,
+        "sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+        "name": "aos-scientist-control.v1"
+      },
+      "terminal_schema": {
+        "version": 1,
+        "sha256": "4d4981728ddaae6c9b8f0fd0b64cd0ff07374f59d864c1b9db64dccdc37584c2",
+        "name": "aos-scientist-terminal.v1"
+      }
+    },
+    "capability_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "capability_freshness": {
+      "boot_id": "11111111-1111-1111-1111-111111111111",
+      "issued_boottime": 90,
+      "expires_boottime": 160
+    },
+    "schema_version": "2.0",
+    "request_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "request_sha256": "e497ce61c323e6a2d373faf376cae71a1ba29d2409a3ad58bb89ee7b57971b92",
+    "session_id": "synthetic-session",
+    "intent_binding_sha256": "89d4c57b0a557db3f21e788ddee0c7db965454c8b224ccc64f54a28a21262b45",
+    "admission_binding_sha256": "e6b1cfb46f9fa16566fda35e011e570130a96297e6c342eb92e22e1bf0001e23",
+    "captured_boottime": 100
+  },
+  "original_admission_sha256": "2680b38529f17c36da00495ef9ec0c8d354fc3fcbdcfca280399dae9e9a89fde",
+  "expected_budget": {
+    "activation_seconds": 20,
+    "inference_seconds": 10,
+    "total_seconds": 30,
+    "queue_seconds": 60,
+    "max_output_tokens": 512,
+    "context_tokens": 16384,
+    "admitted_boottime": 101,
+    "envelope_deadline": 180,
+    "queue_deadline": 160,
+    "activation_deadline": 121,
+    "inference_deadline": 125,
+    "total_deadline": 131,
+    "boot_id": "11111111-1111-1111-1111-111111111111"
+  },
+  "terminal": {
+    "schema": "aos-scientist-terminal.v1",
+    "request_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "request_sha256": "e497ce61c323e6a2d373faf376cae71a1ba29d2409a3ad58bb89ee7b57971b92",
+    "original_principal": {
+      "uid": 1000,
+      "pid": 1235,
+      "start_ticks": 43,
+      "boot_id": "11111111-1111-1111-1111-111111111111",
+      "unit": "swapp-aos-gpu-caller.service",
+      "invocation_id": "dddddddddddddddddddddddddddddddd",
+      "control_group": "/synthetic/aos-caller",
+      "parent_pid": 1236,
+      "parent_start_ticks": 44
+    },
+    "profile_id": "aos.decider.turn.v1",
+    "deployment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "profile_config_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+    "response_schema_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+    "admission_binding": {
+      "server_generation": {
+        "uid": 1000,
+        "pid": 1234,
+        "start_ticks": 42,
+        "boot_id": "11111111-1111-1111-1111-111111111111",
+        "unit": "swapp-lab-gpu-broker.service",
+        "invocation_id": "cccccccccccccccccccccccccccccccc",
+        "control_group": "/synthetic/swapp-lab-gpu-broker.service"
+      },
+      "caller_generation": {
+        "uid": 1000,
+        "pid": 1235,
+        "start_ticks": 43,
+        "boot_id": "11111111-1111-1111-1111-111111111111",
+        "unit": "swapp-aos-gpu-caller.service",
+        "invocation_id": "dddddddddddddddddddddddddddddddd",
+        "control_group": "/synthetic/aos-caller",
+        "parent_pid": 1236,
+        "parent_start_ticks": 44
+      },
+      "policy_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "source_fingerprints": {
+        "scientist": "2222222222222222222222222222222222222222222222222222222222222222",
+        "aos": "3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      "profile_id": "aos.decider.turn.v1",
+      "profile_pin": {
+        "deployment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "manifest_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "config_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+        "response_schema_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+        "output_contract": {
+          "name": "aos-scientist-profile-output.v2",
+          "version": 2,
+          "bundle_sha256": "ab94aaf3fa70a82cde3971b16c325bc87bf3813d7e20c7dd4cea5d3e12e3962e"
+        }
+      },
+      "infer_schema": {
+        "version": 1,
+        "sha256": "7777777777777777777777777777777777777777777777777777777777777777",
+        "name": "aos-scientist-runtime.v1"
+      },
+      "control_schema": {
+        "version": 1,
+        "sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+        "name": "aos-scientist-control.v1"
+      },
+      "terminal_schema": {
+        "version": 1,
+        "sha256": "4d4981728ddaae6c9b8f0fd0b64cd0ff07374f59d864c1b9db64dccdc37584c2",
+        "name": "aos-scientist-terminal.v1"
+      }
+    },
+    "admission_binding_sha256": "e6b1cfb46f9fa16566fda35e011e570130a96297e6c342eb92e22e1bf0001e23",
+    "original_budget": {
+      "activation_seconds": 20,
+      "inference_seconds": 10,
+      "total_seconds": 30,
+      "queue_seconds": 60,
+      "max_output_tokens": 512,
+      "context_tokens": 16384,
+      "admitted_boottime": 101,
+      "envelope_deadline": 180,
+      "queue_deadline": 160,
+      "activation_deadline": 121,
+      "inference_deadline": 125,
+      "total_deadline": 131,
+      "boot_id": "11111111-1111-1111-1111-111111111111"
+    },
+    "allocation_binding_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "child_generation": {
+      "unit": "swapp-aos-gpu-turn-cccccccccccccccccccccccccccccccc.service",
+      "invocation_id": "dddddddddddddddddddddddddddddddd",
+      "pid": 1234,
+      "control_group": "/synthetic/swapp-aos-gpu-turn-cccccccccccccccccccccccccccccccc.service",
+      "start_ticks": 80,
+      "boot_id": "11111111-1111-1111-1111-111111111111"
+    },
+    "drain_evidence_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "no_admission_evidence_sha256": null,
+    "release_outcome": "released",
+    "terminal_state": "completed",
+    "reason_code": "success",
+    "result_sha256": "ebbaa0d9954785fe47c28afd2324cfc5ed3775f0f452d09cc29fafc47d0b8517",
+    "recorded_boot_id": "11111111-1111-1111-1111-111111111111",
+    "recorded_boottime": 120,
+    "receipt_sha256": "de5c0641860c90575c12f53c43ebc2d4851229e3a1f030b175595cfa071229d4"
+  },
+  "result": {
+    "response": {
+      "deployment_digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "prediction": {
+        "selected_option": "write_file",
+        "probabilities": {
+          "write_file": 1.0,
+          "ask_human": 0.0
+        }
+      },
+      "metrics": {
+        "latency_ms": 2.5,
+        "load_ms": 0.0,
+        "inference_ms": 2.0,
+        "reused": false,
+        "prepared_cpu": false,
+        "input_tokens": 32,
+        "peak_vram_bytes": 1024,
+        "broker_activation_load_ms": 1.5
+      }
+    },
+    "usage": {
+      "latency_ms": 2.5,
+      "load_ms": 0.0,
+      "inference_ms": 2.0,
+      "reused": false,
+      "prepared_cpu": false,
+      "input_tokens": 32,
+      "peak_vram_bytes": 1024,
+      "broker_activation_load_ms": 1.5
+    },
+    "generation": {
+      "unit": "swapp-aos-gpu-turn-cccccccccccccccccccccccccccccccc.service",
+      "invocation_id": "dddddddddddddddddddddddddddddddd",
+      "main_pid": 1234,
+      "control_group": "/synthetic/swapp-aos-gpu-turn-cccccccccccccccccccccccccccccccc.service"
+    }
+  }
+}

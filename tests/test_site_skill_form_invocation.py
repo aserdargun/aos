@@ -313,6 +313,7 @@ class SiteSkillFormInvocationTests(unittest.TestCase):
             captured['remote_form_skill_revalidator']()
 
         scheduler = object.__new__(DesktopScheduler)
+        scheduler.web_goal_planning = None
         scheduler.restart_quiesced = False
         scheduler.sequences = SimpleNamespace(reserved=False)
         scheduler.synthetic_learning_stream_dir = None

@@ -1,0 +1,345 @@
+{
+  "$defs": {
+    "NativeInhibitFileIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "NativeInhibitFileIdentity",
+      "type": "object"
+    },
+    "NativeInhibitRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "1",
+          "default": "1",
+          "title": "Version",
+          "type": "string"
+        },
+        "request_id": {
+          "pattern": "^native-inhibit-[a-f0-9]{32}$",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^native-[a-z0-9][a-z0-9-]{0,63}$",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "principal_id": {
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:-]{0,127}$",
+          "title": "Principal Id",
+          "type": "string"
+        },
+        "expected_session": {
+          "pattern": "^app-[a-f0-9]{32}$",
+          "title": "Expected Session",
+          "type": "string"
+        },
+        "controller_session_id": {
+          "pattern": "^desktop-session-[a-f0-9]{32}$",
+          "title": "Controller Session Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "handover_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Handover Sha256",
+          "type": "string"
+        },
+        "shared_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Shared Plan Sha256",
+          "type": "string"
+        },
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "source_files": {
+          "additionalProperties": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "maxProperties": 256,
+          "minProperties": 1,
+          "propertyNames": {
+            "maxLength": 4096,
+            "minLength": 1
+          },
+          "title": "Source Files",
+          "type": "object"
+        },
+        "source_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "config_files": {
+          "additionalProperties": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "maxProperties": 256,
+          "minProperties": 1,
+          "propertyNames": {
+            "maxLength": 4096,
+            "minLength": 1
+          },
+          "title": "Config Files",
+          "type": "object"
+        },
+        "config_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Config Sha256",
+          "type": "string"
+        },
+        "clock": {
+          "const": "CLOCK_BOOTTIME",
+          "default": "CLOCK_BOOTTIME",
+          "title": "Clock",
+          "type": "string"
+        },
+        "issued_boottime": {
+          "minimum": 0,
+          "title": "Issued Boottime",
+          "type": "number"
+        },
+        "expires_boottime": {
+          "exclusiveMinimum": 0,
+          "title": "Expires Boottime",
+          "type": "number"
+        }
+      },
+      "required": [
+        "request_id",
+        "scope_id",
+        "principal_id",
+        "expected_session",
+        "controller_session_id",
+        "generation",
+        "handover_sha256",
+        "shared_plan_sha256",
+        "boot_id",
+        "source_files",
+        "source_sha256",
+        "config_files",
+        "config_sha256",
+        "issued_boottime",
+        "expires_boottime"
+      ],
+      "title": "NativeInhibitRequest",
+      "type": "object"
+    },
+    "NativeInhibitStore": {
+      "additionalProperties": false,
+      "properties": {
+        "record": {
+          "$ref": "#/$defs/NativeInhibitStoreRecord"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "record",
+        "content_sha256"
+      ],
+      "title": "NativeInhibitStore",
+      "type": "object"
+    },
+    "NativeInhibitStoreRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "1",
+          "default": "1",
+          "title": "Version",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^native-[a-z0-9][a-z0-9-]{0,63}$",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "directory": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Directory",
+          "type": "string"
+        },
+        "directory_identity": {
+          "$ref": "#/$defs/WorkspaceIdentity"
+        },
+        "lock_identity": {
+          "$ref": "#/$defs/NativeInhibitFileIdentity"
+        },
+        "metadata_identity": {
+          "$ref": "#/$defs/NativeInhibitFileIdentity"
+        },
+        "initial_lock_mtime_ns": {
+          "minimum": 0,
+          "title": "Initial Lock Mtime Ns",
+          "type": "integer"
+        },
+        "initial_lock_ctime_ns": {
+          "minimum": 0,
+          "title": "Initial Lock Ctime Ns",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "scope_id",
+        "directory",
+        "directory_identity",
+        "lock_identity",
+        "metadata_identity",
+        "initial_lock_mtime_ns",
+        "initial_lock_ctime_ns"
+      ],
+      "title": "NativeInhibitStoreRecord",
+      "type": "object"
+    },
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "store": {
+      "$ref": "#/$defs/NativeInhibitStore"
+    },
+    "request": {
+      "$ref": "#/$defs/NativeInhibitRequest"
+    },
+    "request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Request Sha256",
+      "type": "string"
+    },
+    "recorded_at": {
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "native_admission_inhibited": {
+      "const": true,
+      "default": true,
+      "title": "Native Admission Inhibited",
+      "type": "boolean"
+    },
+    "expiry_reopens_native": {
+      "const": false,
+      "default": false,
+      "title": "Expiry Reopens Native",
+      "type": "boolean"
+    },
+    "shared_launch_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Shared Launch Authorized",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "worker_absence_verified": {
+      "const": false,
+      "default": false,
+      "title": "Worker Absence Verified",
+      "type": "boolean"
+    },
+    "source_coverage_verified": {
+      "const": false,
+      "default": false,
+      "title": "Source Coverage Verified",
+      "type": "boolean"
+    },
+    "restore_implemented": {
+      "const": false,
+      "default": false,
+      "title": "Restore Implemented",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "store",
+    "request",
+    "request_sha256",
+    "recorded_at"
+  ],
+  "title": "NativeInhibitReceipt",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

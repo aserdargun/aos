@@ -18,7 +18,7 @@ from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from jsonschema.exceptions import SchemaError, ValidationError
 
-from .contracts import AOSFault, ErrorCode, REPO_ROOT, digest, now
+from .contracts import AOSFault, ErrorCode, REPO_ROOT, canonical, digest, now
 from .capability_evidence import read_capability_evidence
 from .dataset import validator
 from .desktop import DOCKER, DesktopRuntime
@@ -46,6 +46,7 @@ from .remote_form_repeat import inspect_remote_form_repeats
 from .remote_site_skill_provenance import inspect_remote_site_skill_sources
 from .site_knowledge import SiteKnowledgeStore
 from .site_skill import SiteSkillStore
+from .scientist_transport import ScientistAdmissionError
 from .web_application import WebApplicationProfile, WebApplicationProfiles, profile_report
 from .web_form_draft import (preview_form_plan, preview_form_task,
                              preview_form_state_plan, register_form_plan,
@@ -76,8 +77,41 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
                    web_form_state_root: Path | None = None,
                    knowledge_root: Path | None = None,
                    knowledge_answerer=None,
+                   scientist_lab=None,
                    owned_form_recipe_mode: bool = False,
-                   local_ui_auto_login: bool = False) -> FastAPI:
+                   local_ui_auto_login: bool = False,
+                   manager_scope: dict | None = None,
+                   manager_session: str | None = None,
+                   ui_root: Path | None = None) -> FastAPI:
+    if manager_session is not None and (manager_scope is None or not isinstance(manager_session, str)
+                                       or re.fullmatch(r'app-[a-f0-9]{32}', manager_session) is None):
+        raise ValueError('Manager session requires its exact named project scope')
+    if manager_scope is not None:
+        if (not isinstance(manager_scope, dict) or set(manager_scope) != {'project', 'port'}
+                or not isinstance(manager_scope['project'], str)
+                or re.fullmatch(r'[a-z0-9][a-z0-9-]{0,47}', manager_scope['project']) is None
+                or type(manager_scope['port']) is not int
+                or not 1024 <= manager_scope['port'] <= 65535
+                or manager_scope['port'] == 8765
+                or origin != f"http://127.0.0.1:{manager_scope['port']}"):
+            raise ValueError('Invalid pinned manager project scope')
+        manager_scope = dict(manager_scope)
+    cookie_name = ('aos_session' if manager_scope is None
+                   else f"aos_project_{manager_scope['project']}_{manager_scope['port']}")
+    if manager_scope is not None and ui_root is None:
+        ui_root = REPO_ROOT / 'data' / ('local-app-project-' + manager_scope['project']) / 'ui'
+    if ui_root is not None:
+        ui_root = Path(ui_root).absolute()
+        if (manager_scope is None
+                or ui_root != REPO_ROOT / 'data' / ('local-app-project-' + manager_scope['project']) / 'ui'
+                or any(parent.is_symlink() for parent in (ui_root, *ui_root.parents) if parent != REPO_ROOT)
+                or not (ui_root / 'index.html').is_file()
+                or (ui_root / 'index.html').is_symlink()):
+            raise ValueError('Named project UI requires its exact prepared private root')
+    else:
+        ui_root = REPO_ROOT / 'ui/dist'
+    if scientist_lab is not None and scientist_lab.controller is not controller:
+        raise ValueError('Scientist service must use this console desktop controller')
     if type(local_ui_auto_login) is not bool:
         raise ValueError('local_ui_auto_login_requires_boolean')
     if local_ui_auto_login:
@@ -89,6 +123,10 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
     session = secrets.token_urlsafe(32)
     streams = {}
     control_lock = asyncio.Lock()
+    from .shared_drain import SharedAdmissionDrain, SharedDrainRequest
+
+    shared_drain = (SharedAdmissionDrain(controller, scheduler, scientist_lab)
+                    if scheduler is not None and scientist_lab is not None else None)
     recovery_lock = threading.Lock()
     navigation_graph_lock = threading.Lock()
     remote_form_repeat_lock = threading.Lock()
@@ -126,6 +164,11 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
                 and planning.planner.pins.get('owned_skill_knowledge_context_protocol')
                 == 'aos-owned-skill-knowledge-v1'):
             scheduler.configure_owned_skill_knowledge(document_knowledge)
+        web_planning = getattr(scheduler, 'web_goal_planning', None)
+        if (web_planning is not None and getattr(web_planning, 'knowledge_service', None) is None
+                and web_planning.planner.pins.get('owned_skill_knowledge_context_protocol')
+                == 'aos-owned-skill-knowledge-v1'):
+            scheduler.configure_web_goal_knowledge(document_knowledge)
     if knowledge_answerer is not None:
         if document_knowledge is None or scheduler is None or recovery_database is None:
             raise ValueError('knowledge_answer_requires_configured_session')
@@ -139,7 +182,7 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
         await asyncio.gather(*(finished.wait() for finished in list(streams.values())))
 
     def authorized(cookies):
-        return secrets.compare_digest(cookies.get('aos_session', '').encode(), session.encode())
+        return secrets.compare_digest(cookies.get(cookie_name, '').encode(), session.encode())
 
     @app.middleware('http')
     async def boundary(request: Request, call_next):
@@ -185,7 +228,7 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
 
     @app.get('/')
     async def index():
-        if (REPO_ROOT / 'ui/dist/index.html').is_file():
+        if (ui_root / 'index.html').is_file():
             return RedirectResponse('/ui/', status_code=302)
         return FileResponse(REPO_ROOT / 'computer/console.html')
 
@@ -203,7 +246,7 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
 
     def login_response():
         response = JSONResponse({'authenticated': True})
-        response.set_cookie('aos_session', session, httponly=True, samesite='strict')
+        response.set_cookie(cookie_name, session, httponly=True, samesite='strict')
         return response
 
     @app.post('/api/login')
@@ -240,6 +283,10 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
     @app.get('/api/session')
     async def authentication(request: Request):
         result = {'authenticated': authorized(request.cookies)}
+        if manager_scope is not None:
+            result['manager_scope'] = dict(manager_scope)
+            if manager_session is not None:
+                result['manager_session'] = manager_session
         if local_ui_auto_login:
             result['local_auto_login'] = True
         return result
@@ -325,7 +372,7 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
                 await scheduler.cancel('pause')
             await close_streams()
         response = JSONResponse({'authenticated': False})
-        response.delete_cookie('aos_session')
+        response.delete_cookie(cookie_name)
         return response
 
     @app.get('/api/state')
@@ -986,6 +1033,10 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
                                                      'supports_approve_all': False,
                                                      'supports_learning_metadata': False,
                                                      'auto_approval': None}
+        if manager_scope is not None:
+            result = result | {'manager_scope': dict(manager_scope)}
+            if manager_session is not None:
+                result = result | {'manager_session': manager_session}
         return result | {'knowledge_available': document_knowledge is not None,
                          'task_knowledge_available': getattr(scheduler, 'task_knowledge', None) is not None,
                          'knowledge_answer_available': getattr(scheduler, 'knowledge_answer', None) is not None}
@@ -1117,6 +1168,379 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
                 return JSONResponse(service.begin(**value), status_code=202)
             except (ValueError, TypeError, KeyError, OSError, AOSFault):
                 raise HTTPException(409, 'Planning context evidence, authority or confirmation unavailable') from None
+
+    @app.post('/api/tasks/owned-web-goal/{operation}')
+    async def owned_web_goal_operation(operation: str, request: Request):
+        from .dataset import validator
+        from .web_goal_planner import WebGoalPlan
+
+        if operation not in {'catalog', 'preview', 'propose', 'preview-planned', 'start-planned', 'report', 'recover-start', 'preview-knowledge', 'propose-knowledge', 'report-knowledge'} or request.query_params:
+            raise HTTPException(400, 'Unknown owned web goal operation')
+        value = await body(request, reject_duplicates=True,
+                           limit=131072 if operation == 'propose-knowledge' else 16384)
+        if operation == 'report-knowledge':
+            if scheduler is None or not validator('web_goal_knowledge_report_request').is_valid(value):
+                raise HTTPException(400, 'Exact saved web goal knowledge report request required')
+            async with control_lock:
+                try:
+                    return scheduler.web_goal_knowledge_report(value['bundle_sha256'])
+                except (ValueError, TypeError, KeyError, OSError, AOSFault):
+                    raise HTTPException(409, 'Independent knowledge binding report unavailable; no replay authorized') from None
+        if operation in {'preview-knowledge', 'propose-knowledge'}:
+            schema = ('web_goal_knowledge_preview_request' if operation == 'preview-knowledge'
+                      else 'web_goal_knowledge_start_request')
+            if scheduler is None or not validator(schema).is_valid(value):
+                raise HTTPException(400, 'Exact reviewed web goal knowledge request required')
+            arguments = {key: item for key, item in value.items() if key != 'schema_version'}
+            async with control_lock:
+                try:
+                    if operation == 'preview-knowledge':
+                        return scheduler.preview_web_goal_knowledge(**arguments)
+                    return JSONResponse(scheduler.begin_web_goal_knowledge(**arguments), status_code=202)
+                except (ValueError, TypeError, KeyError, OSError, AOSFault):
+                    raise HTTPException(409, 'Reviewed source or authority changed; no automatic retry') from None
+        if operation == 'recover-start':
+            if scheduler is None or not validator('web_goal_start_recovery_request').is_valid(value):
+                raise HTTPException(400, 'Exact start recovery confirmation required')
+            async with control_lock:
+                try:
+                    return scheduler.recover_web_goal_start(
+                        value['bundle_sha256'], value['job_id'], value['confirm_job_id'],
+                        value['lease_id'], value['generation'])
+                except (ValueError, TypeError, KeyError, OSError, AOSFault):
+                    raise HTTPException(409, 'Existing task acknowledgement cannot be recovered; do not repeat start') from None
+        if operation == 'report':
+            if scheduler is None or not validator('web_goal_report_request').is_valid(value):
+                raise HTTPException(400, 'Exact web goal report request required')
+            async with control_lock:
+                try:
+                    return scheduler.web_goal_execution_report(value['bundle_sha256'])
+                except (ValueError, TypeError, KeyError, OSError, AOSFault):
+                    raise HTTPException(409, 'Independent web goal result unavailable; no replay authorized') from None
+        schema = 'web_goal_planning_request' if operation in {'propose', 'preview-planned', 'start-planned'} else 'owned_web_goal_request'
+        if (not validator(schema).is_valid(value)
+                or 'proposal' in value and not validator('web_goal_plan').is_valid(value['proposal'])):
+            raise HTTPException(400, 'Invalid canonical owned web goal request')
+        expected = {'schema_version', 'lease_id', 'generation'}
+        if operation == 'preview':
+            expected |= {'proposal', 'confirm_catalog_sha256'}
+        elif operation == 'propose':
+            expected |= {'goal', 'inference_consent', 'confirm_catalog_sha256'}
+        elif operation in {'preview-planned', 'start-planned'}:
+            expected |= {'bundle_sha256', 'confirm_bundle_sha256'}
+            if operation == 'start-planned':
+                expected |= {'preview_sha256', 'confirm_preview_sha256'}
+        if (set(value) != expected or value['schema_version'] != '1.0'
+                or type(value['lease_id']) is not str or not value['lease_id']
+                or type(value['generation']) is not int or value['generation'] < 0):
+            raise HTTPException(400, 'Exact owned web goal request required')
+        if scheduler is None:
+            raise HTTPException(409, 'Owned web goal source unavailable')
+        async with control_lock:
+            try:
+                if operation == 'propose':
+                    return JSONResponse(scheduler.begin_web_goal_plan(
+                        value['goal'], value['lease_id'], value['generation'],
+                        confirm_catalog_sha256=value['confirm_catalog_sha256'],
+                        inference_consent=value['inference_consent']), status_code=202)
+                if operation == 'preview-planned':
+                    return scheduler.preview_planned_web_goal(
+                        value['bundle_sha256'], value['confirm_bundle_sha256'],
+                        value['lease_id'], value['generation'])
+                if operation == 'start-planned':
+                    return JSONResponse(scheduler.start_planned_web_goal(
+                        value['bundle_sha256'], value['confirm_bundle_sha256'],
+                        value['preview_sha256'], value['confirm_preview_sha256'],
+                        value['lease_id'], value['generation']), status_code=202)
+                if operation == 'catalog':
+                    catalog = scheduler.owned_web_goal_catalog(value['lease_id'], value['generation'])
+                    result = catalog.model_dump(mode='json')
+                    return {'catalog': result, 'catalog_sha256': digest(result)}
+                proposal = WebGoalPlan.model_validate(value['proposal'])
+                return scheduler.preview_owned_web_goal(
+                    proposal, value['confirm_catalog_sha256'], value['lease_id'], value['generation'])
+            except (ValueError, TypeError, KeyError, OSError, AOSFault):
+                if operation == 'start-planned':
+                    raise HTTPException(409, 'Task start was not independently acknowledged; inspect the task timeline and do not repeat the start') from None
+                raise HTTPException(409, 'Owned web goal source, scope or control changed; no execution started') from None
+
+    @app.post('/api/tasks/parameter-web-goal/{operation}')
+    async def parameter_web_goal_operation(operation: str, request: Request):
+        from .web_goal_execution_requests import (ParameterWebGoalPreviewRequest,
+                                                  ParameterWebGoalStartRequest,
+                                                  ParameterWebGoalReportRequest)
+
+        models = {'preview': ParameterWebGoalPreviewRequest, 'start': ParameterWebGoalStartRequest,
+                  'report': ParameterWebGoalReportRequest}
+        if operation not in models or request.query_params:
+            raise HTTPException(400, 'Unknown parameter web goal operation')
+        value = await body(request, reject_duplicates=True, limit=4096)
+        try:
+            parsed = models[operation].model_validate_json(canonical(value))
+            if canonical(parsed.model_dump(mode='json')) != canonical(value):
+                raise ValueError
+        except (ValueError, TypeError):
+            raise HTTPException(400, 'Exact parameter web goal request required') from None
+        service = getattr(scheduler, 'parameter_web_goal_execution', None)
+        if service is None:
+            raise HTTPException(409, 'Trusted parameter web goal host composition unavailable')
+        arguments = {key: item for key, item in value.items() if key != 'schema_version'}
+        async with control_lock:
+            try:
+                if operation == 'preview':
+                    return service.preview(**arguments)
+                if operation == 'report':
+                    return service.journal.inspect(arguments['intent_sha256'])
+                return JSONResponse(scheduler.start_parameter_web_goal_execution(**arguments), status_code=202)
+            except (ValueError, TypeError, KeyError, OSError, AOSFault):
+                raise HTTPException(409, 'Parameter task source, control or receipt unavailable; no replay authorized') from None
+
+    @app.post('/api/tasks/parameter-project-skill/{operation}')
+    async def parameter_project_skill(request: Request, operation: str):
+        from .owned_parameter_skill_requests import (
+            OwnedParameterSkillPreviewRequest, OwnedParameterSkillPublishRequest,
+            OwnedParameterSkillReadRequest)
+
+        models = {'preview': OwnedParameterSkillPreviewRequest,
+                  'publish': OwnedParameterSkillPublishRequest,
+                  'read': OwnedParameterSkillReadRequest}
+        if operation not in models or request.query_params:
+            raise HTTPException(400, 'Exact manual skill request required')
+        if scheduler is None or getattr(scheduler, 'owned_parameter_project_execution', None) is None:
+            raise HTTPException(409, 'Manual skill host composition unavailable')
+        try:
+            value = models[operation].model_validate_json(canonical(
+                await body(request, limit=4096, reject_duplicates=True))).model_dump(mode='json')
+        except (ValueError, TypeError, KeyError):
+            raise HTTPException(400, 'Exact manual skill request required') from None
+        async with control_lock:
+            try:
+                if operation == 'publish':
+                    control = controller.state()
+                    if (scheduler.reserved or scheduler.closed or scheduler.restart_quiesced
+                            or control['owner'] != 'AGENT' or control['status'] != 'running'
+                            or control['lease_id'] != value['lease_id']
+                            or control['generation'] != value['generation']):
+                        raise ValueError('manual_skill_review_requires_fresh_control')
+                service = scheduler.parameter_skill_candidate_session()
+                if operation == 'preview':
+                    candidate, checksum = await asyncio.to_thread(service.preview, value['intent_sha256'])
+                elif operation == 'read':
+                    candidate, checksum = await asyncio.to_thread(service.read, value['candidate_sha256'])
+                else:
+                    candidate, checksum = await asyncio.to_thread(service.publish, value['intent_sha256'],
+                        confirm_candidate_sha256=value['confirm_candidate_sha256'],
+                        human_confirmation=value['human_confirmation'])
+                return {'schema_version': '1.0', 'candidate': candidate,
+                        'candidate_canonical': canonical(candidate), 'candidate_sha256': checksum,
+                        'status': 'awaiting_manual_review', 'native_model_verified': False,
+                        'activation_authorized': False, 'training_ready': False,
+                        'gpu_release_verified': False}
+            except (ValueError, TypeError, KeyError, OSError, AOSFault, sqlite3.Error):
+                raise HTTPException(409, 'Manual skill source or evidence unavailable; no replay authorized') from None
+
+    @app.post('/api/tasks/parameter-project-skill-review/{operation}')
+    async def parameter_project_skill_review(request: Request, operation: str):
+        from .owned_parameter_skill_review_requests import (
+            OwnedParameterSkillReviewAcceptRequest, OwnedParameterSkillReviewPreviewRequest,
+            OwnedParameterSkillReviewReadRequest, OwnedParameterSkillReviewRevokeRequest,
+            OwnedParameterSkillReviewRecoveryPreviewRequest, OwnedParameterSkillReviewRecoverRequest)
+
+        models = {'preview': OwnedParameterSkillReviewPreviewRequest,
+                  'accept': OwnedParameterSkillReviewAcceptRequest,
+                  'read': OwnedParameterSkillReviewReadRequest,
+                  'revoke-preview': OwnedParameterSkillReviewReadRequest,
+                  'revoke': OwnedParameterSkillReviewRevokeRequest,
+                  'recovery-preview': OwnedParameterSkillReviewRecoveryPreviewRequest,
+                  'recover': OwnedParameterSkillReviewRecoverRequest}
+        if operation not in models or request.query_params:
+            raise HTTPException(400, 'Exact manual skill review request required')
+        if scheduler is None or getattr(scheduler, 'owned_parameter_project_execution', None) is None:
+            raise HTTPException(409, 'Manual skill review host unavailable')
+        try:
+            value = models[operation].model_validate_json(canonical(
+                await body(request, limit=4096, reject_duplicates=True))).model_dump(mode='json')
+        except (ValueError, TypeError, KeyError):
+            raise HTTPException(400, 'Exact manual skill review request required') from None
+        async with control_lock:
+            try:
+                if operation in {'accept', 'revoke', 'recover'}:
+                    control = controller.state()
+                    if (scheduler.reserved or scheduler.closed or scheduler.restart_quiesced
+                            or control['owner'] != 'AGENT' or control['status'] != 'running'
+                            or control['lease_id'] != value['lease_id']
+                            or control['generation'] != value['generation']):
+                        raise ValueError('manual_skill_review_requires_fresh_control')
+                service = scheduler.parameter_skill_review_session()
+                if operation == 'preview':
+                    result, checksum = await asyncio.to_thread(service.preview, value['candidate_sha256'])
+                    key = 'review'
+                elif operation == 'accept':
+                    result, checksum = await asyncio.to_thread(service.accept, value['candidate_sha256'],
+                        confirm_review_sha256=value['confirm_review_sha256'],
+                        human_confirmation=value['human_confirmation'])
+                    key = 'review'
+                elif operation == 'read':
+                    result, checksum = await asyncio.to_thread(service.read, value['review_sha256'])
+                    key = 'status'
+                elif operation == 'revoke-preview':
+                    result, checksum = await asyncio.to_thread(service.revocation_preview, value['review_sha256'])
+                    key = 'revocation'
+                elif operation == 'recovery-preview':
+                    result, checksum = await asyncio.to_thread(service.recovery_preview, value['record_sha256'])
+                    key = 'recovery'
+                elif operation == 'recover':
+                    result, checksum = await asyncio.to_thread(service.recover, value['record_sha256'],
+                        confirm_recovery_sha256=value['confirm_recovery_sha256'],
+                        human_confirmation=value['human_confirmation'])
+                    key = 'recovery'
+                else:
+                    result, checksum = await asyncio.to_thread(service.revoke, value['review_sha256'],
+                        confirm_revocation_sha256=value['confirm_revocation_sha256'],
+                        human_confirmation=value['human_confirmation'])
+                    key = 'revocation'
+                return {'schema_version': '1.0', key: result, key + '_canonical': canonical(result),
+                        key + '_sha256': checksum, 'native_model_verified': False,
+                        'activation_authorized': False, 'execution_authorized': False,
+                        'training_ready': False, 'gpu_release_verified': False}
+            except (ValueError, TypeError, KeyError, OSError, AOSFault, sqlite3.Error):
+                raise HTTPException(409, 'Manual skill review source or evidence unavailable; no replay authorized') from None
+
+    @app.post('/api/tasks/parameter-project-skill-reuse/{operation}')
+    async def parameter_skill_reuse_operation(operation: str, request: Request):
+        from .owned_parameter_skill_reuse_requests import REQUESTS
+
+        if operation not in REQUESTS or request.query_params:
+            raise HTTPException(400, 'Invalid manual skill reuse operation')
+        value = await body(request, reject_duplicates=True, limit=8192)
+        try:
+            selection = REQUESTS[operation].model_validate(value).model_dump(mode='json')
+        except ValueError:
+            raise HTTPException(422, 'Invalid manual skill reuse request') from None
+        if scheduler is None:
+            raise HTTPException(409, 'Manual skill reuse unavailable')
+        async with control_lock:
+            try:
+                if operation in {'status', 'read'}:
+                    service = getattr(scheduler, '_parameter_skill_reuse_execution', None)
+                    if service is None:
+                        raise ValueError('owned_parameter_reuse_not_configured')
+                    report = service.status() if operation == 'status' else service.read(selection['intent_sha256'])
+                    return {'schema_version': '1.0', **report,
+                            'transition_blocked': service.transition_blocked,
+                            'transition_in_progress': service.transitioning}
+                service = scheduler.parameter_skill_reuse_execution_session()
+                arguments = {key: selection[key] for key in (
+                    'release_sha256', 'selection_sha256', 'parameters', 'lease_id', 'generation')}
+                if operation in {'next-preview', 'next-start'}:
+                    arguments |= {key: selection[key] for key in (
+                        'previous_intent_sha256', 'previous_receipt_sha256')}
+                    preview = service.next_preview(**arguments)
+                else:
+                    preview = service.preview(**arguments)
+                if operation in {'preview', 'next-preview'}:
+                    return preview
+                if operation == 'next-start':
+                    result = await service.next_start(
+                        preview['admission'],
+                        previous_intent_sha256=selection['previous_intent_sha256'],
+                        previous_receipt_sha256=selection['previous_receipt_sha256'],
+                        confirm_sha256=selection['confirm_sha256'],
+                        human_confirmation=selection['human_confirmation'],
+                        lease_id=selection['lease_id'], generation=selection['generation'])
+                    return {'schema_version': '1.0', **result}
+                result = service.start(
+                    preview['admission'], confirm_sha256=selection['confirm_sha256'],
+                    human_confirmation=selection['human_confirmation'],
+                    lease_id=selection['lease_id'], generation=selection['generation'])
+                return {'schema_version': '1.0', **result}
+            except (AOSFault, OSError, sqlite3.Error, ValueError, TypeError, KeyError, AttributeError):
+                raise HTTPException(409, 'Manual skill source, selection or control changed; inspect status before retry') from None
+
+    @app.post('/api/tasks/parameter-project-skill-release/{operation}')
+    async def parameter_project_skill_release(request: Request, operation: str):
+        from .owned_parameter_skill_release_requests import (
+            OwnedParameterSkillReleasePreviewRequest, OwnedParameterSkillReleaseRequest,
+            OwnedParameterSkillReleaseReadRequest, OwnedParameterSkillReleaseInventoryRequest,
+            OwnedParameterSkillSelectionPreviewRequest, OwnedParameterSkillSelectRequest,
+            OwnedParameterSkillRollbackRequest, OwnedParameterSkillReleaseRecoveryPreviewRequest,
+            OwnedParameterSkillReleaseRecoverRequest)
+
+        models = {'preview': OwnedParameterSkillReleasePreviewRequest,
+                  'release': OwnedParameterSkillReleaseRequest,
+                  'read': OwnedParameterSkillReleaseReadRequest,
+                  'inventory': OwnedParameterSkillReleaseInventoryRequest,
+                  'select-preview': OwnedParameterSkillSelectionPreviewRequest,
+                  'select': OwnedParameterSkillSelectRequest,
+                  'rollback-preview': OwnedParameterSkillSelectionPreviewRequest,
+                  'rollback': OwnedParameterSkillRollbackRequest,
+                  'recovery-preview': OwnedParameterSkillReleaseRecoveryPreviewRequest,
+                  'recover': OwnedParameterSkillReleaseRecoverRequest}
+        if operation not in models or request.query_params:
+            raise HTTPException(400, 'Exact manual skill release request required')
+        if scheduler is None or getattr(scheduler, 'owned_parameter_project_execution', None) is None:
+            raise HTTPException(409, 'Manual skill release host unavailable')
+        try:
+            value = models[operation].model_validate_json(canonical(
+                await body(request, limit=4096, reject_duplicates=True))).model_dump(mode='json')
+        except (ValueError, TypeError, KeyError):
+            raise HTTPException(400, 'Exact manual skill release request required') from None
+        async with control_lock:
+            try:
+                if operation in {'release', 'select', 'rollback', 'recover'}:
+                    control = controller.state()
+                    if (scheduler.reserved or scheduler.closed or scheduler.restart_quiesced
+                            or control['owner'] != 'AGENT' or control['status'] != 'running'
+                            or control['lease_id'] != value['lease_id']
+                            or control['generation'] != value['generation']):
+                        raise ValueError('manual_skill_release_requires_fresh_control')
+                service = scheduler.parameter_skill_release_session()
+                flags = {'schema_version': '1.0', 'native_model_verified': False,
+                         'activation_authorized': False, 'execution_authorized': False,
+                         'training_ready': False, 'gpu_release_verified': False}
+                if operation == 'inventory':
+                    return flags | {'inventory': await asyncio.to_thread(service.inventory)}
+                if operation == 'preview':
+                    result, checksum = await asyncio.to_thread(service.preview, value['review_sha256'],
+                        expected_parent_release_sha256=value['expected_parent_release_sha256'])
+                    key = 'release'
+                elif operation == 'release':
+                    result, checksum = await asyncio.to_thread(service.release, value['review_sha256'],
+                        expected_parent_release_sha256=value['expected_parent_release_sha256'],
+                        confirm_release_sha256=value['confirm_release_sha256'],
+                        human_confirmation=value['human_confirmation'])
+                    key = 'release'
+                elif operation == 'read':
+                    result, checksum = await asyncio.to_thread(service.read, value['release_sha256'])
+                    key = 'release'
+                elif operation == 'recovery-preview':
+                    result, checksum = await asyncio.to_thread(service.recovery_preview, value['record_sha256'])
+                    key = 'recovery'
+                elif operation == 'recover':
+                    result, checksum = await asyncio.to_thread(service.recover, value['record_sha256'],
+                        confirm_recovery_sha256=value['confirm_recovery_sha256'],
+                        human_confirmation=value['human_confirmation'])
+                    key = 'recovery'
+                elif operation in {'select-preview', 'rollback-preview'}:
+                    result, checksum = await asyncio.to_thread(service.selection_preview, value['release_sha256'],
+                        expected_selection_sha256=value['expected_selection_sha256'],
+                        operation='rollback' if operation == 'rollback-preview' else 'select')
+                    key = 'selection'
+                else:
+                    result, checksum = await asyncio.to_thread(service.select, value['release_sha256'],
+                        expected_selection_sha256=value['expected_selection_sha256'],
+                        operation=operation, confirm_selection_sha256=value['confirm_selection_sha256'],
+                        human_confirmation=value['human_confirmation'])
+                    key = 'selection'
+                return flags | {key: result, key + '_canonical': canonical(result), key + '_sha256': checksum}
+            except (ValueError, TypeError, KeyError, OSError, AOSFault, sqlite3.Error):
+                raise HTTPException(409, 'Manual skill release source, review or history unavailable; no replay authorized') from None
+
+    @app.get('/api/tasks/owned-web-goal')
+    async def web_goal_plan_status(request: Request):
+        if request.query_params or scheduler is None:
+            raise HTTPException(409, 'Web goal planning session unavailable')
+        return scheduler.web_goal_plan_status()
 
     @app.get('/api/tasks/owned-skill-plan')
     async def owned_skill_plan_status(request: Request):
@@ -2090,6 +2514,39 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
     async def owned_selection_commit(request: Request):
         return await owned_release_operation(request, 'selection-commit')
 
+    @app.post('/api/shared/drain')
+    @app.post('/api/shared/drain/seal')
+    async def drain_shared_admission(request: Request):
+        from .scientist_transport import ScientistAdmissionError
+
+        value = await body(request, reject_duplicates=True)
+        try:
+            if request.query_params:
+                raise ValueError('Shared drain binding belongs in the request body')
+            selection = SharedDrainRequest.model_validate(value, strict=True)
+        except ValueError:
+            raise HTTPException(400, 'Exact shared drain request and generation required') from None
+        async with control_lock:
+            if shared_drain is None:
+                raise HTTPException(409, 'Shared scheduler and Scientist service are unavailable')
+            try:
+                if request.url.path == '/api/shared/drain/seal':
+                    return shared_drain.seal(selection).model_dump(mode='json')
+                return shared_drain.persist_observation(selection).model_dump(mode='json')
+            except (ValueError, OSError, sqlite3.Error, ScientistAdmissionError):
+                raise HTTPException(409, 'Shared drain binding or durable observation is unproven') from None
+
+    @app.get('/api/shared/drain/receipts/{event_id}')
+    async def shared_drain_receipt(event_id: str, request: Request):
+        if request.query_params:
+            raise HTTPException(400, 'Shared drain receipt accepts no query parameters')
+        if shared_drain is None:
+            raise HTTPException(409, 'Shared scheduler and Scientist service are unavailable')
+        try:
+            return shared_drain.read_receipt(event_id).model_dump(mode='json')
+        except (ValueError, OSError, sqlite3.Error):
+            raise HTTPException(404, 'Shared drain receipt unavailable') from None
+
     @app.post('/api/restart/quiesce')
     async def restart_quiesce(request: Request):
         value = await body(request, reject_duplicates=True)
@@ -2645,9 +3102,13 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
             raise HTTPException(400, 'Only a bounded task kind and current lease are accepted')
         if scheduler is None or control_lock.locked():
             raise HTTPException(409, 'Scheduler unavailable during control change or not configured')
-        return scheduler.start(value['lease_id'], value['generation'], value['kind'],
-                               approve_all=value.get('approve_all', False),
-                               learning_metadata=value.get('learning_metadata', False))
+        try:
+            return scheduler.start(value['lease_id'], value['generation'], value['kind'],
+                                   approve_all=value.get('approve_all', False),
+                                   learning_metadata=value.get('learning_metadata', False))
+        except ScientistAdmissionError:
+            return JSONResponse({'detail': 'Scientist admission denied; trusted reconciliation required',
+                                 'code': 'reconciliation_required'}, status_code=409)
 
     @app.post('/api/tasks/preview')
     async def task_preview(request: Request):
@@ -2704,6 +3165,60 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
         if scheduler is None or scheduler.restart_quiesced or control_lock.locked():
             raise HTTPException(409, 'Scheduler unavailable')
         return scheduler.respond(approval_id, **value)
+
+    @app.get('/api/scientist/jobs')
+    async def scientist_jobs():
+        from .scientist_inventory import scientist_inference_inventory
+
+        inference = scientist_inference_inventory(controller, scheduler)
+        if scientist_lab is None:
+            return {'configured': False, 'joint_runtime_admitted': False, 'jobs': [], 'inference': inference}
+        return {**scientist_lab.inventory(), 'inference': inference}
+
+    @app.post('/api/scientist/{operation}')
+    async def scientist_operation(operation: str, request: Request):
+        from .scientist_lab import ScientistLabBudget, ScientistLabUncertain
+        from .scientist_transport import ScientistAdmissionError
+
+        if scientist_lab is None or control_lock.locked():
+            raise HTTPException(409, 'Scientist integration is not configured or control is changing')
+        if request.query_params:
+            raise HTTPException(400, 'No Scientist query parameters are permitted')
+        value = await body(request, reject_duplicates=True)
+        if control_lock.locked():
+            raise HTTPException(409, 'Scientist control is changing')
+        try:
+            for key in ('action_id', 'envelope_sha256', 'run_id', 'suite', 'track', 'program_version', 'readback_id'):
+                if key in value and (type(value[key]) is not str or not 1 <= len(value[key]) <= 128):
+                    raise ValueError('Invalid Scientist identifier')
+            if 'accept' in value and type(value['accept']) is not bool:
+                raise ValueError('Invalid Scientist approval decision')
+            if operation == 'propose' and set(value) == {'suite', 'track', 'budget', 'program_version'}:
+                value['budget'] = ScientistLabBudget.model_validate(value['budget'], strict=True)
+                return scientist_lab.propose(**value)
+            if operation == 'approve' and set(value) == {'action_id', 'envelope_sha256', 'accept'}:
+                return scientist_lab.respond(value['action_id'], envelope_sha256=value['envelope_sha256'], accept=value['accept'])
+            if operation == 'execute' and set(value) == {'action_id'}:
+                return await scientist_lab.execute_async(value['action_id'])
+            if operation == 'stop' and set(value) == {'run_id'}:
+                return scientist_lab.propose_stop(value['run_id'])
+            if operation in {'status', 'report'} and set(value) == {'run_id'}:
+                return await scientist_lab.read_async(value['run_id'], 'lab.' + operation)
+            if operation == 'save_report' and set(value) == {'run_id', 'expected_report_sha256'}:
+                if (type(value['expected_report_sha256']) is not str
+                        or re.fullmatch('[a-f0-9]{64}', value['expected_report_sha256']) is None):
+                    raise ValueError('Invalid exact Scientist report hash')
+                return await scientist_lab.save_report_async(value['run_id'],
+                    expected_report_sha256=value['expected_report_sha256'])
+            if operation == 'read_saved_report' and set(value) == {'run_id', 'readback_id'}:
+                return scientist_lab.read_saved_report(value['run_id'], value['readback_id'])
+            raise HTTPException(400, 'Unknown Scientist operation or arguments')
+        except ScientistLabUncertain:
+            raise HTTPException(409, 'Scientist effect is uncertain; inspect the durable intent, do not retry') from None
+        except ScientistAdmissionError:
+            raise HTTPException(409, 'Scientist authority, approval or durable job binding is not admitted') from None
+        except (ValueError, TypeError):
+            raise HTTPException(400, 'Invalid bounded Scientist request') from None
 
     @app.post('/api/input')
     async def enqueue(request: Request):
@@ -2778,6 +3293,6 @@ def create_console(controller, token: str, origin: str, assets: Path, trajectory
                 await websocket.close()
 
     app.mount('/novnc', StaticFiles(directory=assets), name='novnc')
-    if (REPO_ROOT / 'ui/dist/index.html').is_file():
-        app.mount('/ui', StaticFiles(directory=REPO_ROOT / 'ui/dist', html=True), name='ui')
+    if (ui_root / 'index.html').is_file():
+        app.mount('/ui', StaticFiles(directory=ui_root, html=True), name='ui')
     return app

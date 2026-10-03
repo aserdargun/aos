@@ -1,0 +1,80 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "origin": {
+      "const": "aos",
+      "title": "Origin",
+      "type": "string"
+    },
+    "purpose": {
+      "anyOf": [
+        {
+          "enum": [
+            "baseline",
+            "research",
+            "mode-grid"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Purpose"
+    },
+    "state": {
+      "enum": [
+        "queued",
+        "running",
+        "stop_requested",
+        "completed",
+        "stopped",
+        "failed"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "updated_at": {
+      "title": "Updated At",
+      "type": "string"
+    },
+    "stop_requested": {
+      "title": "Stop Requested",
+      "type": "boolean"
+    },
+    "report_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Report Sha256"
+    }
+  },
+  "required": [
+    "run_id",
+    "origin",
+    "state",
+    "created_at",
+    "updated_at",
+    "stop_requested"
+  ],
+  "title": "ScientistRunStatus",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

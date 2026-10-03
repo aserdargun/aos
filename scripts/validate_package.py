@@ -148,6 +148,8 @@ def validate_files():
         jsonschema.Draft202012Validator.check_schema(s)
         validators[p.name] = jsonschema.Draft202012Validator(s, format_checker=jsonschema.FormatChecker())
         CHECKS.append('Valid JSON Schema: ' + p.name)
+    validators['release_acceptance_snapshot.schema.json'].validate(read_json('docs/release_acceptance.json'))
+    check(True, 'Manual release acceptance is versioned, read-only and not product completion')
     web_goals = read_json('examples/web_goal_planning.json')
     check(web_goals['synthetic'] is True, 'Generic web goal examples are explicitly synthetic proposals')
     for name, catalog in web_goals['catalogs'].items():
@@ -410,6 +412,10 @@ def validate_files():
             ('benchmark', [('benchmark', 'report')]),
             ('compound_execution', [('compound_sequence_start', 'request'), ('sequence_start', 'sequence_request')]),
             ('local_app', [('local_app_state', 'state')]),
+            ('shared_drain', [('shared_drain_request', 'request'),
+                              ('shared_drain_observation', 'observation'),
+                              ('shared_drain_receipt', 'receipt'),
+                              ('shared_drain_saved_observation', 'saved_observation')]),
             ('owned_form_invocation_session', [('owned_form_invocation_session', 'manifest')]),
             ('owned_form_recipe_session', [('owned_form_recipe_session', 'manifest')]),
             ('web_application_profile', [('web_application_profile', 'profile'), ('web_application_report', 'report')]),
@@ -988,6 +994,11 @@ def validate_files():
         rejected(lambda: validators['web_application_profile.schema.json'].validate({**web_profile, field: value}),
                  'Reject invalid web profile field: '+field)
     local_state = read_json('examples/local_app.json')['state']
+    project_state = read_json('examples/local_app_project.json')['state']
+    validators['local_app_state.schema.json'].validate(project_state)
+    check(project_state['project'] == 'learning-demo'
+          and project_state['url'] == 'http://127.0.0.1:18766/ui/',
+          'Synthetic named manager state has an explicit separate project and loopback URL')
     for field,value in (('url','http://example.com/'),('token_name','../../private.token'),
                         ('phase','authorized'),('remote_form_plan_sha256','wrong'),
                         ('remote_form_field_name','not a field'),
@@ -996,6 +1007,8 @@ def validate_files():
         rejected(lambda:validators['local_app_state.schema.json'].validate({**local_state,field:value}),
                  'Reject unsafe local pilot state: '+field)
     check((ROOT/'scripts/aos-v1').is_file(), 'Local pilot launcher is included')
+    check((ROOT/'scripts/aos-parameter-project').is_file(), 'Offline parameter project launcher is included')
+    check((ROOT/'scripts/aos-parameter-skill').is_file(), 'Audited manual parameter skill launcher is included')
     bound_loss = read_json('examples/dataset_bound_loss.json')['report']
     forward = bound_loss['forward_report']
     check(forward['input_sha256']==bound_loss['input_sha256'] and forward['manifest_sha256']==bound_loss['deployment_manifest_sha256'],
@@ -1462,7 +1475,7 @@ def validate_database(exported, registry):
         check(con.execute('PRAGMA foreign_keys').fetchone()[0]==1,'SQLite FK enforcement enabled')
         check(con.execute('SELECT count(*) FROM schema_migrations').fetchone()[0]==len(list((ROOT/'database/migrations').glob('*.sql'))),'All migrations applied')
         tables={r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-        expected={'tasks','runs','steps','state_snapshots','decisions','actions','observations','verifications','supervisor_escalations','human_interventions','model_calls','artifacts','trajectory_labels','models','adapters','deployments','benchmarks','deployment_events','active_deployments'}
+        expected={'tasks','runs','steps','state_snapshots','decisions','actions','observations','verifications','supervisor_escalations','human_interventions','model_calls','artifacts','trajectory_labels','models','adapters','deployments','benchmarks','deployment_events','active_deployments','scientist_turn_intents','scientist_lab_jobs','scientist_lab_actions'}
         expected.update({'desktop_sessions','desktop_inputs','desktop_events','desktop_tasks','desktop_approvals',
                          'desktop_web_profile_bindings','desktop_remote_entry_bindings',
                          'desktop_remote_route_bindings','desktop_remote_form_bindings',

@@ -1,0 +1,34 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "queued",
+        "running",
+        "stop_requested",
+        "completed",
+        "stopped",
+        "failed"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "reused": {
+      "title": "Reused",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "run_id",
+    "state",
+    "reused"
+  ],
+  "title": "ScientistLabHandle",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

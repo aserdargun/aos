@@ -21,6 +21,8 @@ from aos.storage import TrajectoryStore
 
 
 FIXTURE = json.loads((REPO_ROOT / 'examples/synthetic_staging_pin.json').read_text())
+LATEST_MIGRATION = max(int(path.name.split('_', 1)[0])
+                       for path in (REPO_ROOT / 'database/migrations').glob('*.sql'))
 
 
 class SyntheticStagingAdmissionTests(unittest.TestCase):
@@ -215,7 +217,7 @@ class SyntheticStagingAdmissionTests(unittest.TestCase):
     def test_profile_run_binding_migration_is_append_only_and_kind_bound(self):
         store = TrajectoryStore(self.root / 'bindings.sqlite')
         self.addCleanup(store.close)
-        self.assertEqual(store.connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0], 17)
+        self.assertEqual(store.connection.execute('SELECT max(version) FROM schema_migrations').fetchone()[0], LATEST_MIGRATION)
         with store.connection:
             store.insert('tasks', task_id='task', original_goal='synthetic', normalized_goal='synthetic',
                          success_criteria_json='{}', workspace_scope_json='[]', created_at=now())

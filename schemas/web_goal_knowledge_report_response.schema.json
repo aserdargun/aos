@@ -1,0 +1,622 @@
+{
+  "$defs": {
+    "WebGoalKnowledgeAcknowledgement": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "web_goal_knowledge_acknowledgement",
+          "title": "Kind",
+          "type": "string"
+        },
+        "planning_id": {
+          "pattern": "^planning-[a-f0-9]{32}$",
+          "title": "Planning Id",
+          "type": "string"
+        },
+        "bundle_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Bundle Sha256",
+          "type": "string"
+        },
+        "intent_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Intent Sha256",
+          "type": "string"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Context Sha256",
+          "type": "string"
+        },
+        "model_request_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Model Request Sha256",
+          "type": "string"
+        },
+        "model_response_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Model Response Sha256",
+          "type": "string"
+        },
+        "deployment_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Deployment Sha256",
+          "type": "string"
+        },
+        "real_model": {
+          "title": "Real Model",
+          "type": "boolean"
+        },
+        "acknowledgement_code_path": {
+          "const": "bonsai-web-goal-native-last-request-response-v1",
+          "title": "Acknowledgement Code Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "planning_id",
+        "bundle_sha256",
+        "intent_sha256",
+        "review_sha256",
+        "context_sha256",
+        "model_request_sha256",
+        "model_response_sha256",
+        "deployment_sha256",
+        "real_model",
+        "acknowledgement_code_path"
+      ],
+      "title": "WebGoalKnowledgeAcknowledgement",
+      "type": "object"
+    },
+    "WebGoalKnowledgeSourceStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "document_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Document Sha256",
+          "type": "string"
+        },
+        "content_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Content Sha256",
+          "type": "string"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "chunk_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Chunk Sha256",
+          "type": "string"
+        },
+        "source_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Source Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "synthetic": {
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "available": {
+          "title": "Available",
+          "type": "boolean"
+        },
+        "current": {
+          "title": "Current",
+          "type": "boolean"
+        },
+        "expired": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expired"
+        },
+        "current_review_status": {
+          "enum": [
+            "accepted",
+            "rejected",
+            "revoked",
+            "pending",
+            "unavailable"
+          ],
+          "title": "Current Review Status",
+          "type": "string"
+        },
+        "current_review_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Current Review Sha256"
+        },
+        "source_binding_valid": {
+          "title": "Source Binding Valid",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "document_sha256",
+        "content_sha256",
+        "review_sha256",
+        "chunk_sha256",
+        "source_id",
+        "title",
+        "synthetic",
+        "available",
+        "current",
+        "expired",
+        "current_review_status",
+        "current_review_sha256",
+        "source_binding_valid"
+      ],
+      "title": "WebGoalKnowledgeSourceStatus",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "else": {
+        "anyOf": [
+          {
+            "properties": {
+              "real_model": {
+                "const": false
+              }
+            }
+          },
+          {
+            "properties": {
+              "model_acknowledgement_recorded": {
+                "const": false
+              }
+            }
+          }
+        ]
+      },
+      "if": {
+        "properties": {
+          "actual_model_use_verified": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "real_model": {
+            "const": true
+          },
+          "model_acknowledgement_recorded": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "else": {
+        "properties": {
+          "acknowledgement": {
+            "type": "null"
+          },
+          "acknowledgement_canonical": {
+            "type": "null"
+          },
+          "acknowledgement_sha256": {
+            "type": "null"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "model_acknowledgement_recorded": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "acknowledgement": {
+            "type": "object"
+          },
+          "acknowledgement_canonical": {
+            "type": "string"
+          },
+          "acknowledgement_sha256": {
+            "type": "string"
+          },
+          "stage": {
+            "const": "proposal"
+          }
+        }
+      }
+    },
+    {
+      "else": {
+        "properties": {
+          "stage": {
+            "const": "intent"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "proposal_recorded": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "stage": {
+            "const": "proposal"
+          }
+        }
+      }
+    },
+    {
+      "else": {
+        "anyOf": [
+          {
+            "properties": {
+              "current_source_valid": {
+                "const": false
+              }
+            }
+          },
+          {
+            "properties": {
+              "current_authority_valid": {
+                "const": false
+              }
+            }
+          },
+          {
+            "properties": {
+              "review_expired": {
+                "const": true
+              }
+            }
+          }
+        ]
+      },
+      "if": {
+        "properties": {
+          "current_review_valid": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "current_source_valid": {
+            "const": true
+          },
+          "current_authority_valid": {
+            "const": true
+          },
+          "review_expired": {
+            "const": false
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "web_goal_knowledge_report",
+      "title": "Kind",
+      "type": "string"
+    },
+    "bundle_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Bundle Sha256",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Intent Sha256"
+    },
+    "planning_id": {
+      "pattern": "^planning-[a-f0-9]{32}$",
+      "title": "Planning Id",
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "intent",
+        "proposal"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "review_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Review Sha256",
+      "type": "string"
+    },
+    "context_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Context Sha256",
+      "type": "string"
+    },
+    "model_request_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Model Request Sha256",
+      "type": "string"
+    },
+    "model_response_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Model Response Sha256"
+    },
+    "deployment_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Sha256",
+      "type": "string"
+    },
+    "model_request_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Model Request Canonical",
+      "type": "string"
+    },
+    "model_response_canonical": {
+      "anyOf": [
+        {
+          "maxLength": 8192,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Model Response Canonical"
+    },
+    "deployment_canonical": {
+      "maxLength": 32768,
+      "minLength": 1,
+      "title": "Deployment Canonical",
+      "type": "string"
+    },
+    "acknowledgement_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Acknowledgement Sha256"
+    },
+    "acknowledgement": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/WebGoalKnowledgeAcknowledgement"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "acknowledgement_canonical": {
+      "anyOf": [
+        {
+          "maxLength": 8192,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Acknowledgement Canonical"
+    },
+    "bundle": {
+      "additionalProperties": true,
+      "title": "Bundle",
+      "type": "object"
+    },
+    "bundle_canonical": {
+      "maxLength": 131072,
+      "minLength": 1,
+      "title": "Bundle Canonical",
+      "type": "string"
+    },
+    "historical_binding_verified": {
+      "const": true,
+      "title": "Historical Binding Verified",
+      "type": "boolean"
+    },
+    "model_input_bound": {
+      "const": true,
+      "title": "Model Input Bound",
+      "type": "boolean"
+    },
+    "proposal_recorded": {
+      "title": "Proposal Recorded",
+      "type": "boolean"
+    },
+    "real_model": {
+      "title": "Real Model",
+      "type": "boolean"
+    },
+    "model_acknowledgement_recorded": {
+      "title": "Model Acknowledgement Recorded",
+      "type": "boolean"
+    },
+    "actual_model_use_verified": {
+      "title": "Actual Model Use Verified",
+      "type": "boolean"
+    },
+    "current_review_valid": {
+      "title": "Current Review Valid",
+      "type": "boolean"
+    },
+    "current_source_valid": {
+      "title": "Current Source Valid",
+      "type": "boolean"
+    },
+    "current_authority_valid": {
+      "title": "Current Authority Valid",
+      "type": "boolean"
+    },
+    "current_authority_check": {
+      "const": "current_planning_admission",
+      "title": "Current Authority Check",
+      "type": "string"
+    },
+    "review_expired": {
+      "title": "Review Expired",
+      "type": "boolean"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/WebGoalKnowledgeSourceStatus"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    },
+    "errors": {
+      "items": {
+        "enum": [
+          "current_source_invalid",
+          "current_authority_invalid",
+          "review_expired"
+        ],
+        "type": "string"
+      },
+      "maxItems": 3,
+      "title": "Errors",
+      "type": "array"
+    },
+    "semantic_relevance_verified": {
+      "const": false,
+      "title": "Semantic Relevance Verified",
+      "type": "boolean"
+    },
+    "downstream_verified": {
+      "const": false,
+      "title": "Downstream Verified",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "bundle_sha256",
+    "intent_sha256",
+    "planning_id",
+    "stage",
+    "review_sha256",
+    "context_sha256",
+    "model_request_sha256",
+    "model_response_sha256",
+    "deployment_sha256",
+    "model_request_canonical",
+    "model_response_canonical",
+    "deployment_canonical",
+    "acknowledgement_sha256",
+    "acknowledgement",
+    "acknowledgement_canonical",
+    "bundle",
+    "bundle_canonical",
+    "historical_binding_verified",
+    "model_input_bound",
+    "proposal_recorded",
+    "real_model",
+    "model_acknowledgement_recorded",
+    "actual_model_use_verified",
+    "current_review_valid",
+    "current_source_valid",
+    "current_authority_valid",
+    "current_authority_check",
+    "review_expired",
+    "sources",
+    "errors",
+    "semantic_relevance_verified",
+    "downstream_verified",
+    "training_ready",
+    "execution_authorized",
+    "activation_authorized",
+    "gpu_release_verified"
+  ],
+  "title": "WebGoalKnowledgeReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_knowledge_report_response.schema.json"
+}

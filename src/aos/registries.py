@@ -19,7 +19,7 @@ class ModelRegistry:
 
             validate_adapter_identity(identity)
         pins = identity["pins"]
-        bonsai = identity["kind"] == "bonsai_native_supervisor"
+        bonsai = identity["kind"] in {"bonsai_native_supervisor", "scientist_bonsai_broker"}
         laya = identity["kind"] == "laya_candidate"
         model_hash = pins["model_files"][pins["weights_file"] if bonsai else "model.safetensors"]
         model_id = ("bonsai-base-" if bonsai else "laya-candidate-" if laya else "decider-base-") + model_hash

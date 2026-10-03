@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_start_recovery_receipt.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "proposal_bundle_sha256", "job_id", "acknowledgement_recovered", "execution_authorized", "independently_verified", "gpu_release_verified"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "proposal_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "job_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9_-]+$"},
+    "acknowledgement_recovered": {"const": true},
+    "execution_authorized": {"const": false},
+    "independently_verified": {"const": false},
+    "gpu_release_verified": {"const": false}
+  }
+}

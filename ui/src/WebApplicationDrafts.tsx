@@ -78,6 +78,7 @@ function isDraftReport(report: WebApplicationReport, profile: DraftProfile): boo
 }
 
 interface Props {
+  managerScope?: {project: string; port: number};
   inventory: WebApplicationReport[] | null | 'unavailable';
   imageDraftCapability: ImageDraftCapability;
   staticQueryCapability: StaticQueryCapability;
@@ -85,7 +86,7 @@ interface Props {
   onError: (failure: unknown) => void;
 }
 
-export function WebApplicationDrafts({inventory, imageDraftCapability, staticQueryCapability, onRegistered, onError}: Props) {
+export function WebApplicationDrafts({inventory, imageDraftCapability, staticQueryCapability, onRegistered, onError, managerScope}: Props) {
   const [fields, setFields] = useState<DraftFields>(emptyFields);
   const [parentSha, setParentSha] = useState('');
   const [preview, setPreview] = useState<{profile: DraftProfile; report: WebApplicationReport} | null>(null);
@@ -232,6 +233,6 @@ export function WebApplicationDrafts({inventory, imageDraftCapability, staticQue
       </article>)}
     {Array.isArray(inventory) ? <HTTPSPreflight inventory={inventory}/> : null}
     {Array.isArray(inventory) ? <WebTaskDraft inventory={inventory} imageDraftCapability={imageDraftCapability} staticQueryCapability={staticQueryCapability}/> : null}
-    <WebFormDraft inventory={Array.isArray(inventory) ? inventory : []}/>
+    <WebFormDraft inventory={Array.isArray(inventory) ? inventory : []} managerScope={managerScope}/>
   </section>;
 }

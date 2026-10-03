@@ -1,0 +1,146 @@
+{
+  "$defs": {
+    "WebGoalExecutionAuthority": {
+      "additionalProperties": false,
+      "properties": {
+        "manager_session": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Manager Session",
+          "type": "string"
+        },
+        "desktop_session_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Desktop Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "owner": {
+          "const": "AGENT",
+          "title": "Owner",
+          "type": "string"
+        },
+        "status": {
+          "const": "running",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "manager_session",
+        "desktop_session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "status"
+      ],
+      "title": "WebGoalExecutionAuthority",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "execution_performed": {
+      "const": false,
+      "default": false,
+      "title": "Execution Performed",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "web_goal_parameter_execution_confirmation",
+      "title": "Kind",
+      "type": "string"
+    },
+    "binding_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Binding Sha256",
+      "type": "string"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "authority": {
+      "$ref": "#/$defs/WebGoalExecutionAuthority"
+    },
+    "human_confirmation": {
+      "const": true,
+      "title": "Human Confirmation",
+      "type": "boolean"
+    },
+    "fresh_approval_per_stage": {
+      "const": true,
+      "title": "Fresh Approval Per Stage",
+      "type": "boolean"
+    },
+    "confirm_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "binding_sha256",
+    "source_sha256",
+    "authority",
+    "human_confirmation",
+    "fresh_approval_per_stage",
+    "confirm_sha256"
+  ],
+  "title": "WebGoalExecutionConfirmation",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_execution_confirmation.schema.json"
+}

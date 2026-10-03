@@ -1,0 +1,21 @@
+{
+  "version": "1",
+  "plan_sha256": "8cc82184a747d80cb59dffb30c670ba84594d02fc20ccf24c260d811e8f99dd8",
+  "reviewed_launch_input_path": "/workspace/synthetic/shared-desktop/config.json",
+  "reviewed_launch_input_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "source_files": {
+    "/workspace/synthetic/shared-desktop/python": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "/workspace/synthetic/shared-desktop/launcher.py": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "source_sha256": "828a927241851b7faa0aced64f1a1624b48e2d32cdb39f8154cfb7b3d348afa0",
+  "config_files": {
+    "/workspace/synthetic/shared-desktop/config.json": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "config_sha256": "c1c8d4cd5b312877bfbc8ce87ab73dd09c05d6523cc6f9aa09c9360e4ecc0f8e",
+  "boot_id": "00000000-0000-0000-0000-000000000001",
+  "clock": "CLOCK_BOOTTIME",
+  "issued_monotonic": 100.0,
+  "expires_monotonic": 200.0,
+  "capability_proof_sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "source_proof_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+}

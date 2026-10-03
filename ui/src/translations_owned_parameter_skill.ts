@@ -1,0 +1,16 @@
+export const translationsOwnedParameterSkill: Record<string, string> = {
+  'Manuel bootstrap skill adayı': 'Manual bootstrap skill candidate',
+  'Adayı önizle — salt okunur': 'Preview candidate — read only',
+  'Bu exact aday hash’i için özel manuel inceleme kaydını onaylıyorum.': 'I confirm private manual review storage for this exact candidate hash.',
+  'Manuel adayı kaydet': 'Store manual candidate',
+  'Aday SHA-256': 'Candidate SHA-256',
+  'Kaydedilmiş adayı yeniden oku': 'Read stored candidate',
+  'İnsan incelemesi bekleniyor.': 'Awaiting manual review.',
+  'Önizleme doğrulandı; henüz kaydedilmedi.': 'Preview verified; not stored yet.',
+  'Özel aday kaydı doğrulandı.': 'Private candidate storage verified.',
+  'Kayıt sonucu belirsiz. Tekrar gönderilmez; exact hash ile salt okunur denetim yapın.': 'Storage outcome uncertain. No resubmission; inspect read only using the exact hash.',
+  'Aday yanıtı veya kaynak doğrulanamadı.': 'Candidate response or source could not be verified.',
+  'Aday kanıtı denetleniyor…': 'Checking candidate evidence…',
+  'Denetlenmiş sentetik manuel yürütme adayıdır. Released skill, gerçek model, etkinleştirme, eğitim veya GPU bırakımı kanıtı değildir.': 'Audited synthetic manual execution candidate. It does not prove a released skill, native model, activation, training or GPU release.',
+  'Kapsam': 'Scope',
+};

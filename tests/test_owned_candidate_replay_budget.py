@@ -266,6 +266,7 @@ class OwnedCandidateReplayBudgetTests(unittest.TestCase):
         bundle = self._bundle(persist=False)
         prepared = bundle['prepared']
         scheduler = DesktopScheduler.__new__(DesktopScheduler)
+        scheduler.web_goal_planning = None
         scheduler.owned_skill_planning = None
         scheduler.task = None
         scheduler.sequences = SimpleNamespace(reserved=False)

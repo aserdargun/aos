@@ -1,0 +1,1660 @@
+{
+  "$defs": {
+    "KnowledgeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "application_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Application Id",
+          "type": "string"
+        },
+        "tenant_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Tenant Id",
+          "type": "string"
+        },
+        "account_role": {
+          "pattern": "^[A-Za-z0-9_-]{1,100}$",
+          "title": "Account Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "application_id",
+        "tenant_id",
+        "account_role"
+      ],
+      "title": "KnowledgeScope",
+      "type": "object"
+    },
+    "OwnedParameterSkillRelease": {
+      "additionalProperties": false,
+      "properties": {
+        "released_skill_verified": {
+          "const": false,
+          "default": false,
+          "title": "Released Skill Verified",
+          "type": "boolean"
+        },
+        "native_model_verified": {
+          "const": false,
+          "default": false,
+          "title": "Native Model Verified",
+          "type": "boolean"
+        },
+        "site_outcome_verified": {
+          "const": false,
+          "default": false,
+          "title": "Site Outcome Verified",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "default": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "gpu_release_verified": {
+          "const": false,
+          "default": false,
+          "title": "Gpu Release Verified",
+          "type": "boolean"
+        },
+        "replay_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Replay Authorized",
+          "type": "boolean"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "development_only": {
+          "const": true,
+          "title": "Development Only",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "account_scope_verified": {
+          "const": false,
+          "default": false,
+          "title": "Account Scope Verified",
+          "type": "boolean"
+        },
+        "held_out_independence_verified": {
+          "const": false,
+          "default": false,
+          "title": "Held Out Independence Verified",
+          "type": "boolean"
+        },
+        "runtime_started": {
+          "const": false,
+          "default": false,
+          "title": "Runtime Started",
+          "type": "boolean"
+        },
+        "model_calls": {
+          "const": 0,
+          "default": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "reviewed": {
+          "const": true,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "candidate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "source_fingerprint_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Fingerprint Sha256",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "family_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Family Sha256",
+          "type": "string"
+        },
+        "release_directory_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Release Directory Sha256",
+          "type": "string"
+        },
+        "release_parent_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "database_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "actor": {
+          "const": "local_authenticated_user",
+          "title": "Actor",
+          "type": "string"
+        },
+        "kind": {
+          "const": "owned_parameter_skill_manual_release",
+          "title": "Kind",
+          "type": "string"
+        },
+        "purpose": {
+          "const": "development_release",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "family": {
+          "$ref": "#/$defs/OwnedParameterSkillReleaseFamily"
+        },
+        "revision": {
+          "maximum": 64,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "parent_release_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Parent Release Sha256"
+        },
+        "review_directory_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Directory Sha256",
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "source_run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Run Ref",
+          "type": "string"
+        },
+        "recipe_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Recipe Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "synthetic",
+        "development_only",
+        "schema_version",
+        "reviewed",
+        "review_sha256",
+        "candidate_sha256",
+        "source_fingerprint_sha256",
+        "scope",
+        "family_sha256",
+        "release_directory_sha256",
+        "release_parent_identity",
+        "database_identity",
+        "actor",
+        "kind",
+        "purpose",
+        "family",
+        "revision",
+        "parent_release_sha256",
+        "review_directory_sha256",
+        "manifest_sha256",
+        "source_run_ref",
+        "recipe_sha256"
+      ],
+      "title": "OwnedParameterSkillRelease",
+      "type": "object"
+    },
+    "OwnedParameterSkillReleaseFamily": {
+      "additionalProperties": false,
+      "properties": {
+        "provenance_kind": {
+          "const": "manual_authored_synthetic_project",
+          "title": "Provenance Kind",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "task_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Task Key",
+          "type": "string"
+        },
+        "field_binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Binding Sha256",
+          "type": "string"
+        },
+        "outcome_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Outcome Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provenance_kind",
+        "scope",
+        "task_key",
+        "field_binding_sha256",
+        "outcome_sha256"
+      ],
+      "title": "OwnedParameterSkillReleaseFamily",
+      "type": "object"
+    },
+    "OwnedParameterSkillReuseField": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 80,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "label",
+        "value"
+      ],
+      "title": "OwnedParameterSkillReuseField",
+      "type": "object"
+    },
+    "OwnedParameterSkillReuseRecordConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "fields": {
+          "items": {
+            "$ref": "#/$defs/OwnedParameterSkillReuseField"
+          },
+          "maxItems": 8,
+          "minItems": 2,
+          "title": "Fields",
+          "type": "array"
+        },
+        "outcome_field": {
+          "pattern": "^[A-Za-z][A-Za-z0-9_]{0,63}$",
+          "title": "Outcome Field",
+          "type": "string"
+        },
+        "marker_id": {
+          "const": "outcome",
+          "title": "Marker Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "fields",
+        "outcome_field",
+        "marker_id"
+      ],
+      "title": "OwnedParameterSkillReuseRecordConfig",
+      "type": "object"
+    },
+    "OwnedParameterSkillReuseSource": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "kind": {
+          "const": "owned_parameter_skill_manual_reuse_source",
+          "title": "Kind",
+          "type": "string"
+        },
+        "release": {
+          "$ref": "#/$defs/OwnedParameterSkillRelease"
+        },
+        "release_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Release Sha256",
+          "type": "string"
+        },
+        "selection": {
+          "$ref": "#/$defs/OwnedParameterSkillSelection"
+        },
+        "selection_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Selection Sha256",
+          "type": "string"
+        },
+        "candidate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "family_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Family Sha256",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "source_fingerprint_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Fingerprint Sha256",
+          "type": "string"
+        },
+        "source_run_ref": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Run Ref",
+          "type": "string"
+        },
+        "source_invocation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Invocation Sha256",
+          "type": "string"
+        },
+        "source_parameter_variant_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Parameter Variant Sha256",
+          "type": "string"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        },
+        "skill_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Sha256",
+          "type": "string"
+        },
+        "recipe_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Recipe Sha256",
+          "type": "string"
+        },
+        "field_binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Binding Sha256",
+          "type": "string"
+        },
+        "certificate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Certificate Sha256",
+          "type": "string"
+        },
+        "entry_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Entry Sha256",
+          "type": "string"
+        },
+        "origin": {
+          "pattern": "^https://w3-owned-form\\.aos\\.invalid:[1-9][0-9]{0,4}$",
+          "title": "Origin",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "release",
+        "release_sha256",
+        "selection",
+        "selection_sha256",
+        "candidate_sha256",
+        "review_sha256",
+        "family_sha256",
+        "scope",
+        "manifest_sha256",
+        "source_fingerprint_sha256",
+        "source_run_ref",
+        "source_invocation_sha256",
+        "source_parameter_variant_sha256",
+        "profile_sha256",
+        "task_sha256",
+        "skill_sha256",
+        "recipe_sha256",
+        "field_binding_sha256",
+        "certificate_sha256",
+        "entry_sha256",
+        "origin"
+      ],
+      "title": "OwnedParameterSkillReuseSource",
+      "type": "object"
+    },
+    "OwnedParameterSkillSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "released_skill_verified": {
+          "const": false,
+          "default": false,
+          "title": "Released Skill Verified",
+          "type": "boolean"
+        },
+        "native_model_verified": {
+          "const": false,
+          "default": false,
+          "title": "Native Model Verified",
+          "type": "boolean"
+        },
+        "site_outcome_verified": {
+          "const": false,
+          "default": false,
+          "title": "Site Outcome Verified",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "default": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        },
+        "gpu_release_verified": {
+          "const": false,
+          "default": false,
+          "title": "Gpu Release Verified",
+          "type": "boolean"
+        },
+        "replay_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Replay Authorized",
+          "type": "boolean"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "development_only": {
+          "const": true,
+          "title": "Development Only",
+          "type": "boolean"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "account_scope_verified": {
+          "const": false,
+          "default": false,
+          "title": "Account Scope Verified",
+          "type": "boolean"
+        },
+        "held_out_independence_verified": {
+          "const": false,
+          "default": false,
+          "title": "Held Out Independence Verified",
+          "type": "boolean"
+        },
+        "runtime_started": {
+          "const": false,
+          "default": false,
+          "title": "Runtime Started",
+          "type": "boolean"
+        },
+        "model_calls": {
+          "const": 0,
+          "default": 0,
+          "title": "Model Calls",
+          "type": "integer"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "reviewed": {
+          "const": true,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "review_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Review Sha256",
+          "type": "string"
+        },
+        "candidate_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "source_fingerprint_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Fingerprint Sha256",
+          "type": "string"
+        },
+        "scope": {
+          "$ref": "#/$defs/KnowledgeScope"
+        },
+        "family_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Family Sha256",
+          "type": "string"
+        },
+        "release_directory_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Release Directory Sha256",
+          "type": "string"
+        },
+        "release_parent_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "database_identity": {
+          "$ref": "#/$defs/StoreIdentity"
+        },
+        "actor": {
+          "const": "local_authenticated_user",
+          "title": "Actor",
+          "type": "string"
+        },
+        "kind": {
+          "const": "owned_parameter_skill_manual_selection",
+          "title": "Kind",
+          "type": "string"
+        },
+        "purpose": {
+          "const": "development_selected",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "select",
+            "rollback"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "sequence": {
+          "maximum": 64,
+          "minimum": 1,
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "previous_selection_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous Selection Sha256"
+        },
+        "previous_release_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous Release Sha256"
+        },
+        "release_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Release Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "synthetic",
+        "development_only",
+        "schema_version",
+        "reviewed",
+        "review_sha256",
+        "candidate_sha256",
+        "source_fingerprint_sha256",
+        "scope",
+        "family_sha256",
+        "release_directory_sha256",
+        "release_parent_identity",
+        "database_identity",
+        "actor",
+        "kind",
+        "purpose",
+        "operation",
+        "sequence",
+        "previous_selection_sha256",
+        "previous_release_sha256",
+        "release_sha256"
+      ],
+      "title": "OwnedParameterSkillSelection",
+      "type": "object"
+    },
+    "SiteSkillCaseInput": {
+      "additionalProperties": false,
+      "properties": {
+        "case_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "parameters": {
+          "maxProperties": 16,
+          "minProperties": 1,
+          "patternProperties": {
+            "^[a-z][a-z0-9_-]{0,63}$": {
+              "type": "string"
+            }
+          },
+          "title": "Parameters",
+          "type": "object"
+        }
+      },
+      "required": [
+        "case_key",
+        "parameters"
+      ],
+      "title": "SiteSkillCaseInput",
+      "type": "object"
+    },
+    "SiteSkillCaseInputs": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Plan Sha256",
+          "type": "string"
+        },
+        "cases": {
+          "items": {
+            "$ref": "#/$defs/SiteSkillCaseInput"
+          },
+          "maxItems": 16,
+          "minItems": 3,
+          "title": "Cases",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_version",
+        "synthetic",
+        "plan_sha256",
+        "cases"
+      ],
+      "title": "SiteSkillCaseInputs",
+      "type": "object"
+    },
+    "SiteSkillFormFieldBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "parameter_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Parameter Key",
+          "type": "string"
+        },
+        "form_field_name": {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$",
+          "title": "Form Field Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "parameter_key",
+        "form_field_name"
+      ],
+      "title": "SiteSkillFormFieldBinding",
+      "type": "object"
+    },
+    "SiteSkillFormRecipeInvocation": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "2.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "status": {
+          "const": "admission_ready",
+          "title": "Status",
+          "type": "string"
+        },
+        "skill_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Sha256",
+          "type": "string"
+        },
+        "skill_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Plan Sha256",
+          "type": "string"
+        },
+        "case_inputs_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Case Inputs Sha256",
+          "type": "string"
+        },
+        "case_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        },
+        "form_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Form Plan Sha256",
+          "type": "string"
+        },
+        "state_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "State Plan Sha256",
+          "type": "string"
+        },
+        "field_binding_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Field Binding Sha256",
+          "type": "string"
+        },
+        "recipe_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Recipe Sha256",
+          "type": "string"
+        },
+        "preconditions": {
+          "items": {
+            "$ref": "#/$defs/SiteSkillFormRecipePrecondition"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Preconditions",
+          "type": "array"
+        },
+        "outcome": {
+          "$ref": "#/$defs/SiteSkillFormRecipeOutcome"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/SiteSkillFormRecipeStep"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "title": "Steps",
+          "type": "array"
+        },
+        "fresh_approval_per_stage": {
+          "const": true,
+          "title": "Fresh Approval Per Stage",
+          "type": "boolean"
+        },
+        "maximum_post_count": {
+          "const": 1,
+          "title": "Maximum Post Count",
+          "type": "integer"
+        },
+        "execution_authorized": {
+          "const": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "collection_authorized": {
+          "const": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        },
+        "recipe_executed": {
+          "const": false,
+          "title": "Recipe Executed",
+          "type": "boolean"
+        },
+        "skill_executed": {
+          "const": false,
+          "title": "Skill Executed",
+          "type": "boolean"
+        },
+        "site_outcome_verified": {
+          "const": false,
+          "title": "Site Outcome Verified",
+          "type": "boolean"
+        },
+        "reviewed": {
+          "const": false,
+          "title": "Reviewed",
+          "type": "boolean"
+        },
+        "activation_authorized": {
+          "const": false,
+          "title": "Activation Authorized",
+          "type": "boolean"
+        },
+        "training_ready": {
+          "const": false,
+          "title": "Training Ready",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "synthetic",
+        "status",
+        "skill_sha256",
+        "skill_plan_sha256",
+        "case_inputs_sha256",
+        "case_key",
+        "profile_sha256",
+        "task_sha256",
+        "form_plan_sha256",
+        "state_plan_sha256",
+        "field_binding_sha256",
+        "recipe_sha256",
+        "preconditions",
+        "outcome",
+        "steps",
+        "fresh_approval_per_stage",
+        "maximum_post_count",
+        "execution_authorized",
+        "collection_authorized",
+        "recipe_executed",
+        "skill_executed",
+        "site_outcome_verified",
+        "reviewed",
+        "activation_authorized",
+        "training_ready"
+      ],
+      "title": "SiteSkillFormRecipeInvocation",
+      "type": "object"
+    },
+    "SiteSkillFormRecipeOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "outcome_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Outcome Key",
+          "type": "string"
+        },
+        "kind": {
+          "const": "submitted_field_state_transition",
+          "title": "Kind",
+          "type": "string"
+        },
+        "parameter_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Parameter Key",
+          "type": "string"
+        },
+        "form_field_name": {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$",
+          "title": "Form Field Name",
+          "type": "string"
+        },
+        "verified_at_operation": {
+          "const": "read_state_after",
+          "title": "Verified At Operation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "outcome_key",
+        "kind",
+        "parameter_key",
+        "form_field_name",
+        "verified_at_operation"
+      ],
+      "title": "SiteSkillFormRecipeOutcome",
+      "type": "object"
+    },
+    "SiteSkillFormRecipePrecondition": {
+      "additionalProperties": false,
+      "properties": {
+        "precondition_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Precondition Key",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "entry_form_available",
+            "declared_state_before"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "checked_at_operation": {
+          "enum": [
+            "fill_form",
+            "read_state_before"
+          ],
+          "title": "Checked At Operation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "precondition_key",
+        "kind",
+        "checked_at_operation"
+      ],
+      "title": "SiteSkillFormRecipePrecondition",
+      "type": "object"
+    },
+    "SiteSkillFormRecipeStep": {
+      "additionalProperties": false,
+      "properties": {
+        "step_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Step Key",
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "open_entry",
+            "read_state_before",
+            "fill_form",
+            "submit_form",
+            "read_receipt",
+            "read_state_after"
+          ],
+          "title": "Operation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step_key",
+        "operation"
+      ],
+      "title": "SiteSkillFormRecipeStep",
+      "type": "object"
+    },
+    "SiteSkillValidationCase": {
+      "additionalProperties": false,
+      "properties": {
+        "case_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Case Key",
+          "type": "string"
+        },
+        "cohort": {
+          "enum": [
+            "development",
+            "held_out"
+          ],
+          "title": "Cohort",
+          "type": "string"
+        },
+        "parameter_keys": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "title": "Parameter Keys",
+          "type": "array"
+        },
+        "parameter_variant_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Parameter Variant Sha256",
+          "type": "string"
+        },
+        "expected_outcome_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Expected Outcome Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_key",
+        "cohort",
+        "parameter_keys",
+        "parameter_variant_sha256",
+        "expected_outcome_key"
+      ],
+      "title": "SiteSkillValidationCase",
+      "type": "object"
+    },
+    "SiteSkillValidationPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "skill_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Sha256",
+          "type": "string"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "page_draft_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Page Draft Sha256",
+          "type": "string"
+        },
+        "task_key": {
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+          "title": "Task Key",
+          "type": "string"
+        },
+        "model_role": {
+          "enum": [
+            "system1",
+            "system2"
+          ],
+          "title": "Model Role",
+          "type": "string"
+        },
+        "source_variant_sha256": {
+          "items": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Source Variant Sha256",
+          "type": "array"
+        },
+        "cases": {
+          "items": {
+            "$ref": "#/$defs/SiteSkillValidationCase"
+          },
+          "maxItems": 16,
+          "minItems": 3,
+          "title": "Cases",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_version",
+        "synthetic",
+        "skill_sha256",
+        "profile_sha256",
+        "page_draft_sha256",
+        "task_key",
+        "model_role",
+        "source_variant_sha256",
+        "cases"
+      ],
+      "title": "SiteSkillValidationPlan",
+      "type": "object"
+    },
+    "StoreIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 0,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner": {
+          "minimum": 0,
+          "title": "Owner",
+          "type": "integer"
+        },
+        "mode": {
+          "minimum": 0,
+          "title": "Mode",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "device",
+        "inode",
+        "owner",
+        "mode"
+      ],
+      "title": "StoreIdentity",
+      "type": "object"
+    },
+    "WebHTTPSFormPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        },
+        "entry_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Entry Url",
+          "type": "string"
+        },
+        "submit_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Submit Url",
+          "type": "string"
+        },
+        "receipt_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Receipt Url",
+          "type": "string"
+        },
+        "body_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Body Sha256",
+          "type": "string"
+        },
+        "body_bytes": {
+          "maximum": 4096,
+          "minimum": 1,
+          "title": "Body Bytes",
+          "type": "integer"
+        },
+        "content_type": {
+          "const": "application/x-www-form-urlencoded",
+          "default": "application/x-www-form-urlencoded",
+          "title": "Content Type",
+          "type": "string"
+        },
+        "approval": {
+          "const": "fresh_per_action",
+          "default": "fresh_per_action",
+          "title": "Approval",
+          "type": "string"
+        },
+        "status": {
+          "const": "draft",
+          "default": "draft",
+          "title": "Status",
+          "type": "string"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "collection_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "profile_sha256",
+        "task_sha256",
+        "entry_url",
+        "submit_url",
+        "receipt_url",
+        "body_sha256",
+        "body_bytes"
+      ],
+      "title": "WebHTTPSFormPlan",
+      "type": "object"
+    },
+    "WebHTTPSFormStatePlan": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "profile_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Profile Sha256",
+          "type": "string"
+        },
+        "task_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Task Sha256",
+          "type": "string"
+        },
+        "form_plan_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Form Plan Sha256",
+          "type": "string"
+        },
+        "state_url": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "State Url",
+          "type": "string"
+        },
+        "expected_before_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Expected Before Sha256",
+          "type": "string"
+        },
+        "expected_after_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Expected After Sha256",
+          "type": "string"
+        },
+        "marker_id": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Marker Id"
+        },
+        "expected_before_marker_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Before Marker Sha256"
+        },
+        "expected_after_marker_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected After Marker Sha256"
+        },
+        "submitted_field_name": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Submitted Field Name"
+        },
+        "approval": {
+          "const": "fresh_per_action",
+          "default": "fresh_per_action",
+          "title": "Approval",
+          "type": "string"
+        },
+        "status": {
+          "const": "draft",
+          "default": "draft",
+          "title": "Status",
+          "type": "string"
+        },
+        "execution_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Execution Authorized",
+          "type": "boolean"
+        },
+        "collection_authorized": {
+          "const": false,
+          "default": false,
+          "title": "Collection Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "profile_sha256",
+        "task_sha256",
+        "form_plan_sha256",
+        "state_url",
+        "expected_before_sha256",
+        "expected_after_sha256"
+      ],
+      "title": "WebHTTPSFormStatePlan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "released_skill_verified": {
+      "const": false,
+      "default": false,
+      "title": "Released Skill Verified",
+      "type": "boolean"
+    },
+    "native_model_verified": {
+      "const": false,
+      "default": false,
+      "title": "Native Model Verified",
+      "type": "boolean"
+    },
+    "site_outcome_verified": {
+      "const": false,
+      "default": false,
+      "title": "Site Outcome Verified",
+      "type": "boolean"
+    },
+    "activation_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Activation Authorized",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "default": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "default": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    },
+    "replay_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Replay Authorized",
+      "type": "boolean"
+    },
+    "synthetic": {
+      "const": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "development_only": {
+      "const": true,
+      "title": "Development Only",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "account_scope_verified": {
+      "const": false,
+      "default": false,
+      "title": "Account Scope Verified",
+      "type": "boolean"
+    },
+    "held_out_independence_verified": {
+      "const": false,
+      "default": false,
+      "title": "Held Out Independence Verified",
+      "type": "boolean"
+    },
+    "runtime_started": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Started",
+      "type": "boolean"
+    },
+    "model_calls": {
+      "const": 0,
+      "default": 0,
+      "title": "Model Calls",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "owned_parameter_skill_manual_reuse_admission",
+      "title": "Kind",
+      "type": "string"
+    },
+    "status": {
+      "const": "compiled_manual_reuse_preview",
+      "title": "Status",
+      "type": "string"
+    },
+    "reviewed": {
+      "const": false,
+      "title": "Reviewed",
+      "type": "boolean"
+    },
+    "execution_performed": {
+      "const": false,
+      "title": "Execution Performed",
+      "type": "boolean"
+    },
+    "source": {
+      "$ref": "#/$defs/OwnedParameterSkillReuseSource"
+    },
+    "parameters": {
+      "maxProperties": 8,
+      "minProperties": 2,
+      "patternProperties": {
+        "^[a-z][a-z0-9_-]{0,63}$": {
+          "type": "string"
+        }
+      },
+      "title": "Parameters",
+      "type": "object"
+    },
+    "parameter_variant_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Parameter Variant Sha256",
+      "type": "string"
+    },
+    "case_key": {
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$",
+      "title": "Case Key",
+      "type": "string"
+    },
+    "field_bindings": {
+      "items": {
+        "$ref": "#/$defs/SiteSkillFormFieldBinding"
+      },
+      "maxItems": 8,
+      "minItems": 2,
+      "title": "Field Bindings",
+      "type": "array"
+    },
+    "skill_plan": {
+      "$ref": "#/$defs/SiteSkillValidationPlan"
+    },
+    "skill_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Skill Plan Sha256",
+      "type": "string"
+    },
+    "case_inputs": {
+      "$ref": "#/$defs/SiteSkillCaseInputs"
+    },
+    "case_inputs_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Case Inputs Sha256",
+      "type": "string"
+    },
+    "form_plan": {
+      "$ref": "#/$defs/WebHTTPSFormPlan"
+    },
+    "form_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Form Plan Sha256",
+      "type": "string"
+    },
+    "state_plan": {
+      "$ref": "#/$defs/WebHTTPSFormStatePlan"
+    },
+    "state_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "State Plan Sha256",
+      "type": "string"
+    },
+    "record_config": {
+      "$ref": "#/$defs/OwnedParameterSkillReuseRecordConfig"
+    },
+    "record_config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Record Config Sha256",
+      "type": "string"
+    },
+    "expected_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Expected Record Sha256",
+      "type": "string"
+    },
+    "form_body_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Form Body Sha256",
+      "type": "string"
+    },
+    "invocation": {
+      "$ref": "#/$defs/SiteSkillFormRecipeInvocation"
+    },
+    "invocation_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Invocation Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "synthetic",
+    "development_only",
+    "schema_version",
+    "kind",
+    "status",
+    "reviewed",
+    "execution_performed",
+    "source",
+    "parameters",
+    "parameter_variant_sha256",
+    "case_key",
+    "field_bindings",
+    "skill_plan",
+    "skill_plan_sha256",
+    "case_inputs",
+    "case_inputs_sha256",
+    "form_plan",
+    "form_plan_sha256",
+    "state_plan",
+    "state_plan_sha256",
+    "record_config",
+    "record_config_sha256",
+    "expected_record_sha256",
+    "form_body_sha256",
+    "invocation",
+    "invocation_sha256"
+  ],
+  "title": "OwnedParameterSkillReuseAdmission",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -107,6 +107,28 @@ class OwnedSkillReuseManagerTests(unittest.TestCase):
                     local_app.prepare_owned_skill_reuse(previous, 'a' * 64, 'b' * 64, base=base)
             audit.assert_not_called()
 
+    def test_project_reuse_paths_require_exact_managed_root_and_original_session(self):
+        from aos.owned_skill_reuse import _paths
+        base = REPO_ROOT / 'data' / 'local-app-project-learning-demo'
+        previous = SimpleNamespace(session='app-' + 'a' * 32, owned_skill_source_session=None,
+                                   project='learning-demo')
+        session = base / previous.session
+        self.assertEqual(_paths(session, previous, session / 'owned-form', session / 'store.sqlite'),
+                         (session, session / 'owned-form', session / 'store.sqlite'))
+        for foreign in (REPO_ROOT / 'data' / 'local-app-project-INVALID',
+                        REPO_ROOT / 'data' / 'local-app-project-', base / 'nested'):
+            directory = foreign / previous.session
+            with self.assertRaises(ValueError):
+                _paths(directory, previous, directory / 'owned-form', directory / 'store.sqlite')
+        with self.assertRaises(ValueError):
+            _paths(session, previous, base / ('app-' + 'b' * 32) / 'owned-form', session / 'store.sqlite')
+        previous.project = 'other-project'
+        with self.assertRaises(ValueError):
+            _paths(session, previous, session / 'owned-form', session / 'store.sqlite')
+        default_session = REPO_ROOT / 'data/local-app-v1' / previous.session
+        with self.assertRaises(ValueError):
+            _paths(default_session, previous, default_session / 'owned-form', default_session / 'store.sqlite')
+
     def test_load_reaudits_canonical_files_and_preserves_source_identity(self):
         self.write_startup()
         with patch('aos.local_app.prepare_owned_skill_reuse', return_value=self.material) as audit:

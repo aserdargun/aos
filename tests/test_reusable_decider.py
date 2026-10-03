@@ -49,6 +49,50 @@ for index, line in enumerate(sys.stdin):
 
 
 class ReusableDeciderTests(unittest.IsolatedAsyncioTestCase):
+    async def test_cleanup_timeout_requires_explicit_retry_before_reopen(self):
+        await self.engine.decide(self.state, self.options)
+        process = self.engine.process
+
+        async def timeout(awaitable, seconds):
+            awaitable.cancel()
+            raise TimeoutError('cleanup deadline')
+
+        with patch('aos.reusable_decider.asyncio.wait_for', side_effect=timeout):
+            with self.assertRaises(TimeoutError):
+                await self.engine.close()
+        self.assertIs(self.engine.process, process)
+        self.assertTrue(self.engine.cleanup_pending)
+        with self.assertRaises(AOSFault):
+            await self.engine.start()
+        await self.engine.close()
+        self.assertIsNone(self.engine.process)
+
+    async def test_failed_cleanup_retains_worker_and_blocks_new_requests(self):
+        await self.engine.decide(self.state, self.options)
+        process = self.engine.process
+        with patch.object(process, 'communicate', side_effect=OSError('cleanup failed')):
+            with self.assertRaises(OSError):
+                await self.engine.close()
+            self.assertIs(self.engine.process, process)
+            with self.assertRaises(AOSFault):
+                await self.engine.request({'operation': 'prepare_cpu'})
+            with self.assertRaises(AOSFault):
+                await self.engine.start()
+        await self.engine.close()
+        self.assertIsNone(self.engine.process)
+        await self.engine.decide(self.state, self.options)
+        self.assertIsNot(self.engine.process, process)
+
+    async def test_failed_signal_does_not_forget_worker(self):
+        await self.engine.decide(self.state, self.options)
+        process = self.engine.process
+        with patch('aos.reusable_decider.os.killpg', side_effect=PermissionError('denied')):
+            with self.assertRaises(PermissionError):
+                await self.engine.close()
+        self.assertIs(self.engine.process, process)
+        await self.engine.close()
+        self.assertIsNone(self.engine.process)
+
     async def test_background_cpu_preparation_then_fresh_decision(self):
         self.engine.prepare_in_background()
         await self.engine.preparation

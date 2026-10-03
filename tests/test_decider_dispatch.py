@@ -13,6 +13,22 @@ from aos.reusable_decider import ReusableDeciderEngine
 
 
 class DeciderDispatchTests(unittest.IsolatedAsyncioTestCase):
+    async def test_worker_reply_without_exit_does_not_prove_cleanup(self):
+        process = self.process()
+        engine = self.reusable(process)
+        engine.process = process
+        process.communicate.side_effect = None
+        with patch('aos.reusable_decider.os.killpg'):
+            with self.assertRaises(AOSFault):
+                await engine.close()
+        self.assertIs(engine.process, process)
+        self.assertTrue(engine.cleanup_pending)
+        with self.assertRaises(AOSFault):
+            await engine.request({'operation': 'prepare_cpu'})
+        process.returncode = 0
+        await engine.close()
+        self.assertIsNone(engine.process)
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
@@ -49,6 +65,12 @@ class DeciderDispatchTests(unittest.IsolatedAsyncioTestCase):
 
     def reusable(self, process):
         engine = ReusableDeciderEngine(self.manifest, Path('/synthetic/python'))
+
+        async def communicate():
+            process.returncode = 0
+            return b'', None
+
+        process.communicate.side_effect = communicate
 
         async def readline():
             request = json.loads(process.stdin.write.call_args.args[0])

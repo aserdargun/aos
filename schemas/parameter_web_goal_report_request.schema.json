@@ -1,0 +1,23 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "intent_sha256"
+  ],
+  "title": "ParameterWebGoalReportRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "parameter_web_goal_report_request.schema.json"
+}

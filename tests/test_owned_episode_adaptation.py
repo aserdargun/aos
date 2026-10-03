@@ -359,6 +359,7 @@ class OwnedEpisodeAdaptationTests(unittest.TestCase):
 
     def test_generic_scheduler_start_is_blocked_by_adaptation_reservation(self):
         scheduler = DesktopScheduler.__new__(DesktopScheduler)
+        scheduler.web_goal_planning = None
         scheduler.owned_skill_planning = SimpleNamespace(
             reserved=False, episode_learning=SimpleNamespace(adaptation=SimpleNamespace(reserved=True)))
         with self.assertRaises(AOSFault) as raised:

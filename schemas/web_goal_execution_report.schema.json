@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_execution_report.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "proposal_bundle_sha256", "job_id", "job_status", "status", "independently_verified", "receipt_sha256", "report_sha256", "verification_scope", "execution_authorized", "training_ready", "gpu_release_verified"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "proposal_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "job_id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "job_status": {"enum": ["queued", "running", "paused", "waiting_approval", "waiting_human", "succeeded", "failed", "cancelled"]},
+    "status": {"enum": ["pending_verification", "verified", "not_verified"]},
+    "independently_verified": {"type": "boolean"},
+    "receipt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "report_sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "verification_scope": {"const": "owned_synthetic_recipe"},
+    "execution_authorized": {"type": "boolean", "const": false},
+    "training_ready": {"type": "boolean", "const": false},
+    "gpu_release_verified": {"type": "boolean", "const": false}
+  },
+  "allOf": [{"if": {"properties": {"status": {"const": "verified"}}},
+    "then": {"properties": {"independently_verified": {"const": true}, "report_sha256": {"type": "string"}, "job_status": {"const": "succeeded"}}},
+    "else": {"properties": {"independently_verified": {"const": false}, "report_sha256": {"type": "null"}}}}]
+}

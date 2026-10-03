@@ -148,11 +148,26 @@ def write_private_draft(path: Path, page: SitePageDraft) -> None:
 
 
 def seed_output_path(root: Path, profile_sha256: str, page_key: str) -> Path:
-    data_root = (REPO_ROOT / 'data').resolve()
-    if (root.resolve().parent != data_root
+    root = Path(root)
+    data_root = REPO_ROOT / 'data'
+    if (not root.is_absolute() or '..' in root.parts or root.resolve() != root
+            or data_root.resolve() != data_root
             or re.fullmatch(r'[a-f0-9]{64}', profile_sha256) is None
             or re.fullmatch(r'[a-z][a-z0-9_-]{0,63}', page_key) is None):
         raise ValueError('remote_page_draft_seed_invalid_private_output')
+    try:
+        relative = root.relative_to(data_root).parts
+    except ValueError:
+        raise ValueError('remote_page_draft_seed_invalid_private_output') from None
+    if len(relative) != 1:
+        if (len(relative) != 3
+                or re.fullmatch(r'local-app-(?:v1|project-[a-z0-9][a-z0-9-]{0,47})', relative[0]) is None
+                or re.fullmatch(r'app-[a-f0-9]{32}', relative[1]) is None
+                or relative[2] not in {'site-page-seeds', 'json-page-seeds'}):
+            raise ValueError('remote_page_draft_seed_invalid_private_output')
+        for directory in (root.parent.parent, root.parent):
+            descriptor = private_directory(directory)
+            os.close(descriptor)
     return root / profile_sha256 / (page_key + '.json')
 
 

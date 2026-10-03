@@ -1,0 +1,5 @@
+{
+  "suite": "synthetic.allowed.v1",
+  "track": "anomaly",
+  "program_version": "synthetic.director.v1"
+}

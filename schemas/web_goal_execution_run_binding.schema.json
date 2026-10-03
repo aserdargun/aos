@@ -1,0 +1,116 @@
+{
+  "$defs": {
+    "WebGoalExecutionRunIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "pattern": "^task-[a-f0-9]{32}$",
+          "title": "Task Id",
+          "type": "string"
+        },
+        "run_id": {
+          "pattern": "^run-[a-f0-9]{32}$",
+          "title": "Run Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "deployment_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Deployment Id",
+          "type": "string"
+        },
+        "owner_lease_id": {
+          "pattern": "^[A-Za-z0-9_-]{1,128}$",
+          "title": "Owner Lease Id",
+          "type": "string"
+        },
+        "skill_invocation_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Skill Invocation Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "run_id",
+        "runtime_id",
+        "deployment_id",
+        "owner_lease_id",
+        "skill_invocation_sha256"
+      ],
+      "title": "WebGoalExecutionRunIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "web_goal_execution_run_binding",
+      "title": "Kind",
+      "type": "string"
+    },
+    "intent_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Intent Sha256",
+      "type": "string"
+    },
+    "run_identity": {
+      "$ref": "#/$defs/WebGoalExecutionRunIdentity"
+    },
+    "execution_runtime_id": {
+      "pattern": "^[A-Za-z0-9_-]{1,128}$",
+      "title": "Execution Runtime Id",
+      "type": "string"
+    },
+    "run_ref": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Run Ref",
+      "type": "string"
+    },
+    "execution_verified": {
+      "const": false,
+      "title": "Execution Verified",
+      "type": "boolean"
+    },
+    "record_outcome_verified": {
+      "const": false,
+      "title": "Record Outcome Verified",
+      "type": "boolean"
+    },
+    "training_ready": {
+      "const": false,
+      "title": "Training Ready",
+      "type": "boolean"
+    },
+    "gpu_release_verified": {
+      "const": false,
+      "title": "Gpu Release Verified",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "intent_sha256",
+    "run_identity",
+    "execution_runtime_id",
+    "run_ref",
+    "execution_verified",
+    "record_outcome_verified",
+    "training_ready",
+    "gpu_release_verified"
+  ],
+  "title": "WebGoalExecutionRunBinding",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "web_goal_execution_run_binding.schema.json"
+}

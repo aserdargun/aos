@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Manual release acceptance snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "observed_at",
+    "scope",
+    "runtime_authority",
+    "product_complete",
+    "stages"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": ["1.0", "1.1"]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "scope": {
+      "const": "manual_source_acceptance_snapshot"
+    },
+    "runtime_authority": {
+      "const": false
+    },
+    "product_complete": {
+      "const": false
+    },
+    "checkpoint": {
+      "$ref": "#/$defs/checkpoint"
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": false,
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/stage"
+            },
+            {
+              "properties": {
+                "id": {
+                  "const": "candidate"
+                },
+                "title_key": {
+                  "const": "release_acceptance.candidate.title"
+                },
+                "next_action_key": {
+                  "const": "release_acceptance.candidate.next"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/stage"
+            },
+            {
+              "properties": {
+                "id": {
+                  "const": "scientist"
+                },
+                "title_key": {
+                  "const": "release_acceptance.scientist.title"
+                },
+                "next_action_key": {
+                  "const": "release_acceptance.scientist.next"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/stage"
+            },
+            {
+              "properties": {
+                "id": {
+                  "const": "native_workflow"
+                },
+                "title_key": {
+                  "const": "release_acceptance.native_workflow.title"
+                },
+                "next_action_key": {
+                  "const": "release_acceptance.native_workflow.next"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/stage"
+            },
+            {
+              "properties": {
+                "id": {
+                  "const": "user_delivery"
+                },
+                "title_key": {
+                  "const": "release_acceptance.user_delivery.title"
+                },
+                "next_action_key": {
+                  "const": "release_acceptance.user_delivery.next"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/stage"
+            },
+            {
+              "properties": {
+                "id": {
+                  "const": "learning"
+                },
+                "title_key": {
+                  "const": "release_acceptance.learning.title"
+                },
+                "next_action_key": {
+                  "const": "release_acceptance.learning.next"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/stage"
+            },
+            {
+              "properties": {
+                "id": {
+                  "const": "swapp"
+                },
+                "title_key": {
+                  "const": "release_acceptance.swapp.title"
+                },
+                "next_action_key": {
+                  "const": "release_acceptance.swapp.next"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": "1.1"}}},
+      "then": {"required": ["checkpoint"]},
+      "else": {"not": {"required": ["checkpoint"]}}
+    }
+  ],
+  "$defs": {
+    "localized_copy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["en", "tr"],
+      "properties": {
+        "en": {"type": "string", "minLength": 1, "maxLength": 1200, "pattern": "\\S"},
+        "tr": {"type": "string", "minLength": 1, "maxLength": 1200, "pattern": "\\S"}
+      }
+    },
+    "checkpoint_time": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "checkpoint_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "maxLength": 240,
+        "not": {"pattern": "\\s"},
+        "pattern": "^(?:docs|data|src|schemas|tests|database)/[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)*(?:/[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)*)*$"
+      }
+    },
+    "development_update": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "state", "recorded_at", "title", "detail", "evidence"],
+      "properties": {
+        "id": {"type": "string", "maxLength": 96, "pattern": "^[a-z][a-z0-9_]*$", "not": {"pattern": "\\s"}},
+        "state": {"enum": ["verified_cpu", "in_progress", "next"]},
+        "recorded_at": {"$ref": "#/$defs/checkpoint_time"},
+        "title": {
+          "allOf": [{"$ref": "#/$defs/localized_copy"},
+            {"properties": {"en": {"maxLength": 120}, "tr": {"maxLength": 120}}}]
+        },
+        "detail": {"$ref": "#/$defs/localized_copy"},
+        "evidence": {"$ref": "#/$defs/checkpoint_evidence"}
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recorded_at", "scope", "focus", "blocker", "next_action", "limits", "updates"],
+      "properties": {
+        "recorded_at": {"$ref": "#/$defs/checkpoint_time"},
+        "scope": {"const": "manual_development_checkpoint"},
+        "focus": {"$ref": "#/$defs/localized_copy"},
+        "blocker": {"$ref": "#/$defs/localized_copy"},
+        "next_action": {"$ref": "#/$defs/localized_copy"},
+        "limits": {"$ref": "#/$defs/localized_copy"},
+        "updates": {
+          "type": "array", "minItems": 1, "maxItems": 12, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/development_update"}
+        }
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title_key",
+        "source",
+        "verification",
+        "delivery",
+        "blockers",
+        "next_action_key",
+        "evidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "candidate",
+            "scientist",
+            "native_workflow",
+            "user_delivery",
+            "learning",
+            "swapp"
+          ]
+        },
+        "title_key": {
+          "type": "string"
+        },
+        "next_action_key": {
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "pending",
+            "partial",
+            "implemented"
+          ]
+        },
+        "verification": {
+          "enum": [
+            "pending",
+            "cpu_verified",
+            "historical_native"
+          ]
+        },
+        "delivery": {
+          "enum": [
+            "pending",
+            "not_delivered",
+            "historical"
+          ]
+        },
+        "blockers": {
+          "type": "array",
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 120,
+            "pattern": "^release_acceptance\\.blocker\\.[a-z0-9_]+$"
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "maxLength": 240,
+            "pattern": "^(?:docs|data)/[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)*(?:/[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)*)*$"
+          }
+        }
+      }
+    }
+  }
+}

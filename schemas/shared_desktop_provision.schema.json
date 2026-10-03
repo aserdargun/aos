@@ -1,0 +1,181 @@
+{
+  "$defs": {
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Initial filesystem-only observations; these flags never describe a later running runtime.",
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "preparation_only": {
+      "const": true,
+      "default": true,
+      "title": "Preparation Only",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "runtime_started": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Started",
+      "type": "boolean"
+    },
+    "runtime_authority": {
+      "const": false,
+      "default": false,
+      "title": "Runtime Authority",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "template_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Template Sha256",
+      "type": "string"
+    },
+    "app_session": {
+      "pattern": "^app-[a-f0-9]{32}$",
+      "title": "App Session",
+      "type": "string"
+    },
+    "boot_id": {
+      "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+      "title": "Boot Id",
+      "type": "string"
+    },
+    "manager_base": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Manager Base",
+      "type": "string"
+    },
+    "session_directory": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Session Directory",
+      "type": "string"
+    },
+    "workspace": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Workspace",
+      "type": "string"
+    },
+    "database": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Database",
+      "type": "string"
+    },
+    "directory_mode": {
+      "const": "0700",
+      "default": "0700",
+      "title": "Directory Mode",
+      "type": "string"
+    },
+    "manager_identity": {
+      "$ref": "#/$defs/WorkspaceIdentity"
+    },
+    "session_identity": {
+      "$ref": "#/$defs/WorkspaceIdentity"
+    },
+    "workspace_identity": {
+      "$ref": "#/$defs/WorkspaceIdentity"
+    },
+    "database_absent": {
+      "const": true,
+      "default": true,
+      "title": "Database Absent",
+      "type": "boolean"
+    },
+    "token_absent": {
+      "const": true,
+      "default": true,
+      "title": "Token Absent",
+      "type": "boolean"
+    },
+    "socket_absent": {
+      "const": true,
+      "default": true,
+      "title": "Socket Absent",
+      "type": "boolean"
+    },
+    "lifecycle_absent": {
+      "const": true,
+      "default": true,
+      "title": "Lifecycle Absent",
+      "type": "boolean"
+    },
+    "workspace_empty": {
+      "const": true,
+      "default": true,
+      "title": "Workspace Empty",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "plan_sha256",
+    "template_sha256",
+    "app_session",
+    "boot_id",
+    "manager_base",
+    "session_directory",
+    "workspace",
+    "database",
+    "manager_identity",
+    "session_identity",
+    "workspace_identity"
+  ],
+  "title": "SharedDesktopProvision",
+  "type": "object"
+}

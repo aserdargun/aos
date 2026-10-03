@@ -1,0 +1,130 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "1",
+      "default": "1",
+      "title": "Version",
+      "type": "string"
+    },
+    "request_id": {
+      "pattern": "^native-inhibit-[a-f0-9]{32}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "scope_id": {
+      "pattern": "^native-[a-z0-9][a-z0-9-]{0,63}$",
+      "title": "Scope Id",
+      "type": "string"
+    },
+    "principal_id": {
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:-]{0,127}$",
+      "title": "Principal Id",
+      "type": "string"
+    },
+    "expected_session": {
+      "pattern": "^app-[a-f0-9]{32}$",
+      "title": "Expected Session",
+      "type": "string"
+    },
+    "controller_session_id": {
+      "pattern": "^desktop-session-[a-f0-9]{32}$",
+      "title": "Controller Session Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    },
+    "handover_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Handover Sha256",
+      "type": "string"
+    },
+    "shared_plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Shared Plan Sha256",
+      "type": "string"
+    },
+    "boot_id": {
+      "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+      "title": "Boot Id",
+      "type": "string"
+    },
+    "source_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 256,
+      "minProperties": 1,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Source Files",
+      "type": "object"
+    },
+    "source_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "config_files": {
+      "additionalProperties": {
+        "pattern": "^[a-f0-9]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 256,
+      "minProperties": 1,
+      "propertyNames": {
+        "maxLength": 4096,
+        "minLength": 1
+      },
+      "title": "Config Files",
+      "type": "object"
+    },
+    "config_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Config Sha256",
+      "type": "string"
+    },
+    "clock": {
+      "const": "CLOCK_BOOTTIME",
+      "default": "CLOCK_BOOTTIME",
+      "title": "Clock",
+      "type": "string"
+    },
+    "issued_boottime": {
+      "minimum": 0,
+      "title": "Issued Boottime",
+      "type": "number"
+    },
+    "expires_boottime": {
+      "exclusiveMinimum": 0,
+      "title": "Expires Boottime",
+      "type": "number"
+    }
+  },
+  "required": [
+    "request_id",
+    "scope_id",
+    "principal_id",
+    "expected_session",
+    "controller_session_id",
+    "generation",
+    "handover_sha256",
+    "shared_plan_sha256",
+    "boot_id",
+    "source_files",
+    "source_sha256",
+    "config_files",
+    "config_sha256",
+    "issued_boottime",
+    "expires_boottime"
+  ],
+  "title": "NativeInhibitRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

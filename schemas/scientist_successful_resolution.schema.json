@@ -1,0 +1,108 @@
+{
+  "$defs": {
+    "ScientistIntentBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Session Id",
+          "type": "string"
+        },
+        "runtime_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Runtime Id",
+          "type": "string"
+        },
+        "lease_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Lease Id",
+          "type": "string"
+        },
+        "generation": {
+          "minimum": 0,
+          "title": "Generation",
+          "type": "integer"
+        },
+        "owner": {
+          "enum": [
+            "AGENT",
+            "HUMAN"
+          ],
+          "title": "Owner",
+          "type": "string"
+        },
+        "authorization_context_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Authorization Context Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "runtime_id",
+        "lease_id",
+        "generation",
+        "owner",
+        "authorization_context_sha256"
+      ],
+      "title": "ScientistIntentBinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "admission_record_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Admission Record Sha256",
+      "type": "string"
+    },
+    "reconcile_control_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Reconcile Control Id",
+      "type": "string"
+    },
+    "response_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Response Sha256",
+      "type": "string"
+    },
+    "terminal_receipt_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Terminal Receipt Sha256",
+      "type": "string"
+    },
+    "current_binding": {
+      "$ref": "#/$defs/ScientistIntentBinding"
+    },
+    "state": {
+      "const": "resolved",
+      "default": "resolved",
+      "title": "State",
+      "type": "string"
+    },
+    "original_intent_unchanged": {
+      "const": true,
+      "default": true,
+      "title": "Original Intent Unchanged",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "request_id",
+    "admission_record_sha256",
+    "reconcile_control_id",
+    "response_sha256",
+    "terminal_receipt_sha256",
+    "current_binding"
+  ],
+  "title": "ScientistRetainedResolutionResult",
+  "type": "object"
+}

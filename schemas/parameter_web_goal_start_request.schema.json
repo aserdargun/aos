@@ -1,0 +1,42 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "lease_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Lease Id",
+      "type": "string"
+    },
+    "generation": {
+      "minimum": 0,
+      "title": "Generation",
+      "type": "integer"
+    },
+    "confirm_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Confirm Sha256",
+      "type": "string"
+    },
+    "human_confirmation": {
+      "const": true,
+      "title": "Human Confirmation",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "lease_id",
+    "generation",
+    "confirm_sha256",
+    "human_confirmation"
+  ],
+  "title": "ParameterWebGoalStartRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "parameter_web_goal_start_request.schema.json"
+}

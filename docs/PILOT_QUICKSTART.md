@@ -14,6 +14,34 @@ Sonraki bağlantılarda `~/AOS.command` çalıştırın veya Finder'dan çift t�
 
 Takma ad yerine `~/AOS.command user@host` kullanılabilir. Farklı güvenli mutlak checkout yolu için `AOS_REMOTE_DIR=/srv/aos ~/AOS.command user@host` kullanın. Önceden açık eski tüneli kendi terminalinde Ctrl-C ile kapatın; alternatif port kullanmayın.
 
+### Ayrı adlandırılmış proje
+
+Önce sunucuda [private UI hazırlama ve açıkça başlatma](ISOLATED_LEARNING_PROJECTS.md)
+adımlarını tamamlayın (`--fixture` yalnız CPU demo içindir). Mac'teki güncel
+script için aşağıdaki eşlenmiş kapsamı kullanın:
+
+```sh
+AOS_PROJECT=learning-demo AOS_PROJECT_PORT=18766 ~/AOS.command
+```
+
+Bu mod Mac'te kurulu `python3` gerektirir. Yerel18766 yalnız uzak18766'ya
+yönlendirilir;8765 varsayılan oturuma bağlanılmaz. Script yeni UI hazırlamaz,
+paket kurmaz, named projeyi başlatmaz veya bozuk/eski oturumu kurtarmaz. Uzak
+salt okunur `status` sonucu ile tünelin
+`/api/session` proje/port/app-session kimliği eşleşmeden tarayıcı açılmaz.
+Bu kimlik bilgisi giriş veya görev yetkisi değildir.
+
+Named proje otomatik giriş açmaz. Ayrı Mac Terminal penceresinde token alın:
+
+```sh
+ssh cachyos 'cd "$HOME"/aos && ./scripts/aos-v1 token --project learning-demo --project-port 18766'
+```
+
+Yalnız kendi projenizin giriş ekranına yapıştırın. Bağlantı scripti token okumaz,
+kaydetmez veya panoya kopyalamaz. Ctrl-C yalnız kendi tünelini kapatır; proje
+sunucusunu durdurmaz. Gerçek Mac/SSH kabulü ayrıca yapılmalıdır; Linux üzerindeki
+mock script kontrolleri Mac donanımında çalıştırılmış sonuç değildir.
+
 Yerel otomatik giriş, yalnız güvenilen tek-kullanıcılı geliştirme ortamı içindir: aynı makinedeki süreçler oturum açabilir. Exact Host/Origin, gerçek loopback peer ve HttpOnly/SameSite cookie denetimleri korunur; görev/yürütme izni veya Pause sonrası Resume verilmez. Raw `serve_desktop.py`, owned/synthetic-learning/remote deneysel managed modları token politikasını korur. Mevcut eski standart oturum için yalnız güvenli idle durumda sunucuda `./scripts/aos-v1 restart` gerekir. Bu kolaylık çok-kullanıcılı/public deployment kimlik doğrulaması değildir.
 
 ## Elle bağlantı (alternatif)

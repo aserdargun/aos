@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authority_url": {
+      "title": "Authority Url",
+      "type": "string"
+    },
+    "token_file": {
+      "format": "path",
+      "title": "Token File",
+      "type": "string"
+    },
+    "principal_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Principal Id",
+      "type": "string"
+    },
+    "allowed_suites": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:-]*$",
+        "type": "string"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Allowed Suites",
+      "type": "array",
+      "uniqueItems": true
+    },
+    "program_version": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Program Version",
+      "type": "string"
+    },
+    "authorization_context_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Context Sha256",
+      "type": "string"
+    },
+    "timeout_seconds": {
+      "default": 10,
+      "maximum": 10,
+      "minimum": 1,
+      "title": "Timeout Seconds",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "authority_url",
+    "token_file",
+    "principal_id",
+    "allowed_suites",
+    "program_version",
+    "authorization_context_sha256"
+  ],
+  "title": "ScientistLabStartup",
+  "type": "object"
+}

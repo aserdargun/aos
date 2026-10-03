@@ -1,0 +1,42 @@
+{
+  "request": {
+    "schema_version": "1.0",
+    "job_id": "synthetic-scientist-example",
+    "agent_id": "synthetic-scientist",
+    "agent_version": "v1",
+    "operation": "scientist.lab.start.v1",
+    "authority": {
+      "principal": "synthetic-scientist",
+      "runtime_id": "synthetic-runtime",
+      "lease_id": "synthetic-lease",
+      "owner": "AGENT",
+      "generation": 0
+    },
+    "budget": {
+      "wall_seconds": 30,
+      "model_tokens": 100,
+      "experiments": 1
+    },
+    "dependencies": [],
+    "payload": {
+      "suite": "synthetic.allowed.v1",
+      "track": "anomaly",
+      "program_version": "synthetic.director.v1"
+    },
+    "delegated_by": "supervisor",
+    "executed_by": "operator"
+  },
+  "action_id": "action-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "envelope_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "original_binding": {
+    "session_id": "synthetic-session",
+    "runtime_id": "synthetic-runtime",
+    "lease_id": "synthetic-lease",
+    "generation": 0,
+    "owner": "AGENT",
+    "authorization_context_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "remote_run_id": null,
+  "stop_action_id": null,
+  "stop_envelope_sha256": null
+}

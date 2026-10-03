@@ -29,7 +29,8 @@ interface FormState {
 const checksum = /^[a-f0-9]{64}$/;
 const privateFile = /^data\/[a-z0-9_/-]+\/[a-f0-9]{64}\.(json|txt)$/;
 
-export function WebFormDraft({inventory}: {inventory: WebApplicationReport[]}) {
+export function WebFormDraft({inventory, managerScope}: {inventory: WebApplicationReport[];
+  managerScope?: {project: string; port: number}}) {
   const [profileSha256, setProfileSha256] = useState('');
   const [taskKey, setTaskKey] = useState('');
   const [verificationRef, setVerificationRef] = useState('');
@@ -417,7 +418,8 @@ export function WebFormDraft({inventory}: {inventory: WebApplicationReport[]}) {
     </p> : null}
     {planReceipt ? <div>
       {taskReceipt?.state_readback && !stateReceipt ? <p className="caption">{t('Durum planı kayıt edilmeden altı onaylı manager komutu gösterilmez.')}</p> : null}
-      {planReceipt.public_grant_required && command ? <div data-testid="web-form-commands">
+      {planReceipt.public_grant_required && command && managerScope ? <p role="alert">{t('Adlandırılmış projede remote form başlatma bu sürümde desteklenmiyor; varsayılan oturuma ait komut gösterilmez.')}</p> : null}
+      {planReceipt.public_grant_required && command && !managerScope ? <div data-testid="web-form-commands">
         <p>{t('1 · Ağsız manager önizlemesi')}</p><pre>./scripts/aos-v1 {taskReceipt?.state_readback ? 'preview-remote-form-state' : 'preview-remote-form'} {command}</pre>
         <p>{t('2 · Güvenli durdurma sonrası yeni oturum')}</p><pre>./scripts/aos-v1 start {command}</pre>
         <p className="caption">{t('Public hedef için exact plan grant’i komuttadır; komutlar burada çalıştırılmaz. Siteye istek ancak Tasks ekranında ayrı onaylarla yapılır.')}</p>

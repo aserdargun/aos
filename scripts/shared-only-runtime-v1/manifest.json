@@ -1,0 +1,758 @@
+{
+  "version": "1",
+  "profile": "shared-only-runtime-v1",
+  "candidate_only": true,
+  "execution_authorized": false,
+  "promotion_required": true,
+  "native_exclusion_verified": false,
+  "gpu_release_verified": false,
+  "patch_sha256": "a0cbf60e092a7ef2b6caefeeefe6f105486d0013df5a1cc8e3cd154f44a8bf54",
+  "denial_message": "Shared-only runtime profile: native/unbrokered entry disabled",
+  "files": [
+    {
+      "path": "scripts/compare_decider_laya.py",
+      "before_sha256": "eac66a7b68bb12cd3f2f0040080a06a5819a12aa7e9428e6ac9a454ac89df172",
+      "after_sha256": "112ff9a26e306f108ff5500b23e4ea13dab6aa6393adc29690edaf159daccb45",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 90
+        },
+        {
+          "symbol": "sample",
+          "policy": "unconditional_native_denial",
+          "before_line": 30
+        },
+        {
+          "symbol": "choice_probe",
+          "policy": "unconditional_native_denial",
+          "before_line": 73
+        }
+      ]
+    },
+    {
+      "path": "scripts/native_decider_entry.py",
+      "before_sha256": "de3a1c95637831cdb4045f5d17a71059e7dce87e2e0597401bdf5a52509e6a91",
+      "after_sha256": "dcdf72ddb59be4fca38d2153026c5a28a2b4ffe108d0536cf2aedb160e58b2de",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 11
+        }
+      ]
+    },
+    {
+      "path": "scripts/probe_bonsai.py",
+      "before_sha256": "3fe9ff826839185c40afff5f6733edf4459030cff0da8e2213909dffad724788",
+      "after_sha256": "ac378f4d8439f6cf5a71479bdc7614b50290667a250890df388d34f233a0973f",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 22
+        },
+        {
+          "symbol": "inspect_response",
+          "policy": "unconditional_native_denial",
+          "before_line": 11
+        }
+      ]
+    },
+    {
+      "path": "scripts/serve_desktop.py",
+      "before_sha256": "403182d7a993bd5773a1de0bd5c4f14d5f983c4d46f887846a743ba2ecf392e0",
+      "after_sha256": "457b7e5848df680960e683e08f88ccd7da7b4ad8f70a382c81213590fbd546d7",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "scientist_engine_only",
+          "before_line": 62
+        }
+      ]
+    },
+    {
+      "path": "services/decider/broker_worker.py",
+      "before_sha256": "af04fab479d9d5326fd5456dd1592c9a444ee478831b50ef9070ee0b73d4cb8a",
+      "after_sha256": "20d94cc8581c2cacb8cd6c322f91d08f16943d8112fb17bc138401d67e1603f7",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "existing_turngate_broker_only_preserved",
+          "before_line": 10
+        }
+      ]
+    },
+    {
+      "path": "services/decider/calibration_smoke.py",
+      "before_sha256": "fa13daf86999a3d349926fb6fc2f18c486d1a214b0d0d5636923a3bd235057fa",
+      "after_sha256": "a232a85ff3c3c66bc49400931ab0f3c261d60428d8950fb31bae5e4b2857805f",
+      "entrypoints": [
+        {
+          "symbol": "run",
+          "policy": "unconditional_native_denial",
+          "before_line": 22
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 134
+        }
+      ]
+    },
+    {
+      "path": "services/decider/dataset_adapter_replay.py",
+      "before_sha256": "b062d401ae962ed0431e327f1d670225ac3970524065af8f08b1771d9249b315",
+      "after_sha256": "c86dc4b819ec18165c79804494114580d106c3626cb06789d83799ba5bd5f24a",
+      "entrypoints": [
+        {
+          "symbol": "run",
+          "policy": "unconditional_native_denial",
+          "before_line": 48
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 169
+        }
+      ]
+    },
+    {
+      "path": "services/decider/dataset_adapter_runtime_probe.py",
+      "before_sha256": "a0cb76457fd670467c48858d5e9c8cc8236753dedb8b884381753c8ce7f75ae3",
+      "after_sha256": "9c10e14e85c9a41a0974bec6d3a2c7e02c769837205ca049bfe5e91fcd9cab2a",
+      "entrypoints": [
+        {
+          "symbol": "run",
+          "policy": "unconditional_native_denial",
+          "before_line": 26
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 138
+        }
+      ]
+    },
+    {
+      "path": "services/decider/dataset_gradient_probe.py",
+      "before_sha256": "c2bc30864a69145060fade6a087a743da43720ea9402cced910ece52e16d80a9",
+      "after_sha256": "7c977e09355b8417f855a4f9a83db22785f10d3f6dacf0d9b5d734fcdc362725",
+      "entrypoints": [
+        {
+          "symbol": "run",
+          "policy": "unconditional_native_denial",
+          "before_line": 52
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 190
+        }
+      ]
+    },
+    {
+      "path": "services/decider/dataset_loss_probe.py",
+      "before_sha256": "d5cf0d2fc9baa1d222d747ad4563d390d2c8e04031e30144b874fdbf1eddd87e",
+      "after_sha256": "e87a82b1f5548c3e41c01a233bb57225568b565c6b875e2ca7e1bde6bd88e1d7",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 19
+        }
+      ]
+    },
+    {
+      "path": "services/decider/loss_probe.py",
+      "before_sha256": "e2a1a8a43b04234f3ec89a4b5311aa89216710c679ea61a7024f50dfa0e3efce",
+      "after_sha256": "3a343400fdf30af9e81cea392d3cb37fbeee8da3e0847758d255f078807ccd56",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 19
+        }
+      ]
+    },
+    {
+      "path": "services/decider/owned_adapter_worker.py",
+      "before_sha256": "0155a5650089763f7865bdda976e58f838f036cef139a89fcf6b635c5045ee8e",
+      "after_sha256": "a5da91bf179ff9d097b3fbd1213d1c7f69ccdb3e97c045a6ee2298594239fdf0",
+      "entrypoints": [
+        {
+          "symbol": "AdapterInference.infer",
+          "policy": "unconditional_native_denial",
+          "before_line": 161
+        },
+        {
+          "symbol": "create_inference",
+          "policy": "unconditional_native_denial",
+          "before_line": 190
+        },
+        {
+          "symbol": "serve",
+          "policy": "unconditional_native_denial",
+          "before_line": 235
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 253
+        }
+      ]
+    },
+    {
+      "path": "services/decider/owned_episode_adapter_replay.py",
+      "before_sha256": "3411698dfbf0304720edf057749e674119421eb90541e67f954240dff8ef55f6",
+      "after_sha256": "d4afdfcf78f33c256de851d6aaec92f348fe8acf3029b207dbf3e215fcc80e28",
+      "entrypoints": [
+        {
+          "symbol": "run",
+          "policy": "unconditional_native_denial",
+          "before_line": 25
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 131
+        }
+      ]
+    },
+    {
+      "path": "services/decider/owned_episode_adapter_train.py",
+      "before_sha256": "e10f1d77d0c39162b0dfefd2df7f0fa2292ef23e3562e485c7837ecb243e785f",
+      "after_sha256": "713fd9e34234b7fd474ea4c55885948da54e62b78f3941e03476885f76d5aeb2",
+      "entrypoints": [
+        {
+          "symbol": "run",
+          "policy": "unconditional_native_denial",
+          "before_line": 29
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 177
+        }
+      ]
+    },
+    {
+      "path": "services/decider/row_candidate.py",
+      "before_sha256": "c80b518a28d767c55158384c795f36030be3252fbdba23ce0e5f28ed6fd1dca2",
+      "after_sha256": "42c353f50e8d567ce1803cf380a84228b527ef732af58d89b7787d37058a70f7",
+      "entrypoints": [
+        {
+          "symbol": "run",
+          "policy": "unconditional_native_denial",
+          "before_line": 49
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 180
+        }
+      ]
+    },
+    {
+      "path": "services/decider/row_replay.py",
+      "before_sha256": "b5ba2105fc1b6de5aba66819d62aa8663b5b27031726af57d13008559a73da0c",
+      "after_sha256": "e6b858d21663f85348651f0a2f2cdbab70698c2aae0ee2cfc82964b58ac0b91f",
+      "entrypoints": [
+        {
+          "symbol": "run",
+          "policy": "unconditional_native_denial",
+          "before_line": 62
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 173
+        }
+      ]
+    },
+    {
+      "path": "services/decider/worker.py",
+      "before_sha256": "a1e817ba1b099a0f12d20ecf4ad532ee86a21dba212b3cacf66e0437fa02318e",
+      "after_sha256": "83a732b2bfce4667bb0f14cec813b3f652816aec2d291619535ca05bec6985d8",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 275
+        },
+        {
+          "symbol": "serve",
+          "policy": "unconditional_native_denial",
+          "before_line": 240
+        },
+        {
+          "symbol": "ModelSession.__init__",
+          "policy": "unconditional_native_denial",
+          "before_line": 62
+        }
+      ]
+    },
+    {
+      "path": "services/laya/worker.py",
+      "before_sha256": "788d834b1719b69fa8fe36e45af48f277f20768a1c0c8bde2682661da3392778",
+      "after_sha256": "bc336be9d397c6205b80b8bff86b563656f0750178c8db62b12f69d8e595151d",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 131
+        },
+        {
+          "symbol": "infer",
+          "policy": "unconditional_native_denial",
+          "before_line": 95
+        }
+      ]
+    },
+    {
+      "path": "src/aos/cli.py",
+      "before_sha256": "5b3b5bbb8fd734a541a7c0caf780f55050f5dd0a23dc991bc71f27ab3caae289",
+      "after_sha256": "221a782284b97a54b44bd0ba47111e6fc697686332f30e494182c45f9019226f",
+      "entrypoints": [
+        {
+          "symbol": "main",
+          "policy": "read_only_export_only",
+          "before_line": 21
+        }
+      ]
+    },
+    {
+      "path": "src/aos/dataset_adapter_candidate.py",
+      "before_sha256": "f764cb834a31fcf7cd64aa47a594ab656474fa1f4b07dbe372e71eac280d3e6e",
+      "after_sha256": "729c656db2272473c37a7e51fb41f1359b2cf2d46a225679b9774a38f2314e05",
+      "entrypoints": [
+        {
+          "symbol": "create_candidate",
+          "policy": "unconditional_native_denial",
+          "before_line": 225
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 337
+        }
+      ]
+    },
+    {
+      "path": "src/aos/dataset_adapter_runtime_probe.py",
+      "before_sha256": "2dba9d132694756551db342df24886b50f8bd051a3e70ab2d9c26abcd11830a7",
+      "after_sha256": "04afd2677ce103104bf28ad87b3e757a9192512637d7e6d06aa13b27beb0023c",
+      "entrypoints": [
+        {
+          "symbol": "probe_runtime",
+          "policy": "unconditional_native_denial",
+          "before_line": 93
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 154
+        }
+      ]
+    },
+    {
+      "path": "src/aos/dataset_bound_loss.py",
+      "before_sha256": "ca665a71633f60f49e996e3d4a46aad655bde818ebc179d434e76a771f46c3f8",
+      "after_sha256": "df06bd33a057c19ab74db354a77037d92b4449a2188dd304d6ac18a3f6d4e01b",
+      "entrypoints": [
+        {
+          "symbol": "dataset_loss_preflight",
+          "policy": "unconditional_native_denial",
+          "before_line": 95
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 136
+        }
+      ]
+    },
+    {
+      "path": "src/aos/dataset_gradient_probe.py",
+      "before_sha256": "cb483832f70b0c63b9aba548220663ddf4852a074958fa30991de090b55b83df",
+      "after_sha256": "91fb8b5d24eab9def8ebd20f035e209094c2c4b28e8b8bba99569be3b4ff93a8",
+      "entrypoints": [
+        {
+          "symbol": "gradient_probe",
+          "policy": "unconditional_native_denial",
+          "before_line": 84
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 118
+        }
+      ]
+    },
+    {
+      "path": "src/aos/dataset_loss.py",
+      "before_sha256": "6d9c8859ba5acac7bb79ddcc77d3e51dc0f11dc80596a9ee297f010c5b6ebbc1",
+      "after_sha256": "ada1e556594637988a374be28ff21fa5fadc1a3fcc4ec7dc2f42155d4cc0a69b",
+      "entrypoints": [
+        {
+          "symbol": "loss_preflight",
+          "policy": "unconditional_native_denial",
+          "before_line": 20
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 35
+        }
+      ]
+    },
+    {
+      "path": "src/aos/decider_calibration_smoke.py",
+      "before_sha256": "07b702270831af48d55a03710309c8e445b60a2e36ab727e04fc6af1a59aa9f6",
+      "after_sha256": "39c83b36e40845cc0c55dd61c745daf5857df720a438a3107b63b01151cb5ec1",
+      "entrypoints": [
+        {
+          "symbol": "calibration_smoke",
+          "policy": "unconditional_native_denial",
+          "before_line": 102
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 137
+        }
+      ]
+    },
+    {
+      "path": "src/aos/decider_row_candidate.py",
+      "before_sha256": "8b590a4372f9f169085cb60ddf88d07473bf6c805bfe7e229f1808a92928f046",
+      "after_sha256": "050e4e84a104fae065e2e0d573b1f3e3407d5e944eae9aff9bad25f954d63213",
+      "entrypoints": [
+        {
+          "symbol": "row_candidate_smoke",
+          "policy": "unconditional_native_denial",
+          "before_line": 113
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 179
+        }
+      ]
+    },
+    {
+      "path": "src/aos/decider_row_replay.py",
+      "before_sha256": "89f753175f107fdc58c826161b8224b457871a511896938c1acd3de68dfc2062",
+      "after_sha256": "67d7a7db9af4ce6066766f76e23d85f13e3614a5a4bbff3c9c626c705838cbfd",
+      "entrypoints": [
+        {
+          "symbol": "replay_row_candidate",
+          "policy": "unconditional_native_denial",
+          "before_line": 59
+        },
+        {
+          "symbol": "main",
+          "policy": "unconditional_native_denial",
+          "before_line": 114
+        }
+      ]
+    },
+    {
+      "path": "src/aos/decision.py",
+      "before_sha256": "5aa4a92fce5ff883de6e32a0bc19f846395c2465c48e222444936b6b1418a256",
+      "after_sha256": "8e342327e713523747827620d14d183af489cb2b6ae3255f43d4c110dfac52f3",
+      "entrypoints": [
+        {
+          "symbol": "DeciderEngine.decide",
+          "policy": "unconditional_native_denial",
+          "before_line": 49
+        }
+      ]
+    },
+    {
+      "path": "src/aos/knowledge_answer_model.py",
+      "before_sha256": "71847bcad29e8d2170995068826a935065ed7e0d52f122f4bfb016f676f85269",
+      "after_sha256": "5441bc4cdb81fb757b82700c2b9d251ae6335f66d8500c48a1d16c5323eeff22",
+      "entrypoints": [
+        {
+          "symbol": "BonsaiKnowledgeAnswerer.plan",
+          "policy": "unconditional_native_denial",
+          "before_line": 154
+        }
+      ]
+    },
+    {
+      "path": "src/aos/laya_candidate.py",
+      "before_sha256": "0e91de0835c0848d6a076a3577b6aa619c41ef66c10a2f85b2a59091e383bcd0",
+      "after_sha256": "814a93cc546a347aac2613a1aa11dac38efcd1fc0856dc0cc9ef70201fa4d931",
+      "entrypoints": [
+        {
+          "symbol": "LayaCandidateEngine.start",
+          "policy": "unconditional_native_denial",
+          "before_line": 14
+        }
+      ]
+    },
+    {
+      "path": "src/aos/local_app.py",
+      "before_sha256": "5ec835173c6a0bd773713e13b4282eb80386935f893d80f5d7e8ef007ec0559d",
+      "after_sha256": "e6ee7639b59aff10947e79177e38e842fc1354609d7c9c4ea825d9b3f675832e",
+      "entrypoints": [
+        {
+          "symbol": "start",
+          "policy": "unconditional_native_denial",
+          "before_line": 1277
+        },
+        {
+          "symbol": "managed_backend_command",
+          "policy": "unconditional_native_denial",
+          "before_line": 1639
+        },
+        {
+          "symbol": "supervise",
+          "policy": "unconditional_native_denial",
+          "before_line": 1849
+        },
+        {
+          "symbol": "restart",
+          "policy": "unconditional_native_denial",
+          "before_line": 2494
+        },
+        {
+          "symbol": "require_idle_restart",
+          "policy": "unconditional_native_denial",
+          "before_line": 2416
+        },
+        {
+          "symbol": "release_restart_quiesce",
+          "policy": "unconditional_native_denial",
+          "before_line": 2454
+        }
+      ]
+    },
+    {
+      "path": "src/aos/native_decider_entry.py",
+      "before_sha256": "e3cb8f4aca984f08c8acfdba6c9bc037f8e3a258d9f2c323e441f5b0c3ca6263",
+      "after_sha256": "50233e4b8d3f7f183b27e19ecc184115bbbf353dd2417a97faab882a880cd16d",
+      "entrypoints": [
+        {
+          "symbol": "exec_native_decider_entry",
+          "policy": "unconditional_native_denial",
+          "before_line": 188
+        }
+      ]
+    },
+    {
+      "path": "src/aos/owned_adapter_engine.py",
+      "before_sha256": "0b9b8d3684d2dd4f9aab04e2d4df7fbe48b5d597553f4ec9768fa3d62196f500",
+      "after_sha256": "0691bd7e2ab59d1e494cc57daf041737fa8d1075ae9d64ae5ec6a7e5661a4525",
+      "entrypoints": [
+        {
+          "symbol": "OwnedAdapterDecisionEngine.start",
+          "policy": "unconditional_native_denial",
+          "before_line": 78
+        },
+        {
+          "symbol": "OwnedAdapterDecisionEngine.decide",
+          "policy": "unconditional_native_denial",
+          "before_line": 97
+        }
+      ]
+    },
+    {
+      "path": "src/aos/owned_adapter_evaluation.py",
+      "before_sha256": "28ea711b6b6496fe4ff2b7edceedec148575dba3458556008bd1e841555eb3e8",
+      "after_sha256": "acfc17c867cc98cefdf4816829960875d7b5b7a4c1b852a57d1df88cdbc755dd",
+      "entrypoints": [
+        {
+          "symbol": "PairedBaseEngine.decide",
+          "policy": "unconditional_native_denial",
+          "before_line": 23
+        },
+        {
+          "symbol": "OwnedAdapterEvaluation.start",
+          "policy": "unconditional_native_denial",
+          "before_line": 107
+        },
+        {
+          "symbol": "OwnedAdapterEvaluation.base_engine",
+          "policy": "unconditional_native_denial",
+          "before_line": 178
+        }
+      ]
+    },
+    {
+      "path": "src/aos/owned_adapter_runtime.py",
+      "before_sha256": "146b336b1f080583a9632729e1dece806fe1f2492ed8d638a906dd59eb5bddfd",
+      "after_sha256": "81ef98e5f12db004f5758797fa3ebb9ececfd60f267f90bc19f6212155754571",
+      "entrypoints": [
+        {
+          "symbol": "OwnedAdapterRuntime.start",
+          "policy": "unconditional_native_denial",
+          "before_line": 71
+        },
+        {
+          "symbol": "OwnedAdapterRuntime.engine_for_job",
+          "policy": "unconditional_native_denial",
+          "before_line": 130
+        }
+      ]
+    },
+    {
+      "path": "src/aos/owned_episode_adaptation.py",
+      "before_sha256": "fea4bb13db6d3cacd9f71d1a4f91c872973d1ffa528b997058e2c2d8413de59c",
+      "after_sha256": "daeb81d9a4abf9b1f67bec71933f905eb32b743c18225c22a79019bd8d233294",
+      "entrypoints": [
+        {
+          "symbol": "OwnedEpisodeAdaptation.start",
+          "policy": "unconditional_native_denial",
+          "before_line": 127
+        },
+        {
+          "symbol": "OwnedEpisodeAdaptation.worker",
+          "policy": "unconditional_native_denial",
+          "before_line": 157
+        },
+        {
+          "symbol": "OwnedEpisodeAdaptation._run",
+          "policy": "unconditional_native_denial",
+          "before_line": 225
+        }
+      ]
+    },
+    {
+      "path": "src/aos/owned_skill_planner.py",
+      "before_sha256": "ab1f93f0bab58ea6676ab963869cf6114b0828f03c52e5a3a42003659c337c0f",
+      "after_sha256": "99fa504f1b495d45ccd59526c7bfe7482dd46cbcff5f741ff87109be0d26d76b",
+      "entrypoints": [
+        {
+          "symbol": "BonsaiOwnedSkillPlanner.plan",
+          "policy": "unconditional_native_denial",
+          "before_line": 199
+        }
+      ]
+    },
+    {
+      "path": "src/aos/reusable_decider.py",
+      "before_sha256": "9ec684c1372164ba17701fe52befe889a181381631b7e8fff4bc49cb0110bf8c",
+      "after_sha256": "d3899474476ae58220b8bb9e2eb59062efc198ee73527058b8373e0bb13a0f6e",
+      "entrypoints": [
+        {
+          "symbol": "ReusableDeciderEngine.begin_job",
+          "policy": "unconditional_native_denial",
+          "before_line": 74
+        },
+        {
+          "symbol": "ReusableDeciderEngine.prepare_gpu_job",
+          "policy": "unconditional_native_denial",
+          "before_line": 93
+        },
+        {
+          "symbol": "ReusableDeciderEngine.park_gpu",
+          "policy": "unconditional_native_denial",
+          "before_line": 109
+        },
+        {
+          "symbol": "ReusableDeciderEngine.prepare_job",
+          "policy": "unconditional_native_denial",
+          "before_line": 128
+        },
+        {
+          "symbol": "ReusableDeciderEngine.prepare_in_background",
+          "policy": "unconditional_native_denial",
+          "before_line": 148
+        },
+        {
+          "symbol": "ReusableDeciderEngine.prepare_cpu",
+          "policy": "unconditional_native_denial",
+          "before_line": 153
+        },
+        {
+          "symbol": "ReusableDeciderEngine.start",
+          "policy": "unconditional_native_denial",
+          "before_line": 162
+        },
+        {
+          "symbol": "ReusableDeciderEngine.decide",
+          "policy": "unconditional_native_denial",
+          "before_line": 237
+        },
+        {
+          "symbol": "ReusableDeciderEngine.request",
+          "policy": "unconditional_native_denial",
+          "before_line": 254
+        }
+      ]
+    },
+    {
+      "path": "src/aos/supervisor.py",
+      "before_sha256": "95ab0758e111b01b9b2a27c24faa223b2a73dab83bc929736ecc2cb9d86b1a42",
+      "after_sha256": "c49e3419e62a92d50ea97f8508fd67fe542ad10f0708a4c76ea46c3feaad78fa",
+      "entrypoints": [
+        {
+          "symbol": "request_json",
+          "policy": "unconditional_native_denial",
+          "before_line": 77
+        },
+        {
+          "symbol": "BonsaiSupervisor.plan",
+          "policy": "unconditional_native_denial",
+          "before_line": 168
+        }
+      ]
+    },
+    {
+      "path": "src/aos/vision.py",
+      "before_sha256": "2964820c6648ab06094d2eb84741e08e2564d75c602508dec1bbca2c330a094b",
+      "after_sha256": "4258169bc6f32a31099d7eb026391a10e15919fe20da4250c92b6c97fb2a0377",
+      "entrypoints": [
+        {
+          "symbol": "BonsaiVisionSupervisor.describe",
+          "policy": "unconditional_native_denial",
+          "before_line": 170
+        }
+      ]
+    },
+    {
+      "path": "src/aos/web_goal_planner.py",
+      "before_sha256": "749407a56920a89deb26097db0ead43a6d7310a3c6f3a6ea065c81bb98130d18",
+      "after_sha256": "a95a57205c3e3d45be585ddc88ed13dea288bbb3c89f31f324cb52a960531d32",
+      "entrypoints": [
+        {
+          "symbol": "BonsaiWebGoalPlanner.plan",
+          "policy": "unconditional_native_denial",
+          "before_line": 198
+        }
+      ]
+    }
+  ],
+  "preserved_files": {
+    "src/aos/scientist_decision.py": "36e979800a96302f335fb6e1da89bc13f64ed0c4577d58dda14907e4711811c3",
+    "src/aos/scientist_supervisor.py": "f9d46e83ea7dde3454fce32a1fd7b4daa5a521b1b333b614413fd5f53d506e4b",
+    "src/aos/scientist_desktop.py": "a136fe4e678cf05b2576b4318b8276f61a71f5a970a966d4b5282141c26accee",
+    "services/bonsai/broker_worker.py": "827b3fc438a0666a903da3862d85c8348b546c757431ee8b38d48a80aba72dab",
+    "services/broker_runtime.py": "3cfe4cf576eb4881fb0306ed313b14ba0cc5e69b152609ecfc92c3d14b91f207",
+    "services/bonsai_projection.py": "0a0bc2ea6de7a6240a73c8bafd60d031307a6f217eff78794d3d99d080bbe4a4",
+    "scripts/prepare_bonsai.py": "ffcc05fbb064eeca0e778879151b6d3b8d37032d1118870e3335e5b57e1c3103",
+    "scripts/prepare_decider.py": "036561bfacb2f6efc1344ee8784b5bea2d1c9ac33265733456f52b057e22464d",
+    "scripts/prepare_laya_candidate.py": "44bac972d73e20194190981363b5ab6ac315d1c301239f2ba4c5e44202df90a7",
+    "services/decider/tokenizer_probe.py": "d5d1f6af56760827742aad2c0f8e04c678e34c9aeab406476cc74460b989ee4f",
+    "src/aos/dataset_preflight.py": "920332d7917ca495b5911d77610512e30181548f962f7fadc2c1cc44872f89e6",
+    "src/aos/dataset_tokenizer.py": "119fd0acfc314942a61151711214890a2bcc1f7d96f84e06aa03ff9d86eacc64",
+    "src/aos/owned_episode_preparation.py": "df9a8b37f0fd4c1dc635b617fe650aba20e602d2cb56a5574e2fc2953f73a2f7"
+  },
+  "broker_profiles": [
+    "aos.decider.turn.v1",
+    "aos.bonsai.recovery.v1",
+    "aos.bonsai.vision.v1"
+  ],
+  "scope": "Supported repository native/unbrokered GPU model-effect front doors and public model/probe/adaptation callables; CPU tokenizer/data preparation, artifact setup, metadata/read-only export remain available.",
+  "limits": [
+    "Unapplied candidate; currently running original code and native descendants are not inhibited.",
+    "Requires explicit maintenance consent, exact legacy cleanup, fresh complete source/config review and promotion before use.",
+    "Arbitrary owner code, direct vendor binaries, or manual BrokerModelSession invocation are outside repository-entrypoint coverage.",
+    "Existing Scientist broker TurnGate/caller/capability/reservation authority remains required; this patch issues none.",
+    "CPU-only tokenizer/data preparation and artifact setup are explicitly preserved; they are not GPU-entrypoint exclusion evidence."
+  ]
+}

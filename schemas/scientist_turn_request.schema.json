@@ -1,0 +1,50 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1,
+      "default": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "op": {
+      "const": "infer",
+      "default": "infer",
+      "title": "Op",
+      "type": "string"
+    },
+    "request_id": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "profile_id": {
+      "enum": [
+        "aos.decider.turn.v1",
+        "aos.bonsai.recovery.v1",
+        "aos.bonsai.vision.v1"
+      ],
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "deployment_digest": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Deployment Digest",
+      "type": "string"
+    },
+    "payload": {
+      "additionalProperties": true,
+      "title": "Payload",
+      "type": "object"
+    }
+  },
+  "required": [
+    "request_id",
+    "profile_id",
+    "deployment_digest",
+    "payload"
+  ],
+  "title": "ScientistTurnRequest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
