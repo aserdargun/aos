@@ -51,6 +51,15 @@ frozen throughout the service lifetime. This is a trusted deployment-owner
 boundary, not protection against that same OS user modifying running Python.
 The launch command does not establish a fresh remote source-pair ACK.
 
+Resource review must count the desktop container separately: the current
+`DesktopRuntime` requests3GiB Docker memory even with fixture S1 and disabled
+vision. It is outside the Python service's cgroup; `MemoryMax=2G` on that
+service does not include or replace the container cap. Count all simultaneous
+Scientist stages, AOS service, desktop and host reserve before authorizing
+start. This portable launcher does not implement combined memory admission;
+the reviewed deployment must supply that gate and finite CPU/runtime limits.
+Insufficient RAM is not permission to shrink caps/reserve or stop user work.
+
 ## Check and explicitly start
 
 Run from that checkout with its installed environment. Values below are

@@ -260,6 +260,13 @@ class SharedDesktopManagerHostIntegrationTests(unittest.TestCase):
         self.output = self.root / 'manager-plan.json'
         self.original_launch = self.fixture.launch
         self.fixture.transport.start.side_effect = self.launch_after_durable_manager_intent
+        self.fixture.host.activation_claimer = self.claim_after_durable_manager_intent
+
+    def claim_after_durable_manager_intent(self, plan, activation, state):
+        recorded = local_app.read_state()
+        self.assertEqual(recorded, state)
+        self.fixture.states.append(recorded)
+        self.fixture.claim_authority(plan, activation, state)
 
     def launch_after_durable_manager_intent(self, plan, activation):
         recorded = local_app.read_state()
@@ -267,7 +274,6 @@ class SharedDesktopManagerHostIntegrationTests(unittest.TestCase):
         self.assertEqual(recorded.phase, 'starting')
         self.assertEqual(recorded.session, plan.app_session)
         self.assertEqual(recorded.workspace_identity, self.fixture.host._workspace(plan.workspace))
-        self.fixture.states.append(recorded)
         return self.original_launch(plan, activation)
 
     @staticmethod

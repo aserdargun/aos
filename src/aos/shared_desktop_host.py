@@ -309,11 +309,12 @@ class SystemdSharedDesktopTransport:
 
 
 class SharedDesktopHost:
-    def __init__(self, *, transport=None, activation_verifier=None, predecessor_verifier=None,
+    def __init__(self, *, transport=None, activation_verifier=None, activation_claimer=None, predecessor_verifier=None,
                  cleanup_prover=None, readback=None, process_observer=observe_process,
                  lifecycle_reader=read_journal, clock=_boottime, boot_reader=_boot_id):
         self.transport = transport or SystemdSharedDesktopTransport()
         self.activation_verifier = activation_verifier
+        self.activation_claimer = activation_claimer
         self.predecessor_verifier = predecessor_verifier or _deny_predecessor
         self.cleanup_prover = cleanup_prover or _deny_cleanup
         self.readback = readback or self._http_readback
@@ -553,6 +554,8 @@ class SharedDesktopHost:
         if self.predecessor_verifier(plan, predecessor) is not None:
             raise ValueError('Trusted predecessor verifier must complete or raise')
         self._verify(plan, activation)
+        if self.activation_claimer is None:
+            raise ValueError('Trusted single-use shared launch authority claimer is unavailable')
         SystemdSharedDesktopTransport.launch_command(plan, activation)
         expected_base = REPO_ROOT / 'data' / ('local-app-v1' if plan.template.project is None
                                              else 'local-app-project-' + plan.template.project)
@@ -577,6 +580,11 @@ class SharedDesktopHost:
             workspace=plan.workspace, workspace_identity=provision.workspace_identity)
         persist_state(state)
         try:
+            self._inputs(state)
+            self._verify(plan, activation)
+            self._pristine_claim(state, plan, activation)
+            if self.activation_claimer(plan, activation, state) is not None:
+                raise ValueError('Trusted launch claimer must confirm a fresh claim or raise')
             self._inputs(state)
             self._verify(plan, activation)
             self._pristine_claim(state, plan, activation)

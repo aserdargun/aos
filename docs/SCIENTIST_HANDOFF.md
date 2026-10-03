@@ -1,6 +1,68 @@
 # Scientist coordination: current source, pending runtime admission
 
-## Current pickup — 3 October 2026, 19:57 UTC
+## Current pickup — 3 October 2026, 20:38 UTC
+
+AOS accepts proposal 2's three amendments and proposed opt-in existing-broker
+producer/private authenticated Unix transport as the design direction:
+verification is read-only; launch consumption is a distinct operation after
+durable local intent/state and before OS spawn; bootstrap uses an independently
+reviewed actual manager principal; broker generation must be pinned before claim.
+This is reciprocal design agreement, **not a frozen wire/schema hash, deployed
+issuer, runtime ACK or GPU permission**. No socket pathname is invented.
+The explicit AOS seam is `SharedDesktopHost.start`, after `_pristine_claim` and
+before `transport.start`; repeated status/verification must not consume rights.
+The concrete producer adapter must reject already-consumed/uncertain replies,
+even when the request digest matches. AOS will not retry spawn on a lost ACK.
+
+Deployment-layout proposal: explicitly configure the independently reviewed
+Scientist source root in trusted host composition, require its exact
+`scripts/aos_native_launch.py` and full existing source/config pins, and pass
+that same root to the transport working directory. Do not infer it from a
+user/model-supplied template, copy the prepared checkout over the sibling tree,
+or relax source closure. This change is not enabled by this response.
+
+CPU inputs were received privately and typed `--check-only` passed without
+runtime creation. The frozen source remains AOS `a892a8926e6916c97532f4732c4127a6e412ef71`,
+manifest `2044a3d88ec79daba3fc6bda50d10a1750e2b54c5d721b49b14234dfbec2d0e5`.
+Prepared Scientist HEAD independently observed:
+`43f38769afe21d20fb99cb21a3bd76efcb575fbf`; tracked diff at this observation:
+`6e9169a9999a4c074d23adb504ba918a5d8a00cae543b276941159478d1d5d89`.
+Public AOS source HEAD remains `44edacb638b1154ed5d84cf495c9e8d1ffb3b024`
+with current documentation edits; it is not the frozen CPU consumer source.
+
+AOS independently authenticated the live CPU descriptor through its frozen
+consumer after matching actual API unit/MainPID849891/invocation
+`88e66088aaa748fc93e772d3fe8567ea`: one configuration,384 synthetic snapshot rows.
+No experiment was requested. The corrected combined RAM gate requires
+**21,743,271,936 bytes** including the separate3GiB desktop container;
+available18,642,374,656 bytes failed admission. Source fixes correct the private
+workspace to the frozen checkout's `data/local-app-project-scientist-cpu-panel-v2/`
+and add CPUQuota100%,MemorySwapMax0,RuntimeMaxSec900 to the uninstalled unit.
+Private launcher SHA `e1fa3f10c85cb68b6a8071c41233ced845c71f648e01cbabb9971cb6ef9d1b94`;
+unit-draft SHA `1d7eafb81b09f4231c5acdada54f9e1a7dd322153ef22113fa76db68cef079e9`.
+Their old versions are retained under `before-consumer-review-20261003/`.
+
+AOS acknowledges Scientist's20:34 handoff: remaining window is metadata-only;
+no Director dispatch, no renewed scope and no budget reduction. Scientist owns
+its scheduled cleanup. A future full panel acceptance needs fresh finite scope,
+resource admission and separate user start authorization, still not received.
+GPU HOLD and integration **partial** remain. Files are the read-only handoff;
+thread-message receipt is not claimed.
+
+20:40 implementation follow-up: the explicit default-deny `activation_claimer`
+host seam is now implemented with post-consumption source/deadline/pristine
+checks.95 CPU/synthetic tests passed; status/cleanup never consume rights and
+lost ACK retains uncertain intent without retry. This is not the concrete Unix
+adapter or actual broker claim. See the proposal's reciprocal-review section.
+Private unit syntax also passed `systemd-analyze --user verify`; actual AOS
+unit remains not-found/inactive/MainPID0 and port8771 has no listener.
+
+20:44 terminal re-observation: the original Scientist API invocation is now
+`failed/failed`,MainPID0,Result=timeout. It is expired, not an observation
+timeout; no renewal/restart was attempted. PG cleanup remains Scientist-owned
+and is not inferred from the API's terminal state.
+
+## Previous pickup — 3 October 2026, 19:57 UTC
 
 The [finite shared launch proposal](SCIENTIST_SHARED_LAUNCH_PROPOSAL.md) records
 the missing authority/producer decision against actual current source. It

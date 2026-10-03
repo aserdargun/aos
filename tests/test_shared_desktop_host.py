@@ -76,7 +76,9 @@ class SyntheticSharedHostFixture:
         self.transport.stopped.side_effect = lambda binding: not self.live and binding == self.service
         self.clock = 150.0
         self.readback_edit = lambda actual: actual
+        self.authority_claims = []
         self.host = SharedDesktopHost(transport=self.transport, activation_verifier=lambda plan, activation: None,
+            activation_claimer=self.claim_authority,
             predecessor_verifier=lambda plan, predecessor: None, cleanup_prover=self.cleanup,
             readback=self.readback, lifecycle_reader=lambda path: (self.events, '6' * 64),
             process_observer=lambda process: 'same_process' if self.live else 'not_observed',
@@ -92,7 +94,17 @@ class SyntheticSharedHostFixture:
         path.chmod(0o600)
         return path
 
+    def claim_authority(self, plan, activation, state):
+        if self.authority_claims or not self.states or self.states[-1] != state:
+            raise ValueError('Synthetic claim requires original durable state and no prior consumption')
+        marker = Path(plan.session_directory) / LAUNCH_INTENT_NAME
+        if not marker.is_file() or self.live:
+            raise AssertionError('Authority claim must follow durable intent and precede spawn')
+        self.authority_claims.append(state.launch_intent_sha256)
+
     def launch(self, plan, activation):
+        if self.authority_claims != [self.states[-1].launch_intent_sha256]:
+            raise AssertionError('Launch preceded the distinct single-use authority claim')
         if not self.states or self.states[-1].phase != 'starting':
             raise AssertionError('Launch preceded durable intent')
         if not (Path(plan.session_directory) / LAUNCH_INTENT_NAME).exists():
@@ -200,6 +212,63 @@ class SharedDesktopHostTests(unittest.TestCase):
         self.fixture.python.write_bytes(b'changed selected bytes')
         with self.assertRaises(ValueError):
             self.fixture.start()
+        self.fixture.transport.start.assert_not_called()
+
+    def test_missing_authority_claimer_denies_before_local_intent(self):
+        self.fixture.host.activation_claimer = None
+        with self.assertRaisesRegex(ValueError, 'claimer is unavailable'):
+            self.fixture.start()
+        self.assertEqual(self.fixture.states, [])
+        self.assertFalse((Path(self.fixture.plan.session_directory) / LAUNCH_INTENT_NAME).exists())
+        self.fixture.transport.start.assert_not_called()
+
+    def test_authority_claim_lost_reply_retains_intent_without_spawn_or_retry(self):
+        def lost_reply(plan, activation, state):
+            self.fixture.claim_authority(plan, activation, state)
+            raise TimeoutError('Synthetic consumed claim with lost reply')
+
+        self.fixture.host.activation_claimer = lost_reply
+        state = self.fixture.start()
+        self.assertEqual(state.phase, 'uncertain')
+        self.assertEqual(self.fixture.authority_claims, [state.launch_intent_sha256])
+        with self.assertRaises(ValueError):
+            self.fixture.start()
+        self.assertEqual(len(self.fixture.authority_claims), 1)
+        self.fixture.transport.start.assert_not_called()
+
+    def test_authority_claim_expiry_before_spawn_retains_uncertain_state(self):
+        def expired_claim(plan, activation, state):
+            self.fixture.claim_authority(plan, activation, state)
+            self.fixture.clock = activation.expires_monotonic
+
+        self.fixture.host.activation_claimer = expired_claim
+        state = self.fixture.start()
+        self.assertEqual(state.phase, 'uncertain')
+        self.fixture.transport.start.assert_not_called()
+
+    def test_claim_status_only_is_not_permission_and_status_never_claims(self):
+        self.fixture.host.activation_claimer = Mock(return_value={'status': 'already_consumed'})
+        state = self.fixture.start()
+        self.assertEqual(state.phase, 'uncertain')
+        self.fixture.host.status(state)
+        self.fixture.host.activation_claimer.assert_called_once()
+        self.fixture.transport.start.assert_not_called()
+
+    def test_source_drift_after_claim_denies_before_spawn(self):
+        def drift_after_claim(plan, activation, state):
+            self.fixture.claim_authority(plan, activation, state)
+            self.fixture.python.write_bytes(b'SYNTHETIC changed source during claim')
+
+        self.fixture.host.activation_claimer = drift_after_claim
+        state = self.fixture.start()
+        self.assertEqual(state.phase, 'uncertain')
+        self.fixture.transport.start.assert_not_called()
+
+    def test_revoked_authority_at_claim_retains_local_intent(self):
+        self.fixture.host.activation_claimer = Mock(side_effect=ValueError('Synthetic revoked authority'))
+        state = self.fixture.start()
+        self.assertEqual(state.phase, 'uncertain')
+        self.assertTrue((Path(self.fixture.plan.session_directory) / LAUNCH_INTENT_NAME).is_file())
         self.fixture.transport.start.assert_not_called()
 
     def test_expired_authority_before_start_denies_and_after_start_preserves_ui_only(self):

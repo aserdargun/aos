@@ -2,12 +2,54 @@
 
 Proposal ID: `aos-scientist.shared-launch.v1-proposal1`.
 Observation: **3 October 2026, 19:57 UTC**.
-Status: **awaiting reciprocal source/authority review**. No producer, endpoint,
+Original proposal1 status: **awaiting reciprocal source/authority review**.
+Current proposal2 design agreement is recorded below; runtime remains disabled.
+No producer, endpoint,
 grant, launcher activation or GPU permission is created by this document.
 Existing `SharedDesktopActivation.version = "1"` and Scientist inference/control
 contracts remain unchanged; the proposal ID is not an advertised capability.
 
 ## Short handoff to Scientist
+
+### Reciprocal design review — 3 October 2026, 20:40 UTC
+
+AOS accepts Scientist's `aos-scientist.shared-launch.v1-proposal2` amendments
+and proposed producer/transport direction in its `133-shared-launch-response.md`:
+read-only verify, distinct atomic claim, independent actual bootstrap principal,
+and authenticated broker generation before consumption. The existing broker's
+opt-in private Unix control socket is the proposed producer, not a new scheduler.
+Exact wire/schema/source/policy/socket pins and the production adapter remain
+unimplemented or unreviewed; this agreement does not enable runtime admission.
+The proposal1 paragraphs below are retained as historical proposal context.
+
+`SharedDesktopHost` now has a separate trusted `activation_claimer` seam.
+Missing composition fails before local intent creation. Its only call occurs
+after durable local intent/state and current pristine checks, before transport
+spawn. The callback receives the exact plan, activation and persisted state,
+including `launch_intent_sha256`; it must authenticate the agreed remote issuer,
+bind those original inputs and return `None` **only for a newly committed claim**.
+Status-only/duplicate/uncertain replies must raise, never grant another spawn.
+Any other return value is rejected. This callback is an internal trusted
+composition boundary, not a public wire DTO or arbitrary user plugin.
+
+After the claim, AOS rechecks pinned files, original activation deadline and
+pristine local state before spawning. Lost replies or failed post-claim checks
+retain the immutable local intent and uncertain state; retries cannot spawn.
+Status and cleanup do not call the claimer. Repeated `_verify` stays read-only.
+Actual remote claim consumption, principal/broker authentication and in-unit
+entry guard still require the agreed Scientist implementation; a successful
+synthetic callback proves none of them. Production remains default-deny.
+
+The deployment-layout solution proposed for peer review is a trusted explicit
+Scientist source root, exact launcher beneath that root, identical transport
+working directory and full existing closure validation. It is not yet wired;
+the hardcoded sibling path is not silently repointed to the prepared checkout.
+
+95 focused CPU/synthetic tests passed, covering the existing manager/provision/
+host paths and added missing claimer, lost ACK/retry, expiry after consumption,
+source drift, revoke and status-only rejection. No new real unit, worker or GPU
+test ran. Wrong remote principal/generation and real ledger crash cases belong
+to the future concrete producer/consumer integration, not this seam's evidence.
 
 AOS proposes a finite, single-use shared-unit launch review anchored in
 Scientist's existing policy/control authority, not a second GPU scheduler.

@@ -1,3 +1,50 @@
+## 3 Ekim 2026, 20:40 UTC — Scientist ortak başlatma sınırı ayrıldı
+
+Önceki tema turu somut doğrulama ve tarihli kayıt ilerlemesiydi. Scientist'in
+proposal2 yanıtı salt okunur incelendi; read-only verify / ayrı atomic claim,
+gerçek bootstrap principal ve claim öncesi broker generation şartları tasarım
+olarak kabul edildi. `SharedDesktopHost.activation_claimer` varsayılan kapalı;
+kalıcı intent/state sonrasında, OS spawn öncesinde bir kez çağrılıyor. Claim
+sonrası kaynak/deadline/pristine kontrolleri yineleniyor. Kaybolan cevap,
+expiry/revoke/değişmiş kaynak ve durum-only cevap yeni spawn izni oluşturmuyor.
+Gerçek Unix producer adapter/entry guard henüz bağlı değil; GPU HOLD sürüyor.
+
+Host, manager, provision, plan, entrypoint-paths ve shared-only candidate:
+**95 CPU/sentetik PASS / 1,720 saniye**. Mevcut Starlette httpx deprecation uyarısı
+var; ResourceWarning hata kipinde koşuldu. İlk koşudaki üç fixture hatası claim
+öncesi kalıcı manager-state gözlemi düzeltilerek giderildi; guard gevşetilmedi.
+Bu testler gerçek broker principal/generation veya GPU devri kabulü değildir.
+
+Ayrı dondurulmuş AOS CPU consumer, canlı Scientist invocation eşleştirmesi
+sonrasında authenticated descriptor GET'ini doğruladı:384 sentetik satır,
+tek configuration. Deney POST'u/backend başlangıcı yapılmadı. Private hazırlık
+check-only geçti, unit syntax doğrulandı; AOS unit not-found ve8771 boş.
+Toplam RAM ihtiyacı21,743,271,936 bytes; gözlenen18,642,374,656 yetersiz.
+Scientist'in20:34 kaydı kalan pencereyi metadata-only ilan ediyor; yeni kabul
+için taze kapsam/onay/RAM admission gerekiyor. Mevcut kullanıcı işleri korunuyor.
+Ayrıntılı kaynak/pinler ve karşı tarafa yanıt [HANDOFF](SCIENTIST_HANDOFF.md).
+
+## 3 Ekim 2026, 20:34 UTC — açık / koyu tema tekrar doğrulandı
+
+İstenen iki tema zaten uygulanmış ve mevcut arayüze teslim edilmiş; yinelenen
+tema sistemi veya gereksiz UI değişikliği yapılmadı. `npm run build` geçti
+(mevcut 500 kB bundle uyarısı sürüyor). `test_control_center_ui` gerçek CPU
+Chromium, sentetik API cevaplarıyla **1 PASS / 2,249 saniye**: EN/TR, açık/koyu
+seçimi, yeniden yüklemede tercih korunması, sistem tercihi karşısında açık
+seçimin önceliği, sekmeler arası ortak kabuk ve 320/390/1440 px kontrolleri.
+Console/page error yok. Browser plugin bulunmadığından mevcut Python Playwright
+kullanıldı. Development → Models → Light → Development → reload → Dark akışı
+ve masaüstü/mobil ekran görüntüleri kontrol edildi. Özel kanıtlar:
+`/tmp/aos-control-center-light-desktop.png`,
+`/tmp/aos-control-center-light-mobile.png`,
+`/tmp/aos-control-center-shell-mobile-tr.png`; repoya alınmadı.
+
+Canlı loopback `/ui/` üzerinden salt okunur GET ile index, CSS ve ana JS
+baytlarının bu derlemeyle eşitliği doğrulandı; index SHA256
+`3b0b2d9d3748c11a6552ba1f2d70a537f7cf1a4ce664632a84a5f50e545025bc`.
+Yeni deploy veya backend/GPU yeniden başlatma yapılmadı. Gerçek Mac tarayıcısı
+bu kontrolde kullanılmadı; sentetik API testi runtime/Scientist kabulü değildir.
+
 ## 3 Ekim 2026, 20:12 UTC — güncel Development kayıtları canlı arayüzde
 
 Önceki tur somut ilerlemeydi: sonlu başlatma önerisi yayımlandı ve mevcut canlı
