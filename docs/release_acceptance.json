@@ -25,6 +25,20 @@
     },
     "updates": [
       {
+        "id": "scientist_experience_source",
+        "state": "verified_cpu",
+        "recorded_at": "2026-10-03T18:07:12Z",
+        "title": {
+          "en": "Scientist history and explicit reuse selection",
+          "tr": "Scientist geçmişi ve açık yeniden kullanım seçimi"
+        },
+        "detail": {
+          "en": "Source main ed20949 adds owner-bound history readback and selection of up to eight references into a new proposal draft. 158 CPU/mock and 15 Chromium/mock-API tests pass. No automatic experiment, approval or training; real runtime acceptance remains open. These controls stay hidden on the current unconfigured backend.",
+          "tr": "Kaynak main ed20949: bağlı deney geçmişi okunabilir ve en fazla sekiz referans yeni öneri taslağına seçilebilir. 158 CPU/mock ve 15 Chromium/mock-API testi geçti. Otomatik deney, onay veya eğitim yok; gerçek runtime kabulü açık. Bu kontroller mevcut yapılandırılmamış backend'de gizli kalır."
+        },
+        "evidence": ["docs/SCIENTIST_EXPERIENCE.md", "tests/test_scientist_experience.py", "tests/test_scientist_lab_ui.py", "docs/STATUS.md"]
+      },
+      {
         "id": "durable_agent_orchestration",
         "state": "verified_cpu",
         "recorded_at": "2026-10-03T07:39:51Z",

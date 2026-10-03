@@ -1,3 +1,43 @@
+## 3 Ekim 2026, 18:20 UTC — güncel UI'nin gerçek salt okunur teslimi
+
+Önceki tur source main `ed209498afa1e9c6a4c4573d0c0e8daff2a2ec17` yayınıyla
+gerçek ilerlemeydi. Bu tur mevcut kaynak/operational fark ve çalışan backend
+yeniden doğrulandı. Scientist mesajı yine transport hatasıyla iletilemedi;
+karşılıklı runtime ACK veya yeni grant varsayılmadı.
+
+Gözlenen UI eksikliği: `checkpoint.next_action` canonical kayıtta güncelleniyor
+ama hiçbir panelde gösterilmiyordu. EN/TR **Sıradaki geliştirme adımı** kartı
+eklendi, son tamamlanan Scientist geçmiş/seçim kaynak işi günlüğün başına alındı.
+Altı ürün aşamasının tarihi, kabul bayrakları ve GPU HOLD değiştirilmedi.
+
+TypeScript/Vite build geçti; mevcut büyük chunk uyarısı sürer. Control center,
+topology, development journal, release ve dil testleri **17 test / 3,031 s:
+16 PASS, 1 SKIP**. Skip özel kanıt dosyalarının kaynak paketinde bulunmaması
+içindir; başarı sayılmaz. UI testleri GPU-disabled Chromium ve sentetik API
+kullanır. Browser plugin mevcut olmadığından kurulu Python Playwright kullanıldı.
+
+Ardından gerçek backend ile aday asset önizlemesi ve teslim sonrası ayrı tarayıcı
+okuması geçti: her birinde 17 istek, yalnız local session login POST ve salt
+okunur GET. Development varsayılanı, son kayıt/sonraki adım, EN desktop1440×1000,
+TR mobile390×844, topolojinin yedi adımı ve yapılandırılmamış Scientist'in
+unsupported kontrolleri gizlemesi doğrulandı. Boş sayfa, framework overlay,
+page/console error veya HTTP hata yok; task/approval/deney/GPU etkisi yok.
+
+Kullanıcının yalnız UI onayı kapsamında hashed JS/CSS önce kuruldu, index atomik
+değiştirildi; eski assetler ve rollback index korundu. Yeni index SHA256
+`93b30e180a50a4919bd1f5ed24e6993addd730946117ed27bfcb79755ce07d52`,
+JS SHA256 `575721c248a334d2e8caed6d8047f187392abe38001d906d5dc58f114c8503ad`.
+HTTP üzerinden index ve asset byte eşliği doğrulandı. Backend PID42513/start
+ticks344916 ve komut hash'i aynı; operational tracked diff
+`0e93a9e453c951879a5971d1487ec2465d39675ea245148a7a3a42a6f286fd2e`
+korundu. Backend/GPU restart, runtime config değişimi veya Scientist müdahalesi yok.
+
+Özel QA logları, görseller ve promotion/rollback kanıtı
+`/tmp/aos-ui-delivery-20261003-H67RPo/` altında; kaynak paketine girmez ve kalıcı
+public kanıt değildir. Mac bridge servisi active; gerçek Mac tarayıcı kabulü
+kanıtlanmadı. Canlı Scientist hâlâ unconfigured. Güncel UI teslimi gerçekleşti,
+ancak yeni deney backend'i ve ortak runtime entegrasyonu **kısmi** kalır.
+
 ## 3 Ekim 2026, 18:07 UTC — Scientist bağlı deney geçmişi kaynak dilimi
 
 Kaynak parent `a3b1a7304676bd4d38d2d15dbdd6b42a858a442b`; Apache-2.0 ve

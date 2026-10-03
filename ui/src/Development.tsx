@@ -520,6 +520,9 @@ export function Development({tasks, overview, retention, formRepeats, webApplica
         <p>{t('Altı aşama; kaynak, doğrulama ve teslim ayrı izlenir.')}</p>
         <button type="button" onClick={() => setView('release')}>{t('Sürüm kontrol listesini aç')}</button>
         <p className="caption">{t('Durum yenileme yalnız oturumu okur. Geliştirme kaydı bu UI derlemesine aittir.')}</p></section>
+      {checkpoint ? <section data-testid="development-next-action"><h3>{t('Sıradaki geliştirme adımı')}</h3>
+        <p>{checkpoint.next_action[language]}</p>
+        <small>{t('Tarihli manuel kayıt; canlı ajan sağlığı değildir.')}</small></section> : null}
       <section data-testid="development-blocker"><h3>{t('Kayıtlı engel')}</h3>
         <p>{checkpoint?.blocker[language] ?? t('Kabul kaydını inceleyin; tamamlanma varsayılmaz.')}</p>
         {checkpoint ? <small><time dateTime={checkpoint.recorded_at}>{new Date(checkpoint.recorded_at).toLocaleString(locale())}</time></small> : null}</section>

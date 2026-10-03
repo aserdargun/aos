@@ -36,6 +36,13 @@ için STATUS ve canonical release kaydını kullanın.
 
 ## Ekran nasıl okunur?
 
+3 Ekim 18:20 UTC UI-only teslimi: kayıtlı `checkpoint.next_action` artık
+**Next development step / Sıradaki geliştirme adımı** kartında görünür. Önceden
+JSON'da güncellense de ekranda gösterilmiyordu. Son Scientist geçmiş/seçim kaynak
+teslimi günlüğün ilk satırındadır; source/mock kabulü gerçek backend yeteneğiyle
+karıştırılmaz. EN desktop/TR mobile gerçek backend okuması geçti; Mac tarayıcı
+kabulü ayrı kalır. Backend restart veya GPU işi yapılmadı.
+
 - **Canlı oturum:** son başarılı backend gözleminden görev etkinliği, mevcut iş,
   bekleyen onay ve masaüstü durumu. Oturum kimliği ve runtime kimliği ayrı
   gösterilir. Bu bölüm geliştirme işçilerinin etkinliğini veya GPU kullanımını

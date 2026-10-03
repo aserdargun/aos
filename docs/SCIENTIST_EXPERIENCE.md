@@ -3,6 +3,11 @@
 Source implementation only. This is not a live deployment, reciprocal contract
 ACK, real Scientist acceptance, training permission or GPU admission.
 
+UI-only delivery note, 3 October 2026 18:20 UTC: the compatible frontend assets
+were promoted without restarting the backend. The existing unconfigured
+Scientist connection keeps new controls hidden. The experience backend remains
+source-only; this static UI delivery is not actual experience acceptance.
+
 ## Reviewed producer, not an assumed deployment
 
 The sibling checkout was observed at

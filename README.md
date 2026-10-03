@@ -137,8 +137,10 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 Kaynakta [bağlı deney geçmişi ve açık seçim](docs/SCIENTIST_EXPERIENCE.md) de hazır:
 bağımsız rapor doğrulaması ile Scientist'in bildirdiği ledger/bağlam ayrılır;
 seçim yalnız yeni öneri taslağını doldurur. **158 CPU/mock ve 15 Chromium/mock-API
-testi geçti**; üç SQLite finalizer uyarısı kaydedildi. Bu yeni dilim canlıya
-aktarılmadı; tam core veya gerçek Scientist kabulü yerine geçmez.
+testi geçti**; üç SQLite finalizer uyarısı kaydedildi. 18:20 UTC'de yalnız uyumlu
+UI assetleri teslim edildi; backend değişmedi, yapılandırılmamış Scientist için
+yeni kontroller gizli kalır. Development son tamamlanan işi ve somut sonraki
+adımı gösterir. Bu teslim tam core veya gerçek Scientist kabulü yerine geçmez.
 
 ## Güvenlik, özel veri ve teslim paketi
 
@@ -152,7 +154,7 @@ aktarılmadı; tam core veya gerçek Scientist kabulü yerine geçmez.
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 18:07:12 UTC / 21:07:12 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=15211517`, `timeUsedSeconds=90240`: **25 saat 4 dakika / 25,0666667 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 18:20:42 UTC / 21:20:42 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=15301884`, `timeUsedSeconds=91051`: **25 saat 17 dakika 31 saniye / 25,2919444 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 

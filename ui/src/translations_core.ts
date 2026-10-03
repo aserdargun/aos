@@ -32,6 +32,7 @@ export const releaseAcceptanceLabels: Record<string, string> = {
 };
 
 export const translationsCore: Record<string, string> = {
+  "Sıradaki geliştirme adımı": "Next development step",
   "Sistem ve topoloji": "System & topology",
   "Son gözlemlenen görev": "Last observed task",
   "Son gözlemlenen oturum kanıtı": "Last observed session evidence",

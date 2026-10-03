@@ -61,8 +61,8 @@ class ControlCenterUITests(unittest.TestCase):
         malformed_tasks = False
         try:
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(executable_path=str(
-                    REPO_ROOT / 'models/playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell'),
+                browser = playwright.chromium.launch(executable_path=os.environ.get('AOS_TEST_CHROMIUM_PATH', str(
+                    REPO_ROOT / 'models/playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell')),
                     args=['--disable-gpu'])
                 try:
                     page = browser.new_page(viewport={'width': 1440, 'height': 1100})
@@ -98,6 +98,9 @@ class ControlCenterUITests(unittest.TestCase):
                     journal = page.get_by_test_id('development-journal')
                     expect(journal).to_be_visible()
                     expect(journal).to_contain_text('49')
+                    checkpoint = json.loads((REPO_ROOT / 'docs/release_acceptance.json').read_text())['checkpoint']
+                    expect(page.get_by_test_id('development-next-action')).to_contain_text(checkpoint['next_action']['en'])
+                    expect(journal.get_by_role('heading').nth(1)).to_have_text(checkpoint['updates'][0]['title']['en'])
                     expect(journal).to_contain_text('CPU')
                     expect(page.get_by_test_id('development-history')).not_to_be_visible()
                     page.screenshot(path='/tmp/aos-control-center-shell-desktop.png', full_page=False)
@@ -172,6 +175,8 @@ class ControlCenterUITests(unittest.TestCase):
                     self.assertLessEqual(page.evaluate('document.documentElement.scrollWidth'), 390)
                     expect(journal).to_be_visible()
                     page.screenshot(path='/tmp/aos-control-center-shell-mobile-tr.png', full_page=True)
+                    expect(page.get_by_test_id('development-next-action')).to_contain_text(checkpoint['next_action']['tr'])
+                    expect(page.get_by_role('heading', name='Sıradaki geliştirme adımı', exact=True)).to_be_visible()
                     page.get_by_role('button', name='Sürüm kontrol listesi', exact=True).click()
                     snapshot = json.loads((REPO_ROOT / 'docs/release_acceptance.json').read_text())
                     expect(page.get_by_test_id('development-acceptance-date').locator('time')).to_have_attribute(
