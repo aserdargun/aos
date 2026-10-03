@@ -4,6 +4,11 @@
 runtime'ına dönüştürmez. Gerçek shared servis veya GPU kabul koşusu çalıştırılmadı.
 Scientist, tek GPU tahsis otoritesi ve entegre GPU kabul koşusunun tek yürütücüsüdür.
 
+[Somut fiziksel cleanup gözlemcisi](SHARED_DESKTOP_CLEANUP.md) kaynakta eklendi.
+Original entered service/process/cgroup/container/token okumaları yapar; tek başına
+release yetkisi veya host cleanup proof değildir. Original spawn fencing,
+Scientist worker drain ve production composition tamamlanmadan gate kapalı kalır.
+
 ## Uygulanan sınırlar
 
 `aos.shared_desktop_plan` sürümlü template, inert plan ve ayrı activation

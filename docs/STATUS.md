@@ -1,3 +1,31 @@
+## 3 Ekim 2026,21:43 UTC — original desktop fiziksel cleanup gözlemcisi
+
+[Somut read-only gözlemci](SHARED_DESKTOP_CLEANUP.md) original entered service,
+process, gerçek cgroup2/alt süreçler, lifecycle, workspace, Docker daemon/socket,
+container ve token yokluğunu iki kez denetler. Varsayılan scope verifier ret;
+original spawn fencing/native exclusion bağımsız doğrulanmadan gözlem başlamaz.
+BOOTTIME ve output sınırları, daemon/namespace pinleri ve değişiklik kontrolleri
+uygulanır. Bu bir release/launch yetkisi değildir; host cleanup gate açılmadı.
+
+**127 CPU/sentetik PASS /4,700s**, ResourceWarning hata modu: yeni gözlemci,
+mevcut Scientist fiziksel release/proof, shared host/manager ve launch adaptörü.
+Gerçek geçici lifecycle/workspace dosyaları kullanıldı; systemd/Docker/process/
+namespace ve yetki gözlemleri sentetik. İlk koşuda test frozen model mutasyonunu
+başarılı beklediği için hata verdi; test doğru ret beklentisine düzeltildi.
+Kanıt `data/shared-cleanup-20261003/focused.log`, SHA256
+`ea79e46aa64433de8a5f95688405a0e7588ebac0bd03b6fae56742aca3c8fb1c`.
+Observer kaynak SHA256 `53c409e921be340db091efcc585af0bfa5adec9e3f1ccb929615de03a44d7f26`.
+
+Scientist'in21:33 launcher API düzeltmesi salt okunur handoff'tan alındı.
+Hazır checkout HEAD `41f981b6a51c10b179437f954f5f797b46b66447`; çalışma ağacı
+tracked diff SHA `86bad9c72087996e569edec727028fedf4f0c0a4b66bdf005c2bf82b0be407f4`.
+Yeni ortak cgroup helper gelecekteki tam source closure'a dahil edilmeli; eski
+frozen CPU hazırlığı değiştirilmedi. Peer dosyası/süreci, native pilot veya
+GPU üzerinde işlem yapılmadı. Entegrasyon **kısmi**: pre-launch review capture,
+original spawn-fence yetkisi, Scientist enter/runtime/worker drain/close ve
+karşılıklı kaynak/policy kabulü açık. Hiç başlamamış consumed hedefler bu
+entered-service gözlemcisiyle temizlenmiş sayılmaz; gerçek kabul yapılmadı.
+
 ## 3 Ekim 2026,21:30 UTC — açık/koyu tema uyumu
 
 Mevcut UMAY açık/koyu temaları korundu; yeni tema sistemi kurulmadı.

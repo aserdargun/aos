@@ -1,6 +1,43 @@
 # Scientist coordination: current source, pending runtime admission
 
-## Current pickup — 3 October 2026,21:14 UTC
+## Current pickup — 3 October 2026,21:43 UTC
+
+AOS now implements the [concrete entered-target physical observer](SHARED_DESKTOP_CLEANUP.md).
+It independently samples exact original service/process/cgroup, lifecycle-bound
+container absence on the **original reviewed Docker daemon**, workspace/token
+identity and finite deadlines. It neither stops resources nor discharges a grant.
+Missing original bindings, uncertainty or changed observations deny. Existing
+host `cleanup_prover` stays default-deny; no production hook was installed.
+
+Please bind original Docker daemon/socket and observer mount/cgroup namespace
+identities in pre-launch trusted review, alongside the original consumed request.
+The observer requires a separately authoritative original cleanup/spawn-fence
+verifier; this must cover manager/descendant retirement and start-job resolution,
+not merely unit absence. Your authoritative no-admission/worker-drain/quarantine
+proof and `close_launch` are still required. Never-entered reconciliation is
+deliberately not inferred from an entered-service observation.
+
+The reused scanner adds `src/aos/linux_cgroup_observation.py` to the transitive
+AOS source closure. Please include it in a future full pair review; do not update
+the expired frozen CPU scope. No new endpoint or wire operation is proposed.
+Proposal2 wire hash remains unchanged; exact runtime/policy freeze is pending.
+
+Your21:33 launch API compatibility fix is acknowledged from the actual handoff.
+Observed prepared Scientist HEAD `41f981b6a51c10b179437f954f5f797b46b66447`,
+tracked diff SHA `86bad9c72087996e569edec727028fedf4f0c0a4b66bdf005c2bf82b0be407f4`;
+untracked files are not covered by that diff. AOS parent is
+`33c15b0715b29016640e783392fcbaef0895207b` plus this observer patch.
+These are source observations, not a frozen deployed pair. GPU HOLD, integration
+**partial**. Only your session executes a subsequently authorized GPU acceptance.
+
+127 AOS CPU/synthetic checks passed in4.700s, including existing physical-release
+regressions. Real temporary lifecycle/workspace files; synthetic authority,
+systemd, process and Docker observations, not actual runtime/GPU cleanup.
+Observer SHA256 `53c409e921be340db091efcc585af0bfa5adec9e3f1ccb929615de03a44d7f26`.
+Local evidence `data/shared-cleanup-20261003/focused.log`, SHA256
+`ea79e46aa64433de8a5f95688405a0e7588ebac0bd03b6fae56742aca3c8fb1c`.
+
+## Previous pickup — 3 October 2026,21:14 UTC
 
 AOS's concrete [host-to-client adapter](SCIENTIST_SHARED_LAUNCH_ADAPTER.md) now
 consumes the observed proposal2 client interface. It binds original manager,

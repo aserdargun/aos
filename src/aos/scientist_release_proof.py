@@ -10,6 +10,7 @@ import time
 from jsonschema import SchemaError
 
 from .bounded_process import run_bounded
+from .linux_cgroup_observation import require_empty_cgroup
 from .scientist_evidence_transport import (
     RESPONSE_LIMIT, SCHEMA_LIMIT, ScientistEvidenceCodec, _STRICT_VALIDATOR, _decode, _schema_boundary,
 )
@@ -144,52 +145,8 @@ class ScientistPhysicalReleaseVerifier:
         raise ScientistAdmissionError('Physical child process generation still exists')
 
     def _cgroup(self, child, deadline, *, collected):
-        mounts = [line.split() for line in self._read('/proc/self/mountinfo', max_bytes=262144).splitlines()]
-        matching = [row for row in mounts if len(row) > 6 and row[4] == '/sys/fs/cgroup']
-        _require(len(matching) == 1 and '-' in matching[0]
-                 and matching[0][matching[0].index('-') + 1] == 'cgroup2',
-                 'Physical cgroup2 mount is unavailable or ambiguous')
-        flags = os.O_RDONLY | os.O_CLOEXEC | os.O_NOFOLLOW | os.O_DIRECTORY
-        descriptor = os.open('/sys/fs/cgroup', flags)
-        try:
-            self._read('cgroup.procs', directory=descriptor)
-            self._read('cgroup.controllers', directory=descriptor)
-            for part in child.control_group.split('/')[1:]:
-                try:
-                    next_descriptor = os.open(part, flags, dir_fd=descriptor)
-                except FileNotFoundError:
-                    _require(collected, 'Physical retained cgroup unexpectedly disappeared')
-                    return
-                os.close(descriptor)
-                descriptor = next_descriptor
-            visited = 0
-
-            def inspect(directory):
-                nonlocal visited
-                visited += 1
-                _require(visited <= 128 and time.monotonic() < deadline,
-                         'Physical cgroup observation exceeds its bound')
-                _require(not self._read('cgroup.procs', directory=directory).strip(),
-                         'Physical child cgroup contains processes')
-                rows = [line.split() for line in self._read('cgroup.events', directory=directory).splitlines()]
-                _require(all(len(row) == 2 for row in rows), 'Physical cgroup events are malformed')
-                events = dict(rows)
-                _require(len(rows) == len(events) and events.get('populated') == '0',
-                         'Physical child cgroup is recursively populated or ambiguous')
-                with os.scandir(directory) as entries:
-                    for position, entry in enumerate(entries):
-                        _require(position < 256 and time.monotonic() < deadline,
-                                 'Physical cgroup entries exceed their bound')
-                        _require(not entry.is_symlink(), 'Physical cgroup contains a symlink')
-                        if entry.is_dir(follow_symlinks=False):
-                            nested = os.open(entry.name, flags, dir_fd=directory)
-                            try:
-                                inspect(nested)
-                            finally:
-                                os.close(nested)
-            inspect(descriptor)
-        finally:
-            os.close(descriptor)
+        require_empty_cgroup(child.control_group, deadline, collected=collected,
+                             read=self._read, require=_require, clock=time.monotonic)
 
     def _gpu(self, environment, deadline, owned_pids, gpu_uuid, allow_shared_lanes):
         arguments = ['/usr/bin/nvidia-smi', '--id=' + gpu_uuid]

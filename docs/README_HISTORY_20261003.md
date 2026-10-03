@@ -862,3 +862,9 @@ flowchart TD
 **Tarihli geliştirme snapshot'ı: 3 Ekim 2026,21:14:25 UTC /4 Ekim 2026,00:14:25 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16665807`, `timeUsedSeconds=101473`: **28 saat 11 dakika 13 saniye /28,1869444 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Aynı goal kapsamındaki tarihsel sayaç; yeni snapshot ile toplanmaz.
+
+## 3 Ekim 2026,21:29:48 UTC — önceki goal gözlemi
+
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026,21:29:48 UTC /4 Ekim 2026,00:29:48 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16767613`, `timeUsedSeconds=102397`: **28 saat 26 dakika 37 saniye /28,4436111 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+
+Aynı goal kapsamındaki tarihsel sayaç; yeni snapshot ile toplanmaz.
