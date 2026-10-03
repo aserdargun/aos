@@ -128,7 +128,7 @@ Komutlar ve **tamamlandı sayılma ölçütleri** [teslim/devam rehberinde](docs
 
 AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamasını orkestre eder. Scientist deney yaşam döngüsünü ve paylaşılan GPU tahsisini yönetir. Diğer ajanlar aynı typed policy sınırından geçer; ajan çoğaltmak kaynak/yetki sınırını çoğaltmaz.
 
-**Mevcut teslim kısmi entegrasyondur.** Shared-only runtime adayı canlıya uygulanmadı. Maintenance kaynak modülü CPU'da sınanır; gerçek bakım çalıştırılmadı. `native_exclusion` DTO/schema düzeyindedir; canlı producer/consumer yoktur. Yeni source/config/version çifti, ayrı bakım onayı, owner/generation/fencing, fiziksel cleanup ve Scientist'in tek yürütücülü küçük GPU kabulü olmadan ortak sistem hazır denmez.
+**Mevcut teslim kısmi entegrasyondur.** Shared-only runtime adayı canlıya uygulanmadı. Maintenance ve `NativeExclusionReader` kaynakta/CPU testlerinde vardır; gerçek bakım veya dışlama kabulü yapılmadı. Okuyucu aktif model-interpreter süreçlerini hâlâ konservatif olarak reddeder; çalışan broker worker'larıyla sürekli birlikte kullanım tamamlanmadı. Ayrı [CPU Scientist capability adaptörü](docs/SCIENTIST_CPU_CAPABILITY.md) mevcut approval/journal kapılarını korur; startup bağlantısı ve gerçek CPU deney kabulü açıktır. Yeni source/config/version çifti, ayrı bakım onayı, owner/generation/fencing, fiziksel cleanup ve Scientist'in tek yürütücülü küçük GPU kabulü olmadan ortak sistem hazır denmez.
 
 [Runtime sözleşmesi](docs/SCIENTIST_RUNTIME_INTEGRATION.md), [native handover](docs/NATIVE_HANDOVER.md), [shared-only aday](scripts/shared-only-runtime-v1/README.md), [yeni ajan ekleme](docs/EXTENDING_AOS.md). Sonraki aşama için bunlar çalışma planıdır; endpoint, ortak dosya yolu veya desteklenmeyen adapter uydurulmaz.
 
@@ -144,7 +144,7 @@ AOS kullanıcı görevi, izin, intent, izleme ve bağımsız sonuç doğrulamas�
 
 ## Geliştirme kullanımı ve modeller
 
-**Tarihli teslim snapshot'ı: 3 Ekim 2026, 13:14:47 UTC / 16:14:47 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=12298925`, `timeUsedSeconds=72695`: **20 saat 11 dakika 35 saniye / 20,1930556 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
+**Tarihli teslim snapshot'ı: 3 Ekim 2026, 13:55:27 UTC / 16:55:27 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=12831282`, `timeUsedSeconds=75135`: **20 saat 52 dakika 15 saniye / 20,8708333 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 

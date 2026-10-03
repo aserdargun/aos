@@ -46,6 +46,12 @@ Models/adapters, datasets, trajectories, screenshots, tokens, databases and
 runtime receipts are not part of the source delivery. Private evidence paths in
 historical documentation may not exist on the recipient's machine.
 
+Development-checkpoint tests validate public source references by default.
+Private `data/` evidence is deliberately absent from a source-only delivery;
+its separate existence check is skipped unless `AOS_PRIVATE_EVIDENCE_TESTS=1`
+is explicitly set on the original evidence-owning host. Do not copy private
+logs into a public package merely to make that local-evidence check pass.
+
 Run the following in a **fresh disposable Linux checkout**, not a running
 installation. Choose one installation route; do not create `.venv` manually and
 then ask the fresh-environment installer to reuse it.

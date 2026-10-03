@@ -1,5 +1,6 @@
 import copy
 import json
+import os
 import subprocess
 import tempfile
 import unittest
@@ -38,7 +39,17 @@ class DevelopmentJournalTests(unittest.TestCase):
                          ['verified_cpu', 'in_progress', 'in_progress', 'in_progress', 'next'])
         for update in checkpoint['updates']:
             for evidence in update['evidence']:
-                self.assertTrue((REPO_ROOT / evidence).is_file(), evidence)
+                if not evidence.startswith('data/'):
+                    self.assertTrue((REPO_ROOT / evidence).is_file(), evidence)
+
+    @unittest.skipUnless(os.environ.get('AOS_PRIVATE_EVIDENCE_TESTS') == '1',
+                         'Private development evidence is not bundled with source')
+    def test_local_private_checkpoint_evidence_exists(self):
+        evidence_paths = [evidence for update in self.snapshot['checkpoint']['updates']
+                          for evidence in update['evidence'] if evidence.startswith('data/')]
+        self.assertTrue(evidence_paths)
+        for evidence in evidence_paths:
+            self.assertTrue((REPO_ROOT / evidence).is_file(), evidence)
 
     def test_v1_compatibility_and_version_specific_checkpoint(self):
         historical = copy.deepcopy(self.snapshot)

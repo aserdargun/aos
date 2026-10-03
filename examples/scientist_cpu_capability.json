@@ -1,0 +1,23 @@
+{
+  "schema": "scientist.lab-cpu-capability.v1",
+  "owner_id": "synthetic-aos-owner",
+  "origin": "aos",
+  "suite_id": "synthetic.aos.cpu.v1",
+  "track": "mode",
+  "program_version": "mode-grid.v1",
+  "provider": "mode-grid",
+  "source_kind": "synthetic",
+  "suite_manifest_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "suite_entry_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "provider_config_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+  "snapshot_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+  "aos_cpu_study_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+  "max_experiments": 1,
+  "max_wall_seconds": 600,
+  "model_tokens": 0,
+  "allowed_purpose": "research",
+  "allocation_authority": false,
+  "gpu_release_verified": false,
+  "native_inference_authorized": false,
+  "launch_authorized": false
+}

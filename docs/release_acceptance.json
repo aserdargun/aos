@@ -5,19 +5,19 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T12:50:21Z",
+    "recorded_at": "2026-10-03T13:48:18Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
       "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
     },
     "blocker": {
-      "en": "The new core run completed: 3122 passed, 304 skipped, no failures/errors; five SQLite finalizer warnings remain. Maintenance is source/CPU only. Native exclusion lacks the live producer/consumer; legacy cleanup, joint GPU and target-application acceptance remain open. The requested v0.1.0 tag awaits a reviewed source commit and delivery gates.",
-      "tr": "Yeni core koşusu tamamlandı: 3122 geçti, 304 atlandı, failure/error yok; beş SQLite finalizer uyarısı sürüyor. Bakım yalnız kaynak/CPU düzeyinde. Native dışlamada canlı producer/consumer yok; legacy cleanup, ortak GPU ve hedef uygulama kabulü açık. İstenen v0.1.0 etiketi incelenmiş kaynak commit'i ve teslim kapılarını bekliyor."
+      "en": "Source handoff is published at 77eb9bd. Native prelaunch/exclusion and zero-token CPU capability adapters pass 93 combined checks. The production shared-start driver/activation-rights composition is missing and fails closed. Active broker-worker coexistence, real CPU start/report verification and joint GPU acceptance remain open; no live promotion or v0.1.0 tag.",
+      "tr": "Kaynak teslimi 77eb9bd ile yayımlandı. Native prelaunch/dışlama ve sıfır-token CPU capability adaptörleri birleşik93 kontrolden geçti. Üretim shared-start driver/activation-rights bağlantısı eksik ve fail closed. Aktif broker-worker coexistence, gerçek CPU start/rapor doğrulaması ve ortak GPU kabulü açık; canlı promotion veya v0.1.0 etiketi yok."
     },
     "next_action": {
-      "en": "Freeze the reviewed source handoff without promoting skipped checks. Next phase: complete the live exclusion producer/consumer, review the source/config pair and obtain separate maintenance consent before Scientist alone runs joint GPU acceptance through AOS.",
-      "tr": "Atlanan kontrolleri yükseltmeden incelenmiş kaynak teslimini dondur. Sonraki aşama: canlı dışlama producer/consumer bağlantısını tamamla; source/config çiftini incele ve Scientist AOS üzerinden tek ortak GPU kabulünü yürütmeden önce ayrı bakım onayı al."
+      "en": "Review the final Scientist source/image pair and a bounded isolated CPU setup first; only after actual API generation/capability readback run one approved synthetic experiment through AOS. Separately implement trusted native launch composition and live worker exclusion; keep GPU HOLD until coordinated acceptance passes.",
+      "tr": "Önce son Scientist source/image çiftini ve sınırlı izole CPU kurulumunu incele; actual API generation/capability readback sonrası AOS üzerinden bir onaylı sentetik deney çalıştır. Ayrı olarak trusted native launch bağlantısı ve live worker dışlamasını tamamla; koordineli kabul geçmeden GPU HOLD sürsün."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",
@@ -60,13 +60,13 @@
       {
         "id": "shared_source_readback",
         "state": "in_progress",
-        "recorded_at": "2026-10-03T11:32:12Z",
+        "recorded_at": "2026-10-03T13:39:24Z",
         "title": {"en": "Shared source and launcher review", "tr": "Ortak kaynak ve launcher incelemesi"},
         "detail": {
-          "en": "Astra reviewed the final shared-only patch and its before/after hashes. The 161 selected live source pins remain unchanged; candidate promotion would require a new jointly reviewed source/config pair. Scientist confirms its exclusion consumer is not yet implemented. Legacy SSH process identity and the new dedicated caller service identity must remain separate.",
-          "tr": "Astra son shared-only yamayı ve önce/sonra hashlerini inceledi. Seçili 161 canlı kaynak pini değişmedi; adayın terfisi birlikte incelenmiş yeni kaynak/config çifti gerektirir. Scientist dışlama consumer'ının henüz uygulanmadığını teyit etti. Legacy SSH süreç kimliği ile yeni dedicated caller servis kimliği ayrı tutulmalı."
+          "en": "Concrete NativeExclusionReader and the separate CPU capability verifier are source/CPU verified. Native schema and hash canonicalization remain unchanged. Fresh source/config checks do not prove imported code or authorize GPU use; active broker model-interpreter coexistence remains unsupported.",
+          "tr": "Somut NativeExclusionReader ve ayrı CPU capability doğrulayıcısı kaynak/CPU düzeyinde doğrulandı. Native schema ve canonical hash davranışı değişmedi. Fresh source/config kontrolü imported code veya GPU yetkisi kanıtı değildir; aktif broker model-interpreter coexistence henüz desteklenmez."
         },
-        "evidence": ["tests/test_shared_only_runtime_candidate.py", "docs/NATIVE_HANDOVER.md", "docs/STATUS.md"]
+        "evidence": ["tests/test_native_exclusion.py", "tests/test_scientist_cpu_capability.py", "docs/NATIVE_HANDOVER.md", "docs/SCIENTIST_CPU_CAPABILITY.md", "data/native-exclusion-20261003/focused-combined-final.log"]
       },
       {
         "id": "shared_ui_preparation",

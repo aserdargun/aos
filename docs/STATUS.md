@@ -1,3 +1,117 @@
+## 3 Ekim 2026, 13:55 UTC — temiz kaynak testinden özel kanıt bağımlılığı ayrıldı
+
+İzole kaynak arşivinde paket doğrulaması5632 geçti; odaklı93 testin biri
+Development checkpoint'inin ignored private `data/` loglarını zorunlu sanması
+nedeniyle başarısız oldu. Private logları kopyalamak yerine kaynak referansları
+ile yerel kanıt incelemesi ayrıldı. Public source referansları her zaman
+denetlenir; private existence kontrolü ayrı ve explicit
+`AOS_PRIVATE_EVIDENCE_TESTS=1` gerektirir. Kaynak paketinde bu kontrol SKIP'tir,
+yerel kanıt mevcutmuş veya gerçek runtime doğrulanmış gibi sunulmaz.
+
+Asıl hostta private kanıt kontrolü açıkken **94 PASS / 3,253 s**; önceki test
+sınırları ve tüm altı stage bayrağı korunur. İlk extracted failure logu
+`data/native-exclusion-20261003/extracted-combined.log`, düzeltme sonrası yerel
+log `private-evidence-combined-final.log` içinde tutulur. Değiştirilmiş teslim
+paketi ayrıca yeniden doğrulanmalıdır; bu sonuç temiz makinede tam runtime
+kurulumu veya full core acceptance değildir.
+
+## 3 Ekim 2026, 13:48 UTC — prelaunch kontrolü de kaynakta; gerçek startup boşluğu belirlendi
+
+`NativeExclusionPrelaunchVerifier` aynı immutable receipt/promoted closure ve
+özgün boot/deadline kontrollerini future caller olmadan yürütür. Native helper
+iki scan içeren fresh absence observation verir; source/state/receipt sonradan
+yeniden okunur. Başarısız durumda sentetik launch'a geçilmediği doğrulandı.
+Bu verifier launch/allocation/GPU hakkı üretmez. Reader public signature,
+v1 schema ve mevcut native canonical digest değişmedi. Astra son
+`4c6ddd50f4054084a6f24c03948d4c7fdef5079da83741291375b11e5b9111b8`
+kaynağını bounded source kapsamı için inceledi.
+
+**Son birleşik tekrar: 93 PASS / 3,156 s**, skip/failure yok;
+16 native exclusion, 14 CPU capability, ilgili maintenance/handover/inhibit/
+shared-only ve 12 checkpoint kontrolünü kapsar. Kanıt
+`data/native-exclusion-20261003/prelaunch-combined-final.log`.
+Önceki78/29/32 sonuçları aynı testlerin ara cohort'larıdır; yeni test sayısı
+olarak toplanmaz. Full core veya gerçek runtime kabulü iddia edilmez.
+Frozen161 raw kaynak pini yeniden eşleşti; AOS/Scientist canlı süreçleri
+değiştirilmedi, GPU/DB/API/deney başlatılmadı.
+
+**Somut eksik üretim bağlantısı:** AOS public CLI'dan gelen shared manager
+default `activation_verifier=None` ile doğru şekilde fail closed kalır.
+`shared_host_scope` yalnız testlerde; Scientist launcher da yeni unit'in
+içinde çalışır, host launch öncesi yetkiyi sağlayamaz. İki oturum bu boşluğu
+teyit etti. Additive production driver ve ayrı reviewed finite bootstrap/
+activation authority gerekir; native check ile bu hak uydurulmayacak.
+Mevcut source testleri bu driver varmış gibi yorumlanmaz.
+
+Sonraki somut kabul ayrı CPU akışıdır: Scientist final source/image kapısı ve
+Phase-A yalnız hazırlık onayı → actual API generation/capability → Phase-B
+AOS typed approval/intent ile bounded deney ve bağımsız report/readback.
+Bu sıra native bootstrap veya active broker-worker exclusion kapısını kaldırmaz.
+Şimdilik kaynak entegrasyonu **kısmi**, gerçek kabul yapılmadı; v0.1.0 etiketi
+ve lisans kararı bekliyor. Kullanım snapshot'ı README'de güncellendi.
+
+## 3 Ekim 2026, 13:39 UTC — Scientist CPU adaptörü ve somut native dışlama okuyucusu
+
+Önceki kaynak teslimi public `main` üzerinde
+`77eb9bde45dee8f5db77d1deff44904e20fbec23` olarak normal fast-forward push ve
+remote readback ile doğrulandı. Canlı checkout HEAD/index'i değiştirilmedi;
+yayın kopyası `data/source-publication-20261003/repo` içinde ayrıdır.
+Private yayın kanıtı `data/source-publication-20261003/publication.private.json`.
+Bu commit release etiketi veya runtime deployment değildir.
+
+`NativeExclusionReader` artık DTO'nun yanında somut salt-okunur üreticidir.
+Exact request/receipt, özgün preview ve stopped legacy state, promoted41 ve
+preserved13 closure, source/config eşliği, semantic shared plan/raw dosya hash
+ayrımı, actual dedicated caller ve özgün BOOTTIME deadline kontrol edilir.
+İki fresh absence gözleminin öncesinde/arasında/sonrasında pinler okunur;
+generation/receipt/failure/state/deadline değişimi reddedilir. Native v1 schema
+SHA `e73cec23f0152432df3992874df8e8f944cfe748f191e488dd5117d2f207722a`
+ve existing escaped-ASCII canonical hash davranışı korundu. Ayrı named shared
+plan'ın predecessor'ı default legacy oturumla karıştırılmaz.
+
+Astra sınırlı bağımsız incelemesiyle closure dışında kalan plan pinleri ve
+mutable observation DTO revalidation düzeltildi. Trusted launch composition'ın
+maintenance success → unit absent → fresh launch → actual generation sırasını
+kanıtlaması gerekir; okuyucu disk pinleri tek başına imported code'u kanıtlamaz.
+Aktif model interpreter'ları, aynı executable'ı kullanan shared launcher dahil,
+konservatif ret kapsamındadır. Broker worker'ları ayrı sibling turn-unit'ler
+olabilir: full coexistence için Scientist lease/fencing + complete live worker
+snapshot'ı ve bağımsız OS üyelik kontrolü hâlâ gereklidir. GPU HOLD sürüyor.
+
+Yeni `ScientistCpuCapabilityVerifier`, ayrı explicit
+`scientist-cpu-mode-grid.v1` profiliyle mevcut LabService capability hook'una
+bağlanır. Fresh authenticated bounded GET, exact owner=principal, suite/program,
+grant/source-data/config/snapshot pinleri, budget1..35/1..14400/0token ve dört
+literal false alanını denetler. Mevcut human approval/journal/effect callbacks
+değişmez. Canonical schema/explicitly synthetic örnek eklendi. Source-manifest
+pair alanları trusted review metadata'sıdır; remote source attestation değildir.
+CPU hash `ensure_ascii=False` ayrı wire sözleşmesidir; native hash'e uygulanmaz.
+
+**78 odaklı CPU kontrolü / 2,742 s PASS**, warning-as-error; producer13,
+CPU capability14 ve ilgili maintenance/handover/inhibit/shared-only regresyonları
+kapsar. Kanıt `data/native-exclusion-20261003/focused-combined-final.log`.
+İlk çağrıda ortak fixture için `tests` PYTHONPATH'i eksikti; import ERROR kaydı
+`focused-combined.log` içinde korundu. Aynı kaynak, projedeki
+`PYTHONPATH=src:tests:.` ile geçti. Önceki 3426 core sonucu bu yeni testleri
+içermez; bu tur bütün core tekrar çalıştırılmış gibi sunulmaz.
+
+Scientist ayrı CPU adayı base `384f05213fb71997dd2899a0687b73cd4f2080b6`,
+manifest `2a3f9fca0fa82c07950dbb7433880b22ba4ea327b569452ec6f9170bb41eb3bb`:
+12 kaynak dosyası bağımsız rehash ile eşleşti. Peer'in 155 testi yeniden
+çalıştırılmadı. Private plan'ın 1 deney/600 saniye/0 token, synthetic veri,
+execution=false ve özel credential metadata/hash sınırları okundu; raw token
+veya kişisel ham kayıt yayımlanmadı. Plan `root` kaynak checkout'udur; token
+hash'i tek trailing LF hariç credential değeridir. Bu ayrımlar ilk inceleme
+varsayımları düzeltilerek kaydedildi; runtime kabulü sayılmadı.
+
+CPU iki-aşama sırası üzerinde uzlaşıldı: exact source/schema/image/config kabulü
+sonrası yalnız izole PG/Scorer/API hazırlığı; actual generation/capability ve
+owner-runner teyidinden sonra AOS typed approval/intent ile bounded deney ve
+bağımsız rapor. Henüz hiçbir faz için canlı başlatma kabulü verilmedi.
+Startup wiring, field_intent/prior_experience forwarding, gerçek CPU koşusu,
+broker coexistence ve GPU kabulü açık. Entegrasyon **kısmi**, goal aktif;
+v0.1.0 etiketi ve lisans kararı bekliyor.
+
 ## 3 Ekim 2026, 13:15 UTC — kaynak yayını hazırlığı ve saatlik özel kullanım kaydı
 
 Paralel kaynak/geçmiş incelemesinde manifest dışı private veri, gerçek trajectory,

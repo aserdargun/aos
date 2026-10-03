@@ -8,6 +8,19 @@ yükseltmez; yeni runtime, kullanıcı teslimi veya ürün tamamlanması değild
 
 ## Kontrol panelinin güncel okuma biçimi
 
+13:48 kaynak checkpoint'i: prelaunch verifier da uygulandı; birleşik93 kontrol
+geçti. Native production driver/activation-rights composition gerçekten eksik
+ve default shared start fail closed. Sıradaki kabul ayrı bounded CPU setup →
+actual API capability → onaylı deney/rapor akışıdır. GPU HOLD ve stage bayrakları
+korunur; kaynak modülü canlı startup kabulü olarak sunulmaz.
+
+13:39 kaynak checkpoint'i: kaynak teslimi `77eb9bd` ile public main'de;
+somut native dışlama okuyucusu ve ayrı CPU capability adaptörü için birleşik
+78 CPU kontrolü geçti. Prelaunch kaynak/receipt doğrulama bağlantısı ve gerçek
+worker coexistence ayrı gerekliliktir; canlı CPU/API/GPU kabulü veya deployment
+yapılmadı. 12 checkpoint/schema kontrolü geçti; altı stage'in kabul bayrakları
+ve tarihleri korunur. Bu kayıt canlı UI assetlerini yeniden derlemez.
+
 12:50 kaynak checkpoint'i: teslimdeki yedi regresyon ve sentetik socket broker
 takılması düzeltildi; tam core 3122 PASS/304 SKIP/0 FAIL-ERROR. Beş SQLite
 finalizer uyarısı ayrıca açık kaydedilir. Maintenance kaynakta uygulanmış ve

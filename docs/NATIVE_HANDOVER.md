@@ -12,11 +12,75 @@ kaynakta vardır. Exact request hash onayı, eski owner/session kimliği, pidfd,
 özgün Docker daemon'ı, kaynak promotion ve kalıcı hata günlüğü CPU/sentetik
 sınırlarında sınanır. Canlı bakım, GPU release veya yeni shared runtime
 başlatılması yapılmadı. Aday patch varsayılan canlı kaynaklara uygulanmadı.
-`src/aos/native_exclusion.py` henüz yalnız typed DTO/schema ve zaman doğrulama
-yardımcılarıdır; gerçek `read_native_exclusion` producer ve Scientist consumer
-tamamlanmadı. İki fresh absence gözlemi, tam source/config closure ve yeni
-actual caller bağının ortak kabulü sonraki aşamadır. Bu modülün bulunması
-bakım yetkisi veya ortak GPU kabulü sayılmaz. [Teslim sınırı](DELIVERY_AND_CONTINUATION.md).
+`src/aos/native_exclusion.py` artık typed DTO/schema yanında somut
+`NativeExclusionReader.read_native_exclusion` üreticisini içerir. İki fresh
+absence gözlemi, source/config closure ve gerçek dedicated caller bağı CPU
+fixture'larında sınanır; gerçek bakım, canlı consumer bağlantısı ve ortak
+kabul yapılmadı. Aktif model-interpreter coexistence henüz desteklenmez.
+Bu modülün bulunması bakım yetkisi veya ortak GPU kabulü sayılmaz.
+[Teslim sınırı](DELIVERY_AND_CONTINUATION.md).
+
+## Kaynaktaki dışlama okuyucusu
+
+Trusted composition `NativeExclusionReader(store, request, receipt_sha256,
+expected_shared_caller, *, legacy_state_path, candidate_manifest_path,
+candidate_patch_path, shared_plan_path, transport=None)` oluşturur. Girdiler
+ayrı incelenmiş maintenance/config kaydından gelir; model çıktısı veya otomatik
+dosya keşfi bunların yerine geçmez. Bound callback:
+`read_native_exclusion(expected_handover_sha256, expected_shared_plan_sha256,
+*, deadline)` bir v1 evidence sözlüğü ve canonical SHA-256 döndürür.
+
+Üretici succeeded receipt/durable request ve failure marker'ını, özgün preview
+ve stopped legacy state'i, promoted 41 dosya + preserved 13 dosya ve gerekli
+helper closure'ını okur. Shared plan dosyasının raw hash'i config map'inden;
+plan kimliği `SharedDesktopPlan.plan_sha256()` semantic hash'inden denetlenir.
+Shared predecessor, eski shared manager oturumudur; emekli default native
+oturumla karıştırılmaz. Yeni named manager/app ayrı tutulur.
+
+Kaynak/config eşliği iki fresh absence gözleminden önce, aralarında ve sonra
+yeniden okunur. Receipt/state/caller generation en sonda yeniden doğrulanır.
+Somut systemd transport yalnız fixed dedicated shared unit'i okur; future PID
+veya InvocationID üretilmez. Bütün okumalar özgün boot/UID/CLOCK_BOOTTIME
+aralığında kalır; deadline en fazla kısaltılır. Bu okuyucu sinyal, shutdown,
+promotion, acquire veya release yapmaz. Allocation, shared-launch, GPU-release
+ve expiry-reopens-native alanları `false` kalır. Native canonical hash mevcut
+`ensure_ascii=True` JSON davranışını korur; ayrı CPU wire bunu değiştirmez.
+
+**Zorunlu launch sırası:** trusted composition önce succeeded maintenance
+receipt ve promoted closure'ı doğrulamalı, existing shared unit'i benimsemeyi
+reddetmeli, sonra fresh plan/activation/provision/launch-intent ile yeni unit'i
+başlatıp okuyucuyu yalnız bu generation'a bağlamalıdır. Sadece çalışan bir
+unit'i bulup `expected_shared_caller` yapmak yeterli değildir: disk hash'i
+process'in hangi kodu önceden import ettiğini kanıtlamaz. Process birth'ünü
+request başlangıcına göre kıyaslamak da promotion ortasında başlamayı dışlamaz;
+wall-clock receipt tarihinden BOOTTIME çıkarılmaz. Bu sıralamanın canlı
+composition kabulü ayrı gerekliliktir; okuyucu tek başına onu tamamlamaz.
+
+Prelaunch tarafı için `NativeExclusionPrelaunchVerifier` aynı store/request,
+receipt hash'i ve dört explicit path'i alır; caller/transport girdisi yoktur.
+`verify_prelaunch(expected_handover_sha256, expected_shared_plan_sha256,
+*, deadline)` exact receipt, promoted closure, stopped state/plan ve fresh
+absence denetimini tamamlar veya raise eder; onay bayrağı döndürmez.
+Bu kontrol **ayrı trusted activation-rights verifier'ın yerine geçmez**.
+
+Üretim bağlantısı henüz eksiktir: public CLI → `start_shared` → default
+`SharedDesktopHost` akışı `activation_verifier=None` ile fail closed kalır.
+`shared_host_scope` şu an yalnız testlerde kullanılır; Scientist in-unit
+launcher'ı pre-start kontrol için geç kalır. Doğru ek driver bu context içinde
+native prelaunch ile mevcut/ayrıca incelenmiş finite activation yetkisini
+birleştirmelidir; `lambda: None` gibi bir bypass kabul edilmez. Host doğrulamayı
+start öncesinde ve sonrasında tekrarlar. Bu kaynak teslimi böyle bir runtime
+driver veya bootstrap yetkisi varmış gibi sunulmaz.
+
+**Gerçek sınır:** mevcut absence helper seçilmiş model Python executable'ı ile
+çalışan her süreci reddeder. Aynı executable'ı kullanan shared launcher bile
+reddedilebilir; başlangıçta geçmesi aktif broker modeliyle sonraki çağrıların
+geçeceğini kanıtlamaz. Scientist her artifact admission'da hakları yeniden
+kontrol eder. Worker'lar broker'ın çocukları değil ayrı turn-unit'ler de olabilir;
+isim/executable veya broker ancestry istisnası güvenli çözüm değildir. Tam
+coexistence için Scientist'in mevcut lease/fencing ve child-binding otoritesine
+bağlı eksiksiz live worker snapshot'ı, bağımsız gerçek process/cgroup/source
+doğrulaması ve ortak kabul hâlâ gereklidir. İkinci tahsis otoritesi kurulmaz.
 
 ## Preview giriş/çıktı sözleşmesi
 
@@ -127,8 +191,10 @@ lifetime store'a bağlamak shared kabulünün zorunlu koşulu değildir.
 maintenance onayı veya GPU kabulü de vermez.
 Literal broker import'u değiştiği için eski source/config pair güncel kabul
 sayılmaz; yeni pair ve import closure bağımsız yeniden incelenmelidir.
-Maintenance executable, `read_native_exclusion` producer'ı ve fiziksel cleanup
-kabulü henüz tamamlanmadı; **GPU HOLD** sürer. Yeni test sonucu iddia edilmez.
+Maintenance executable ve `read_native_exclusion` producer kaynakta vardır;
+gerçek fiziksel cleanup, broker coexistence ve ortak runtime kabulü henüz
+tamamlanmadı; **GPU HOLD** sürer. Tarihli CPU sonuçları [STATUS](STATUS.md)
+içindedir; kaynak modülü canlı kabul yerine geçmez.
 
 Scientist'in istediği salt okunur `read_native_exclusion` producer'ı ancak
 seçili profilde native girişler gerçekten lifetime-fenced veya tamamen disabled

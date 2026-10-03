@@ -18,6 +18,7 @@
 - [HELLO_GUIDANCE_REUSE — aynı oturumda incelenmiş sonlu Hello yönlendirmesini açık seçimle tekrar kullanma](HELLO_GUIDANCE_REUSE.md)
 - [FAILURE_GUIDANCE_REAL_ACCEPTANCE — özel pinli-model kabulünün izin ve kanıt sınırı](FAILURE_GUIDANCE_REAL_ACCEPTANCE.md)
 - [INTEGRATION_COMPOSITIONS — genel çekirdek, özel SWAPP/AI-Scientist fork'u ve ek ajanlar](INTEGRATION_COMPOSITIONS.md)
+- [SCIENTIST_CPU_CAPABILITY — ayrı sıfır-token CPU profili, exact capability ve mevcut onay/intent sınırı](SCIENTIST_CPU_CAPABILITY.md)
 - [CONTINUOUS_IMPROVEMENT — skill/RAG, S1/S2 eğitim ve bağımsız model geçişleri](CONTINUOUS_IMPROVEMENT.md)
 - [DOCUMENT_KNOWLEDGE — incelenmiş belge, kaynak bağı ve sınırlı EN/TR retrieval](DOCUMENT_KNOWLEDGE.md)
 - [DOCUMENT_KNOWLEDGE_ANSWERS — ayrı izinli gerçek Bonsai ve kaynak alıntıları](DOCUMENT_KNOWLEDGE_ANSWERS.md)

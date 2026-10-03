@@ -1,0 +1,207 @@
+{
+  "$defs": {
+    "ScientistCpuCapability": {
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "const": "scientist.lab-cpu-capability.v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "owner_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Owner Id",
+          "type": "string"
+        },
+        "origin": {
+          "const": "aos",
+          "title": "Origin",
+          "type": "string"
+        },
+        "suite_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.:-]*$",
+          "title": "Suite Id",
+          "type": "string"
+        },
+        "track": {
+          "const": "mode",
+          "title": "Track",
+          "type": "string"
+        },
+        "program_version": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Program Version",
+          "type": "string"
+        },
+        "provider": {
+          "const": "mode-grid",
+          "title": "Provider",
+          "type": "string"
+        },
+        "source_kind": {
+          "const": "synthetic",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "suite_manifest_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Suite Manifest Sha256",
+          "type": "string"
+        },
+        "suite_entry_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Suite Entry Sha256",
+          "type": "string"
+        },
+        "provider_config_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Provider Config Sha256",
+          "type": "string"
+        },
+        "snapshot_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Snapshot Sha256",
+          "type": "string"
+        },
+        "aos_cpu_study_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Aos Cpu Study Sha256",
+          "type": "string"
+        },
+        "max_experiments": {
+          "maximum": 35,
+          "minimum": 1,
+          "title": "Max Experiments",
+          "type": "integer"
+        },
+        "max_wall_seconds": {
+          "maximum": 14400,
+          "minimum": 1,
+          "title": "Max Wall Seconds",
+          "type": "integer"
+        },
+        "model_tokens": {
+          "const": 0,
+          "title": "Model Tokens",
+          "type": "integer"
+        },
+        "allowed_purpose": {
+          "const": "research",
+          "title": "Allowed Purpose",
+          "type": "string"
+        },
+        "allocation_authority": {
+          "const": false,
+          "title": "Allocation Authority",
+          "type": "boolean"
+        },
+        "gpu_release_verified": {
+          "const": false,
+          "title": "Gpu Release Verified",
+          "type": "boolean"
+        },
+        "native_inference_authorized": {
+          "const": false,
+          "title": "Native Inference Authorized",
+          "type": "boolean"
+        },
+        "launch_authorized": {
+          "const": false,
+          "title": "Launch Authorized",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema",
+        "owner_id",
+        "origin",
+        "suite_id",
+        "track",
+        "program_version",
+        "provider",
+        "source_kind",
+        "suite_manifest_sha256",
+        "suite_entry_sha256",
+        "provider_config_sha256",
+        "snapshot_sha256",
+        "aos_cpu_study_sha256",
+        "max_experiments",
+        "max_wall_seconds",
+        "model_tokens",
+        "allowed_purpose",
+        "allocation_authority",
+        "gpu_release_verified",
+        "native_inference_authorized",
+        "launch_authorized"
+      ],
+      "title": "ScientistCpuCapability",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Trusted host review configuration; source pins are not disk or live-source observations.",
+  "properties": {
+    "profile": {
+      "const": "scientist-cpu-mode-grid.v1",
+      "title": "Profile",
+      "type": "string"
+    },
+    "authority_url": {
+      "maxLength": 256,
+      "minLength": 1,
+      "title": "Authority Url",
+      "type": "string"
+    },
+    "principal_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Principal Id",
+      "type": "string"
+    },
+    "authorization_context_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Authorization Context Sha256",
+      "type": "string"
+    },
+    "scientist_source_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Scientist Source Manifest Sha256",
+      "type": "string"
+    },
+    "aos_source_manifest_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Aos Source Manifest Sha256",
+      "type": "string"
+    },
+    "capability_schema_sha256": {
+      "const": "44c142fa51200e846971df8e57d6c83b0fe18bf1694eb8c4835471cc521b750e",
+      "title": "Capability Schema Sha256",
+      "type": "string"
+    },
+    "capability": {
+      "$ref": "#/$defs/ScientistCpuCapability"
+    },
+    "capability_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Capability Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "profile",
+    "authority_url",
+    "principal_id",
+    "authorization_context_sha256",
+    "scientist_source_manifest_sha256",
+    "aos_source_manifest_sha256",
+    "capability_schema_sha256",
+    "capability",
+    "capability_sha256"
+  ],
+  "title": "ScientistCpuReviewedGrant",
+  "type": "object"
+}
