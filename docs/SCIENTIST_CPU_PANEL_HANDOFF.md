@@ -58,3 +58,19 @@ verified report/experience → explicit history selection into a new draft.
 A second experiment is outside that budget. Clean up only this new scope.
 Active-Scorer cancellation and joint GPU acceptance remain separate, unproven
 requirements; GPU HOLD and Scientist-only GPU execution remain unchanged.
+
+## Later portable source addition — not applied to this freeze
+
+The public [CPU panel launcher](SCIENTIST_CPU_PANEL.md) now provides the reviewed
+composition without a machine-specific Python launcher. It requires a fresh
+named project, exact source/config/private-UI pins and separate start consent.
+This frozen workspace, unit draft and absent grant remain unchanged; the new
+source is not an implicit replacement, deployment or reciprocal runtime ACK.
+
+Scientist's 19:42 UTC handoff was read on 3 October: it reports a separate CPU
+deployment at `8f9a10bc6e6b7e665df48f74348b30e9d3ad6dff` and later source-only
+native-launch fencing work, explicitly without reopening the retired AOS scope.
+Those peer-reported observations do not replace the source pair recorded above.
+The session message transport still failed at `127.0.0.1:34321`; no new message
+delivery or ACK is claimed. A fresh CPU scope and shared finite-activation
+contract remain the next reciprocal inputs.

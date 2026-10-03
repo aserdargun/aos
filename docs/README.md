@@ -17,6 +17,7 @@
 - [SCIENTIST_CPU_STUDY — yetkili salt okunur veri/yöntem tanımı ve peer wire incelemesi](SCIENTIST_CPU_STUDY.md)
 - [SCIENTIST_EXPERIENCE — bağlı deney geçmişini doğrulama ve açık referans seçimi](SCIENTIST_EXPERIENCE.md)
 - [SCIENTIST_CPU_PANEL_HANDOFF — ayrı CPU panelinin workspace, servis taslağı ve kalan yetki girdileri](SCIENTIST_CPU_PANEL_HANDOFF.md)
+- [SCIENTIST_CPU_PANEL — incelenmiş CPU paneli için taşınabilir kontrol ve açık başlatma komutu](SCIENTIST_CPU_PANEL.md)
 - [MODEL_CANDIDATES — S1/S2 alternatifleri, büyük GPU rezervleri ve aktivasyon sınırları](MODEL_CANDIDATES.md)
 - [UNSLOTH_CANDIDATES — model başına LoRA/QLoRA taslakları, veri ve adaptör ayrımı](UNSLOTH_CANDIDATES.md)
 

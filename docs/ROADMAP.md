@@ -1,5 +1,12 @@
 # Geliştirme yol haritası
 
+**3 Ekim CPU paneli kaynak adımı:** özel host script'ine bağımlılığı kaldıran
+[taşınabilir incelenmiş başlatıcı](SCIENTIST_CPU_PANEL.md) hazır. Varsayılan
+check-only, explicit start, kaynak/config/UI pinleri, named proje izolasyonu ve
+başarısız oturumu koruma uygulanır. 78 CPU/sentetik kontrol geçti; canlı backend
+başlatılmadı. Dondurulmuş eski hazırlık değişmez; fresh Scientist scope/grant,
+ayrı start yetkisi ve gerçek panel kabulü açık kalır. Altı aşama bayrağı yükselmez.
+
 ## Güncel kapanış — tek kabul kaydı
 
 **1 Ekim 2026:** aktif teslim sırası ve source/verification/delivery durumları

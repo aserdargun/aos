@@ -92,6 +92,12 @@ separate from the synthetic desktop startup and ASGI tests.
 
 ## Console request limits
 
+The portable [CPU panel launcher](SCIENTIST_CPU_PANEL.md) exposes this existing
+typed startup composition with pinned private configuration, source and UI.
+Its default is local check-only; explicit start remains a separate deployment
+authorization. It does not change either wire contract or the frozen private
+panel preparation.
+
 The CPU service adds `request_limits` to its authenticated inventory response:
 `profile: scientist-cpu-mode-grid.v1`, `source: reviewed_configuration`, exact
 `suite`, `track: mode`, `max_experiments`, `max_wall_seconds` and `model_tokens: 0`.

@@ -155,6 +155,13 @@ adımı gösterir. Bu teslim tam core veya gerçek Scientist kabulü yerine geç
 
 ## Güvenlik, özel veri ve teslim paketi
 
+Ayrı [Scientist CPU paneli başlatıcısı](docs/SCIENTIST_CPU_PANEL.md), özel makine
+script'i yerine incelenmiş source/config/UI hash'leriyle mevcut typed akışı
+açar. Varsayılanı yalnız yerel kontroldür; `--start` ayrı yetki gerektirir.
+Yeni named project ve oturum, ayrı UI/cookie/veri kökleri kullanır; eski oturum
+veya belirsiz cleanup otomatik benimsenmez. Bu kaynak eklemesi mevcut pilotu
+ya da önceden dondurulmuş CPU workspace'ini değiştirmez.
+
 - Model çıktısı izin kapsamını genişletemez. Approval, request ID, owner/generation ve deployment kimlikleri korunur.
 - Cleanup kanıtlanamıyorsa yeni GPU işi kabul edilmez. Timeout veya idle fiziksel kaynak bırakımı değildir.
 - Gerçek trajectory, ekran görüntüsü, DB, token, ağırlık, private corpus ve şirket verisi Git'e girmez.
@@ -165,7 +172,7 @@ adımı gösterir. Bu teslim tam core veya gerçek Scientist kabulü yerine geç
 
 ## Geliştirme süresi, token ve maliyet
 
-**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 19:26:17 UTC / 22:26:17 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16036763`, `timeUsedSeconds=94956`: **26 saat 22 dakika 36 saniye / 26,3766667 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026, 19:45:43 UTC / 22:45:43 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=16203025`, `timeUsedSeconds=96152`: **26 saat 42 dakika 32 saniye / 26,7088889 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
 
 Bu tek goal sayacıdır; tüm proje, insan saati, fatura veya model başına tüketim değildir. Tarihsel snapshot'larla veya JSONL oturum kayıtlarıyla toplanmaz. Gözlenen geliştirme rolleri: **Astra 6/high** orkestrasyon/inceleme, **Sol 6.1/high** uygulama/doğrulama, **Sol 6.1/medium** UI/kayıt/belge. Root model varyantı doğrulanmadı. Bunlar AOS runtime Decider/Bonsai modellerinden ayrıdır.
 

@@ -1,3 +1,38 @@
+## 3 Ekim 2026, 19:49 UTC — taşınabilir incelenmiş Scientist CPU paneli
+
+Önceki tur mevcut tema kabulünü yeniden kontrol etti; geniş goal için yeni
+runtime ilerlemesi değildi. Bu tur özel makine launcher'ına bağımlı CPU paneli
+teslim açığı kapatıldı. `scripts.scientist_cpu_panel` varsayılan yalnız yerel
+kontrol, ayrı explicit `--start`, exact source/config/private-UI pinleri ve
+mevcut typed CPU composition sağlar. Yeni scheduler veya GPU authority yoktur.
+
+Named project cookie/UI ve bütün console veri kökleri ayrı oturuma bağlıdır.
+Port runtime'dan önce tutulur; aynı project için yerel process kilidi korunur.
+Bozuk/yanlış owner/suite/hash/kapsam, birden çok deney veya 600 saniyeyi aşan
+istek tavanı reddedilir. Crash/başarısız startup oturumu tutulur ve otomatik
+yeniden başlatılmaz; dış Scientist cleanup'ı yerel kapanıştan çıkarılmaz.
+Kaynak/environment/config'in servis boyunca frozen kalması trusted host
+sınırıdır; aynı OS kullanıcısının müdahalesine karşı sandbox iddiası yoktur.
+
+**78 CPU/sentetik kontrol PASS / 5,010 s**, ResourceWarning hata kipinde:
+panel, CPU startup/session/capability/study, experience, shared-only candidate
+ve source-report regresyonları. Public komut gerçek console/ASGI lifecycle'a
+bağlandı; Docker ve HTTP server çalıştırıcısı sentetikti. Scoped UI/cookie,
+401-before-login, CPU inventory, local service close, busy-port ve crash
+retention doğrulandı. İlk testte sınıfın tümünü Mock yapmak `isinstance` hatası
+üretti; test yalnız constructor'ı taklit edecek şekilde düzeltildi. Üretim
+kontrolü gevşetilmedi. CLI `--help` geçti; kanıt
+`/tmp/aos-cpu-panel-source-tests-20261003.log`. Tam core yeniden çalıştırılmadı.
+**5804 paket kontrolü PASS**; paket kontrolü runtime veya model testi değildir.
+
+Önceden dondurulmuş CPU workspace/unit/grant değiştirilmedi. Unit yine
+`not-found/inactive/PID 0`, review dizini boş ve 8771 dinleyicisi yok; mevcut
+pilot PID42513 korundu. UI/backend/GPU deploy veya yeni deney başlatılmadı.
+Scientist'in 19:42 handoff'u salt okunur incelendi; yeni native-launch fencing
+kaynağı ayrı peer kanıtıdır, ortak GPU kabulü değildir. Oturum mesaj aracı yine
+34321 transport hatası verdi; karşıya iletim/ACK yok. Yeni CPU scope/grant/start
+yetkisi ve finite shared activation sözleşmesi açık kalır. Entegrasyon **kısmi**.
+
 ## 3 Ekim 2026, 19:29 UTC — alternatif modellerin veri dönüştürme katmanı
 
 Önceki goal turu somut ilerlemeydi: iki tema, sabit sekme kabuğu ve ayrı saatlik

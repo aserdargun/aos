@@ -5,6 +5,12 @@ console build. It does not prepare GPU models, start a desktop/container/server,
 modify a running installation, admit Scientist, train, deploy or choose a license.
 Scientist runtime coordination remains a separate gate.
 
+For the separate reviewed, fixture-only Scientist console, see
+[SCIENTIST_CPU_PANEL](SCIENTIST_CPU_PANEL.md). Its portable command defaults to
+local validation, requires exact source/config/private-UI pins and never starts
+the backend without `--start`. Existing pilot and frozen CPU preparation are
+not automatically upgraded.
+
 ## New Linux checkout
 
 Before installation, an existing checkout can inspect tool/artifact presence:
