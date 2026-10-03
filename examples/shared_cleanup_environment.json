@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "preparation_only": true,
+  "execution_authorized": false,
+  "cleanup_authorized": false,
+  "plan_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "provision_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+  "app_session": "app-11111111111111111111111111111111",
+  "workspace": "/synthetic/aos/data/local-app-v1/app-11111111111111111111111111111111/workspace",
+  "workspace_identity": {
+    "version": "descriptor-workspace-v1",
+    "path_sha256": "5d7a78ad467730a4283b359e5a361ddf5ebb44cd1b4eff7d37d12fbdb2952132",
+    "device": 1,
+    "inode": 2,
+    "owner_uid": 1000
+  },
+  "manager": {
+    "boot_id": "00000000-0000-0000-0000-000000000001",
+    "pid": 1234,
+    "start_ticks": 100,
+    "pid_namespace": 42,
+    "uid": 1000
+  },
+  "mount_namespace": 43,
+  "cgroup_namespace": 44,
+  "docker_endpoint": "unix:///var/run/docker.sock",
+  "daemon_id": "SYNTHETIC-DAEMON",
+  "socket_device": 1,
+  "socket_inode": 3,
+  "captured_boottime": 80.0
+}

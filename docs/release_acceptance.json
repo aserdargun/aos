@@ -5,19 +5,19 @@
   "runtime_authority": false,
   "product_complete": false,
   "checkpoint": {
-    "recorded_at": "2026-10-03T20:56:00Z",
+    "recorded_at": "2026-10-03T21:59:00Z",
     "scope": "manual_development_checkpoint",
     "focus": {
       "en": "A managed AOS control center, with Scientist as the sole GPU executor.",
       "tr": "GPU yürütmesini yalnız Scientist'in üstlendiği yönetilen AOS kontrol merkezi."
     },
     "blocker": {
-      "en": "Source/prototype v0.1.0 is published; full product acceptance remains open. Live Scientist is unconfigured. The separate CPU window closed without an experiment: complete RAM admission needs 20.25 GiB including the desktop. Shared-launch claim and reviewed source-root hooks are implemented; authenticated socket, production authority verifier and in-unit claim guard are still missing runtime code. GPU HOLD remains.",
-      "tr": "Kaynak/prototip v0.1.0 yayımlandı; tam ürün kabulü açık. Canlı Scientist yapılandırılmamış. Ayrı CPU penceresi deney yapılmadan kapandı: masaüstü dahil toplam RAM kabulü 20,25 GiB gerektiriyor. Tek kullanımlık başlatma ve incelenmiş kaynak kökü bağlantıları uygulandı; kimlik doğrulamalı soket, üretim yetki doğrulayıcısı ve süreç içi claim kontrolü hâlâ eksik runtime kodu. GPU HOLD sürüyor."
+      "en": "Source/prototype v0.1.0 is published; full product acceptance remains open. Live Scientist is unconfigured. The separate CPU window closed without an experiment: complete RAM admission needs 20.25 GiB including the desktop. Authenticated claim and original-environment cleanup adapters are implemented in source. Production composition, entered-service authorization and authoritative worker closure remain incomplete. GPU HOLD remains.",
+      "tr": "Kaynak/prototip v0.1.0 yayımlandı; tam ürün kabulü açık. Canlı Scientist yapılandırılmamış. Ayrı CPU penceresi deney yapılmadan kapandı: masaüstü dahil toplam RAM kabulü 20,25 GiB gerektiriyor. Kimlik doğrulamalı claim ve özgün ortam kimliğine bağlı cleanup adaptörleri kaynakta uygulandı. Üretim bileşimi, başlayan servisin yetkilendirilmesi ve yetkili worker kapanışı henüz tamamlanmadı. GPU HOLD sürüyor."
     },
     "next_action": {
-      "en": "Complete the agreed authenticated launch protocol with Scientist and connect the AOS consumer without enabling runtime. For actual CPU panel acceptance, obtain a fresh finite scope, full RAM admission and separate start authorization; retired credentials cannot be reused. Keep both active pilots unchanged.",
-      "tr": "Scientist ile üzerinde uzlaşılan kimlik doğrulamalı başlatma protokolünü tamamla; runtime açmadan AOS tüketicisini bağla. Gerçek CPU panel kabulü için yeni süreli kapsam, tam RAM kabulü ve ayrı başlatma onayı gerekiyor; kapanmış kapsamın bilgileri yeniden kullanılamaz. İki aktif pilotu koru."
+      "en": "Connect entered-service and per-inference rights plus authoritative closure with Scientist, review the complete source/config pair, then let Scientist alone run the authorized GPU acceptance. Actual CPU panel acceptance separately needs a fresh finite scope, full RAM admission and start authorization. Preserve both active pilots.",
+      "tr": "Scientist ile başlayan servis ve her çıkarım için yetki kontrolünü, ardından yetkili kapanışı bağla; tam kaynak/config çiftini incele. İzinli gerçek GPU kabulünü yalnız Scientist yürütsün. Gerçek CPU panel kabulü ayrıca yeni süreli kapsam, tam RAM kabulü ve başlatma onayı gerektiriyor. İki aktif pilotu koru."
     },
     "limits": {
       "en": "Dated source checkpoint, not live worker telemetry or delivered UI. This JSON update does not rebuild existing UI assets. CPU checks and source readback do not authorize runtime/GPU execution or complete any release stage. SWAPP intranet testing stays last.",
@@ -27,19 +27,19 @@
       {
         "id": "shared_launch_source",
         "state": "verified_cpu",
-        "recorded_at": "2026-10-03T20:51:04Z",
+        "recorded_at": "2026-10-03T21:59:00Z",
         "title": {
-          "en": "Single-use launch and reviewed Scientist source root implemented",
-          "tr": "Tek kullanımlık başlatma ve incelenmiş Scientist kaynak kökü uygulandı"
+          "en": "Original cleanup environment bound before launch",
+          "tr": "Özgün cleanup ortamı başlatmadan önce bağlandı"
         },
         "detail": {
-          "en": "Source e3ab1c9 separates launch consumption from read-only checks and pins the reviewed Scientist checkout. Unknown broker generations, lost replies and source drift fail closed. 101 CPU/synthetic checks pass; the authenticated socket and in-unit claim guard are still missing. No live runtime or GPU changes.",
-          "tr": "e3ab1c9 kaynağı başlatma hakkı tüketimini salt okunur kontrollerden ayırıyor ve incelenmiş Scientist checkout’unu pinliyor. Bilinmeyen broker, kayıp cevap ve kaynak değişikliği güvenle reddediliyor. 101 CPU/sentetik kontrol geçti; kimlik doğrulamalı soket ve süreç içi claim kontrolü henüz eksik. Canlı runtime veya GPU değişmedi."
+          "en": "Pre-launch manager, workspace, Docker and namespace identities are captured in a private pinned input and rechecked around the single-use claim. Physical cleanup reads that same original input, not a newly adopted daemon. 181 CPU/synthetic checks passed. Runtime authority, worker drain and real GPU acceptance remain open; no live backend or GPU changes.",
+          "tr": "Başlatmadan önce manager, workspace, Docker ve namespace kimlikleri özel pinli girdiye kaydediliyor; tek kullanımlık claim çevresinde yeniden doğrulanıyor. Fiziksel cleanup yeni bir daemon benimsemek yerine aynı özgün girdiyi okuyor. 181 CPU/sentetik kontrol geçti. Runtime yetkisi, worker drain ve gerçek GPU kabulü açık; canlı backend veya GPU değişmedi."
         },
         "evidence": [
+          "docs/SHARED_DESKTOP_CLEANUP.md",
           "docs/SCIENTIST_HANDOFF.md",
-          "docs/SHARED_DESKTOP_MANAGER.md",
-          "tests/test_shared_desktop_host.py"
+          "tests/test_shared_cleanup_environment.py"
         ]
       },
       {

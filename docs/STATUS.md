@@ -1,3 +1,38 @@
+## 3 Ekim 2026,22:01 UTC — original cleanup ortamı launch zincirine bağlandı
+
+[Pre-launch environment hazırlığı ve tüketicisi](SHARED_DESKTOP_CLEANUP.md)
+uygulandı. Özgün manager/workspace/Docker/socket/namespace kimlikleri pristine
+provision sırasında yakalanır; özel canonical v1.0 belge execution/cleanup
+izni vermez. Bağımsız review raw hash'i mevcut activation config closure'a
+pinlemelidir. Somut wrapper authenticated verify/claim çevresinde kimlikleri
+tekrar kontrol eder; claim sonrası değişiklik OS spawn olmadan uncertain intent
+bırakır. Cleanup aynı tarihsel dosya ve kalıcı launch intent üzerinden kuruluyor;
+yeni mevcut daemon original kabul edilmiyor, eski launch süresi yenilenmiyor.
+
+**181 CPU/sentetik PASS /4,919s**, ResourceWarning hata modu. Gerçek geçici
+private dosya/provision/intent; sentetik Docker/process/remote authority. İlk
+fixture testindeki sabit container adı gerçek workspace hash'ine uymadığı için
+ret verdi; fixture düzeltilip doğru default-deny kontrolü doğrulandı. Gerçek
+runtime/GPU kabulü değildir. Kanıt `data/shared-cleanup-environment-20261003/focused.log`,
+SHA256 `3f3193bd16e68c177030a3cf935e63d4b89466bbf6d5b83d3d7632698757f7d4`.
+
+Development21:59UTC kaydı bu ilerlemeyi ve kalan entered-service/worker closure
+kapılarını gösteriyor; altı kabul aşaması ve `product_complete=false` korunuyor.
+Build geçti, mevcut500kB bundle uyarısı sürüyor.17 UI/journal/release kontrolü:
+**16 PASS,1 private-evidence SKIP /2,413s**. Browser plugin yok; yüklü Python
+Playwright kullanıldı. Mevcut backend üzerinde API mock olmadan candidate ve
+UI-only teslim sonrası29'ar istekli kontroller geçti: EN1440×1000,TR390×844,
+açık/koyu tema ve kalıcılık; yalnız GET ve boş local-login POST. Görev/deney yok.
+Kanıt `/tmp/aos-cleanup-progress-20261003-ptkuhW/`; backend PID42513/start344916
+aynı, eski assetler/rollback korunuyor. Mac tarayıcısı bağımsız doğrulanmadı.
+
+Scientist'in21:56 policy revocation düzeltmesi read-only handoff'tan alındı;
+AOS yeni scheduler kurmadı. Peer prepared HEAD `2a4c0b374daaac970a5ba8534880e0bd7654f446`,
+tracked diff SHA `18a4b9e52370883da2cc6f14ed15df8dd0958113d3578c1f12464504c7046138`.
+Tam source/policy pair freeze, gerçek deployment review, spawn fencing ve
+Scientist entered-service/closure composition açık. Entegrasyon **kısmi**;
+GPU HOLD sürüyor. Diğer oturumun dosya veya süreçleri değiştirilmedi.
+
 ## 3 Ekim 2026,21:43 UTC — original desktop fiziksel cleanup gözlemcisi
 
 [Somut read-only gözlemci](SHARED_DESKTOP_CLEANUP.md) original entered service,

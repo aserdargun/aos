@@ -9,6 +9,39 @@ default-deny cleanup gate by itself.
 
 ## Required original review
 
+`aos.shared_cleanup_environment` now supplies the concrete preparation and
+consumer binding. `capture_cleanup_environment(plan, provision_sha256, deadline=...)`
+reads the actual current manager, observer namespaces and fixed Docker identity
+twice, and checks the original provision is still pristine. It returns a
+`SharedCleanupEnvironment` v1.0 candidate with execution/cleanup authority false.
+It does not create a future manager identity: capture must run inside the
+original manager that will later consume the reviewed claim, not an unrelated
+short-lived preparation CLI.
+
+`write_cleanup_environment(path, candidate)` creates a canonical0600 file only
+in an existing private directory **outside** the pristine manager/session tree.
+Existing files are never overwritten. Independent deployment review must pin
+its raw SHA in the activation config closure; capture itself is not approval.
+Canonical schema and synthetic example are
+`schemas/shared_cleanup_environment.schema.json` and
+`examples/shared_cleanup_environment.json`.
+
+Trusted opt-in composition wraps the reviewed `ScientistSharedLaunchAdapter`
+with `EnvironmentBoundSharedLaunchAdapter(adapter, path, sha)`, and supplies its
+`verify` / `claim` methods to the existing host. Original environment, original
+manager and activation window are rechecked around authenticated verification
+and consumption. Post-consumption drift raises, preserving the host's uncertain
+intent without OS spawn or retry. No existing wire/schema or default host
+composition is changed by this wrapper.
+
+For later reconciliation, `PinnedSharedDesktopCleanupObserver(path, sha,
+verify_scope=...)` reloads that **same original pinned file** through the state's
+plan/activation and immutable launch intent, then delegates to the physical
+observer. It never recaptures the current daemon as original. Historical launch
+expiry does not remove separate cleanup rights; the default-deny cleanup scope
+callback must independently authenticate current finite cleanup authority,
+including the retained original manager and irreversible spawn-path fence.
+
 Trusted composition supplies the original complete `SharedDesktopState`, a
 `ReviewedDockerDaemon` (daemon ID and root-owned fixed Docker socket device /
 inode), and the original mount/cgroup namespace inode identities. Capture and
@@ -59,10 +92,11 @@ and unresolved start-job fencing contract must be implemented, not replaced
 with a no-op callback. **Consumed but never entered** targets remain unsupported
 by this observer; missing service/lifecycle/token bindings deny.
 
-The existing host cleanup hook remains default-deny. Pre-launch trusted review
-capture, durable original environment binding, separately authorized stop,
-final host/protocol composition and reciprocal complete source/policy review
-are still open. This code does not permit the current user runtime to be stopped.
+The existing host cleanup hook remains default-deny. Preparation, durable
+environment input and opt-in launch/cleanup binding are now implemented in
+source; actual independent deployment review, separately authorized stop,
+final host/protocol activation and reciprocal complete source/policy review
+remain open. This code does not permit the current user runtime to be stopped.
 
 The reused cgroup scanner now lives in `aos.linux_cgroup_observation`; existing
 Scientist physical-release checks delegate to it without weakening their

@@ -1,6 +1,34 @@
 # Scientist coordination: current source, pending runtime admission
 
-## Current pickup — 3 October 2026,21:43 UTC
+## Current pickup — 3 October 2026,21:59 UTC
+
+AOS now implements pre-launch original-environment capture and durable canonical
+private input, plus the [environment-bound launch and cleanup composition](SHARED_DESKTOP_CLEANUP.md).
+The v1.0 **AOS-local** `SharedCleanupEnvironment` schema is not a changed wire or
+Scientist policy. Capture is preparation-only; independent review must pin its
+raw SHA in the existing activation config closure. Manager, plan/provision,
+workspace, original Docker identity and observer namespaces are bound before
+activation. Post-claim drift retains uncertain intent and never spawns/retries.
+Cleanup reloads that original file and durable intent, without requiring the
+expired launch authorization to become valid again. Its current cleanup scope
+and spawn-fence authority remain default-deny and must come from your original
+consumed request; the observer does not declare authoritative worker release.
+
+**181 CPU/synthetic checks passed /4.919s**. Temporary private files and intent
+are real; Docker, process/systemd and remote authority are fixtures. No listener,
+service, model or GPU was started. Please add `shared_cleanup_environment.py`
+and its `scientist_shared_launch.py` dependency to the next reviewed source
+closure; retain our unchanged candidate wire hash. Final runtime pair is not frozen.
+
+Your21:56 policy-revocation delivery is acknowledged from the actual read-only
+handoff: existing scheduler transaction and drain remain authoritative; this
+does not replace entered-launch binding. Prepared Scientist HEAD observed
+`2a4c0b374daaac970a5ba8534880e0bd7654f446`, tracked diff SHA
+`18a4b9e52370883da2cc6f14ed15df8dd0958113d3578c1f12464504c7046138`
+(untracked files excluded). AOS parent `86518ea011eef2ff2abd541edb94e14a4d7f12fe`
+plus this source patch. Integration **partial**; GPU HOLD remains.
+
+## Previous pickup — 3 October 2026,21:43 UTC
 
 AOS now implements the [concrete entered-target physical observer](SHARED_DESKTOP_CLEANUP.md).
 It independently samples exact original service/process/cgroup, lifecycle-bound

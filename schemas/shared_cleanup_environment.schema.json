@@ -1,0 +1,189 @@
+{
+  "$defs": {
+    "ProcessIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "boot_id": {
+          "pattern": "^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$",
+          "title": "Boot Id",
+          "type": "string"
+        },
+        "pid": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Pid",
+          "type": "integer"
+        },
+        "start_ticks": {
+          "minimum": 1,
+          "title": "Start Ticks",
+          "type": "integer"
+        },
+        "pid_namespace": {
+          "minimum": 1,
+          "title": "Pid Namespace",
+          "type": "integer"
+        },
+        "uid": {
+          "minimum": 1,
+          "title": "Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "boot_id",
+        "pid",
+        "start_ticks",
+        "pid_namespace",
+        "uid"
+      ],
+      "title": "ProcessIdentity",
+      "type": "object"
+    },
+    "WorkspaceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": "descriptor-workspace-v1",
+          "default": "descriptor-workspace-v1",
+          "title": "Version",
+          "type": "string"
+        },
+        "path_sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Path Sha256",
+          "type": "string"
+        },
+        "device": {
+          "minimum": 0,
+          "title": "Device",
+          "type": "integer"
+        },
+        "inode": {
+          "minimum": 1,
+          "title": "Inode",
+          "type": "integer"
+        },
+        "owner_uid": {
+          "minimum": 0,
+          "title": "Owner Uid",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path_sha256",
+        "device",
+        "inode",
+        "owner_uid"
+      ],
+      "title": "WorkspaceIdentity",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "preparation_only": {
+      "const": true,
+      "default": true,
+      "title": "Preparation Only",
+      "type": "boolean"
+    },
+    "execution_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Execution Authorized",
+      "type": "boolean"
+    },
+    "cleanup_authorized": {
+      "const": false,
+      "default": false,
+      "title": "Cleanup Authorized",
+      "type": "boolean"
+    },
+    "plan_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Plan Sha256",
+      "type": "string"
+    },
+    "provision_sha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "title": "Provision Sha256",
+      "type": "string"
+    },
+    "app_session": {
+      "pattern": "^app-[a-f0-9]{32}$",
+      "title": "App Session",
+      "type": "string"
+    },
+    "workspace": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Workspace",
+      "type": "string"
+    },
+    "workspace_identity": {
+      "$ref": "#/$defs/WorkspaceIdentity"
+    },
+    "manager": {
+      "$ref": "#/$defs/ProcessIdentity"
+    },
+    "mount_namespace": {
+      "exclusiveMinimum": 0,
+      "title": "Mount Namespace",
+      "type": "integer"
+    },
+    "cgroup_namespace": {
+      "exclusiveMinimum": 0,
+      "title": "Cgroup Namespace",
+      "type": "integer"
+    },
+    "docker_endpoint": {
+      "const": "unix:///var/run/docker.sock",
+      "default": "unix:///var/run/docker.sock",
+      "title": "Docker Endpoint",
+      "type": "string"
+    },
+    "daemon_id": {
+      "pattern": "^[A-Za-z0-9:_-]{1,128}$",
+      "title": "Daemon Id",
+      "type": "string"
+    },
+    "socket_device": {
+      "minimum": 0,
+      "title": "Socket Device",
+      "type": "integer"
+    },
+    "socket_inode": {
+      "exclusiveMinimum": 0,
+      "title": "Socket Inode",
+      "type": "integer"
+    },
+    "captured_boottime": {
+      "minimum": 0,
+      "title": "Captured Boottime",
+      "type": "number"
+    }
+  },
+  "required": [
+    "plan_sha256",
+    "provision_sha256",
+    "app_session",
+    "workspace",
+    "workspace_identity",
+    "manager",
+    "mount_namespace",
+    "cgroup_namespace",
+    "daemon_id",
+    "socket_device",
+    "socket_inode",
+    "captured_boottime"
+  ],
+  "title": "SharedCleanupEnvironment",
+  "type": "object"
+}
