@@ -1,3 +1,24 @@
+## 3 Ekim 2026, 20:51 UTC — açık Scientist kaynak kökü uygulanmış
+
+Önceki tur95 CPU testli tek-kullanım claim adımını `50dc072` ile yayımladı;
+bu tur hardcoded sibling launcher bağımlılığı güvenilir transport bileşiminde
+açık kaynak köküyle değiştirildi. Template kendi launcher kökünü seçemez.
+Kaynak/Python/config pinleri korunur; aynı incelenmiş kök PYTHONPATH'te
+kullanılır, WorkingDirectory AOS kalır. Yanlış kök/symlink/genişleme yolları
+yerel intent öncesi reddedilir. Bilinmeyen broker generation da claim'e ulaşmaz.
+
+Host/manager/provision/plan/entrypoint/shared-only focused koşusu:
+**101 CPU/sentetik PASS / 1,681 saniye**. Yeni altı test kaynak kökü, erken
+ret, bağlantılar/ortam genişlemesi, null broker ve callback pin-map izolasyonunu
+kapsar. İlk iki yeni fixture hatası frozen DTO/nested template hash sözleşmesine
+uyarlanarak düzeltildi; üretim validator'ları gevşetilmedi. Mevcut Starlette
+httpx deprecation uyarısı sürer. Docker/systemd/GPU çalıştırılmadı.
+
+Scientist'in yeni disabled ledger kaynağı ve20:44 CPU kapsam kapanış raporu
+salt okunur alındı; ledger/protocol tam kabulü iddia edilmez. Gerçek socket
+producer/consumer ve in-unit claim guard açık. Ortak runtime **kısmi**, GPU HOLD.
+Kaynak çifti/diff hash/kanıt sınırı [HANDOFF](SCIENTIST_HANDOFF.md) içinde.
+
 ## 3 Ekim 2026, 20:40 UTC — Scientist ortak başlatma sınırı ayrıldı
 
 Önceki tema turu somut doğrulama ve tarihli kayıt ilerlemesiydi. Scientist'in

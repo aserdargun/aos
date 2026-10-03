@@ -249,8 +249,7 @@ class SharedDesktopManagerHostIntegrationTests(unittest.TestCase):
             ('aos.local_app.BASE', self.root / 'data/local-app-v1'),
             ('aos.local_app.REPO_ROOT', self.root),
             ('aos.shared_desktop_host.REPO_ROOT', self.root),
-            ('aos.shared_desktop_host.FIXED_LAUNCHER', self.fixture.launcher),
-            ('aos.shared_desktop_host.SCIENTIST_ROOT', self.root / 'synthetic-peer'),
+            ('aos.shared_desktop_host.SCIENTIST_ROOT', self.root),
         ):
             replacement = patch(target, value)
             replacement.start()

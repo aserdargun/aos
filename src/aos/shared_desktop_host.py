@@ -26,7 +26,6 @@ from .workspace_identity import WorkspaceIdentity, open_existing_workspace, work
 
 
 SCIENTIST_ROOT = REPO_ROOT.parent / 'ai-scientist'
-FIXED_LAUNCHER = SCIENTIST_ROOT / 'scripts/aos_native_launch.py'
 
 
 class SharedServiceBinding(TypedModel):
@@ -135,10 +134,11 @@ def _process_group(pid):
 class SystemdSharedDesktopTransport:
     """Fixed owned transient unit transport; no arbitrary command or unit API."""
 
-    def __init__(self, *, runner=run_bounded, identity_reader=process_identity,
+    def __init__(self, *, scientist_root=None, runner=run_bounded, identity_reader=process_identity,
                  process_observer=observe_process, group_reader=_process_group,
                  pidfd_open=os.pidfd_open, pidfd_signal=signal.pidfd_send_signal,
                  waiter=select.select, clock=_boottime, sleeper=time.sleep):
+        self.scientist_root = Path(scientist_root) if scientist_root is not None else SCIENTIST_ROOT
         self.runner = runner
         self.identity_reader = identity_reader
         self.process_observer = process_observer
@@ -197,11 +197,15 @@ class SystemdSharedDesktopTransport:
             raise ValueError('Shared service MainPID identity changed')
         return binding
 
-    @staticmethod
-    def launch_command(plan, activation):
+    def launch_command(self, plan, activation):
         template = plan.template
-        if template.launcher_path != str(FIXED_LAUNCHER):
-            raise ValueError('Only the independently reviewed fixed Scientist launcher is supported')
+        root = self.scientist_root
+        if (not root.is_absolute() or root.resolve() != root or not root.is_dir()
+                or any(character in str(root) for character in (':', '%', '\n', '\r', '\x00'))):
+            raise ValueError('Scientist source root must be an exact absolute directory without environment expansion')
+        launcher = root / 'scripts/aos_native_launch.py'
+        if template.launcher_path != str(launcher) or launcher.resolve() != launcher:
+            raise ValueError('Only the launcher under the independently configured Scientist source root is supported')
         session = Path(plan.session_directory)
         scoped_paths = (
             ('--trajectory-database', 'trajectory.sqlite'),
@@ -231,7 +235,7 @@ class SystemdSharedDesktopTransport:
             '--property=MemoryMax=' + str(template.limits.memory_max_bytes),
             '--property=MemorySwapMax=0', '--property=TasksMax=' + str(template.limits.tasks_max),
             '--property=TimeoutStopSec=' + str(template.limits.stop_timeout_seconds),
-            '--setenv=PYTHONPATH=' + str(REPO_ROOT / 'src') + ':' + str(SCIENTIST_ROOT),
+            '--setenv=PYTHONPATH=' + str(REPO_ROOT / 'src') + ':' + str(root),
             template.python_path, template.launcher_path,
             '--reviewed-launch-input', activation.reviewed_launch_input_path,
             '--expected-launch-input-sha256', activation.reviewed_launch_input_sha256,
@@ -556,7 +560,9 @@ class SharedDesktopHost:
         self._verify(plan, activation)
         if self.activation_claimer is None:
             raise ValueError('Trusted single-use shared launch authority claimer is unavailable')
-        SystemdSharedDesktopTransport.launch_command(plan, activation)
+        if plan.template.broker_identity_sha256 is None:
+            raise ValueError('Shared launch requires a pinned authenticated broker generation before claim')
+        self.transport.launch_command(plan, activation)
         expected_base = REPO_ROOT / 'data' / ('local-app-v1' if plan.template.project is None
                                              else 'local-app-project-' + plan.template.project)
         if Path(plan.template.manager_base) != expected_base:
@@ -583,7 +589,8 @@ class SharedDesktopHost:
             self._inputs(state)
             self._verify(plan, activation)
             self._pristine_claim(state, plan, activation)
-            if self.activation_claimer(plan, activation, state) is not None:
+            if self.activation_claimer(plan.model_copy(deep=True), activation.model_copy(deep=True),
+                                       state.model_copy(deep=True)) is not None:
                 raise ValueError('Trusted launch claimer must confirm a fresh claim or raise')
             self._inputs(state)
             self._verify(plan, activation)

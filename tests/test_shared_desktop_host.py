@@ -69,6 +69,7 @@ class SyntheticSharedHostFixture:
         self.live = False
         self.states = []
         self.transport = Mock(spec=SystemdSharedDesktopTransport)
+        self.transport.launch_command.side_effect = SystemdSharedDesktopTransport(scientist_root=root).launch_command
         self.transport.read.side_effect = lambda: self.service if self.live else None
         self.transport.start.side_effect = self.launch
         self.transport.token_path.return_value = self.token_path
@@ -177,8 +178,7 @@ class SharedDesktopHostTests(unittest.TestCase):
         self.root.chmod(0o700)
         self.fixture = SyntheticSharedHostFixture(self.root)
         self.patches = [patch('aos.shared_desktop_host.REPO_ROOT', self.root),
-                        patch('aos.shared_desktop_host.FIXED_LAUNCHER', self.fixture.launcher),
-                        patch('aos.shared_desktop_host.SCIENTIST_ROOT', self.root / 'synthetic-peer')]
+                        patch('aos.shared_desktop_host.SCIENTIST_ROOT', self.root)]
         for replacement in self.patches:
             replacement.start()
 
@@ -500,7 +500,7 @@ class SharedDesktopHostTests(unittest.TestCase):
         self.assertFalse(SharedDesktopHost._idle(actual))
 
     def test_fixed_launcher_arguments_have_no_native_fallback_or_acceptance_unit(self):
-        command = SystemdSharedDesktopTransport.launch_command(self.fixture.plan, self.fixture.activation)
+        command = SystemdSharedDesktopTransport().launch_command(self.fixture.plan, self.fixture.activation)
         self.assertEqual(command[0], '/usr/bin/systemd-run')
         self.assertIn('--collect', command)
         self.assertIn('--unit=' + SHARED_DESKTOP_UNIT, command)
@@ -530,7 +530,7 @@ class SharedDesktopHostTests(unittest.TestCase):
         self.assertEqual(len(children), 19)
         for plan in (self.fixture.plan, named):
             with self.subTest(project=plan.template.project):
-                command = SystemdSharedDesktopTransport.launch_command(plan, self.fixture.activation)
+                command = SystemdSharedDesktopTransport().launch_command(plan, self.fixture.activation)
                 for flag, name in children.items():
                     self.assertEqual(command.count(flag), 1)
                     selected = Path(command[command.index(flag) + 1])
@@ -542,6 +542,89 @@ class SharedDesktopHostTests(unittest.TestCase):
         self.assertEqual(set(Path(self.fixture.plan.session_directory).iterdir()),
                          {self.fixture.provision_path, Path(self.fixture.plan.workspace)})
         self.assertFalse(Path(named.session_directory).exists())
+
+    def test_explicit_reviewed_source_root_does_not_follow_sibling_default(self):
+        other = self.root / 'different-peer'
+        other.mkdir()
+        with patch('aos.shared_desktop_host.SCIENTIST_ROOT', other):
+            default = SystemdSharedDesktopTransport()
+            with self.assertRaisesRegex(ValueError, 'independently configured'):
+                default.launch_command(self.fixture.plan, self.fixture.activation)
+            transport = SystemdSharedDesktopTransport(scientist_root=self.root)
+            command = transport.launch_command(self.fixture.plan, self.fixture.activation)
+        self.assertIn(str(self.fixture.launcher), command)
+        self.assertIn('--setenv=PYTHONPATH=' + str(self.root / 'src') + ':' + str(self.root), command)
+        self.assertIn('--property=WorkingDirectory=' + str(self.root), command)
+        self.assertFalse(any(str(other) in argument for argument in command))
+        self.fixture.transport.start.assert_not_called()
+
+    def test_unknown_broker_generation_cannot_reach_launch_claim(self):
+        template = self.fixture.template.model_copy(update={'broker_identity_sha256': None})
+        self.fixture.plan = prepare_plan(template, predecessor=None, new_session=self.fixture.plan.app_session)
+        self.fixture.activation = self.fixture.activation.model_copy(update={
+            'plan_sha256': self.fixture.plan.plan_sha256()})
+        self.fixture.plan_path.write_text(canonical(self.fixture.plan.model_dump(mode='json')))
+        self.fixture.activation_path.write_text(canonical(self.fixture.activation.model_dump(mode='json')))
+        self.fixture.activation_sha = self.fixture.sha(self.fixture.activation_path.read_bytes())
+        with self.assertRaisesRegex(ValueError, 'pinned authenticated broker generation'):
+            self.fixture.start()
+        self.assertEqual(self.fixture.authority_claims, [])
+        self.assertEqual(self.fixture.states, [])
+        self.fixture.transport.start.assert_not_called()
+
+    def test_claimer_cannot_mutate_original_scope_arguments(self):
+        original = self.fixture.plan.workspace
+
+        def accidental_mutation(plan, activation, state):
+            self.fixture.claim_authority(plan, activation, state)
+            plan.template.source_files.clear()
+            activation.config_files.clear()
+
+        self.fixture.host.activation_claimer = accidental_mutation
+        state = self.fixture.start()
+        self.assertEqual(state.phase, 'running', state.last_error)
+        self.assertEqual(state.workspace, original)
+        launched_plan, launched_activation = self.fixture.transport.start.call_args.args
+        self.assertEqual(launched_plan.workspace, original)
+        self.assertEqual(launched_activation.expires_monotonic, 200.0)
+        self.assertTrue(launched_plan.template.source_files)
+        self.assertTrue(launched_activation.config_files)
+
+    def test_bad_source_root_rejected_before_durable_intent_or_claim(self):
+        other = self.root / 'wrong-peer'
+        other.mkdir()
+        self.fixture.transport.launch_command.side_effect = SystemdSharedDesktopTransport(
+            scientist_root=other).launch_command
+        with self.assertRaisesRegex(ValueError, 'independently configured'):
+            self.fixture.start()
+        self.assertEqual(self.fixture.authority_claims, [])
+        self.assertEqual(self.fixture.states, [])
+        self.assertFalse((Path(self.fixture.plan.session_directory) / LAUNCH_INTENT_NAME).exists())
+        self.fixture.transport.start.assert_not_called()
+
+    def test_source_root_links_relative_missing_and_expansion_are_rejected(self):
+        alias = self.root / 'peer-alias'
+        alias.symlink_to(self.root, target_is_directory=True)
+        unsafe = []
+        for name in ('peer:extra', 'peer%u', 'peer\nextra', 'peer\rextra'):
+            directory = self.root / name
+            directory.mkdir()
+            unsafe.append(directory)
+        for root in (alias, Path('relative-peer'), self.root / 'missing-peer', *unsafe):
+            with self.subTest(root=root):
+                transport = SystemdSharedDesktopTransport(scientist_root=root)
+                with self.assertRaisesRegex(ValueError, 'exact absolute directory'):
+                    transport.launch_command(self.fixture.plan, self.fixture.activation)
+        self.fixture.transport.start.assert_not_called()
+
+    def test_launcher_symlink_cannot_redirect_reviewed_root(self):
+        target = self.fixture.file('different-launcher.py', b'SYNTHETIC never executed')
+        self.fixture.launcher.unlink()
+        self.fixture.launcher.symlink_to(target)
+        transport = SystemdSharedDesktopTransport(scientist_root=self.root)
+        with self.assertRaisesRegex(ValueError, 'independently configured'):
+            transport.launch_command(self.fixture.plan, self.fixture.activation)
+        self.fixture.transport.start.assert_not_called()
 
     def test_schema_and_example_are_canonical_and_synthetic(self):
         repository = Path(__file__).resolve().parents[1]

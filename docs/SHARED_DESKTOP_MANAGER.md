@@ -58,6 +58,30 @@ somut, sabit systemd transport'u ve v2 manager durumunu bağlar.
 
 ## Gerçek activation neden henüz hazır değil?
 
+### 3 Ekim 2026, 20:51 UTC — kaynak yerleşimi ve ayrı claim
+
+Güvenilir host bileşimi artık
+`SystemdSharedDesktopTransport(scientist_root=reviewed_root)` ile incelenmiş
+Scientist checkout'unu açık seçebilir. Bu seçenek CLI/model girdisi değildir;
+verilmezse mevcut sibling varsayılanı korunur. Template launcher'ı yalnız bu
+kökün `scripts/aos_native_launch.py` dosyası olabilir. Göreli/eksik/symlink
+kökler, launcher yönlendirmesi ve ortam/systemd genişlemesine neden olacak
+karakterler reddedilir. Aynı kök PYTHONPATH'e girer; **WorkingDirectory AOS
+kökü olarak kalır**. Önceki çalışma dizinini Scientist'e taşıma önerisi bu
+uygulama tarafından düzeltilmiştir; AOS entrypoint/import kapsamı korunur.
+
+Tam source/config/Python pinleri ve varsayılan kapalı authority kapıları
+değişmez. Kaynak yolu seçmek yetki değildir. Host, bilinmeyen/null broker
+generation pinini intent/claim öncesinde reddeder; non-null pinin gerçek güncel
+broker'a ait olduğunu halen authenticated verifier kanıtlamalıdır.
+`activation_claimer` kalıcı intent/state sonrasında yalnız taze claim için
+başarabilir; status/cleanup bu yetkiyi tüketmez. Callback'e derin kopyalar
+verilir; iç map değişiklikleri doğrulanmış launch girdilerini değiştiremez.
+
+101 CPU/sentetik test geçti. Gerçek producer/socket, current principal
+verifier ve consumed-claim in-unit guard bileşimi henüz bağlı değildir.
+Varsayılan startup, çalışan pilot ve GPU admission değişmedi.
+
 3 Ekim 19:57 UTC [sonlu başlatma sözleşmesi önerisi](SCIENTIST_SHARED_LAUNCH_PROPOSAL.md)
 eksik issuer/transport, tek-kullanım/revoke ve cleanup-only kararlarını mevcut
 kaynaklara bağlar. Bu karşılıklı ACK veya uygulanmış authority producer değildir;

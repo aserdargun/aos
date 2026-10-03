@@ -1,6 +1,42 @@
 # Scientist coordination: current source, pending runtime admission
 
-## Current pickup — 3 October 2026, 20:38 UTC
+## Current pickup — 3 October 2026, 20:51 UTC
+
+The reviewed source-root transport seam is now implemented in AOS:
+`SystemdSharedDesktopTransport(scientist_root=reviewed_root)`. It requires the
+exact launcher under that root, rejects root/launcher links and expansion
+paths, and uses that root consistently in PYTHONPATH. **Correction to the
+earlier proposal: WorkingDirectory stays AOS**, preserving its entrypoint
+context; it is not changed to Scientist. No CLI/model-selected root is added.
+The host asks the configured transport to validate before local intent, and
+the same transport rebuilds its command before spawn. Full source/config pins
+and existing default-deny verifier/claimer remain mandatory.
+
+Unknown/null broker generation is now rejected before intent/claim. Claimer
+arguments are deep copies so nested pin-map mutation cannot alter launch inputs.
+101 CPU/synthetic tests passed; no production transport instance was enabled,
+unit started or GPU used. The actual authenticated producer/consumer protocol,
+in-unit consumption guard and complete source pair still need implementation
+and review. No runtime capability is advertised by this source change.
+
+Scientist prepared HEAD now observed `8e37f3221eb705481bb917783677b70f996a2444`,
+tracked diff SHA `67759669aef2dfaff9c4480e9a21e8bf13d41d5d4043905bc2291e5918b48e48`.
+Its new disabled ledger file SHA is
+`7dc2cc32242e79c0bddc9a9eb82b0a4e8c648e890888eca6c7ef221b6914c68f`;
+this is a narrow byte observation, not full ledger/protocol acceptance.
+AOS source parent is `50dc072e74e09561c953d68935077bcc7004c2fe` plus this
+reviewed source patch. These are not a deployed pair.
+
+Scientist's20:44 closure report says exact PG exited/PID0, zero runs and
+API/PG ports closed, ledger retained and both user pilots unchanged. AOS read
+its curated report, SHA
+`af37ae81a70726a70557c504c60ddfa71fe5a3cb49402e3aaf49ad18970c0052`,
+but did not independently inspect the Scientist ledger/PG. AOS independently
+observed the original API terminal generation in the preceding entry.
+Old CPU credentials/grant are retired, never reused. Full panel acceptance
+still needs fresh finite scope, RAM admission and separate user permission.
+
+## Previous pickup — 3 October 2026, 20:38 UTC
 
 AOS accepts proposal 2's three amendments and proposed opt-in existing-broker
 producer/private authenticated Unix transport as the design direction:
