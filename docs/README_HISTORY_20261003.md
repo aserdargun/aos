@@ -1,5 +1,17 @@
 # Historical README and development observations — 2026-10-03
 
+## 3 Ekim 2026,22:46:49 UTC — önceki goal gözlemi
+
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026,22:46:49 UTC /4 Ekim 2026,01:46:49 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=17179901`, `timeUsedSeconds=107017`: **29 saat 43 dakika 37 saniye /29,7269444 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+
+Aynı goal kapsamındaki tarihsel sayaç; yeni snapshot ile toplanmaz.
+
+## 3 Ekim 2026,22:39:59 UTC — önceki goal gözlemi
+
+**Tarihli geliştirme snapshot'ı: 3 Ekim 2026,22:39:59 UTC /4 Ekim 2026,01:39:59 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=17140557`, `timeUsedSeconds=106607`: **29 saat 36 dakika 47 saniye /29,6130556 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.
+
+Aynı goal kapsamındaki tarihsel sayaç; yeni snapshot ile toplanmaz.
+
 ## 3 Ekim 2026,22:31:44 UTC — önceki goal gözlemi
 
 **Tarihli geliştirme snapshot'ı: 3 Ekim 2026,22:31:44 UTC /4 Ekim 2026,01:31:44 Europe/Istanbul.** Authoritative `get_goal`, scope `aos-goal-20261001-062218Z`, active goal `bu son planı uygula`, başlangıç `createdAt=1790835738` (1 Ekim 2026, 06:22:18 UTC). Ham kümülatif `tokensUsed=17071065`, `timeUsedSeconds=106112`: **29 saat 28 dakika 32 saniye /29,4755556 saat**. Bu gözlem anındaki sayaçtır; bu saatten sonraki işlemleri içermez. v0.1.0'ın tarihli sürüm snapshot'ı değiştirilmedi.

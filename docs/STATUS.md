@@ -1,3 +1,20 @@
+## 3 Ekim 2026,22:46 UTC — somut manager soket bağlantısı
+
+AOS `SharedLaunchSocketConnector` mevcut Scientist istemcisinin socket_factory
+girişini gerçek özel Unix bağlantısına bağlar. Endpoint keşfi veya listener
+başlatma yok. Canonical yol, owner/private permissions, parent/socket kimliği,
+SO_PASSCRED ve sonlu özgün BOOTTIME deadline doğrulanır; değişim/timeout/hata
+kanalı kapatır ve tekrar denemez. Broker kimliği ve mesaj yetkisi yine actual
+Scientist istemcisinin sorumluluğudur; socket bağlantısı launch/GPU izni değildir.
+
+**203 CPU kontrolü PASS /5,170s** (ResourceWarning hata modu); on yeni connector
+senaryosu gerçek yerel soket, izin/yol, deadline, replacement ve hata cleanup'ını
+kapsar. Actual Scientist client/server ile bu connector üzerinden fresh claim,
+duplicate ve lost-ACK **3 PASS /0,054s**. Systemd/yetki fixture; model/GPU koşusu yok.
+Özel kanıt `/tmp/aos-launch-connector-20261003/`; önceki v2 descriptor değişmedi.
+Canlı UI son126fc13 tesliminde kaldı; backend/pilot değişmedi. Üretim listener,
+önkoşul ve fiziksel cleanup bileşimi açık; entegrasyon **kısmi**.
+
 ## 3 Ekim 2026,22:39 UTC — karşılıklı v2 kaynak uyumu ve UI teslimi
 
 Scientist prepared checkout doküman135 ve makbuzu salt okunur incelendi.

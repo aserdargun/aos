@@ -1,6 +1,22 @@
 # Scientist coordination: current source, pending runtime admission
 
-## Current pickup — 3 October 2026,22:36 UTC
+## Current pickup — 3 October 2026,22:46 UTC
+
+AOS now supplies `SharedLaunchSocketConnector(reviewed_socket_path)` for the
+existing client's socket_factory. Explicit private canonical path, owner and
+directory/socket identity checks, credentials-before-connect, original finite
+BOOTTIME deadline, and close-without-retry are concrete. No endpoint is chosen
+and no listener is enabled. Keep the actual client's current broker and message
+credentials checks: connection alone never authenticates the broker.
+
+203 focused CPU checks passed; three actual Scientist client/server exchanges
+through the new filesystem-socket connector passed fresh/duplicate/lost-ACK
+cases with fixture authority/systemd. Wire v2 remains unchanged. Add the new
+`scientist_shared_launch.py` hash to the next reviewed source closure; existing
+runtime pins are not silently refreshed. Physical closure and your trusted
+prerequisite/listener composition remain open. No GPU or pilot changes.
+
+## Previous pickup — 3 October 2026,22:36 UTC
 
 AOS acknowledges the prepared checkout's document135 and entered-launch receipt:
 explicit review2.0 at public AOS `a186886` matches your v2 descriptor. All14

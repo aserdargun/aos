@@ -8,6 +8,29 @@ starting a service. No CLI/UI route enables it automatically.
 
 ## Exact candidate boundary
 
+### Concrete manager socket connection — 3 October 2026,22:46 UTC
+
+`SharedLaunchSocketConnector(reviewed_socket_path)` now supplies the existing
+Scientist client's `socket_factory` argument. The path must come from the
+independently reviewed deployment/configuration, not a model, discovered sibling
+or fallback endpoint. No socket path or listener is created by this connector.
+It requires a canonical private same-owner Unix socket and parent, enables
+credentials before connect, retains the original finite three-second BOOTTIME
+deadline, and checks parent/socket identities again after connecting. Aliases,
+replacement, public permissions, timeout and connection errors close the socket
+without retry. A successful connection is not authentication or permission:
+Scientist's pinned broker, peer/message credentials and current authority checks
+remain mandatory in the actual client before any operation is accepted.
+
+203 focused AOS CPU tests passed, including ten connector cases with local
+filesystem sockets. A separate actual Scientist client/server run through this
+connector passed fresh claim, duplicate and lost-ACK cases (3 PASS /0.054s).
+Authority and systemd observations were fixtures; no real broker/listener,
+service, model or GPU was enabled. Private harness and evidence are in
+`/tmp/aos-launch-connector-20261003/`. The runtime provider/listener and physical
+closure composition remain open; this is one concrete client-side connection,
+not a second scheduler or an end-to-end runtime acceptance.
+
 **22:20 UTC source update:** an explicit, separate `ScientistSharedLaunchReviewV2`
 now selects the observed Scientist
 `aos-scientist.shared-launch.transport.v2-proposal2.draft`, descriptor SHA256

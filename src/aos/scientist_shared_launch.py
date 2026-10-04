@@ -3,6 +3,8 @@
 import math
 import os
 from pathlib import Path
+import socket
+import stat
 import threading
 import time
 from typing import Literal
@@ -56,6 +58,55 @@ class ScientistSharedLaunchReviewV2(ScientistSharedLaunchReview):
 
 def _boottime():
     return time.clock_gettime(time.CLOCK_BOOTTIME)
+
+
+class SharedLaunchSocketConnector:
+    """Connect only to an explicitly reviewed private path; wire authentication is separate."""
+
+    def __init__(self, socket_path, *, clock=_boottime):
+        value = str(socket_path)
+        path = Path(value)
+        if (not path.is_absolute() or str(path) != value or '..' in path.parts
+                or any(ord(character) < 32 for character in value)
+                or len(os.fsencode(value)) > 107):
+            raise ValueError('Shared launch socket requires an exact absolute filesystem path')
+        self.path = path
+        self.clock = clock
+
+    def _remaining(self, deadline):
+        current = self.clock()
+        if (type(deadline) not in (int, float) or not math.isfinite(deadline)
+                or type(current) not in (int, float) or not math.isfinite(current)
+                or not 0 < deadline - current <= 3.0):
+            raise ValueError('Shared launch socket requires a finite original three-second BOOTTIME deadline')
+        return deadline - current
+
+    def _identity(self):
+        if self.path.resolve(strict=True) != self.path:
+            raise ValueError('Shared launch socket path must not contain aliases')
+        parent, endpoint = self.path.parent.lstat(), self.path.lstat()
+        if (not stat.S_ISDIR(parent.st_mode) or not stat.S_ISSOCK(endpoint.st_mode)
+                or any(info.st_uid != os.getuid() or stat.S_IMODE(info.st_mode) & 0o077
+                       for info in (parent, endpoint))):
+            raise ValueError('Shared launch socket and parent must be private and user-owned')
+        return tuple((info.st_dev, info.st_ino, info.st_uid, info.st_mode, info.st_ctime_ns)
+                     for info in (parent, endpoint))
+
+    def __call__(self, deadline):
+        self._remaining(deadline)
+        identity = self._identity()
+        channel = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        try:
+            channel.setsockopt(socket.SOL_SOCKET, socket.SO_PASSCRED, 1)
+            channel.settimeout(self._remaining(deadline))
+            channel.connect(str(self.path))
+            if self._identity() != identity:
+                raise ValueError('Shared launch socket changed during connection')
+            channel.settimeout(self._remaining(deadline))
+            return channel
+        except BaseException:
+            channel.close()
+            raise
 
 
 class ScientistSharedLaunchAdapter:
